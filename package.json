@@ -2,8 +2,8 @@
   "name": "github-repository-provider",
   "version": "0.0.0-semantic-release",
   "description": "abstract interface to git repository providers like github bitbucket",
-  "main": "dist/module.js",
-  "module": "src/module.js",
+  "main": "dist/github-repository-provider.js",
+  "module": "src/github-repository-provider.js",
   "scripts": {
     "cover": "nyc --temp-directory build/nyc ava",
     "test": "ava",
@@ -22,7 +22,8 @@
     "node": ">=8.9.1"
   },
   "dependencies": {
-    "github-basic": "^6.0.0"
+    "github-basic": "^6.0.0",
+    "repository-provider": "^1.0.5"
   },
   "devDependencies": {
     "ava": "^0.23.0",
