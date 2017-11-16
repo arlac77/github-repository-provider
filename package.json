@@ -1,7 +1,7 @@
 {
   "name": "github-repository-provider",
   "version": "0.0.0-semantic-release",
-  "description": "abstract interface to git repository providers like github bitbucket",
+  "description": "repository provider for github",
   "main": "dist/github-repository-provider.js",
   "module": "src/github-repository-provider.js",
   "scripts": {
