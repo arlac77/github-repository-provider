@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "github-basic": "^6.0.0",
-    "repository-provider": "^1.0.5"
+    "repository-provider": "^2.0.0"
   },
   "devDependencies": {
     "ava": "^0.23.0",
