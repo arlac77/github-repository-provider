@@ -2,90 +2,6 @@ import { Provider, Repository, Branch, PullRequest } from 'repository-provider';
 
 const github = require('github-basic');
 
-/* TODO
- handle rate limit
- statusCode: 403
- "API rate limit exceeded for [secure]."
- "You have triggered an abuse detection mechanism. Please wait a few minutes before you try again."
-*/
-export class GithubProvider extends Provider {
-  static get repositoryClass() {
-    return GithubRepository;
-  }
-
-  static get branchClass() {
-    return GithubBranch;
-  }
-
-  static config(config) {
-    return Object.assign({ version: 3 }, config);
-  }
-
-  constructor(config) {
-    super(config);
-
-    const client = github(this.config);
-
-    Object.defineProperty(this, 'client', { value: client });
-  }
-}
-
-export class GithubRepository extends Repository {
-  constructor(provider, name) {
-    super(provider, name.replace(/#.*/, ''));
-    Object.defineProperty(this, 'user', { value: name.split(/\//)[0] });
-  }
-
-  get client() {
-    return this.provider.client;
-  }
-
-  async branches() {
-    const res = await this.client.get(`/repos/${this.name}/branches`);
-
-    res.forEach(b => {
-      const branch = new this.provider.constructor.branchClass(this, b.name);
-      this._branches.set(branch.name, branch);
-    });
-
-    return this._branches;
-  }
-
-  async createBranch(name, from) {
-    const res = await this.client.get(
-      `/repos/${this.name}/git/refs/heads/${
-        from === undefined ? 'master' : from.name
-      }`
-    );
-
-    const nb = await this.client.post(`/repos/${this.name}/git/refs`, {
-      ref: `refs/heads/${name}`,
-      sha: res.object.sha
-    });
-
-    const b = new this.provider.constructor.branchClass(this, name);
-    this._branches.set(b.name, b);
-    return b;
-  }
-
-  async deleteBranch(name) {
-    const res = await this.client.delete(
-      `/repos/${this.name}/git/refs/heads/${name}`
-    );
-
-    this._branches.delete(name);
-  }
-
-  async deletePullRequest(name) {
-    /*
-    const res = await this.client.delete(`/repos/${this.name}/pull/${name}`);
-    console.log(res);
-    return res;
-    */
-    //return new Error('not implemented');
-  }
-}
-
 export class GithubBranch extends Branch {
   get client() {
     return this.provider.client;
@@ -219,6 +135,88 @@ export class GithubBranch extends Branch {
 
   async list() {
     const shaBaseTree = await this.baseTreeSha(await this.latestCommitSha());
-    return await this.tree(shaBaseTree);
+    return this.tree(shaBaseTree);
+  }
+}
+
+export class GithubRepository extends Repository {
+  constructor(provider, name) {
+    super(provider, name.replace(/#.*/, ''));
+    Object.defineProperty(this, 'user', { value: name.split(/\//)[0] });
+  }
+
+  get client() {
+    return this.provider.client;
+  }
+
+  async branches() {
+    const res = await this.client.get(`/repos/${this.name}/branches`);
+
+    res.forEach(b => {
+      const branch = new this.provider.constructor.branchClass(this, b.name);
+      this._branches.set(branch.name, branch);
+    });
+
+    return this._branches;
+  }
+
+  async createBranch(name, from) {
+    const res = await this.client.get(
+      `/repos/${this.name}/git/refs/heads/${
+        from === undefined ? 'master' : from.name
+      }`
+    );
+
+    await this.client.post(`/repos/${this.name}/git/refs`, {
+      ref: `refs/heads/${name}`,
+      sha: res.object.sha
+    });
+
+    const b = new this.provider.constructor.branchClass(this, name);
+    this._branches.set(b.name, b);
+    return b;
+  }
+
+  async deleteBranch(name) {
+    await this.client.delete(`/repos/${this.name}/git/refs/heads/${name}`);
+
+    this._branches.delete(name);
+  }
+
+  /*
+  async deletePullRequest(name) {
+//    const res = await this.client.delete(`/repos/${this.name}/pull/${name}`);
+//    console.log(res);
+//    return res;
+    return new Error('not implemented');
+  }
+  */
+}
+
+/* TODO
+ handle rate limit
+ statusCode: 403
+ "API rate limit exceeded for [secure]."
+ "You have triggered an abuse detection mechanism. Please wait a few minutes before you try again."
+*/
+export class GithubProvider extends Provider {
+  static get repositoryClass() {
+    return GithubRepository;
+  }
+
+  static get branchClass() {
+    return GithubBranch;
+  }
+
+  static config(config) {
+    return Object.assign({ version: 3 }, config);
+  }
+
+  constructor(config) {
+    super(config);
+
+    const client = github(this.config);
+
+    Object.defineProperty(this, 'client', { value: client });
   }
 }
