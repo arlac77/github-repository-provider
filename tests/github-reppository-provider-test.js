@@ -20,6 +20,13 @@ test('provider', async t => {
   t.is(branch.name, 'master');
 });
 
+test('provider rate limit', async t => {
+  const provider = new GithubProvider(config);
+
+  const rl = await provider.rateLimit();
+  t.is(rl.resources.core.limit, 5000);
+});
+
 test('provider repo with branch name', async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(
