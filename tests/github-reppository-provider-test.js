@@ -111,7 +111,7 @@ test('content', async t => {
 
   const content = await branch.content('README.md');
 
-  t.is(content.length === 5, true);
+  t.is(content.length >= 5, true);
 });
 
 test('missing content', async t => {
