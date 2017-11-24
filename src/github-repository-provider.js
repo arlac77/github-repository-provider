@@ -289,13 +289,23 @@ export class GithubProvider extends Provider {
      "You have triggered an abuse detection mechanism. Please wait a few minutes before you try again."
     */
 
+    if (
+      err.message !== undefined &&
+      err.message.indexOf('API rate limit exceeded') >= 0
+    ) {
+      this.rateLimitReached = true;
+    }
+
     if (err.headers) {
       if (err.headers['x-ratelimit-remaining'] == 0) {
-        console.log(err);
-        const limit = (await this.rateLimit()).resources;
-        console.log(limit);
         this.rateLimitReached = true;
       }
+    }
+
+    if (this.rateLimitReached) {
+      console.log(err);
+      const limit = (await this.rateLimit()).resources;
+      console.log(limit);
     }
   }
 
