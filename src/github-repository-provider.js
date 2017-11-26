@@ -291,7 +291,10 @@ export class GithubProvider extends Provider {
 
     if (
       err.message !== undefined &&
-      err.message.indexOf('API rate limit exceeded') >= 0
+      (err.message.indexOf('API rate limit exceeded') >= 0 ||
+        err.message.indexOf(
+          'You have triggered an abuse detection mechanism'
+        ) >= 0)
     ) {
       this.rateLimitReached = true;
     }
