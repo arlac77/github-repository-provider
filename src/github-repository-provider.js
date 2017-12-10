@@ -213,6 +213,17 @@ export class GithubRepository extends Repository {
     this._branches.delete(name);
   }
 
+  async pullRequests() {
+    const res = await this.client.delete(`/repos/${this.name}/pulls`);
+
+    res.forEach(b => {
+      const pr = new this.provider.constructor.pullRequestClass(this, b.name);
+      this._pullRequests.set(pr.name, pr);
+    });
+
+    return this._pullRequests;
+  }
+
   /*
   async deletePullRequest(name) {
 //    const res = await this.client.delete(`/repos/${this.name}/pull/${name}`);
