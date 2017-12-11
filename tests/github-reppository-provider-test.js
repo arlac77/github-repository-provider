@@ -27,6 +27,13 @@ test('provider rate limit', async t => {
   t.is(rl.resources.core.limit, 5000);
 });
 
+test('provider set rateLimitReached', async t => {
+  const provider = new GithubProvider(config);
+
+  provider.rateLimitReached = true;
+  t.is(provider.rateLimitReached, true);
+});
+
 test('provider repo with branch name', async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(

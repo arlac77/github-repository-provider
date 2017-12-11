@@ -253,6 +253,15 @@ export class GithubProvider extends Provider {
     const client = github(this.config);
 
     Object.defineProperty(this, 'client', { value: client });
+    this.rateLimitReached = false;
+  }
+
+  set rateLimitReached(value) {
+    this._rateLimitReached = value;
+  }
+
+  get rateLimitReached() {
+    return this._rateLimitReached;
   }
 
   /*
