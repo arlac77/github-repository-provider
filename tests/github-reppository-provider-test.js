@@ -55,6 +55,17 @@ test('create branch', async t => {
   t.is(branches.get(newName), undefined);
 });
 
+test('pull requests', async t => {
+  const provider = new GithubProvider(config);
+  const repository = await provider.repository(
+    REPOSITORY_NAME + '#some-other-branch'
+  );
+
+  const prs = await repository.pullRequests();
+
+  t.is(prs.size, 0);
+});
+
 test('create commit', async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);

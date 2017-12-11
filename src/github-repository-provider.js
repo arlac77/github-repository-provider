@@ -214,7 +214,7 @@ export class GithubRepository extends Repository {
   }
 
   async pullRequests() {
-    const res = await this.client.delete(`/repos/${this.name}/pulls`);
+    const res = await this.client.get(`/repos/${this.name}/pulls`);
 
     res.forEach(b => {
       const pr = new this.provider.constructor.pullRequestClass(this, b.name);
