@@ -217,7 +217,23 @@ export class GithubRepository extends Repository {
     const res = await this.client.get(`/repos/${this.name}/pulls`);
 
     res.forEach(b => {
-      const pr = new this.provider.constructor.pullRequestClass(this, b.name);
+      /*
+      id: 157670873,
+      number: 267,
+      state: 'open',
+      locked: false,
+      title: 'merge package template from Kronos-Tools/npm-package-template',
+      */
+
+      const pr = new this.provider.constructor.pullRequestClass(
+        this,
+        String(b.number),
+        {
+          title: b.title,
+          state: b.state
+        }
+      );
+
       this._pullRequests.set(pr.name, pr);
     });
 

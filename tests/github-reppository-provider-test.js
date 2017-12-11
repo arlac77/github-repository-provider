@@ -70,7 +70,13 @@ test('pull requests', async t => {
 
   const prs = await repository.pullRequests();
 
-  t.is(prs.size, 0);
+  if (prs.size === 0) {
+    t.is(prs.size, 0);
+  } else {
+    const pr = prs.values().next().value;
+
+    t.is(pr.name.length, 3);
+  }
 });
 
 test('create commit', async t => {
