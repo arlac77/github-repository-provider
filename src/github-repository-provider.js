@@ -240,14 +240,14 @@ export class GithubRepository extends Repository {
     return this._pullRequests;
   }
 
-  /*
   async deletePullRequest(name) {
-//    const res = await this.client.delete(`/repos/${this.name}/pull/${name}`);
-//    console.log(res);
-//    return res;
-    return new Error('not implemented');
+    const res = await this.client.delete(`/repos/${this.name}/pull/${name}`);
+    console.log(res);
+
+    this._pullRequests.delete(name);
+
+    return res;
   }
-  */
 }
 
 export class GithubProvider extends Provider {
