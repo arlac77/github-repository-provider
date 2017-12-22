@@ -125,7 +125,7 @@ test('list files2', async t => {
 
   const allFiles = new Set(files.map(f => f.path));
 
-  t.truthy(allFiles.has('doc/jsdoc.json'));
+  t.truthy(allFiles.has('tests/rollup.config.js'));
 });
 
 test('content', async t => {
