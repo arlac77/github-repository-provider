@@ -1,6 +1,7 @@
 [![npm](https://img.shields.io/npm/v/github-repository-provider.svg)](https://www.npmjs.com/package/github-repository-provider)
-[![Greenkeeper badge](https://badges.greenkeeper.io/arlac77/github-repository-provider.svg)](https://greenkeeper.io/)
+[![Greenkeeper](https://badges.greenkeeper.io/arlac77/github-repository-provider.svg)](https://greenkeeper.io/)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/arlac77/github-repository-provider)
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Build Status](https://secure.travis-ci.org/arlac77/github-repository-provider.png)](http://travis-ci.org/arlac77/github-repository-provider)
 [![bithound](https://www.bithound.io/github/arlac77/github-repository-provider/badges/score.svg)](https://www.bithound.io/github/arlac77/github-repository-provider)
 [![codecov.io](http://codecov.io/github/arlac77/github-repository-provider/coverage.svg?branch=master)](http://codecov.io/github/arlac77/github-repository-provider?branch=master)
