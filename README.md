@@ -18,3 +18,17 @@
 github-repository-provider
 ===
 repository provider for github
+
+# API
+
+# install
+
+With [npm](http://npmjs.org) do:
+
+```shell
+npm install mock-repository-provider
+```
+
+# license
+
+BSD-2-Clause
