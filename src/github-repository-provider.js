@@ -2,6 +2,9 @@ import { Provider, Repository, Branch, PullRequest } from 'repository-provider';
 
 const github = require('github-basic');
 
+/**
+ * Branch on GitHub
+ */
 export class GithubBranch extends Branch {
   get client() {
     return this.provider.client;
@@ -164,6 +167,9 @@ export class GithubBranch extends Branch {
   }
 }
 
+/**
+ * Repository on GitHub
+ */
 export class GithubRepository extends Repository {
   constructor(provider, name) {
     super(provider, name.replace(/#.*/, ''));
@@ -250,6 +256,9 @@ export class GithubRepository extends Repository {
   }
 }
 
+/**
+ * GitHub provider
+ */
 export class GithubProvider extends Provider {
   static get repositoryClass() {
     return GithubRepository;
@@ -259,7 +268,7 @@ export class GithubProvider extends Provider {
     return GithubBranch;
   }
 
-  static config(config) {
+  static options(config) {
     return Object.assign({ version: 3 }, config);
   }
 
