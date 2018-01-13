@@ -27,6 +27,8 @@ repository provider for github
 ### Table of Contents
 
 -   [GithubBranch](#githubbranch)
+    -   [commit](#commit)
+    -   [content](#content)
 -   [GithubRepository](#githubrepository)
 -   [GithubProvider](#githubprovider)
 
@@ -35,6 +37,21 @@ repository provider for github
 **Extends Branch**
 
 Branch on GitHub
+
+### commit
+
+**Parameters**
+
+-   `message`  
+-   `blobs`  
+-   `options`   (optional, default `{}`)
+
+### content
+
+**Parameters**
+
+-   `path`  
+-   `options`   (optional, default `{}`)
 
 ## GithubRepository
 
