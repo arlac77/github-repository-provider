@@ -26,11 +26,55 @@ repository provider for github
 
 ### Table of Contents
 
+-   [GithubProvider](#githubprovider)
+    -   [options](#options)
+-   [GithubRepository](#githubrepository)
+    -   [initialize](#initialize)
 -   [GithubBranch](#githubbranch)
     -   [commit](#commit)
     -   [content](#content)
--   [GithubRepository](#githubrepository)
--   [GithubProvider](#githubprovider)
+
+## GithubProvider
+
+**Extends Provider**
+
+GitHub provider
+
+**Parameters**
+
+-   `config`  
+
+**Properties**
+
+-   `client` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `rateLimitReached` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
+
+### options
+
+Pepare configuration by mixing together defaultOptions with actual options
+
+**Parameters**
+
+-   `config` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** raw config
+
+Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** combined options
+
+## GithubRepository
+
+**Extends Repository**
+
+Repository on GitHub
+
+**Parameters**
+
+-   `provider`  
+-   `name`  
+
+### initialize
+
+Collect all branches
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** 
 
 ## GithubBranch
 
@@ -52,27 +96,6 @@ Branch on GitHub
 
 -   `path`  
 -   `options`   (optional, default `{}`)
-
-## GithubRepository
-
-**Extends Repository**
-
-Repository on GitHub
-
-**Parameters**
-
--   `provider`  
--   `name`  
-
-## GithubProvider
-
-**Extends Provider**
-
-GitHub provider
-
-**Parameters**
-
--   `config`  
 
 # install
 

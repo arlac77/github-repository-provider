@@ -1,257 +1,16 @@
 import { Provider, Repository, Branch, PullRequest } from 'repository-provider';
+import { GithubRepository } from './github-repository';
+import { GithubBranch } from './github-branch';
+
+export { GithubRepository, GithubBranch };
 
 const github = require('github-basic');
 
 /**
- * Branch on GitHub
- */
-export class GithubBranch extends Branch {
-  get client() {
-    return this.provider.client;
-  }
-
-  async writeBlob(blob) {
-    try {
-      const path = blob.path.replace(/\\/g, '/').replace(/^\//, '');
-      const mode = blob.mode || '100644';
-      const type = blob.type || 'blob';
-
-      const res = await this.client.post(
-        `/repos/${this.repository.name}/git/blobs`,
-        {
-          content:
-            typeof blob.content === 'string'
-              ? blob.content
-              : blob.content.toString('base64'),
-          encoding: typeof blob.content === 'string' ? 'utf-8' : 'base64'
-        }
-      );
-
-      return {
-        path,
-        mode,
-        type,
-        sha: res.sha
-      };
-    } catch (err) {
-      await this.provider.checkForApiLimitError(err);
-      throw err;
-    }
-  }
-
-  async createPullRequest(to, msg) {
-    try {
-      const result = await this.client.post(
-        `/repos/${this.repository.name}/pulls`,
-        {
-          title: msg.title,
-          body: msg.body,
-          base: this.name,
-          head: to.name
-        }
-      );
-      //console.log(result);
-      return new PullRequest(this.repository, result.number);
-    } catch (err) {
-      await this.provider.checkForApiLimitError(err);
-      throw err;
-    }
-  }
-
-  async latestCommitSha() {
-    const res = await this.client.get(
-      `/repos/${this.repository.name}/git/refs/heads/${this.name}`
-    );
-    return res.object.sha;
-  }
-
-  async baseTreeSha(commitSha) {
-    const res = await this.client.get(
-      `/repos/${this.repository.name}/commits/${commitSha}`
-    );
-
-    return res.commit.tree.sha;
-  }
-
-  /** @inheritdoc */
-  async commit(message, blobs, options = {}) {
-    try {
-      const updates = await Promise.all(blobs.map(b => this.writeBlob(b)));
-
-      const shaLatestCommit = await this.latestCommitSha();
-      const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
-      let res = await this.client.post(
-        `/repos/${this.repository.name}/git/trees`,
-        {
-          tree: updates,
-          base_tree: shaBaseTree
-        }
-      );
-      const shaNewTree = res.sha;
-
-      res = await this.client.post(
-        `/repos/${this.repository.name}/git/commits`,
-        {
-          message,
-          tree: shaNewTree,
-          parents: [shaLatestCommit]
-        }
-      );
-      const shaNewCommit = res.sha;
-
-      res = await this.client.patch(
-        `/repos/${this.repository.name}/git/refs/heads/${this.name}`,
-        {
-          sha: shaNewCommit,
-          force: options.force || false
-        }
-      );
-
-      return res;
-    } catch (err) {
-      await this.provider.checkForApiLimitError(err);
-      throw err;
-    }
-  }
-
-  /** @inheritdoc */
-  async content(path, options = {}) {
-    try {
-      const res = await this.client.get(
-        `/repos/${this.repository.name}/contents/${path}`,
-        { ref: this.name }
-      );
-      const b = Buffer.from(res.content, 'base64');
-      return b.toString();
-    } catch (err) {
-      await this.provider.checkForApiLimitError(err);
-
-      if (options.ignoreMissing) {
-        return '';
-      }
-      throw err;
-    }
-  }
-
-  async tree(sha, prefix = '') {
-    const list = [];
-
-    const t = async (sha, prefix = '') => {
-      const res = await this.client.get(
-        `/repos/${this.repository.name}/git/trees/${sha}`
-      );
-      const files = res.tree;
-
-      files.forEach(f => (f.path = prefix + f.path));
-
-      list.push(...files);
-
-      await Promise.all(
-        files
-          .filter(f => f.type === 'tree')
-          .map(dir => t(dir.sha, prefix + dir.path + '/'))
-      );
-    };
-
-    await t(sha, prefix);
-
-    return list;
-  }
-
-  async list() {
-    try {
-      const shaBaseTree = await this.baseTreeSha(await this.latestCommitSha());
-      return this.tree(shaBaseTree);
-    } catch (err) {
-      await this.provider.checkForApiLimitError(err);
-      throw err;
-    }
-  }
-}
-
-/**
- * Repository on GitHub
- */
-export class GithubRepository extends Repository {
-  constructor(provider, name) {
-    super(provider, name.replace(/#.*/, ''));
-    Object.defineProperty(this, 'user', { value: name.split(/\//)[0] });
-  }
-
-  get client() {
-    return this.provider.client;
-  }
-
-  async branches() {
-    const res = await this.client.get(`/repos/${this.name}/branches`);
-
-    res.forEach(b => new this.provider.constructor.branchClass(this, b.name));
-
-    return this._branches;
-  }
-
-  async createBranch(name, from) {
-    try {
-      const res = await this.client.get(
-        `/repos/${this.name}/git/refs/heads/${
-          from === undefined ? 'master' : from.name
-        }`
-      );
-
-      await this.client.post(`/repos/${this.name}/git/refs`, {
-        ref: `refs/heads/${name}`,
-        sha: res.object.sha
-      });
-
-      return new this.provider.constructor.branchClass(this, name);
-    } catch (err) {
-      await this.provider.checkForApiLimitError(err);
-      throw err;
-    }
-  }
-
-  async deleteBranch(name) {
-    await this.client.delete(`/repos/${this.name}/git/refs/heads/${name}`);
-    return super.deleteBranch(name);
-  }
-
-  async pullRequests() {
-    const res = await this.client.get(`/repos/${this.name}/pulls`);
-
-    res.forEach(b => {
-      /*
-      id: 157670873,
-      number: 267,
-      state: 'open',
-      locked: false,
-      title: 'merge package template from Kronos-Tools/npm-package-template',
-      */
-
-      const pr = new this.provider.constructor.pullRequestClass(
-        this,
-        String(b.number),
-        {
-          title: b.title,
-          state: b.state
-        }
-      );
-    });
-
-    return this._pullRequests;
-  }
-
-  async deletePullRequest(name) {
-    const res = await this.client.delete(`/repos/${this.name}/pull/${name}`);
-    console.log(res);
-
-    this._pullRequests.delete(name);
-
-    return res;
-  }
-}
-
-/**
  * GitHub provider
+ *
+ * @property {Object} client
+ * @property {boolean} rateLimitReached
  */
 export class GithubProvider extends Provider {
   static get repositoryClass() {
@@ -262,6 +21,11 @@ export class GithubProvider extends Provider {
     return GithubBranch;
   }
 
+  /**
+   * Pepare configuration by mixing together defaultOptions with actual options
+   * @param {Object} config raw config
+   * @return {Object} combined options
+   */
   static options(config) {
     return Object.assign({ version: 3 }, config);
   }
@@ -352,8 +116,6 @@ export class GithubProvider extends Provider {
   }
 
   async rateLimit() {
-    const limit = await this.client.get('/rate_limit');
-    //  console.log(limit);
-    return limit;
+    return await this.client.get('/rate_limit');
   }
 }
