@@ -1,4 +1,4 @@
-import { Provider, Repository, Branch, PullRequest } from 'repository-provider';
+import { Provider, Repository, Branch } from 'repository-provider';
 import { GithubRepository } from './github-repository';
 import { GithubBranch } from './github-branch';
 

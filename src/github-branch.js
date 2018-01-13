@@ -48,8 +48,8 @@ export class GithubBranch extends Branch {
           head: to.name
         }
       );
-      //console.log(result);
-      return new PullRequest(this.repository, result.number);
+
+      return new this.provider.pullRequestClass(this.repository, result.number);
     } catch (err) {
       await this.provider.checkForApiLimitError(err);
       throw err;
