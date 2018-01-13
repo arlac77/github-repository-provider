@@ -13,21 +13,13 @@ const github = require('github-basic');
  * @property {boolean} rateLimitReached
  */
 export class GithubProvider extends Provider {
-  static get repositoryClass() {
-    return GithubRepository;
-  }
-
-  static get branchClass() {
-    return GithubBranch;
-  }
-
   /**
    * Pepare configuration by mixing together defaultOptions with actual options
    * @param {Object} config raw config
    * @return {Object} combined options
    */
   static options(config) {
-    return Object.assign({ version: 3 }, config);
+    return Object.assign({ url: 'https://github.com/', version: 3 }, config);
   }
 
   constructor(config) {
@@ -37,6 +29,37 @@ export class GithubProvider extends Provider {
 
     Object.defineProperty(this, 'client', { value: client });
     this.rateLimitReached = false;
+  }
+
+  get repositoryClass() {
+    return GithubRepository;
+  }
+
+  get branchClass() {
+    return GithubBranch;
+  }
+
+  /**
+   * @param {string} name
+   * @return {Repository}
+   */
+  async repository(name) {
+    let r = this.repositories.get(name);
+    if (r === undefined) {
+      try {
+        name = name.replace(this.config.url, '');
+        const res = await this.client.get(`/repos/${name}`);
+        r = new this.repositoryClass(this, name);
+        await r.initialize();
+        this.repositories.set(name, r);
+      } catch (e) {
+        if (e.statusCode !== 404) {
+          throw e;
+        }
+      }
+    }
+
+    return r;
   }
 
   set rateLimitReached(value) {

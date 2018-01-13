@@ -17,7 +17,7 @@ export class GithubRepository extends Repository {
     await super.initialize();
     const res = await this.client.get(`/repos/${this.name}/branches`);
 
-    res.forEach(b => new this.provider.constructor.branchClass(this, b.name));
+    res.forEach(b => new this.provider.branchClass(this, b.name));
   }
 
   get client() {
@@ -37,7 +37,7 @@ export class GithubRepository extends Repository {
         sha: res.object.sha
       });
 
-      return new this.provider.constructor.branchClass(this, name);
+      return new this.provider.branchClass(this, name);
     } catch (err) {
       await this.provider.checkForApiLimitError(err);
       throw err;
@@ -61,14 +61,10 @@ export class GithubRepository extends Repository {
       title: 'merge package template from Kronos-Tools/npm-package-template',
       */
 
-      const pr = new this.provider.constructor.pullRequestClass(
-        this,
-        String(b.number),
-        {
-          title: b.title,
-          state: b.state
-        }
-      );
+      const pr = new this.provider.pullRequestClass(this, String(b.number), {
+        title: b.title,
+        state: b.state
+      });
     });
 
     return this._pullRequests;

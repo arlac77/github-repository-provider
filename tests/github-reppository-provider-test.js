@@ -36,6 +36,15 @@ test('provider set rateLimitReached', async t => {
   t.is(provider.rateLimitReached, true);
 });
 
+test('provider repo with full url', async t => {
+  const provider = new GithubProvider(config);
+  const repository = await provider.repository(
+    'https://github.com/' + REPOSITORY_NAME
+  );
+
+  t.is(repository.name, REPOSITORY_NAME);
+});
+
 test('provider repo with branch name', async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(
