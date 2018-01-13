@@ -73,6 +73,7 @@ export class GithubBranch extends Branch {
     return res.commit.tree.sha;
   }
 
+  /** @inheritdoc */
   async commit(message, blobs, options = {}) {
     try {
       const updates = await Promise.all(blobs.map(b => this.writeBlob(b)));
@@ -113,6 +114,7 @@ export class GithubBranch extends Branch {
     }
   }
 
+  /** @inheritdoc */
   async content(path, options = {}) {
     try {
       const res = await this.client.get(
@@ -183,10 +185,7 @@ export class GithubRepository extends Repository {
   async branches() {
     const res = await this.client.get(`/repos/${this.name}/branches`);
 
-    res.forEach(b => {
-      const branch = new this.provider.constructor.branchClass(this, b.name);
-      this._branches.set(branch.name, branch);
-    });
+    res.forEach(b => new this.provider.constructor.branchClass(this, b.name));
 
     return this._branches;
   }
@@ -204,9 +203,7 @@ export class GithubRepository extends Repository {
         sha: res.object.sha
       });
 
-      const b = new this.provider.constructor.branchClass(this, name);
-      this._branches.set(b.name, b);
-      return b;
+      return new this.provider.constructor.branchClass(this, name);
     } catch (err) {
       await this.provider.checkForApiLimitError(err);
       throw err;
@@ -215,8 +212,7 @@ export class GithubRepository extends Repository {
 
   async deleteBranch(name) {
     await this.client.delete(`/repos/${this.name}/git/refs/heads/${name}`);
-
-    this._branches.delete(name);
+    return super.deleteBranch(name);
   }
 
   async pullRequests() {
@@ -239,8 +235,6 @@ export class GithubRepository extends Repository {
           state: b.state
         }
       );
-
-      this._pullRequests.set(pr.name, pr);
     });
 
     return this._pullRequests;
