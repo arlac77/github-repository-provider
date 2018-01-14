@@ -45,6 +45,24 @@ test('provider repo with full url', async t => {
   t.is(repository.name, REPOSITORY_NAME);
 });
 
+test('provider repo with full url .git', async t => {
+  const provider = new GithubProvider(config);
+  const repository = await provider.repository(
+    'https://github.com/arlac77/github-repository-provider.git'
+  );
+
+  t.is(repository.name, 'arlac77/github-repository-provider');
+});
+
+test('provider repo with full url .git#branch', async t => {
+  const provider = new GithubProvider(config);
+  const repository = await provider.repository(
+    'https://github.com/arlac77/github-repository-provider.git#master'
+  );
+
+  t.is(repository.name, 'arlac77/github-repository-provider');
+});
+
 test('provider repo with branch name', async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(
@@ -71,23 +89,6 @@ test('create branch', async t => {
 
   await repository.deleteBranch(newName);
   t.is(branches.get(newName), undefined);
-});
-
-test('pull requests', async t => {
-  const provider = new GithubProvider(config);
-  const repository = await provider.repository(
-    REPOSITORY_NAME + '#some-other-branch'
-  );
-
-  const prs = await repository.pullRequests();
-
-  if (prs.size === 0) {
-    t.is(prs.size, 0);
-  } else {
-    const pr = prs.values().next().value;
-
-    t.is(pr.name.length, 3);
-  }
 });
 
 test('create commit', async t => {

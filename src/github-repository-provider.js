@@ -44,10 +44,13 @@ export class GithubProvider extends Provider {
    * @return {Repository}
    */
   async repository(name) {
+    name = name.replace(this.config.url, '');
+    name = name.replace(/#\w*$/, '');
+    name = name.replace(/\.git$/, '');
+
     let r = this.repositories.get(name);
     if (r === undefined) {
       try {
-        name = name.replace(this.config.url, '');
         const res = await this.client.get(`/repos/${name}`);
         r = new this.repositoryClass(this, name);
         await r.initialize();
@@ -107,6 +110,12 @@ export class GithubProvider extends Provider {
   body: <Buffer 7b 22 6d 65 73 73 61 67 65 22 3a 22 41 50 49 20 72 61 74 65 20 6c 69 6d 69 74 20 65 78 63 65 65 64 65 64 20 66 6f 72 20 61 72 6c 61 63 37 37 2e 22 2c ... >,
   url: undefined }
 */
+  /**
+   * Check for ecistanse of an api rate limit Error
+   * also sets rateLimitReached to true
+   * @param {Object} err
+   * @return {Promise<boolean>} true if api rate limit error present
+   */
   async checkForApiLimitError(err) {
     /* TODO
      handle rate limit
@@ -131,11 +140,13 @@ export class GithubProvider extends Provider {
       }
     }
 
-    if (this.rateLimitReached) {
+    /*if (this.rateLimitReached) {
       console.log(err);
       const limit = (await this.rateLimit()).resources;
       console.log(limit);
-    }
+    }*/
+
+    return this.rateLimitReached;
   }
 
   async rateLimit() {

@@ -28,6 +28,7 @@ repository provider for github
 
 -   [GithubProvider](#githubprovider)
     -   [repository](#repository)
+    -   [checkForApiLimitError](#checkforapilimiterror)
     -   [options](#options)
 -   [GithubRepository](#githubrepository)
     -   [initialize](#initialize)
@@ -57,6 +58,17 @@ GitHub provider
 -   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **Repository** 
+
+### checkForApiLimitError
+
+Check for ecistanse of an api rate limit Error
+also sets rateLimitReached to true
+
+**Parameters**
+
+-   `err` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)>** true if api rate limit error present
 
 ### options
 
