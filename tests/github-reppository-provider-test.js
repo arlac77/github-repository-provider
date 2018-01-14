@@ -43,6 +43,7 @@ test('provider repo with full url', async t => {
   );
 
   t.is(repository.name, REPOSITORY_NAME);
+  t.is(repository.urls[0], 'https://github.com/' + REPOSITORY_NAME + '.git');
 });
 
 test('provider repo with full url .git', async t => {

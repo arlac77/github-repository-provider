@@ -32,6 +32,7 @@ repository provider for github
     -   [options](#options)
 -   [GithubRepository](#githubrepository)
     -   [initialize](#initialize)
+    -   [urls](#urls)
 -   [GithubBranch](#githubbranch)
     -   [commit](#commit)
     -   [content](#content)
@@ -96,6 +97,10 @@ Repository on GitHub
 Collect all branches
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** 
+
+### urls
+
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** github https url
 
 ## GithubBranch
 

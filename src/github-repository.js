@@ -20,6 +20,13 @@ export class GithubRepository extends Repository {
     res.forEach(b => new this.provider.branchClass(this, b.name));
   }
 
+  /**
+   * @return {string[]} github https url
+   */
+  get urls() {
+    return [`${this.config.url}/{this.name}.git`];
+  }
+
   get client() {
     return this.provider.client;
   }
