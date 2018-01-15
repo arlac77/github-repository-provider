@@ -24,7 +24,7 @@ export class GithubRepository extends Repository {
    * @return {string[]} github https url
    */
   get urls() {
-    return [`${this.config.url}/{this.name}.git`];
+    return [`${this.provider.config.url}${this.name}.git`];
   }
 
   get client() {
