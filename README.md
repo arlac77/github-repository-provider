@@ -31,6 +31,7 @@ repository provider for github
     -   [checkForApiLimitError](#checkforapilimiterror)
     -   [options](#options)
 -   [GithubRepository](#githubrepository)
+    -   [owner](#owner)
     -   [initialize](#initialize)
     -   [urls](#urls)
 -   [GithubBranch](#githubbranch)
@@ -91,6 +92,12 @@ Repository on GitHub
 
 -   `provider`  
 -   `name`  
+
+### owner
+
+Owner of the repository (first part of the name)
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### initialize
 

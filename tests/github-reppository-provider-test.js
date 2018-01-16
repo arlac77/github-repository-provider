@@ -14,11 +14,14 @@ test('provider', async t => {
   const repository = await provider.repository(REPOSITORY_NAME);
 
   t.is(repository.name, REPOSITORY_NAME);
+  t.is(repository.owner, 'arlac77');
 
   const branches = await repository.branches();
   t.is(branches.get('master').name, 'master');
 
   const branch = await repository.branch('master');
+
+  t.is(branch.owner, 'arlac77');
   t.is(branch.name, 'master');
 });
 

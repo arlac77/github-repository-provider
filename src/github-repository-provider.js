@@ -39,12 +39,16 @@ export class GithubProvider extends Provider {
     return GithubBranch;
   }
 
+  get url() {
+    return this.config.url;
+  }
+
   /**
    * @param {string} name
    * @return {Repository}
    */
   async repository(name) {
-    name = name.replace(this.config.url, '');
+    name = name.replace(this.url, '');
     name = name.replace(/#\w*$/, '');
     name = name.replace(/\.git$/, '');
 

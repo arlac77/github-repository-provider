@@ -5,8 +5,15 @@ import { Repository } from 'repository-provider';
  */
 export class GithubRepository extends Repository {
   constructor(provider, name) {
-    super(provider, name.replace(/#.*/, ''));
-    Object.defineProperty(this, 'user', { value: name.split(/\//)[0] });
+    super(provider, name.replace(/#.*$/, ''));
+  }
+
+  /**
+   * Owner of the repository (first part of the name)
+   * @return {string}
+   */
+  get owner() {
+    return this.name.split(/\//)[0];
   }
 
   /**
@@ -24,7 +31,7 @@ export class GithubRepository extends Repository {
    * @return {string[]} github https url
    */
   get urls() {
-    return [`${this.provider.config.url}${this.name}.git`];
+    return [`${this.provider.url}${this.name}.git`];
   }
 
   get client() {
