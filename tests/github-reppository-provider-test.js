@@ -4,6 +4,7 @@ import { GithubBranch } from '../src/github-branch';
 import { GithubRepository } from '../src/github-repository';
 
 const REPOSITORY_NAME = 'arlac77/sync-test-repository';
+const REPOSITORY_OWNER = 'arlac77';
 
 const config = {
   auth: process.env.GH_TOKEN
@@ -46,7 +47,10 @@ test('provider repo with full url', async t => {
   );
 
   t.is(repository.name, REPOSITORY_NAME);
-  t.is(repository.urls[0], 'https://github.com/' + REPOSITORY_NAME + '.git');
+  t.is(
+    repository.urls.find(u => u.startsWith('http')),
+    'https://github.com/' + REPOSITORY_NAME + '.git'
+  );
 });
 
 test('provider repo with full url .git', async t => {
@@ -65,6 +69,7 @@ test('provider repo with full url .git#branch', async t => {
   );
 
   t.is(repository.name, 'arlac77/github-repository-provider');
+  t.is(repository.owner, 'arlac77');
 });
 
 test('provider repo with full url .git#branch', async t => {
@@ -83,6 +88,7 @@ test('provider repo with branch name', async t => {
   );
 
   t.is(repository.name, REPOSITORY_NAME);
+  t.is(repository.owner, REPOSITORY_OWNER);
 
   const branches = await repository.branches();
   t.is(branches.get('master').name, 'master');
