@@ -27,6 +27,7 @@ repository provider for github
 ### Table of Contents
 
 -   [GithubProvider](#githubprovider)
+    -   [url](#url)
     -   [repository](#repository)
     -   [checkForApiLimitError](#checkforapilimiterror)
     -   [options](#options)
@@ -53,11 +54,29 @@ GitHub provider
 -   `client` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 -   `rateLimitReached` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 
+### url
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** provider url
+
 ### repository
+
+Lookup a repository
 
 **Parameters**
 
 -   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+**Examples**
+
+```javascript
+import GithubProvider from 'github-repository-provider';
+
+const ghp = new GithubProvider();
+const r1 = ghp.repository('git@github.com:arlac77/github-repository-provider.git');
+const r2 = ghp.repository('https://github.com/arlac77/github-repository-provider.git#master');
+const r3 = ghp.repository('arlac77/github-repository-provider');
+//three different ways to find the same repository
+```
 
 Returns **Repository** 
 

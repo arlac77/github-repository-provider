@@ -19,7 +19,14 @@ export class GithubProvider extends Provider {
    * @return {Object} combined options
    */
   static options(config) {
-    return Object.assign({ url: 'https://github.com/', version: 3 }, config);
+    return Object.assign(
+      {
+        ssh: 'git@github.com:',
+        url: 'https://github.com/',
+        version: 3
+      },
+      config
+    );
   }
 
   constructor(config) {
@@ -39,15 +46,29 @@ export class GithubProvider extends Provider {
     return GithubBranch;
   }
 
+  /**
+   *
+   * @return {string} provider url
+   */
   get url() {
     return this.config.url;
   }
 
   /**
+   * Lookup a repository
+   * @example
+   * import GithubProvider from 'github-repository-provider';
+   *
+   * const ghp = new GithubProvider();
+   * const r1 = ghp.repository('git@github.com:arlac77/github-repository-provider.git');
+   * const r2 = ghp.repository('https://github.com/arlac77/github-repository-provider.git#master');
+   * const r3 = ghp.repository('arlac77/github-repository-provider');
+   * //three different ways to find the same repository
    * @param {string} name
    * @return {Repository}
    */
   async repository(name) {
+    name = name.replace(this.config.ssh, '');
     name = name.replace(this.url, '');
     name = name.replace(/#\w*$/, '');
     name = name.replace(/\.git$/, '');

@@ -53,6 +53,15 @@ test('provider repo with full url', async t => {
   );
 });
 
+test('provider repo with git', async t => {
+  const provider = new GithubProvider(config);
+  const repository = await provider.repository(
+    'git@github.com:arlac77/github-repository-provider.git'
+  );
+
+  t.is(repository.name, 'arlac77/github-repository-provider');
+});
+
 test('provider repo with full url .git', async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(
