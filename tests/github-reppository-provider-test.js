@@ -51,6 +51,8 @@ test('provider repo with full url', async t => {
     repository.urls.find(u => u.startsWith('http')),
     'https://github.com/' + REPOSITORY_NAME + '.git'
   );
+
+  t.is(repository.url, 'https://github.com/' + REPOSITORY_NAME + '.git');
 });
 
 test('provider repo with git', async t => {
@@ -88,6 +90,7 @@ test('provider repo with full url .git#branch', async t => {
   );
 
   t.is(branch.name, 'master');
+  t.is(branch.url, 'https://github.com/arlac77/github-repository-provider.git');
 });
 
 test('provider repo with branch name', async t => {

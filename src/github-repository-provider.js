@@ -55,6 +55,7 @@ export class GithubProvider extends Provider {
   }
 
   /**
+   * <!-- skip-example -->
    * Lookup a repository
    * @example
    * import GithubProvider from 'github-repository-provider';
@@ -136,7 +137,7 @@ export class GithubProvider extends Provider {
   url: undefined }
 */
   /**
-   * Check for ecistanse of an api rate limit Error
+   * Check for existanse of an api rate limit Error
    * also sets rateLimitReached to true
    * @param {Object} err
    * @return {Promise<boolean>} true if api rate limit error present

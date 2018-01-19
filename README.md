@@ -60,6 +60,8 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### repository
 
+<!-- skip-example -->
+
 Lookup a repository
 
 **Parameters**
@@ -82,7 +84,7 @@ Returns **Repository**
 
 ### checkForApiLimitError
 
-Check for ecistanse of an api rate limit Error
+Check for existanse of an api rate limit Error
 also sets rateLimitReached to true
 
 **Parameters**
