@@ -57,6 +57,11 @@ test('provider repo with full url', async t => {
     repository.issuesURL,
     'https://github.com/' + REPOSITORY_NAME + '/issues'
   );
+
+  t.is(
+    repository.homePageURL,
+    'https://github.com/' + REPOSITORY_NAME + '#readme'
+  );
 });
 
 test('provider repo with git', async t => {

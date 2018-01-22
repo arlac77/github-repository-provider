@@ -10,7 +10,7 @@ export class GithubBranch extends Branch {
 
   /**
    * @param {Content} blob
-   * @return {object}
+   * @return {Object}
    */
   async writeBlob(blob) {
     try {

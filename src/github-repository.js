@@ -42,6 +42,14 @@ export class GithubRepository extends Repository {
     return `${this.provider.url}${this.name}/issues`;
   }
 
+  /**
+   * Deliver the url of the repositories home page.
+   * @return {string}
+   */
+  get homePageURL() {
+    return `${this.provider.url}${this.name}#readme`;
+  }
+
   get client() {
     return this.provider.client;
   }

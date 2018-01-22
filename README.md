@@ -36,6 +36,7 @@ repository provider for github
     -   [initialize](#initialize)
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
+    -   [homePageURL](#homepageurl)
 -   [GithubBranch](#githubbranch)
     -   [writeBlob](#writeblob)
     -   [commit](#commit)
@@ -138,6 +139,12 @@ Deliver the url of issue tracking system.
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
+### homePageURL
+
+Deliver the url of the repositories home page.
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
 ## GithubBranch
 
 **Extends Branch**
@@ -150,7 +157,7 @@ Branch on GitHub
 
 -   `blob` **Content** 
 
-Returns **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### commit
 
