@@ -34,6 +34,14 @@ export class GithubRepository extends Repository {
     return [`${this.provider.url}${this.name}.git`];
   }
 
+  /**
+   * Deliver the url of issue tracking system.
+   * @return {string}
+   */
+  get issuesURL() {
+    return `${this.provider.url}${this.name}/issues`;
+  }
+
   get client() {
     return this.provider.client;
   }

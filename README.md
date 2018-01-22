@@ -35,6 +35,7 @@ repository provider for github
     -   [owner](#owner)
     -   [initialize](#initialize)
     -   [urls](#urls)
+    -   [issuesURL](#issuesurl)
 -   [GithubBranch](#githubbranch)
     -   [writeBlob](#writeblob)
     -   [commit](#commit)
@@ -78,7 +79,7 @@ const ghp = new GithubProvider();
 const r1 = ghp.repository('git@github.com:arlac77/github-repository-provider.git');
 const r2 = ghp.repository('https://github.com/arlac77/github-repository-provider.git#master');
 const r3 = ghp.repository('arlac77/github-repository-provider');
-//three different ways to find the same repository
+//three different ways to address the same repository
 ```
 
 Returns **Repository** 
@@ -130,6 +131,12 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 ### urls
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** github https url
+
+### issuesURL
+
+Deliver the url of issue tracking system.
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ## GithubBranch
 
