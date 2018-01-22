@@ -64,7 +64,7 @@ export class GithubProvider extends Provider {
    * const r1 = ghp.repository('git@github.com:arlac77/github-repository-provider.git');
    * const r2 = ghp.repository('https://github.com/arlac77/github-repository-provider.git#master');
    * const r3 = ghp.repository('arlac77/github-repository-provider');
-   * //three different ways to find the same repository
+   * //three different ways to address the same repository
    * @param {string} name
    * @return {Repository}
    */
@@ -137,7 +137,7 @@ export class GithubProvider extends Provider {
   url: undefined }
 */
   /**
-   * Check for existanse of an api rate limit Error
+   * Check for existense of an api rate limit Error
    * also sets rateLimitReached to true
    * @param {Object} err
    * @return {Promise<boolean>} true if api rate limit error present

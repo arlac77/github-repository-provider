@@ -8,6 +8,10 @@ export class GithubBranch extends Branch {
     return this.provider.client;
   }
 
+  /**
+   * @param {Content} blob
+   * @return {object}
+   */
   async writeBlob(blob) {
     try {
       const path = blob.path.replace(/\\/g, '/').replace(/^\//, '');

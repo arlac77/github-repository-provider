@@ -36,6 +36,7 @@ repository provider for github
     -   [initialize](#initialize)
     -   [urls](#urls)
 -   [GithubBranch](#githubbranch)
+    -   [writeBlob](#writeblob)
     -   [commit](#commit)
     -   [content](#content)
 
@@ -84,7 +85,7 @@ Returns **Repository**
 
 ### checkForApiLimitError
 
-Check for existanse of an api rate limit Error
+Check for existense of an api rate limit Error
 also sets rateLimitReached to true
 
 **Parameters**
@@ -135,6 +136,14 @@ Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Gl
 **Extends Branch**
 
 Branch on GitHub
+
+### writeBlob
+
+**Parameters**
+
+-   `blob` **Content** 
+
+Returns **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### commit
 
