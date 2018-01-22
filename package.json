@@ -4,10 +4,7 @@
   "main": "dist/github-repository-provider.js",
   "module": "src/github-repository-provider.js",
   "description": "repository provider for github",
-  "keywords": [
-    "git",
-    "github"
-  ],
+  "keywords": ["git", "github"],
   "contributors": [
     {
       "name": "Markus Felten",
@@ -21,7 +18,8 @@
     "pretest": "rollup -c tests/rollup.config.js",
     "precover": "rollup -c tests/rollup.config.js",
     "posttest": "npm run prepare && markdown-doctest",
-    "docs": "documentation readme src/github-repository-provider.js --section=API",
+    "docs":
+      "documentation readme src/github-repository-provider.js --section=API",
     "semantic-release": "semantic-release",
     "prepare": "rollup -c",
     "lint": "documentation lint src/github-repository-provider.js",
@@ -54,21 +52,12 @@
   "homepage": "https://github.com/arlac77/github-repository-provider#readme",
   "release": {},
   "ava": {
-    "files": [
-      "build/*-test.js"
-    ],
-    "require": [
-      "babel-register"
-    ]
+    "files": ["build/*-test.js"],
+    "require": ["babel-register"]
   },
   "nyc": {
-    "include": [
-      "build/*-test.js",
-      "src/**/*.js"
-    ],
-    "reporter": [
-      "lcov"
-    ],
+    "include": ["build/*-test.js", "src/**/*.js"],
+    "reporter": ["lcov"],
     "report-dir": "./build/coverage"
   },
   "xo": {
