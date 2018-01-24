@@ -4,7 +4,11 @@
   "main": "dist/github-repository-provider.js",
   "module": "src/github-repository-provider.js",
   "description": "repository provider for github",
-  "keywords": ["git", "github", "repository-provider"],
+  "keywords": [
+    "git",
+    "github",
+    "repository-provider"
+  ],
   "contributors": [
     {
       "name": "Markus Felten",
@@ -18,8 +22,7 @@
     "pretest": "rollup -c tests/rollup.config.js",
     "precover": "rollup -c tests/rollup.config.js",
     "posttest": "npm run prepare && markdown-doctest",
-    "docs":
-      "documentation readme src/github-repository-provider.js --section=API",
+    "docs": "documentation readme src/github-repository-provider.js --section=API",
     "semantic-release": "semantic-release",
     "prepare": "rollup -c",
     "lint": "documentation lint src/github-repository-provider.js",
@@ -37,14 +40,14 @@
     "rollup-plugin-multi-entry": "^2.0.2",
     "semantic-release": "^12.2.4",
     "documentation": "^5.3.5",
-    "travis-deploy-once": "4.3.2"
+    "travis-deploy-once": "^4.3.3"
   },
   "engines": {
     "node": ">=8.9.4"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arlac77/github-repository-provider.git"
+    "url": "https://github.com/arlac77/github-repository-provider.git"
   },
   "bugs": {
     "url": "https://github.com/arlac77/github-repository-provider/issues"
@@ -52,12 +55,21 @@
   "homepage": "https://github.com/arlac77/github-repository-provider#readme",
   "release": {},
   "ava": {
-    "files": ["build/*-test.js"],
-    "require": ["babel-register"]
+    "files": [
+      "build/*-test.js"
+    ],
+    "require": [
+      "babel-register"
+    ]
   },
   "nyc": {
-    "include": ["build/*-test.js", "src/**/*.js"],
-    "reporter": ["lcov"],
+    "include": [
+      "build/*-test.js",
+      "src/**/*.js"
+    ],
+    "reporter": [
+      "lcov"
+    ],
     "report-dir": "./build/coverage"
   },
   "xo": {
