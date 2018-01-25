@@ -1,4 +1,4 @@
-import { Branch } from 'repository-provider';
+import { Branch, Content } from 'repository-provider';
 
 /**
  * Branch on GitHub
@@ -124,12 +124,12 @@ export class GithubBranch extends Branch {
         { ref: this.name }
       );
       const b = Buffer.from(res.content, 'base64');
-      return b.toString();
+      return new Content(path, b.toString());
     } catch (err) {
       await this.provider.checkForApiLimitError(err);
 
       if (options.ignoreMissing) {
-        return '';
+        return new Content(path, '');
       }
       throw err;
     }
