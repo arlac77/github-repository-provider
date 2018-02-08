@@ -17,6 +17,14 @@ export class GithubRepository extends Repository {
   }
 
   /**
+   * Name of the repository without owner
+   * @return {string}
+   */
+  get condensedName() {
+    return this.name.split(/\//)[1];
+  }
+
+  /**
    * Collect all branches
    * @return {Promise}
    */

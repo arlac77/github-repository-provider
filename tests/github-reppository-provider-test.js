@@ -15,6 +15,7 @@ test('provider', async t => {
   const repository = await provider.repository(REPOSITORY_NAME);
 
   t.is(repository.name, REPOSITORY_NAME);
+  t.is(repository.condensedName, 'sync-test-repository');
   t.is(repository.owner, 'arlac77');
 
   const branches = await repository.branches();
