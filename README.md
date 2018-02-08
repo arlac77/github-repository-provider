@@ -33,6 +33,7 @@ repository provider for github
     -   [options](#options)
 -   [GithubRepository](#githubrepository)
     -   [owner](#owner)
+    -   [condensedName](#condensedname)
     -   [initialize](#initialize)
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
@@ -120,6 +121,12 @@ Repository on GitHub
 ### owner
 
 Owner of the repository (first part of the name)
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+### condensedName
+
+Name of the repository without owner
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
