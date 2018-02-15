@@ -73,6 +73,14 @@ test('provider repo with git unknown', async t => {
   t.is(repository, undefined);
 });
 
+test('provider repo with git unknown 2', async t => {
+  const provider = new GithubProvider(config);
+  const repository = await provider.repository(
+    'http://www.heise.de/index.html'
+  );
+  t.is(repository, undefined);
+});
+
 test('provider repo with git', async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(
