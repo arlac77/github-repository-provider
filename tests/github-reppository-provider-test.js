@@ -65,6 +65,14 @@ test('provider repo with full url', async t => {
   );
 });
 
+test('provider repo with git unknown', async t => {
+  const provider = new GithubProvider(config);
+  const repository = await provider.repository(
+    'git@mfelten.de/github-repository-provider.git'
+  );
+  t.is(repository, undefined);
+});
+
 test('provider repo with git', async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(
