@@ -41,7 +41,7 @@ test('provider set rateLimitReached', async t => {
   t.is(provider.rateLimitReached, true);
 });
 
-test('provider repo with full url', async t => {
+test('provider repo with full https url', async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(
     'https://github.com/' + REPOSITORY_NAME
@@ -62,6 +62,19 @@ test('provider repo with full url', async t => {
   t.is(
     repository.homePageURL,
     'https://github.com/' + REPOSITORY_NAME + '#readme'
+  );
+});
+
+test('provider repo with git@ url', async t => {
+  const provider = new GithubProvider(config);
+  const repository = await provider.repository(
+    'git@github.com:' + REPOSITORY_NAME
+  );
+
+  t.is(repository.name, REPOSITORY_NAME);
+  t.is(
+    repository.urls.find(u => u.startsWith('http')),
+    'https://github.com/' + REPOSITORY_NAME + '.git'
   );
 });
 
