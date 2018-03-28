@@ -27,6 +27,17 @@ test('provider', async t => {
   t.is(branch.name, 'master');
 });
 
+test.skip('provider unrechable host', async t => {
+  try {
+    const provider = new GithubProvider({ url: 'https://unrechable.com/' });
+    const repository = await provider.repository(REPOSITORY_NAME);
+    t.is(repository, undefined);
+  } catch (e) {
+    console.log(e);
+    t.is(true, false);
+  }
+});
+
 test('provider rate limit', async t => {
   const provider = new GithubProvider(config);
 
@@ -78,7 +89,23 @@ test('provider repo with git@ url', async t => {
   );
 });
 
-test('provider repo with git unknown', async t => {
+test('provider repo with git://github.com', async t => {
+  const provider = new GithubProvider(config);
+  const repository = await provider.repository(
+    `git://github.com/${REPOSITORY_NAME}.git`
+  );
+  t.is(repository.name, REPOSITORY_NAME);
+});
+
+test('provider repo with git+ssh://github.com', async t => {
+  const provider = new GithubProvider(config);
+  const repository = await provider.repository(
+    `git+ssh://github.com/${REPOSITORY_NAME}.git`
+  );
+  t.is(repository.name, REPOSITORY_NAME);
+});
+
+test('provider repo with git@ unknown', async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(
     'git@mfelten.de/github-repository-provider.git'
