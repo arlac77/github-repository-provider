@@ -68,7 +68,8 @@ export class GithubProvider extends Provider {
    * const r5 = ghp.repository('arlac77/github-repository-provider');
    * // different ways to address the same repository
    * @param {string} name
-   * @return {Repository}
+   * @return {Repository} if given name is hosted on the provider
+   * @throws if name not hosted on the provider
    */
   async repository(name) {
     name = name.replace(this.config.ssh, '');

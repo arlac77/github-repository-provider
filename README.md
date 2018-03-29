@@ -86,7 +86,9 @@ const r5 = ghp.repository('arlac77/github-repository-provider');
 // different ways to address the same repository
 ```
 
-Returns **Repository** 
+-   Throws **any** if name not hosted on the provider
+
+Returns **Repository** if given name is hosted on the provider
 
 ### checkForApiLimitError
 

@@ -27,10 +27,18 @@ test('provider', async t => {
   t.is(branch.name, 'master');
 });
 
-test.skip('provider unrechable host', async t => {
+test.skip('provider create repo', async t => {
+  const provider = new GithubProvider();
+  const repository = await provider.createRepo('arlac77/test-repo-1');
+  t.is(repository.name, 'arlac77/test-repo-1');
+});
+
+test('provider unreachable host', async t => {
   try {
-    const provider = new GithubProvider({ url: 'https://unrechable.com/' });
-    const repository = await provider.repository(REPOSITORY_NAME);
+    const provider = new GithubProvider();
+    const repository = await provider.repository(
+      'https://mygit.com/arlac77/sync-test-repository'
+    );
     t.is(repository, undefined);
   } catch (e) {
     console.log(e);
