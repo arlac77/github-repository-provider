@@ -32,6 +32,7 @@
     "travis-deploy-once": "travis-deploy-once"
   },
   "dependencies": {
+    "@octokit/rest": "^15.2.6",
     "github-basic": "^6.0.0",
     "repository-provider": "^2.21.0"
   },

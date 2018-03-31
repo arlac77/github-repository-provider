@@ -5,6 +5,7 @@ import { GithubBranch } from './github-branch';
 export { GithubRepository, GithubBranch };
 
 const github = require('github-basic');
+const octokit = require('@octokit/rest');
 
 /**
  * GitHub provider
@@ -47,6 +48,8 @@ export class GithubProvider extends Provider {
 
     Object.defineProperty(this, 'client', { value: client });
     this.rateLimitReached = false;
+
+    this.octokit = octokit();
   }
 
   get repositoryClass() {
@@ -96,9 +99,11 @@ export class GithubProvider extends Provider {
     let r = this.repositories.get(name);
     if (r === undefined) {
       try {
-        const res = await this.client.get(`/repos/${name}`);
+        const [owner, repo] = name.split(/\//);
+
+        const res = await this.octokit.repos.get({ owner, repo });
         r = new this.repositoryClass(this, name);
-        await r.initialize();
+        await r.initialize(res);
         this.repositories.set(name, r);
       } catch (e) {
         if (e.statusCode !== 404) {
