@@ -64,17 +64,6 @@ export class GithubProvider extends Provider {
     this.octokit = octokit();
   }
 
-  async _initialize() {
-    await super._initialize();
-
-    try {
-      const rateLimit = await this.rateLimit();
-      this.rateLimitReached = rateLimit.remaining == 0;
-    } catch (e) {
-      this.rateLimitReached = 0;
-    }
-  }
-
   get repositoryClass() {
     return GithubRepository;
   }
@@ -168,17 +157,24 @@ export class GithubProvider extends Provider {
       return undefined;
     }
 
-    let owner = this;
+    name = name.replace(this.config.ssh, "");
+    name = name.replace(this.url, "");
+    name = name.replace(/#\w*$/, "");
+    name = name.replace(/\.git$/, "");
+    name = name.replace(/^git(\+ssh)?:\/\/[^\/]+\//, "");
 
-    const m = name.match(/^([^\/]+)\/(.*)/);
-    if (m) {
-      const rg = await this.repositoryGroup(m[1]);
-      if (rg !== undefined) {
-        owner = rg;
+    let r = this.repositories.get(name);
+    if (r === undefined) {
+      try {
+        const [owner, repo] = name.split(/\//);
 
-        const repository = await owner.repository(m[2]);
-        if (repository !== undefined) {
-          return repository;
+        const res = await this.octokit.repos.get({ owner, repo });
+        r = new this.repositoryClass(this, name);
+        await r.initialize(res);
+        this.repositories.set(name, r);
+      } catch (e) {
+        if (e.statusCode !== 404) {
+          throw e;
         }
       }
     }
