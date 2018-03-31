@@ -6,13 +6,8 @@ export { GithubRepository, GithubBranch, GithubOwner };
 
 import GitHub from "github-graphql-api";
 
-<<<<<<< HEAD
 const github = require("github-basic");
 const octokit = require("@octokit/rest");
-=======
-const github = require('github-basic');
-const octokit = require('@octokit/rest');
->>>>>>> refactor: start using octokit
 
 /**
  * GitHub provider
