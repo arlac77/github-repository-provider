@@ -29,6 +29,17 @@ export class GithubProvider extends Provider {
     );
   }
 
+  /**
+   * provide token from
+   * - GITHUB_TOKEN
+   * - GH_TOKEN
+   * @return {object}
+   */
+  static optionsFromEnvironment(env) {
+    const token = env.GH_TOKEN || env.GITHUB_TOKEN;
+    return token === undefined ? undefined : { auth: token };
+  }
+
   constructor(config) {
     super(config);
 

@@ -6,9 +6,7 @@ import { GithubRepository } from '../src/github-repository';
 const REPOSITORY_NAME = 'arlac77/sync-test-repository';
 const REPOSITORY_OWNER = 'arlac77';
 
-const config = {
-  auth: process.env.GH_TOKEN
-};
+const config = GithubProvider.optionsFromEnvironment(process.env);
 
 test('provider', async t => {
   const provider = new GithubProvider(config);
