@@ -31,6 +31,7 @@ repository provider for github
     -   [repository](#repository)
     -   [checkForApiLimitError](#checkforapilimiterror)
     -   [options](#options)
+    -   [optionsFromEnvironment](#optionsfromenvironment)
 -   [GithubRepository](#githubrepository)
     -   [owner](#owner)
     -   [condensedName](#condensedname)
@@ -110,6 +111,19 @@ Pepare configuration by mixing together defaultOptions with actual options
 -   `config` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** raw config
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** combined options
+
+### optionsFromEnvironment
+
+provide token from
+
+-   GITHUB_TOKEN
+-   GH_TOKEN
+
+**Parameters**
+
+-   `env`  
+
+Returns **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ## GithubRepository
 
