@@ -1,5 +1,5 @@
 import test from 'ava';
-import { GithubProvider } from '../src/github-repository-provider';
+import { GithubProvider } from '../src/github-provider';
 
 const REPOSITORY_NAME = 'arlac77/sync-test-repository';
 

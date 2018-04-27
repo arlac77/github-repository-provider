@@ -1,5 +1,5 @@
 import test from 'ava';
-import { GithubProvider } from '../src/github-repository-provider';
+import { GithubProvider } from '../src/github-provider';
 import { GithubBranch } from '../src/github-branch';
 import { GithubRepository } from '../src/github-repository';
 
@@ -82,6 +82,12 @@ test('provider repo with full https url', async t => {
   );
 });
 
+test('provider repo undefined', async t => {
+  const provider = new GithubProvider(config);
+  const repository = await provider.repository(undefined);
+  t.true(repository === undefined);
+});
+
 test('provider repo with git@ url', async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(
@@ -155,6 +161,13 @@ test('provider repo with full url .git#branch', async t => {
   t.is(repository.owner, 'arlac77');
 });
 
+test('provider repo with undefined', async t => {
+  const provider = new GithubProvider(config);
+  const branch = await provider.branch(undefined);
+
+  t.is(branch, undefined);
+});
+
 test('provider repo with full url .git#branch', async t => {
   const provider = new GithubProvider(config);
   const branch = await provider.branch(
@@ -222,11 +235,9 @@ test('list files', async t => {
 
   const files = await branch.list();
 
-  t.is(files[0].path, 'README.md');
-  t.is(files[0].type, 'blob');
-  t.is(files[1].path, 'tests');
-  t.is(files[1].type, 'tree');
-  t.is(files[2].path, 'tests/rollup.config.js');
+  t.is(files.find(f => f.path === 'README.md').type, 'blob');
+  t.is(files.find(f => f.path === 'tests').type, 'tree');
+  t.is(files.find(f => f.path === 'tests/rollup.config.js').type, 'blob');
 });
 
 test('list files2', async t => {

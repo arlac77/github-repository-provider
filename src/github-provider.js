@@ -83,6 +83,10 @@ export class GithubProvider extends Provider {
    * @throws if name not hosted on the provider
    */
   async repository(name) {
+    if (name === undefined) {
+      return undefined;
+    }
+
     name = name.replace(this.config.ssh, '');
     name = name.replace(this.url, '');
     name = name.replace(/#\w*$/, '');
