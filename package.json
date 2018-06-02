@@ -1,6 +1,9 @@
 {
   "name": "github-repository-provider",
   "version": "0.0.0-semantic-release",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/github-provider.js",
   "module": "src/github-provider.js",
   "description": "repository provider for github",
