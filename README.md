@@ -26,12 +26,20 @@ repository provider for github
 ### Table of Contents
 
 -   [GithubProvider](#githubprovider)
+    -   [Parameters](#parameters)
+    -   [Properties](#properties)
     -   [url](#url)
     -   [repository](#repository)
+        -   [Parameters](#parameters-1)
+        -   [Examples](#examples)
     -   [checkForApiLimitError](#checkforapilimiterror)
+        -   [Parameters](#parameters-2)
     -   [options](#options)
+        -   [Parameters](#parameters-3)
     -   [optionsFromEnvironment](#optionsfromenvironment)
+        -   [Parameters](#parameters-4)
 -   [GithubRepository](#githubrepository)
+    -   [Parameters](#parameters-5)
     -   [owner](#owner)
     -   [condensedName](#condensedname)
     -   [initialize](#initialize)
@@ -40,8 +48,11 @@ repository provider for github
     -   [homePageURL](#homepageurl)
 -   [GithubBranch](#githubbranch)
     -   [writeBlob](#writeblob)
+        -   [Parameters](#parameters-6)
     -   [commit](#commit)
+        -   [Parameters](#parameters-7)
     -   [content](#content)
+        -   [Parameters](#parameters-8)
 
 ## GithubProvider
 
@@ -49,11 +60,11 @@ repository provider for github
 
 GitHub provider
 
-**Parameters**
+### Parameters
 
 -   `config`  
 
-**Properties**
+### Properties
 
 -   `client` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 -   `rateLimitReached` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
@@ -68,11 +79,11 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Lookup a repository
 
-**Parameters**
+#### Parameters
 
 -   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
-**Examples**
+#### Examples
 
 ```javascript
 import GithubProvider from 'github-repository-provider';
@@ -95,7 +106,7 @@ Returns **Repository** if given name is hosted on the provider
 Check for existense of an api rate limit Error
 also sets rateLimitReached to true
 
-**Parameters**
+#### Parameters
 
 -   `err` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
@@ -105,7 +116,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 Pepare configuration by mixing together defaultOptions with actual options
 
-**Parameters**
+#### Parameters
 
 -   `config` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** raw config
 
@@ -118,7 +129,7 @@ provide token from
 -   GITHUB_TOKEN
 -   GH_TOKEN
 
-**Parameters**
+#### Parameters
 
 -   `env`  
 
@@ -130,7 +141,7 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Repository on GitHub
 
-**Parameters**
+### Parameters
 
 -   `provider`  
 -   `name`  
@@ -177,7 +188,7 @@ Branch on GitHub
 
 ### writeBlob
 
-**Parameters**
+#### Parameters
 
 -   `blob` **Content** 
 
@@ -185,7 +196,7 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### commit
 
-**Parameters**
+#### Parameters
 
 -   `message`  
 -   `blobs`  
@@ -193,7 +204,7 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### content
 
-**Parameters**
+#### Parameters
 
 -   `path`  
 -   `options`   (optional, default `{}`)
