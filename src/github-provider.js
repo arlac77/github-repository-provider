@@ -30,10 +30,11 @@ export class GithubProvider extends Provider {
   }
 
   /**
-   * provide token from
+   * provide token from one
    * - GITHUB_TOKEN
    * - GH_TOKEN
-   * @return {Object}
+   * @param {Object} process env
+   * @return {Object} with auth token
    */
   static optionsFromEnvironment(env) {
     const token = env.GH_TOKEN || env.GITHUB_TOKEN;
@@ -80,7 +81,7 @@ export class GithubProvider extends Provider {
    * // different ways to address the same repository
    * @param {string} name
    * @return {Repository} if given name is hosted on the provider
-   * @throws if name not hosted on the provider
+   * @throws if name is not hosted on the provider
    */
   async repository(name) {
     if (name === undefined) {

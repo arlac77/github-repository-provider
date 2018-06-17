@@ -97,7 +97,7 @@ const r5 = ghp.repository('arlac77/github-repository-provider');
 // different ways to address the same repository
 ```
 
--   Throws **any** if name not hosted on the provider
+-   Throws **any** if name is not hosted on the provider
 
 Returns **Repository** if given name is hosted on the provider
 
@@ -124,7 +124,7 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### optionsFromEnvironment
 
-provide token from
+provide token from one
 
 -   GITHUB_TOKEN
 -   GH_TOKEN
@@ -132,8 +132,9 @@ provide token from
 #### Parameters
 
 -   `env`  
+-   `process` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** env
 
-Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** with auth token
 
 ## GithubRepository
 
