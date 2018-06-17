@@ -33,7 +33,7 @@ export class GithubProvider extends Provider {
    * provide token from one
    * - GITHUB_TOKEN
    * - GH_TOKEN
-   * @param {Object} process env
+   * @param {Object} env process env
    * @return {Object} with auth token
    */
   static optionsFromEnvironment(env) {
