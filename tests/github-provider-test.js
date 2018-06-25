@@ -178,6 +178,16 @@ test('provider repo with full url .git#branch', async t => {
   t.is(branch.url, 'https://github.com/arlac77/github-repository-provider.git');
 });
 
+test('provider repo with full url .git#branch git+https', async t => {
+  const provider = new GithubProvider(config);
+  const branch = await provider.branch(
+    'git+https://github.com/arlac77/github-repository-provider.git#master'
+  );
+
+  t.is(branch.name, 'master');
+  t.is(branch.url, 'https://github.com/arlac77/github-repository-provider.git');
+});
+
 test('provider repo with branch name', async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(

@@ -77,7 +77,8 @@ export class GithubProvider extends Provider {
    * const r2 = ghp.repository('git://github.com/arlac77/github-repository-provider.git');
    * const r3 = ghp.repository('git+ssh://github.com/arlac77/github-repository-provider.git');
    * const r4 = ghp.repository('https://github.com/arlac77/github-repository-provider.git#master');
-   * const r5 = ghp.repository('arlac77/github-repository-provider');
+   * const r5 = ghp.repository('git+https://github.com/arlac77/github-repository-provider.git#master');
+   * const r6 = ghp.repository('arlac77/github-repository-provider');
    * // different ways to address the same repository
    * @param {string} name
    * @return {Repository} if given name is hosted on the provider
@@ -88,11 +89,11 @@ export class GithubProvider extends Provider {
       return undefined;
     }
 
+    name = name.replace(/^git(\+(ssh|https))?:\/\/[^\/]+\//, '');
     name = name.replace(this.config.ssh, '');
     name = name.replace(this.url, '');
     name = name.replace(/#\w*$/, '');
     name = name.replace(/\.git$/, '');
-    name = name.replace(/^git(\+ssh)?:\/\/[^\/]+\//, '');
 
     let r = this.repositories.get(name);
     if (r === undefined) {

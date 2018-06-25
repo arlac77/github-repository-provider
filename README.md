@@ -93,7 +93,8 @@ const r1 = ghp.repository('git@github.com:arlac77/github-repository-provider.git
 const r2 = ghp.repository('git://github.com/arlac77/github-repository-provider.git');
 const r3 = ghp.repository('git+ssh://github.com/arlac77/github-repository-provider.git');
 const r4 = ghp.repository('https://github.com/arlac77/github-repository-provider.git#master');
-const r5 = ghp.repository('arlac77/github-repository-provider');
+const r5 = ghp.repository('git+https://github.com/arlac77/github-repository-provider.git#master');
+const r6 = ghp.repository('arlac77/github-repository-provider');
 // different ways to address the same repository
 ```
 
