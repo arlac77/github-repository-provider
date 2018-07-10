@@ -5,7 +5,8 @@ export default {
   output: {
     file: 'build/bundle-test.js',
     format: 'cjs',
-    sourcemap: true
+    sourcemap: true,
+    interop: false
   },
   external: ['ava', 'repository-provider'],
   plugins: [multiEntry()]
