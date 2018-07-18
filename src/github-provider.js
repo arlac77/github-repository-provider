@@ -30,7 +30,7 @@ export class GithubProvider extends Provider {
   }
 
   /**
-   * provide token from one
+   * provide token from one of
    * - GITHUB_TOKEN
    * - GH_TOKEN
    * @param {Object} env process env

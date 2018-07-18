@@ -125,7 +125,7 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### optionsFromEnvironment
 
-provide token from one
+provide token from one of
 
 -   GITHUB_TOKEN
 -   GH_TOKEN
