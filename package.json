@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "github-basic": "^6.0.0",
+    "github-graphql-api": "^1.0.4",
     "repository-provider": "^2.23.0"
   },
   "devDependencies": {

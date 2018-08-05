@@ -1,8 +1,11 @@
 import { Provider, Repository, Branch } from 'repository-provider';
 import { GithubRepository } from './github-repository';
 import { GithubBranch } from './github-branch';
-
 export { GithubRepository, GithubBranch };
+
+//const GitHub = require('github-graphql-api');
+
+import { GitHub } from 'github-graphql-api';
 
 const github = require('github-basic');
 
@@ -23,7 +26,8 @@ export class GithubProvider extends Provider {
       {
         ssh: 'git@github.com:',
         url: 'https://github.com/',
-        version: 3
+        version: 3,
+        graphqlApi: 'https://api.github.com/graphql'
       },
       config
     );
@@ -44,9 +48,28 @@ export class GithubProvider extends Provider {
   constructor(config) {
     super(config);
 
+    const github = new GitHub({
+      token: this.config.token,
+      apiUrl: this.config.graphqlApi
+    });
     const client = github(this.config);
 
-    Object.defineProperty(this, 'client', { value: client });
+    Object.defineProperties(this, {
+      client: { value: client },
+      github: { value: github }
+    });
+
+    github
+      .query(
+        `
+    query {
+    rateLimit {
+      remaining
+    }
+}`
+      )
+      .then(console.log);
+
     this.rateLimitReached = false;
   }
 
