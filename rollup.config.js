@@ -12,5 +12,5 @@ export default {
     interop: false
   },
   external: ['repository-provider'],
-  plugins: [resolve(), commonjs()]
+  plugins: [resolve(), commonjs(), cleanup()]
 };
