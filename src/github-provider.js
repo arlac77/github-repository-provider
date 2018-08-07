@@ -1,8 +1,9 @@
 import { Provider, Repository, Branch } from 'repository-provider';
 import { GithubRepository } from './github-repository';
 import { GithubBranch } from './github-branch';
-
 export { GithubRepository, GithubBranch };
+
+import GitHub from 'github-graphql-api';
 
 const github = require('github-basic');
 
@@ -23,7 +24,8 @@ export class GithubProvider extends Provider {
       {
         ssh: 'git@github.com:',
         url: 'https://github.com/',
-        version: 3
+        version: 3,
+        graphqlApi: 'https://api.github.com/graphql'
       },
       config
     );
@@ -44,10 +46,34 @@ export class GithubProvider extends Provider {
   constructor(config) {
     super(config);
 
+    const gh = new GitHub({
+      token: this.config.auth,
+      apiUrl: this.config.graphqlApi
+    });
     const client = github(this.config);
 
-    Object.defineProperty(this, 'client', { value: client });
+    Object.defineProperties(this, {
+      client: { value: client },
+      github: { value: gh }
+    });
+
     this.rateLimitReached = false;
+  }
+
+  async initialize() {
+    await super.initialize();
+
+    const result = await this.github.query(
+      `query {
+    rateLimit {
+      remaining
+    }
+}`
+    );
+
+    this.rateLimitReached = result.rateLimit.remaining == 0;
+
+    console.log(this.rateLimitReached);
   }
 
   get repositoryClass() {
@@ -88,6 +114,8 @@ export class GithubProvider extends Provider {
     if (name === undefined) {
       return undefined;
     }
+
+    await this._initialize();
 
     name = name.replace(/^git(\+(ssh|https))?:\/\/[^\/]+\//, '');
     name = name.replace(this.config.ssh, '');
