@@ -34,6 +34,7 @@ repository provider for github
         -   [Examples](#examples)
     -   [checkForApiLimitError](#checkforapilimiterror)
         -   [Parameters](#parameters-2)
+    -   [rateLimit](#ratelimit)
     -   [options](#options)
         -   [Parameters](#parameters-3)
     -   [optionsFromEnvironment](#optionsfromenvironment)
@@ -112,6 +113,10 @@ also sets rateLimitReached to true
 -   `err` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)>** true if api rate limit error present
+
+### rateLimit
+
+Query the current rate limit
 
 ### options
 

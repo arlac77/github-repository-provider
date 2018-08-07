@@ -63,17 +63,13 @@ export class GithubProvider extends Provider {
   async initialize() {
     await super.initialize();
 
-    const result = await this.github.query(
-      `query {
-    rateLimit {
-      remaining
+    try {
+      const rateLimit = await this.rateLimit();
+
+      this.rateLimitReached = rateLimit.remaining == 0;
+    } catch (e) {
+      this.rateLimitReached = 0;
     }
-}`
-    );
-
-    this.rateLimitReached = result.rateLimit.remaining == 0;
-
-    console.log(this.rateLimitReached);
   }
 
   get repositoryClass() {
@@ -224,7 +220,18 @@ export class GithubProvider extends Provider {
     return this.rateLimitReached;
   }
 
+  /**
+   * Query the current rate limit
+   */
   async rateLimit() {
-    return await this.client.get('/rate_limit');
+    const result = await this.github.query(
+      `query {
+    rateLimit {
+      remaining
+    }
+}`
+    );
+
+    return result.rateLimit;
   }
 }

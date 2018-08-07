@@ -8,7 +8,7 @@ const REPOSITORY_OWNER = 'arlac77';
 
 const config = GithubProvider.optionsFromEnvironment(process.env);
 
-test.only('provider', async t => {
+test('provider', async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
 
@@ -26,7 +26,7 @@ test.only('provider', async t => {
 });
 
 test.skip('provider create repo', async t => {
-  const provider = new GithubProvider();
+  const provider = new GithubProvider(config);
   const repository = await provider.createRepo('arlac77/test-repo-1');
   t.is(repository.name, 'arlac77/test-repo-1');
 });
@@ -46,9 +46,8 @@ test('provider unreachable host', async t => {
 
 test('provider rate limit', async t => {
   const provider = new GithubProvider(config);
-
-  const rl = await provider.rateLimit();
-  t.is(rl.resources.core.limit, 5000);
+  const limit = await provider.rateLimit();
+  t.deepEqual(limit, { remaining: 5000 });
 });
 
 test('provider set rateLimitReached', async t => {
