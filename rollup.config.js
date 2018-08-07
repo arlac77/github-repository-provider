@@ -1,3 +1,4 @@
+import cleanup from 'rollup-plugin-cleanup';
 import executable from 'rollup-plugin-executable';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
@@ -11,5 +12,5 @@ export default {
     interop: false
   },
   external: ['repository-provider', 'url', 'https'],
-  plugins: [resolve(), commonjs()]
+  plugins: [resolve(), commonjs(), cleanup()]
 };
