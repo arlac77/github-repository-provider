@@ -1,21 +1,15 @@
-const GithubGraphQLApi = require('node-github-graphql');
 
-async function test() {
-  const github = new GithubGraphQLApi({
-    token: process.env.GH_TOKEN
-  });
-
-  const login = 'arlac77';
-  const repository = 'npm-template-sync';
-
-  const prs = await getPullRequests(github, login, repository);
-  console.log(JSON.stringify(prs));
-
-  const branches = await getBranches(github, login, repository);
-  console.log(branches);
+query {
+  repository(owner:"arlac77", name: "uti") {
+    description
+    primaryLanguage {
+      name
+    }
+    pullRequests(first: 5 ) {
+      nodes { id  author { login} }
+    }
+  }
 }
-
-test();
 
 /*export*/ async function getPullRequests(github, login, repository) {
   const data = await github.query(
