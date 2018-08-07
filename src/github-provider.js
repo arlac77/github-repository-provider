@@ -47,7 +47,7 @@ export class GithubProvider extends Provider {
     super(config);
 
     const gh = new GitHub({
-      token: this.config.token,
+      token: this.config.auth,
       apiUrl: this.config.graphqlApi
     });
     const client = github(this.config);
@@ -57,16 +57,23 @@ export class GithubProvider extends Provider {
       github: { value: gh }
     });
 
-    gh.query(
-      `
-    query {
+    this.rateLimitReached = false;
+  }
+
+  async initialize() {
+    await super.initialize();
+
+    const result = await this.github.query(
+      `query {
     rateLimit {
       remaining
     }
 }`
-    ).then(console.log);
+    );
 
-    this.rateLimitReached = false;
+    this.rateLimitReached = result.rateLimit.remaining == 0;
+
+    console.log(this.rateLimitReached);
   }
 
   get repositoryClass() {
@@ -107,6 +114,8 @@ export class GithubProvider extends Provider {
     if (name === undefined) {
       return undefined;
     }
+
+    await this._initialize();
 
     name = name.replace(/^git(\+(ssh|https))?:\/\/[^\/]+\//, '');
     name = name.replace(this.config.ssh, '');
