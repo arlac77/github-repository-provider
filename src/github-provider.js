@@ -64,6 +64,34 @@ export class GithubProvider extends Provider {
     await super.initialize();
 
     try {
+      /*
+      let result = await this.github.query(`query {
+  viewer {
+    login
+  }
+}`);
+
+      this.login = viewer.login;
+
+      console.log(this.login);
+
+      result = await this.github.query(
+        `
+    query (
+      $username: String!
+    ) {
+      user(login: $username) {
+        email
+      }
+    }
+  `,
+        {
+          username: login
+        }
+      );
+
+      console.log(result);
+*/
       const rateLimit = await this.rateLimit();
 
       this.rateLimitReached = rateLimit.remaining == 0;
