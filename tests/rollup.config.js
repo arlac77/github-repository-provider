@@ -11,7 +11,7 @@ export default {
     sourcemap: true,
     interop: false
   },
-  external: ['ava', 'repository-provider'],
+  external: ['ava', 'repository-provider', 'url', 'https'],
   plugins: [
     multiEntry(),
     istanbul({
