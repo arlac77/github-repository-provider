@@ -163,8 +163,6 @@ export class GithubProvider extends Provider {
       return undefined;
     }
 
-    console.log(name);
-
     let owner = this;
 
     const m = name.match(/^([^\/]+)\/(.*)/);
