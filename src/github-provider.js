@@ -1,7 +1,8 @@
 import { Provider, Repository, Branch } from 'repository-provider';
 import { GithubRepository } from './github-repository';
 import { GithubBranch } from './github-branch';
-export { GithubRepository, GithubBranch };
+import { GithubOwner } from './github-owner';
+export { GithubRepository, GithubBranch, GithubOwner };
 
 import GitHub from 'github-graphql-api';
 
@@ -64,36 +65,7 @@ export class GithubProvider extends Provider {
     await super.initialize();
 
     try {
-      /*
-      let result = await this.github.query(`query {
-  viewer {
-    login
-  }
-}`);
-
-      this.login = viewer.login;
-
-      console.log(this.login);
-
-      result = await this.github.query(
-        `
-    query (
-      $username: String!
-    ) {
-      user(login: $username) {
-        email
-      }
-    }
-  `,
-        {
-          username: login
-        }
-      );
-
-      console.log(result);
-*/
       const rateLimit = await this.rateLimit();
-
       this.rateLimitReached = rateLimit.remaining == 0;
     } catch (e) {
       this.rateLimitReached = 0;
@@ -108,12 +80,44 @@ export class GithubProvider extends Provider {
     return GithubBranch;
   }
 
+  get repositoryGroupClass() {
+    return GithubOwner;
+  }
+
   /**
    *
    * @return {string} provider url
    */
   get url() {
     return this.config.url;
+  }
+
+  async repositoryGroup(name) {
+    if (name === undefined) {
+      return undefined;
+    }
+
+    let rg = this.repositoryGroups.get(name);
+    if (rg !== undefined) {
+      return rg;
+    }
+
+    const result = await this.github.query(
+      'query($username: String!) { repositoryOwner(login: $username) { login } }',
+      {
+        username: name
+      }
+    );
+
+    //console.log(result);
+
+    if (result !== undefined && result.repositoryOwner !== undefined) {
+      name = result.repositoryOwner.login;
+      rg = new this.repositoryGroupClass(this, name);
+      await rg.initialize();
+      this.repositoryGroups.set(name, rg);
+    }
+    return rg;
   }
 
   /**
@@ -138,22 +142,46 @@ export class GithubProvider extends Provider {
     if (name === undefined) {
       return undefined;
     }
-
     await this._initialize();
 
-    name = name.replace(/^git(\+(ssh|https))?:\/\/[^\/]+\//, '');
+    try {
+      const url = new URL(name);
+      //console.log(url);
+
+      if (url.hostname !== 'github.com') {
+        return undefined;
+      }
+    } catch (e) {}
+
+    name = name.replace(/^(git)?(\+?(ssh|https))?:\/\/[^\/]+\//, '');
     name = name.replace(this.config.ssh, '');
     name = name.replace(this.url, '');
     name = name.replace(/#\w*$/, '');
     name = name.replace(/\.git$/, '');
 
+    if (name.match(/@/)) {
+      return undefined;
+    }
+
+    console.log(name);
+
+    let owner = this;
+
+    const m = name.match(/^([^\/]+)\/(.*)/);
+    if (m) {
+      const rg = await this.repositoryGroup(m[1]);
+      if (rg !== undefined) {
+        owner = rg;
+      }
+    }
+
     let r = this.repositories.get(name);
     if (r === undefined) {
       try {
         const res = await this.client.get(`/repos/${name}`);
-        r = new this.repositoryClass(this, name);
+        r = new this.repositoryClass(owner, name);
         await r.initialize();
-        this.repositories.set(name, r);
+        owner.repositories.set(name, r);
       } catch (e) {
         if (e.statusCode !== 404) {
           throw e;
@@ -250,16 +278,10 @@ export class GithubProvider extends Provider {
 
   /**
    * Query the current rate limit
+   * @return {Object} rate limit (remaining)
    */
   async rateLimit() {
-    const result = await this.github.query(
-      `query {
-    rateLimit {
-      remaining
-    }
-}`
-    );
-
+    const result = await this.github.query('query { rateLimit { remaining } }');
     return result.rateLimit;
   }
 }

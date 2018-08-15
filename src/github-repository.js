@@ -4,16 +4,8 @@ import { Repository } from 'repository-provider';
  * Repository on GitHub
  */
 export class GithubRepository extends Repository {
-  constructor(provider, name) {
-    super(provider, name.replace(/#.*$/, ''));
-  }
-
-  /**
-   * Owner of the repository (first part of the name)
-   * @return {string}
-   */
-  get owner() {
-    return this.name.split(/\//)[0];
+  constructor(owner, name) {
+    super(owner, name.replace(/#.*$/, ''));
   }
 
   /**

@@ -41,7 +41,6 @@ repository provider for github
         -   [Parameters](#parameters-4)
 -   [GithubRepository](#githubrepository)
     -   [Parameters](#parameters-5)
-    -   [owner](#owner)
     -   [condensedName](#condensedname)
     -   [initialize](#initialize)
     -   [urls](#urls)
@@ -54,6 +53,7 @@ repository provider for github
         -   [Parameters](#parameters-7)
     -   [content](#content)
         -   [Parameters](#parameters-8)
+-   [GithubOwner](#githubowner)
 
 ## GithubProvider
 
@@ -118,6 +118,8 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 Query the current rate limit
 
+Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** rate limit (remaining)
+
 ### options
 
 Pepare configuration by mixing together defaultOptions with actual options
@@ -149,14 +151,8 @@ Repository on GitHub
 
 ### Parameters
 
--   `provider`  
+-   `owner`  
 -   `name`  
-
-### owner
-
-Owner of the repository (first part of the name)
-
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### condensedName
 
@@ -214,6 +210,10 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 -   `path`  
 -   `options`   (optional, default `{}`)
+
+## GithubOwner
+
+**Extends RepositoryGroup**
 
 # install
 
