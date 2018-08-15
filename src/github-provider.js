@@ -102,20 +102,28 @@ export class GithubProvider extends Provider {
       return rg;
     }
 
-    const result = await this.github.query(
-      'query($username: String!) { repositoryOwner(login: $username) { login } }',
-      {
-        username: name
+    try {
+      const result = await this.github.query(
+        'query($username: String!) { repositoryOwner(login: $username) { login } }',
+        {
+          username: name
+        }
+      );
+
+      //console.log(result);
+
+      if (result !== undefined && result.repositoryOwner !== undefined) {
+        name = result.repositoryOwner.login;
+        rg = new this.repositoryGroupClass(this, name);
+        await rg.initialize();
+        this.repositoryGroups.set(name, rg);
       }
-    );
-
-    //console.log(result);
-
-    if (result !== undefined && result.repositoryOwner !== undefined) {
-      name = result.repositoryOwner.login;
-      rg = new this.repositoryGroupClass(this, name);
-      await rg.initialize();
-      this.repositoryGroups.set(name, rg);
+    } catch (e) {
+      if (e == 'Unauthorized') {
+      } else {
+        throw e;
+      }
+      //console.log(e);
     }
     return rg;
   }

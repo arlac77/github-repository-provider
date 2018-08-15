@@ -33,7 +33,7 @@ test.skip('provider create repo', async t => {
 
 test('provider unreachable host', async t => {
   try {
-    const provider = new GithubProvider(config);
+    const provider = new GithubProvider();
     const repository = await provider.repository(
       'https://mygit.com/arlac77/sync-test-repository'
     );
@@ -117,7 +117,7 @@ test('provider repo with git+ssh://github.com', async t => {
 });
 
 test('provider repo with git@ unknown', async t => {
-  const provider = new GithubProvider(config);
+  const provider = new GithubProvider();
   const repository = await provider.repository(
     'git@mfelten.de/github-repository-provider.git'
   );
@@ -125,7 +125,7 @@ test('provider repo with git@ unknown', async t => {
 });
 
 test('provider repo with git unknown 2', async t => {
-  const provider = new GithubProvider(config);
+  const provider = new GithubProvider();
   const repository = await provider.repository(
     'http://www.heise.de/index.html'
   );
