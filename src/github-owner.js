@@ -8,23 +8,37 @@ export class GithubOwner extends RepositoryGroup {
     return this.provider.github;
   }
 
+  async _initialize() {
+    await this.fetchAllRepositories();
+  }
+
   async fetchAllRepositories() {
-    const result = await this.github.query(
-      'query($username: String!) { repositoryOwner(login: $username) { repositories(first:10) { totalCount nodes { id name } } } }',
-      {
-        username: this.name
-      }
-    );
+    let result;
 
-    for (const node of result.repositoryOwner.repositories.nodes) {
-      console.log(node);
+    do {
+      const body = `{
+        pageInfo {
+          endCursor
+          hasNextPage }
+        nodes { id name description } } }`;
 
-      const name = `${this.name}/${node.name}`;
-      try {
-        const r = new this.repositoryClass(this, name);
-        await r.initialize();
+      result = await this.github.query(
+        `query($username: String!) { repositoryOwner(login: $username)
+      { repositories(first:100,affiliations:[OWNER])
+        ${body}}`,
+        {
+          username: this.name
+        }
+      );
+
+      for (const node of result.repositoryOwner.repositories.nodes) {
+        //console.log(node);
+
+        const name = `${this.name}/${node.name}`;
+        const r = new this.repositoryClass(this, name, node);
+        //await r.initialize();
         this.repositories.set(name, r);
-      } catch (e) {}
-    }
+      }
+    } while (result.repositoryOwner.repositories.pageInfo.hasNextPage);
   }
 }

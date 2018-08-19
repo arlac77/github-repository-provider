@@ -4,8 +4,16 @@ import { Repository } from 'repository-provider';
  * Repository on GitHub
  */
 export class GithubRepository extends Repository {
-  constructor(owner, name) {
-    super(owner, name.replace(/#.*$/, ''));
+  constructor(owner, name, options) {
+    super(owner, name.replace(/#.*$/, ''), options);
+
+    if (options !== undefined) {
+      if (options.description !== undefined) {
+        Object.defineProperty(this, 'description', {
+          value: options.description
+        });
+      }
+    }
   }
 
   /**

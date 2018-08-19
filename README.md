@@ -153,6 +153,7 @@ Repository on GitHub
 
 -   `owner`  
 -   `name`  
+-   `options`  
 
 ### condensedName
 

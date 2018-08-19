@@ -10,10 +10,9 @@ test('owner with auth', async t => {
   const owner = await provider.repositoryGroup(REPOSITORY_OWNER);
   t.is(owner.name, 'arlac77');
 
-  /*
-  const repo = await owner.repository('github-repository-provider');
-  t.is(repo.name, 'github-repository-provider');
-  */
+  const repo = await owner.repository('arlac77/github-repository-provider');
+  t.is(repo.name, 'arlac77/github-repository-provider');
+  t.is(repo.description, 'repository provider for github');
 });
 
 test('owner without auth', async t => {
