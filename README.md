@@ -42,7 +42,7 @@ repository provider for github
 -   [GithubRepository](#githubrepository)
     -   [Parameters](#parameters-5)
     -   [condensedName](#condensedname)
-    -   [initialize](#initialize)
+    -   [\_initialize](#_initialize)
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
     -   [homePageURL](#homepageurl)
@@ -160,7 +160,7 @@ Name of the repository without owner
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
-### initialize
+### \_initialize
 
 Collect all branches
 

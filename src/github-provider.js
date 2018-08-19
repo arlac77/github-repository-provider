@@ -61,8 +61,8 @@ export class GithubProvider extends Provider {
     this.rateLimitReached = false;
   }
 
-  async initialize() {
-    await super.initialize();
+  async _initialize() {
+    await super._initialize();
 
     try {
       const rateLimit = await this.rateLimit();

@@ -20,8 +20,8 @@ export class GithubRepository extends Repository {
    * Collect all branches
    * @return {Promise}
    */
-  async initialize() {
-    await super.initialize();
+  async _initialize() {
+    await super._initialize();
     const res = await this.client.get(`/repos/${this.name}/branches`);
 
     res.forEach(b => new this.provider.branchClass(this, b.name));

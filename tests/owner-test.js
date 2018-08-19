@@ -9,6 +9,11 @@ test('owner with auth', async t => {
   const provider = new GithubProvider(config);
   const owner = await provider.repositoryGroup(REPOSITORY_OWNER);
   t.is(owner.name, 'arlac77');
+
+  /*
+  const repo = await owner.repository('github-repository-provider');
+  t.is(repo.name, 'github-repository-provider');
+  */
 });
 
 test('owner without auth', async t => {
