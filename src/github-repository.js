@@ -6,14 +6,6 @@ import { Repository } from 'repository-provider';
 export class GithubRepository extends Repository {
   constructor(owner, name, options) {
     super(owner, name.replace(/#.*$/, ''), options);
-
-    if (options !== undefined) {
-      if (options.description !== undefined) {
-        Object.defineProperty(this, 'description', {
-          value: options.description
-        });
-      }
-    }
   }
 
   /**
