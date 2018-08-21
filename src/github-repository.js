@@ -6,10 +6,6 @@ import { GithubMixin } from "./github-mixin";
  */
 
 export class GithubRepository extends GithubMixin(Repository) {
-  constructor(owner, name, options) {
-    super(owner, name.replace(/#.*$/, ""), options);
-  }
-
   /**
    * Name of the repository without owner
    * @return {string}
