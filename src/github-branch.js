@@ -1,31 +1,28 @@
-import { Branch, Content } from 'repository-provider';
+import { Branch, Content } from "repository-provider";
+import { GithubMixin } from "./github-mixin";
 
 /**
  * Branch on GitHub
  */
-export class GithubBranch extends Branch {
-  get client() {
-    return this.provider.client;
-  }
-
+export class GithubBranch extends GithubMixin(Branch) {
   /**
    * @param {Content} blob
    * @return {Object}
    */
   async writeBlob(blob) {
     try {
-      const path = blob.path.replace(/\\/g, '/').replace(/^\//, '');
-      const mode = blob.mode || '100644';
-      const type = blob.type || 'blob';
+      const path = blob.path.replace(/\\/g, "/").replace(/^\//, "");
+      const mode = blob.mode || "100644";
+      const type = blob.type || "blob";
 
       const res = await this.client.post(
         `/repos/${this.repository.name}/git/blobs`,
         {
           content:
-            typeof blob.content === 'string'
+            typeof blob.content === "string"
               ? blob.content
-              : blob.content.toString('base64'),
-          encoding: typeof blob.content === 'string' ? 'utf-8' : 'base64'
+              : blob.content.toString("base64"),
+          encoding: typeof blob.content === "string" ? "utf-8" : "base64"
         }
       );
 
@@ -123,22 +120,22 @@ export class GithubBranch extends Branch {
         `/repos/${this.repository.name}/contents/${path}`,
         { ref: this.name }
       );
-      const b = Buffer.from(res.content, 'base64');
+      const b = Buffer.from(res.content, "base64");
       return new Content(path, b.toString());
     } catch (err) {
       await this.provider.checkForApiLimitError(err);
 
       if (options.ignoreMissing) {
-        return new Content(path, '');
+        return new Content(path, "");
       }
       throw err;
     }
   }
 
-  async tree(sha, prefix = '') {
+  async tree(sha, prefix = "") {
     const list = [];
 
-    const t = async (sha, prefix = '') => {
+    const t = async (sha, prefix = "") => {
       const res = await this.client.get(
         `/repos/${this.repository.name}/git/trees/${sha}`
       );
@@ -150,8 +147,8 @@ export class GithubBranch extends Branch {
 
       await Promise.all(
         files
-          .filter(f => f.type === 'tree')
-          .map(dir => t(dir.sha, prefix + dir.path + '/'))
+          .filter(f => f.type === "tree")
+          .map(dir => t(dir.sha, prefix + dir.path + "/"))
       );
     };
 

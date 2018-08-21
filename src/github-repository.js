@@ -4,7 +4,6 @@ import { GithubMixin } from "./github-mixin";
 /**
  * Repository on GitHub
  */
-
 export class GithubRepository extends GithubMixin(Repository) {
   /**
    * Name of the repository without owner

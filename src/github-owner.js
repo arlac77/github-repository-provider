@@ -12,17 +12,16 @@ export class GithubOwner extends GithubMixin(RepositoryGroup) {
   async fetchAllRepositories() {
     let pageInfo;
 
+    const pageInfoGQL = "pageInfo {endCursor hasNextPage}";
+
     do {
-      const body = `{
-        pageInfo {
-          endCursor
-          hasNextPage }
+      const contentGQL = `{${pageInfoGQL}
         nodes { id name description } } }`;
 
       const result = await this.github.query(
         `query($username: String!) { repositoryOwner(login: $username)
       { repositories(first:100,affiliations:[OWNER])
-        ${body}}`,
+        ${contentGQL}}`,
         {
           username: this.name
         }
