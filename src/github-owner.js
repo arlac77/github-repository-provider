@@ -1,19 +1,16 @@
-import { RepositoryGroup } from 'repository-provider';
+import { RepositoryGroup } from "repository-provider";
+import { GithubMixin } from "./github-mixin";
 
 /**
  *
  */
-export class GithubOwner extends RepositoryGroup {
-  get github() {
-    return this.provider.github;
-  }
-
+export class GithubOwner extends GithubMixin(RepositoryGroup) {
   async _initialize() {
     await this.fetchAllRepositories();
   }
 
   async fetchAllRepositories() {
-    let result;
+    let pageInfo;
 
     do {
       const body = `{
@@ -22,7 +19,7 @@ export class GithubOwner extends RepositoryGroup {
           hasNextPage }
         nodes { id name description } } }`;
 
-      result = await this.github.query(
+      const result = await this.github.query(
         `query($username: String!) { repositoryOwner(login: $username)
       { repositories(first:100,affiliations:[OWNER])
         ${body}}`,
@@ -31,14 +28,14 @@ export class GithubOwner extends RepositoryGroup {
         }
       );
 
-      for (const node of result.repositoryOwner.repositories.nodes) {
-        //console.log(node);
+      const repositories = result.repositoryOwner.repositories;
+      pageInfo = repositories.pageInfo;
 
+      for (const node of repositories.nodes) {
         const name = `${this.name}/${node.name}`;
         const r = new this.repositoryClass(this, name, node);
-        //await r.initialize();
         this.repositories.set(name, r);
       }
-    } while (result.repositoryOwner.repositories.pageInfo.hasNextPage);
+    } while (pageInfo.hasNextPage);
   }
 }

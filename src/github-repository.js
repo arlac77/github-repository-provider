@@ -1,11 +1,13 @@
-import { Repository } from 'repository-provider';
+import { Repository } from "repository-provider";
+import { GithubMixin } from "./github-mixin";
 
 /**
  * Repository on GitHub
  */
-export class GithubRepository extends Repository {
+
+export class GithubRepository extends GithubMixin(Repository) {
   constructor(owner, name, options) {
-    super(owner, name.replace(/#.*$/, ''), options);
+    super(owner, name.replace(/#.*$/, ""), options);
   }
 
   /**
@@ -50,15 +52,11 @@ export class GithubRepository extends Repository {
     return `${this.provider.url}${this.name}#readme`;
   }
 
-  get client() {
-    return this.provider.client;
-  }
-
   async createBranch(name, from) {
     try {
       const res = await this.client.get(
         `/repos/${this.name}/git/refs/heads/${
-          from === undefined ? 'master' : from.name
+          from === undefined ? "master" : from.name
         }`
       );
 
