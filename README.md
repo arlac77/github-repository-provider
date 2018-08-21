@@ -40,19 +40,19 @@ repository provider for github
     -   [optionsFromEnvironment](#optionsfromenvironment)
         -   [Parameters](#parameters-4)
 -   [GithubRepository](#githubrepository)
-    -   [Parameters](#parameters-5)
     -   [condensedName](#condensedname)
     -   [\_initialize](#_initialize)
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
     -   [homePageURL](#homepageurl)
+-   [GithubMixin](#githubmixin)
 -   [GithubBranch](#githubbranch)
     -   [writeBlob](#writeblob)
-        -   [Parameters](#parameters-6)
+        -   [Parameters](#parameters-5)
     -   [commit](#commit)
-        -   [Parameters](#parameters-7)
+        -   [Parameters](#parameters-6)
     -   [content](#content)
-        -   [Parameters](#parameters-8)
+        -   [Parameters](#parameters-7)
 -   [GithubOwner](#githubowner)
 
 ## GithubProvider
@@ -145,15 +145,9 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ## GithubRepository
 
-**Extends Repository**
+**Extends GithubMixin(Repository)**
 
 Repository on GitHub
-
-### Parameters
-
--   `owner`  
--   `name`  
--   `options`  
 
 ### condensedName
 
@@ -183,9 +177,13 @@ Deliver the url of the repositories home page.
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
+## GithubMixin
+
+common stuff for all github objects
+
 ## GithubBranch
 
-**Extends Branch**
+**Extends GithubMixin(Branch)**
 
 Branch on GitHub
 
@@ -214,7 +212,7 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ## GithubOwner
 
-**Extends RepositoryGroup**
+**Extends GithubMixin(RepositoryGroup)**
 
 # install
 
