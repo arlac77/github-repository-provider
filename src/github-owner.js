@@ -30,7 +30,7 @@ export class GithubOwner extends GithubMixin(RepositoryGroup) {
       for (const node of repositories.nodes) {
         const name = `${this.name}/${node.name}`;
         const r = new this.repositoryClass(this, name, node);
-        this.repositories.set(name, r);
+        this.repositories.set(r.name, r);
       }
     } while (pageInfo.hasNextPage);
   }
