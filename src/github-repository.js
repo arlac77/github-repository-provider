@@ -13,22 +13,52 @@ export class GithubRepository extends GithubMixin(Repository) {
     return this.name.split(/\//)[1];
   }
 
+  get fullName() {
+    return `${this.owner.name}/${this.name}`;
+  }
+
   /**
    * Collect all branches
    * @return {Promise}
    */
   async _initialize() {
     await super._initialize();
-    const res = await this.client.get(`/repos/${this.name}/branches`);
-
+    const res = await this.client.get(`/repos/${this.fullName}/branches`);
     res.forEach(b => new this.provider.branchClass(this, b.name));
   }
 
+  /*
+  async fetchAllBranches() {
+    let pageInfo = {};
+
+    do {
+      const result = await this.github.query(
+        `query($username: String!,$after: String) { repositoryOwner(login: $username)
+      { repositories(after:$after,first:100,affiliations:[OWNER])
+        {pageInfo {endCursor hasNextPage}
+          nodes { id name description } } }}`,
+        {
+          username: this.name,
+          after: pageInfo.endCursor
+        }
+      );
+
+      const repositories = result.repositoryOwner.repositories;
+      pageInfo = repositories.pageInfo;
+
+      for (const node of repositories.nodes) {
+        const name = `${this.name}/${node.name}`;
+        const repository = new this.repositoryClass(this, name, node);
+        this.repositories.set(repository.name, repository);
+      }
+    } while (pageInfo.hasNextPage);
+  }
+ */
   /**
    * @return {string[]} github https url
    */
   get urls() {
-    return [`${this.provider.url}${this.name}.git`];
+    return [`${this.provider.url}${this.fullName}.git`];
   }
 
   /**
@@ -36,7 +66,7 @@ export class GithubRepository extends GithubMixin(Repository) {
    * @return {string}
    */
   get issuesURL() {
-    return `${this.provider.url}${this.name}/issues`;
+    return `${this.provider.url}${this.fullName}/issues`;
   }
 
   /**
@@ -44,18 +74,18 @@ export class GithubRepository extends GithubMixin(Repository) {
    * @return {string}
    */
   get homePageURL() {
-    return `${this.provider.url}${this.name}#readme`;
+    return `${this.provider.url}${this.fullName}#readme`;
   }
 
   async createBranch(name, from) {
     try {
       const res = await this.client.get(
-        `/repos/${this.name}/git/refs/heads/${
+        `/repos/${this.fullName}/git/refs/heads/${
           from === undefined ? "master" : from.name
         }`
       );
 
-      await this.client.post(`/repos/${this.name}/git/refs`, {
+      await this.client.post(`/repos/${this.fullName}/git/refs`, {
         ref: `refs/heads/${name}`,
         sha: res.object.sha
       });
@@ -68,12 +98,12 @@ export class GithubRepository extends GithubMixin(Repository) {
   }
 
   async deleteBranch(name) {
-    await this.client.delete(`/repos/${this.name}/git/refs/heads/${name}`);
+    await this.client.delete(`/repos/${this.fullName}/git/refs/heads/${name}`);
     return super.deleteBranch(name);
   }
 
   async pullRequests() {
-    const res = await this.client.get(`/repos/${this.name}/pulls`);
+    const res = await this.client.get(`/repos/${this.fullName}/pulls`);
 
     res.forEach(b => {
       /*
@@ -94,7 +124,9 @@ export class GithubRepository extends GithubMixin(Repository) {
   }
 
   async deletePullRequest(name) {
-    const res = await this.client.delete(`/repos/${this.name}/pull/${name}`);
+    const res = await this.client.delete(
+      `/repos/${this.fullName}/pull/${name}`
+    );
     console.log(res);
 
     this._pullRequests.delete(name);

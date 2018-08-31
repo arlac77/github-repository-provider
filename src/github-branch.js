@@ -16,7 +16,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       const type = blob.type || "blob";
 
       const res = await this.client.post(
-        `/repos/${this.repository.name}/git/blobs`,
+        `/repos/${this.repository.fullName}/git/blobs`,
         {
           content:
             typeof blob.content === "string"
@@ -41,7 +41,7 @@ export class GithubBranch extends GithubMixin(Branch) {
   async createPullRequest(to, msg) {
     try {
       const result = await this.client.post(
-        `/repos/${this.repository.name}/pulls`,
+        `/repos/${this.repository.fullName}/pulls`,
         {
           title: msg.title,
           body: msg.body,
@@ -59,14 +59,14 @@ export class GithubBranch extends GithubMixin(Branch) {
 
   async latestCommitSha() {
     const res = await this.client.get(
-      `/repos/${this.repository.name}/git/refs/heads/${this.name}`
+      `/repos/${this.repository.fullName}/git/refs/heads/${this.name}`
     );
     return res.object.sha;
   }
 
   async baseTreeSha(commitSha) {
     const res = await this.client.get(
-      `/repos/${this.repository.name}/commits/${commitSha}`
+      `/repos/${this.repository.fullName}/commits/${commitSha}`
     );
 
     return res.commit.tree.sha;
@@ -80,7 +80,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       const shaLatestCommit = await this.latestCommitSha();
       const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
       let res = await this.client.post(
-        `/repos/${this.repository.name}/git/trees`,
+        `/repos/${this.repository.fullName}/git/trees`,
         {
           tree: updates,
           base_tree: shaBaseTree
@@ -89,7 +89,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       const shaNewTree = res.sha;
 
       res = await this.client.post(
-        `/repos/${this.repository.name}/git/commits`,
+        `/repos/${this.repository.fullName}/git/commits`,
         {
           message,
           tree: shaNewTree,
@@ -99,7 +99,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       const shaNewCommit = res.sha;
 
       res = await this.client.patch(
-        `/repos/${this.repository.name}/git/refs/heads/${this.name}`,
+        `/repos/${this.repository.fullName}/git/refs/heads/${this.name}`,
         {
           sha: shaNewCommit,
           force: options.force || false
@@ -117,7 +117,7 @@ export class GithubBranch extends GithubMixin(Branch) {
   async content(path, options = {}) {
     try {
       const res = await this.client.get(
-        `/repos/${this.repository.name}/contents/${path}`,
+        `/repos/${this.repository.fullName}/contents/${path}`,
         { ref: this.name }
       );
       const b = Buffer.from(res.content, "base64");
@@ -137,7 +137,7 @@ export class GithubBranch extends GithubMixin(Branch) {
 
     const t = async (sha, prefix = "") => {
       const res = await this.client.get(
-        `/repos/${this.repository.name}/git/trees/${sha}`
+        `/repos/${this.repository.fullName}/git/trees/${sha}`
       );
       const files = res.tree;
 

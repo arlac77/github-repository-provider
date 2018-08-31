@@ -8,11 +8,12 @@ const config = GithubProvider.optionsFromEnvironment(process.env);
 test("owner with auth", async t => {
   const provider = new GithubProvider(config);
   const owner = await provider.repositoryGroup(REPOSITORY_OWNER);
-  t.is(owner.name, "arlac77");
+  t.is(owner.name, REPOSITORY_OWNER);
 
-  const repo = await owner.repository("arlac77/github-repository-provider");
-  t.is(repo.name, "arlac77/github-repository-provider");
-  t.is(repo.description, "repository provider for github");
+  const repo = await owner.repository("github-repository-provider");
+  t.is(repo.name, "github-repository-provider");
+  t.is(repo.fullName, "arlac77/github-repository-provider");
+  //  t.is(repo.description, "repository provider for github");
   t.true(owner.repositories.size > 25);
 });
 

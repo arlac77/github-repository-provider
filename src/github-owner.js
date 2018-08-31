@@ -5,6 +5,10 @@ import { GithubMixin } from "./github-mixin";
  *
  */
 export class GithubOwner extends GithubMixin(RepositoryGroup) {
+  get repositoryClass() {
+    return this.provider.repositoryClass;
+  }
+
   async _initialize() {
     await this.fetchAllRepositories();
   }
@@ -28,8 +32,7 @@ export class GithubOwner extends GithubMixin(RepositoryGroup) {
       pageInfo = repositories.pageInfo;
 
       for (const node of repositories.nodes) {
-        const name = `${this.name}/${node.name}`;
-        const repository = new this.repositoryClass(this, name, node);
+        const repository = new this.repositoryClass(this, node.name, node);
         this.repositories.set(repository.name, repository);
       }
     } while (pageInfo.hasNextPage);

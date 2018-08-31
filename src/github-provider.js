@@ -1,12 +1,12 @@
-import { Provider, Repository, Branch } from 'repository-provider';
-import { GithubRepository } from './github-repository';
-import { GithubBranch } from './github-branch';
-import { GithubOwner } from './github-owner';
+import { Provider, Repository, Branch } from "repository-provider";
+import { GithubRepository } from "./github-repository";
+import { GithubBranch } from "./github-branch";
+import { GithubOwner } from "./github-owner";
 export { GithubRepository, GithubBranch, GithubOwner };
 
-import GitHub from 'github-graphql-api';
+import GitHub from "github-graphql-api";
 
-const github = require('github-basic');
+const github = require("github-basic");
 
 /**
  * GitHub provider
@@ -23,10 +23,10 @@ export class GithubProvider extends Provider {
   static options(config) {
     return Object.assign(
       {
-        ssh: 'git@github.com:',
-        url: 'https://github.com/',
+        ssh: "git@github.com:",
+        url: "https://github.com/",
         version: 3,
-        graphqlApi: 'https://api.github.com/graphql'
+        graphqlApi: "https://api.github.com/graphql"
       },
       config
     );
@@ -104,7 +104,7 @@ export class GithubProvider extends Provider {
 
     try {
       const result = await this.github.query(
-        'query($username: String!) { repositoryOwner(login: $username) { login } }',
+        "query($username: String!) { repositoryOwner(login: $username) { login } }",
         {
           username: name
         }
@@ -119,7 +119,7 @@ export class GithubProvider extends Provider {
         this.repositoryGroups.set(name, rg);
       }
     } catch (e) {
-      if (e == 'Unauthorized') {
+      if (e == "Unauthorized") {
       } else {
         throw e;
       }
@@ -154,18 +154,17 @@ export class GithubProvider extends Provider {
 
     try {
       const url = new URL(name);
-      //console.log(url);
 
-      if (url.hostname !== 'github.com') {
+      if (url.hostname !== "github.com") {
         return undefined;
       }
     } catch (e) {}
 
-    name = name.replace(/^(git)?(\+?(ssh|https))?:\/\/[^\/]+\//, '');
-    name = name.replace(this.config.ssh, '');
-    name = name.replace(this.url, '');
-    name = name.replace(/#\w*$/, '');
-    name = name.replace(/\.git$/, '');
+    name = name.replace(/^(git)?(\+?(ssh|https))?:\/\/[^\/]+\//, "");
+    name = name.replace(this.config.ssh, "");
+    name = name.replace(this.url, "");
+    name = name.replace(/#[\w\-]*$/, "");
+    name = name.replace(/\.git$/, "");
 
     if (name.match(/@/)) {
       return undefined;
@@ -178,24 +177,15 @@ export class GithubProvider extends Provider {
       const rg = await this.repositoryGroup(m[1]);
       if (rg !== undefined) {
         owner = rg;
-      }
-    }
 
-    let r = this.repositories.get(name);
-    if (r === undefined) {
-      try {
-        const res = await this.client.get(`/repos/${name}`);
-        r = new this.repositoryClass(owner, name);
-        await r.initialize();
-        owner.repositories.set(name, r);
-      } catch (e) {
-        if (e.statusCode !== 404) {
-          throw e;
+        const repository = await owner.repository(m[2]);
+        if (repository !== undefined) {
+          return repository;
         }
       }
     }
 
-    return r;
+    return undefined;
   }
 
   set rateLimitReached(value) {
@@ -259,16 +249,16 @@ export class GithubProvider extends Provider {
 
     if (
       err.message !== undefined &&
-      (err.message.indexOf('API rate limit exceeded') >= 0 ||
+      (err.message.indexOf("API rate limit exceeded") >= 0 ||
         err.message.indexOf(
-          'You have triggered an abuse detection mechanism'
+          "You have triggered an abuse detection mechanism"
         ) >= 0)
     ) {
       this.rateLimitReached = true;
     }
 
     if (err.headers) {
-      if (err.headers['x-ratelimit-remaining'] == 0) {
+      if (err.headers["x-ratelimit-remaining"] == 0) {
         this.rateLimitReached = true;
       }
     }
@@ -287,7 +277,7 @@ export class GithubProvider extends Provider {
    * @return {Object} rate limit (remaining)
    */
   async rateLimit() {
-    const result = await this.github.query('query { rateLimit { remaining } }');
+    const result = await this.github.query("query { rateLimit { remaining } }");
     return result.rateLimit;
   }
 }
