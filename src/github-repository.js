@@ -5,14 +5,6 @@ import { GithubMixin } from "./github-mixin";
  * Repository on GitHub
  */
 export class GithubRepository extends GithubMixin(Repository) {
-  /**
-   * Name of the repository without owner
-   * @return {string}
-   */
-  get condensedName() {
-    return this.name.split(/\//)[1];
-  }
-
   get fullName() {
     return `${this.owner.name}/${this.name}`;
   }
@@ -23,6 +15,10 @@ export class GithubRepository extends GithubMixin(Repository) {
    */
   async _initialize() {
     await super._initialize();
+    await this.fetchAllBranches();
+  }
+
+  async fetchAllBranches() {
     const res = await this.client.get(`/repos/${this.fullName}/branches`);
     res.forEach(b => new this.provider.branchClass(this, b.name));
   }
