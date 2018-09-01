@@ -18,38 +18,46 @@ export class GithubRepository extends GithubMixin(Repository) {
     await this.fetchAllBranches();
   }
 
-  async fetchAllBranches() {
-    const res = await this.client.get(`/repos/${this.fullName}/branches`);
-    res.forEach(b => new this.provider.branchClass(this, b.name));
-  }
-
   /*
+  async xfetchAllBranches() {
+    const res = await this.client.get(`/repos/${this.fullName}/branches`);
+    res.forEach(b => new this.branchClass(this, b.name));
+  }
+*/
+
   async fetchAllBranches() {
     let pageInfo = {};
 
     do {
       const result = await this.github.query(
-        `query($username: String!,$after: String) { repositoryOwner(login: $username)
-      { repositories(after:$after,first:100,affiliations:[OWNER])
-        {pageInfo {endCursor hasNextPage}
-          nodes { id name description } } }}`,
+        `query($owner:String!,$name:String!,$after: String) {
+  repositoryOwner(login: $owner) {
+    repository(name:$name) {
+        refs(after:$after,first:100,refPrefix:"refs/heads/")
         {
-          username: this.name,
+          pageInfo {endCursor hasNextPage}
+          edges { node { name } }
+        }
+    }
+  }
+}`, // target { oid }
+        {
+          owner: this.owner.name,
+          name: this.name,
           after: pageInfo.endCursor
         }
       );
+      //console.log(JSON.stringify(result, undefined, 2));
 
-      const repositories = result.repositoryOwner.repositories;
-      pageInfo = repositories.pageInfo;
+      const refs = result.repositoryOwner.repository.refs;
+      pageInfo = refs.pageInfo;
 
-      for (const node of repositories.nodes) {
-        const name = `${this.name}/${node.name}`;
-        const repository = new this.repositoryClass(this, name, node);
-        this.repositories.set(repository.name, repository);
+      for (const edge of refs.edges) {
+        const branch = new this.branchClass(this, edge.node.name, edge.node);
       }
     } while (pageInfo.hasNextPage);
   }
- */
+
   /**
    * @return {string[]} github https url
    */

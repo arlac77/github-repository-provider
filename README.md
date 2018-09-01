@@ -40,7 +40,6 @@ repository provider for github
     -   [optionsFromEnvironment](#optionsfromenvironment)
         -   [Parameters](#parameters-4)
 -   [GithubRepository](#githubrepository)
-    -   [condensedName](#condensedname)
     -   [\_initialize](#_initialize)
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
@@ -148,12 +147,6 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 **Extends GithubMixin(Repository)**
 
 Repository on GitHub
-
-### condensedName
-
-Name of the repository without owner
-
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### \_initialize
 
