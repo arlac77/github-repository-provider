@@ -1,16 +1,14 @@
-import test from 'ava';
-import { GithubProvider } from '../src/github-provider';
+import test from "ava";
+import { GithubProvider } from "../src/github-provider";
 
-const REPOSITORY_NAME = 'arlac77/sync-test-repository';
+const REPOSITORY_NAME = "arlac77/sync-test-repository";
 
-const config = {
-  auth: process.env.GH_TOKEN
-};
+const config = GithubProvider.optionsFromEnvironment(process.env);
 
-test('pull requests', async t => {
+test("pull requests", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(
-    REPOSITORY_NAME + '#some-other-branch'
+    REPOSITORY_NAME + "#some-other-branch"
   );
 
   const prs = await repository.pullRequests();
@@ -19,7 +17,7 @@ test('pull requests', async t => {
     t.is(prs.size, 0);
   } else {
     const pr = prs.values().next().value;
-
-    t.is(pr.name.length, 3);
+    t.true(pr.name.length >= 1);
+    t.truthy(pr.title.match(/merge package template/));
   }
 });

@@ -18,13 +18,6 @@ export class GithubRepository extends GithubMixin(Repository) {
     await this.fetchAllBranches();
   }
 
-  /*
-  async xfetchAllBranches() {
-    const res = await this.client.get(`/repos/${this.fullName}/branches`);
-    res.forEach(b => new this.branchClass(this, b.name));
-  }
-*/
-
   async fetchAllBranches() {
     let pageInfo = {};
 
@@ -107,22 +100,38 @@ export class GithubRepository extends GithubMixin(Repository) {
   }
 
   async pullRequests() {
-    const res = await this.client.get(`/repos/${this.fullName}/pulls`);
+    let pageInfo = {};
 
-    res.forEach(b => {
-      /*
-      id: 157670873,
-      number: 267,
-      state: 'open',
-      locked: false,
-      title: 'merge package template from Kronos-Tools/npm-package-template',
-      */
+    do {
+      const result = await this.github.query(
+        `query($username: String!, $repository:String!, $after: String) { repositoryOwner(login: $username)
+      { repository(name:$repository) {
+        pullRequests(after:$after,first:100)
+        {pageInfo {endCursor hasNextPage}
+          edges { node {
+            number
+            title
+            state
+       }}}}}}`,
+        {
+          repository: this.name,
+          username: this.owner.name,
+          after: pageInfo.endCursor
+        }
+      );
 
-      const pr = new this.provider.pullRequestClass(this, String(b.number), {
-        title: b.title,
-        state: b.state
-      });
-    });
+      const pullRequests = result.repositoryOwner.repository.pullRequests;
+      pageInfo = pullRequests.pageInfo;
+
+      for (const edge of pullRequests.edges) {
+        const pr = new this./*provider.*/ pullRequestClass(
+          this,
+          String(edge.node.number),
+          edge.node
+        );
+        this._pullRequests.set(pr.name, pr);
+      }
+    } while (pageInfo.hasNextPage);
 
     return this._pullRequests;
   }
