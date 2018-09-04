@@ -124,7 +124,7 @@ export class GithubRepository extends GithubMixin(Repository) {
       pageInfo = pullRequests.pageInfo;
 
       for (const edge of pullRequests.edges) {
-        const pr = new this./*provider.*/ pullRequestClass(
+        const pr = new this.pullRequestClass(
           this,
           String(edge.node.number),
           edge.node
