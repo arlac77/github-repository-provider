@@ -33,7 +33,7 @@ export class GithubBranch extends GithubMixin(Branch) {
         sha: res.sha
       };
     } catch (err) {
-      await this.provider.checkForApiLimitError(err);
+      await this.checkForApiLimitError(err);
       throw err;
     }
   }
@@ -52,7 +52,7 @@ export class GithubBranch extends GithubMixin(Branch) {
 
       return new this.provider.pullRequestClass(this.repository, result.number);
     } catch (err) {
-      await this.provider.checkForApiLimitError(err);
+      await this.checkForApiLimitError(err);
       throw err;
     }
   }
@@ -108,7 +108,7 @@ export class GithubBranch extends GithubMixin(Branch) {
 
       return res;
     } catch (err) {
-      await this.provider.checkForApiLimitError(err);
+      await this.checkForApiLimitError(err);
       throw err;
     }
   }
@@ -128,7 +128,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       const b = Buffer.from(res.data.content, "base64");
       return new Content(path, b.toString());
     } catch (err) {
-      await this.provider.checkForApiLimitError(err);
+      await this.checkForApiLimitError(err);
 
       if (options.ignoreMissing) {
         return new Content(path, "");
@@ -167,7 +167,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       const shaBaseTree = await this.baseTreeSha(await this.latestCommitSha());
       return this.tree(shaBaseTree);
     } catch (err) {
-      await this.provider.checkForApiLimitError(err);
+      await this.checkForApiLimitError(err);
       throw err;
     }
   }

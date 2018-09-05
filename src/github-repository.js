@@ -91,7 +91,7 @@ export class GithubRepository extends GithubMixin(Repository) {
 
       return new this.branchClass(this, name);
     } catch (err) {
-      await this.provider.checkForApiLimitError(err);
+      await this.checkForApiLimitError(err);
       throw err;
     }
   }
