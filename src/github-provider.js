@@ -6,8 +6,13 @@ export { GithubRepository, GithubBranch, GithubOwner };
 
 import GitHub from "github-graphql-api";
 
+<<<<<<< HEAD
 const github = require("github-basic");
 const octokit = require("@octokit/rest");
+=======
+const github = require('github-basic');
+const octokit = require('@octokit/rest');
+>>>>>>> 4b7d3d8939847a82464f0e9c3a6771b332dd27f9
 
 /**
  * GitHub provider
@@ -75,6 +80,8 @@ export class GithubProvider extends Provider {
     });
 
     this.rateLimitReached = false;
+
+    this.octokit = octokit();
   }
 
   get repositoryClass() {
