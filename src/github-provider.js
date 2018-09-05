@@ -57,14 +57,7 @@ export class GithubProvider extends Provider {
 
     const oc = octokit();
 
-    oc.authenticate(
-      this
-        .config /*{
-      type: "basic",
-      username: "yourusername",
-      password: "password"
-    }*/
-    );
+    oc.authenticate(this.config);
 
     const client = github(this.config);
 
