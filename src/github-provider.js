@@ -265,6 +265,17 @@ export class GithubProvider extends Provider {
     return this.rateLimitReached;
   }
 
+   async _initialize() {		
+     await super._initialize();		
+		
+     try {		
+       const rateLimit = await this.rateLimit();		
+       this.rateLimitReached = rateLimit.remaining == 0;		
+     } catch (e) {		
+       this.rateLimitReached = 0;		
+     }		
+   }
+  
   /**
    * Query the current rate limit
    * @return {Object} rate limit (remaining)
