@@ -95,7 +95,16 @@ export class GithubRepository extends GithubMixin(Repository) {
   }
 
   async deleteBranch(name) {
-    await this.client.delete(`/repos/${this.fullName}/git/refs/heads/${name}`);
+    console.log(`*********`);
+    const o = {
+      owner: this.owner.name,
+      repo: this.name,
+      ref: `refs/branches/${name}`
+    };
+    console.log(o);
+    const result = await this.octokit.gitdata.deleteReference(o);
+    console.log(result);
+    //await this.client.delete(`/repos/${this.fullName}/git/refs/heads/${name}`);
     return super.deleteBranch(name);
   }
 

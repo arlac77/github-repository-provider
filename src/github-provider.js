@@ -42,26 +42,39 @@ export class GithubProvider extends Provider {
    */
   static optionsFromEnvironment(env) {
     const token = env.GH_TOKEN || env.GITHUB_TOKEN;
-    return token === undefined ? undefined : { auth: token };
+    return token === undefined
+      ? undefined
+      : { type: "token", token: token, auth: token };
   }
 
   constructor(config) {
     super(config);
 
     const gh = new GitHub({
-      token: this.config.auth,
+      token: this.config.token,
       apiUrl: this.config.graphqlApi
     });
+
+    const oc = octokit();
+
+    oc.authenticate(
+      this
+        .config /*{
+      type: "basic",
+      username: "yourusername",
+      password: "password"
+    }*/
+    );
+
     const client = github(this.config);
 
     Object.defineProperties(this, {
       client: { value: client },
-      github: { value: gh }
+      github: { value: gh },
+      octokit: { value: oc }
     });
 
     this.rateLimitReached = false;
-
-    this.octokit = octokit();
   }
 
   get repositoryClass() {
