@@ -6,13 +6,8 @@ export { GithubRepository, GithubBranch, GithubOwner };
 
 import GitHub from "github-graphql-api";
 
-<<<<<<< HEAD
 const github = require("github-basic");
 const octokit = require("@octokit/rest");
-=======
-const github = require('github-basic');
-const octokit = require('@octokit/rest');
->>>>>>> 4b7d3d8939847a82464f0e9c3a6771b332dd27f9
 
 /**
  * GitHub provider
@@ -80,8 +75,6 @@ export class GithubProvider extends Provider {
     });
 
     this.rateLimitReached = false;
-
-    this.octokit = octokit();
   }
 
   get repositoryClass() {
@@ -177,24 +170,17 @@ export class GithubProvider extends Provider {
       return undefined;
     }
 
-    name = name.replace(this.config.ssh, "");
-    name = name.replace(this.url, "");
-    name = name.replace(/#\w*$/, "");
-    name = name.replace(/\.git$/, "");
-    name = name.replace(/^git(\+ssh)?:\/\/[^\/]+\//, "");
+    let owner = this;
 
-    let r = this.repositories.get(name);
-    if (r === undefined) {
-      try {
-        const [owner, repo] = name.split(/\//);
+    const m = name.match(/^([^\/]+)\/(.*)/);
+    if (m) {
+      const rg = await this.repositoryGroup(m[1]);
+      if (rg !== undefined) {
+        owner = rg;
 
-        const res = await this.octokit.repos.get({ owner, repo });
-        r = new this.repositoryClass(this, name);
-        await r.initialize(res);
-        this.repositories.set(name, r);
-      } catch (e) {
-        if (e.statusCode !== 404) {
-          throw e;
+        const repository = await owner.repository(m[2]);
+        if (repository !== undefined) {
+          return repository;
         }
       }
     }
