@@ -116,11 +116,16 @@ export class GithubBranch extends GithubMixin(Branch) {
   /** @inheritdoc */
   async content(path, options = {}) {
     try {
-      const res = await this.client.get(
-        `/repos/${this.repository.fullName}/contents/${path}`,
-        { ref: this.name }
-      );
-      const b = Buffer.from(res.content, "base64");
+      //const res = await this.octokit.gitdata.getBlob({owner:this.owner.name, repo:this.repository.name, file_sha});
+
+      const res = await this.octokit.repos.getContent({
+        owner: this.owner.name,
+        repo: this.repository.name,
+        path,
+        ref: `refs/heads/${this.name}`
+      });
+
+      const b = Buffer.from(res.data.content, "base64");
       return new Content(path, b.toString());
     } catch (err) {
       await this.provider.checkForApiLimitError(err);

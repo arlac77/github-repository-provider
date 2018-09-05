@@ -74,20 +74,22 @@ export class GithubRepository extends GithubMixin(Repository) {
     return `${this.provider.url}${this.fullName}#readme`;
   }
 
-  async createBranch(name, from) {
+  async createBranch(name, from /*= this.defaultBranch*/) {
     try {
-      const res = await this.client.get(
-        `/repos/${this.fullName}/git/refs/heads/${
-          from === undefined ? "master" : from.name
-        }`
-      );
-
-      await this.client.post(`/repos/${this.fullName}/git/refs`, {
-        ref: `refs/heads/${name}`,
-        sha: res.object.sha
+      const res = await this.octokit.gitdata.getReference({
+        owner: this.owner.name,
+        repo: this.name,
+        ref: `heads/${from === undefined ? "master" : from.name}`
       });
 
-      return new this.provider.branchClass(this, name);
+      await this.octokit.gitdata.createReference({
+        owner: this.owner.name,
+        repo: this.name,
+        ref: `refs/heads/${name}`,
+        sha: res.data.object.sha // res.object.sha
+      });
+
+      return new this.branchClass(this, name);
     } catch (err) {
       await this.provider.checkForApiLimitError(err);
       throw err;
@@ -95,7 +97,11 @@ export class GithubRepository extends GithubMixin(Repository) {
   }
 
   async deleteBranch(name) {
-    await this.client.delete(`/repos/${this.fullName}/git/refs/heads/${name}`);
+    await this.octokit.gitdata.deleteReference({
+      owner: this.owner.name,
+      repo: this.name,
+      ref: `heads/${name}`
+    });
     return super.deleteBranch(name);
   }
 

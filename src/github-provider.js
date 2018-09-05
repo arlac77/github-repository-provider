@@ -7,6 +7,7 @@ export { GithubRepository, GithubBranch, GithubOwner };
 import GitHub from "github-graphql-api";
 
 const github = require("github-basic");
+const octokit = require("@octokit/rest");
 
 /**
  * GitHub provider
@@ -41,35 +42,34 @@ export class GithubProvider extends Provider {
    */
   static optionsFromEnvironment(env) {
     const token = env.GH_TOKEN || env.GITHUB_TOKEN;
-    return token === undefined ? undefined : { auth: token };
+    return token === undefined
+      ? undefined
+      : { type: "token", token: token, auth: token };
   }
 
   constructor(config) {
     super(config);
 
     const gh = new GitHub({
-      token: this.config.auth,
+      token: this.config.token,
       apiUrl: this.config.graphqlApi
     });
+
+    const oc = octokit();
+
+    if (this.config.type) {
+      oc.authenticate(this.config);
+    }
+
     const client = github(this.config);
 
     Object.defineProperties(this, {
       client: { value: client },
-      github: { value: gh }
+      github: { value: gh },
+      octokit: { value: oc }
     });
 
     this.rateLimitReached = false;
-  }
-
-  async _initialize() {
-    await super._initialize();
-
-    try {
-      const rateLimit = await this.rateLimit();
-      this.rateLimitReached = rateLimit.remaining == 0;
-    } catch (e) {
-      this.rateLimitReached = 0;
-    }
   }
 
   get repositoryClass() {
@@ -265,6 +265,17 @@ export class GithubProvider extends Provider {
     }*/
 
     return this.rateLimitReached;
+  }
+
+  async _initialize() {
+    await super._initialize();
+
+    try {
+      const rateLimit = await this.rateLimit();
+      this.rateLimitReached = rateLimit.remaining == 0;
+    } catch (e) {
+      this.rateLimitReached = 0;
+    }
   }
 
   /**
