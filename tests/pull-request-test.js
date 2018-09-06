@@ -46,7 +46,16 @@ test("pull requests create merge", async t => {
 
   t.is(pr.title, "title");
   t.is(pr.body, "body");
-  t.is((await pr.merge()).merged, true);
+
+  try {
+    const result = await pr.merge();
+    t.is(result.merged, true);
+  } catch (error) {
+    t.is(
+      error.message.message,
+      "Base branch was modified. Review and try the merge again."
+    );
+  }
 
   //await repository.deleteBranch(branch);
 });
