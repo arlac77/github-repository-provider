@@ -86,7 +86,7 @@ export class GithubRepository extends GithubMixin(Repository) {
         owner: this.owner.name,
         repo: this.name,
         ref: `refs/heads/${name}`,
-        sha: res.data.object.sha // res.object.sha
+        sha: res.data.object.sha
       });
 
       return new this.branchClass(this, name);
