@@ -51,6 +51,7 @@ test("pull requests create merge", async t => {
     const result = await pr.merge();
     t.is(result.merged, true);
   } catch (error) {
+    console.log(JSON.stringify(error));
     t.is(
       error.message.message,
       "Base branch was modified. Review and try the merge again."
