@@ -1,6 +1,9 @@
 import { PullRequest } from "repository-provider";
 import { GithubMixin } from "./github-mixin";
 
+/**
+ * Github pull request
+ */
 export class GithubPullRequest extends GithubMixin(PullRequest) {
   /**
    * @see https://octokit.github.io/rest.js/#api-PullRequests-merge
