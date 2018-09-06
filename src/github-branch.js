@@ -38,19 +38,38 @@ export class GithubBranch extends GithubMixin(Branch) {
     }
   }
 
+  /**
+   * @see https://octokit.github.io/rest.js/#api-PullRequests-create
+   */
   async createPullRequest(to, msg) {
     try {
+      /*
+      const result = await this.octokit.pullRequests.create({
+        owner: this.owner.name,
+        repo: this.repository,
+        head: to.name,
+        base: this.name,
+        title: msg.title,
+        body: msg.body
+      });
+*/
+
+      const prOptions = {
+        title: msg.title,
+        body: msg.body,
+        base: this.name,
+        head: to.name
+      };
+
       const result = await this.client.post(
         `/repos/${this.repository.fullName}/pulls`,
-        {
-          title: msg.title,
-          body: msg.body,
-          base: this.name,
-          head: to.name
-        }
+        prOptions
       );
-
-      return new this.provider.pullRequestClass(this.repository, result.number);
+      return new this.pullRequestClass(
+        this.repository,
+        result.number,
+        prOptions
+      );
     } catch (err) {
       await this.checkForApiLimitError(err);
       throw err;

@@ -5,7 +5,7 @@ const REPOSITORY_NAME = "arlac77/sync-test-repository";
 
 const config = GithubProvider.optionsFromEnvironment(process.env);
 
-test("pull requests", async t => {
+test("pull requests list", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(
     REPOSITORY_NAME + "#some-other-branch"
@@ -20,4 +20,33 @@ test("pull requests", async t => {
     t.true(pr.name.length >= 1);
     t.truthy(pr.title.match(/merge package template/));
   }
+});
+
+test("pull requests create merge", async t => {
+  const provider = new GithubProvider(config);
+  const repository = await provider.repository(REPOSITORY_NAME);
+  const branches = await repository.branches();
+
+  const newName = `pr-test-${branches.size}`;
+  const branch = await repository.createBranch(newName);
+
+  const commit = await branch.commit("message text", [
+    {
+      path: `README.md`,
+      content: `file content #${branches.size}`
+    }
+  ]);
+
+  const defaultBranch = await repository.defaultBranch;
+
+  const pr = await defaultBranch.createPullRequest(branch, {
+    body: "body",
+    title: "title"
+  });
+
+  t.is(pr.title, "title");
+  t.is(pr.body, "body");
+  t.is((await pr.merge()).merged, true);
+
+  //await repository.deleteBranch(branch);
 });

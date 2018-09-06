@@ -48,11 +48,14 @@ repository provider for github
 -   [GithubBranch](#githubbranch)
     -   [writeBlob](#writeblob)
         -   [Parameters](#parameters-5)
-    -   [commit](#commit)
+    -   [createPullRequest](#createpullrequest)
         -   [Parameters](#parameters-6)
-    -   [content](#content)
+    -   [commit](#commit)
         -   [Parameters](#parameters-7)
+    -   [content](#content)
+        -   [Parameters](#parameters-8)
 -   [GithubOwner](#githubowner)
+-   [merge](#merge)
 
 ## GithubProvider
 
@@ -188,6 +191,15 @@ Branch on GitHub
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
+### createPullRequest
+
+-   **See: <https://octokit.github.io/rest.js/#api-PullRequests-create>**
+
+#### Parameters
+
+-   `to`  
+-   `msg`  
+
 ### commit
 
 #### Parameters
@@ -206,6 +218,10 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 ## GithubOwner
 
 **Extends GithubMixin(RepositoryGroup)**
+
+## merge
+
+-   **See: <https://octokit.github.io/rest.js/#api-PullRequests-merge>**
 
 # install
 

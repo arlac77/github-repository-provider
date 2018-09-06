@@ -2,7 +2,8 @@ import { Provider, Repository, Branch } from "repository-provider";
 import { GithubRepository } from "./github-repository";
 import { GithubBranch } from "./github-branch";
 import { GithubOwner } from "./github-owner";
-export { GithubRepository, GithubBranch, GithubOwner };
+import { GithubPullRequest } from "./github-pull-request";
+export { GithubRepository, GithubBranch, GithubOwner, GithubPullRequest };
 
 import GitHub from "github-graphql-api";
 
@@ -285,5 +286,9 @@ export class GithubProvider extends Provider {
   async rateLimit() {
     const result = await this.github.query("query { rateLimit { remaining } }");
     return result.rateLimit;
+  }
+
+  get pullRequestClass() {
+    return GithubPullRequest;
   }
 }
