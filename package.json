@@ -35,7 +35,7 @@
     "@octokit/rest": "^15.11.1",
     "github-basic": "^6.0.0",
     "github-graphql-api": "^1.0.6",
-    "repository-provider": "^3.8.0"
+    "repository-provider": "^3.8.1"
   },
   "devDependencies": {
     "ava": "^1.0.0-beta.8",
