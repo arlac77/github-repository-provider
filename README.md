@@ -28,7 +28,6 @@ repository provider for github
 -   [GithubProvider](#githubprovider)
     -   [Parameters](#parameters)
     -   [Properties](#properties)
-    -   [url](#url)
     -   [repository](#repository)
         -   [Parameters](#parameters-1)
         -   [Examples](#examples)
@@ -72,10 +71,6 @@ GitHub provider
 
 -   `client` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 -   `rateLimitReached` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
-
-### url
-
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** provider url
 
 ### repository
 

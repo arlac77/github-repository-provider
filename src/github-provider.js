@@ -25,12 +25,20 @@ export class GithubProvider extends Provider {
   static options(config) {
     return Object.assign(
       {
-        ssh: "git@github.com:",
-        url: "https://github.com/",
-        version: 3,
-        graphqlApi: "https://api.github.com/graphql"
+        version: 3
       },
       config
+    );
+  }
+
+  static get defaultOptions() {
+    return Object.assign(
+      {
+        ssh: "git@github.com:",
+        url: "https://github.com/",
+        graphqlApi: "https://api.github.com/graphql"
+      },
+      super.defaultOptions
     );
   }
 
@@ -53,7 +61,7 @@ export class GithubProvider extends Provider {
 
     const gh = new GitHub({
       token: this.config.token,
-      apiUrl: this.config.graphqlApi
+      apiUrl: this.graphqlApi
     });
 
     const oc = octokit();
@@ -83,14 +91,6 @@ export class GithubProvider extends Provider {
 
   get repositoryGroupClass() {
     return GithubOwner;
-  }
-
-  /**
-   *
-   * @return {string} provider url
-   */
-  get url() {
-    return this.config.url;
   }
 
   async repositoryGroup(name) {
@@ -157,7 +157,7 @@ export class GithubProvider extends Provider {
     } catch (e) {}
 
     name = name.replace(/^(git)?(\+?(ssh|https))?:\/\/[^\/]+\//, "");
-    name = name.replace(this.config.ssh, "");
+    name = name.replace(this.ssh, "");
     name = name.replace(this.url, "");
     name = name.replace(/#[\w\-]*$/, "");
     name = name.replace(/\.git$/, "");
