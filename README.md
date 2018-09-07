@@ -43,16 +43,18 @@ repository provider for github
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
     -   [homePageURL](#homepageurl)
+    -   [refId](#refid)
+        -   [Parameters](#parameters-5)
 -   [GithubMixin](#githubmixin)
 -   [GithubBranch](#githubbranch)
     -   [writeBlob](#writeblob)
-        -   [Parameters](#parameters-5)
-    -   [createPullRequest](#createpullrequest)
         -   [Parameters](#parameters-6)
-    -   [commit](#commit)
+    -   [createPullRequest](#createpullrequest)
         -   [Parameters](#parameters-7)
-    -   [content](#content)
+    -   [commit](#commit)
         -   [Parameters](#parameters-8)
+    -   [content](#content)
+        -   [Parameters](#parameters-9)
 -   [GithubOwner](#githubowner)
 -   [GithubPullRequest](#githubpullrequest)
     -   [merge](#merge)
@@ -168,6 +170,14 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 Deliver the url of the repositories home page.
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+### refId
+
+#### Parameters
+
+-   `ref` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
 
 ## GithubMixin
 

@@ -76,13 +76,6 @@ export class GithubBranch extends GithubMixin(Branch) {
     }
   }
 
-  async latestCommitSha() {
-    const res = await this.client.get(
-      `/repos/${this.repository.fullName}/git/refs/heads/${this.name}`
-    );
-    return res.object.sha;
-  }
-
   async baseTreeSha(commitSha) {
     const res = await this.client.get(
       `/repos/${this.repository.fullName}/commits/${commitSha}`
@@ -96,7 +89,7 @@ export class GithubBranch extends GithubMixin(Branch) {
     try {
       const updates = await Promise.all(blobs.map(b => this.writeBlob(b)));
 
-      const shaLatestCommit = await this.latestCommitSha();
+      const shaLatestCommit = await this.refId();
       const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
       let res = await this.client.post(
         `/repos/${this.repository.fullName}/git/trees`,
@@ -141,7 +134,7 @@ export class GithubBranch extends GithubMixin(Branch) {
         owner: this.owner.name,
         repo: this.repository.name,
         path,
-        ref: `refs/heads/${this.name}`
+        ref: this.ref
       });
 
       const b = Buffer.from(res.data.content, "base64");
@@ -183,7 +176,7 @@ export class GithubBranch extends GithubMixin(Branch) {
 
   async list() {
     try {
-      const shaBaseTree = await this.baseTreeSha(await this.latestCommitSha());
+      const shaBaseTree = await this.baseTreeSha(await this.refId());
       return this.tree(shaBaseTree);
     } catch (err) {
       await this.checkForApiLimitError(err);

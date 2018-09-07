@@ -74,6 +74,28 @@ export class GithubRepository extends GithubMixin(Repository) {
     return `${this.provider.url}${this.fullName}#readme`;
   }
 
+  /**
+   *
+   * @param {string} ref
+   * @return {string} sha of the ref
+   */
+  async refId(ref) {
+    const result = await this.github.query(
+      `query($owner:String!,$repository:String!,$ref:String!) {
+      repository(owner:$owner,name:$repository) {
+        ref(qualifiedName:$ref) {
+          target { oid }
+        }}}`,
+      {
+        owner: this.owner.name,
+        repository: this.name,
+        ref
+      }
+    );
+
+    return result.repository.ref.target.oid;
+  }
+
   async createBranch(name, from /*= this.defaultBranch*/) {
     try {
       const res = await this.octokit.gitdata.getReference({
