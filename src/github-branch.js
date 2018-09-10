@@ -152,7 +152,7 @@ export class GithubBranch extends GithubMixin(Branch) {
   async tree(sha, prefix = "") {
     const list = [];
 
-    const t = async (sha, prefix = "") => {
+    const t = async (sha, prefix) => {
       const res = await this.client.get(
         `/repos/${this.repository.fullName}/git/trees/${sha}`
       );
