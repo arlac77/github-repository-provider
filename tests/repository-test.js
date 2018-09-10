@@ -8,7 +8,7 @@ const REPOSITORY_OWNER = "arlac77";
 
 const config = GithubProvider.optionsFromEnvironment(process.env);
 
-test.only("repository refId", async t => {
+test("repository refId", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
 
