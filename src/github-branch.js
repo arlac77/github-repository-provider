@@ -218,10 +218,12 @@ query getOnlyRootFile {
     return list;
   }
 
-  async list() {
+  async *list() {
     try {
       const shaBaseTree = await this.baseTreeSha(await this.refId());
-      return this.tree(shaBaseTree);
+      for (const entry of await this.tree(shaBaseTree)) {
+        yield entry;
+      }
     } catch (err) {
       await this.checkForApiLimitError(err);
       throw err;

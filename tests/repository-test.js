@@ -57,7 +57,10 @@ test("list files", async t => {
   const repository = await provider.repository(REPOSITORY_NAME);
   const branch = await repository.branch("master");
 
-  const files = await branch.list();
+  const files = [];
+  for await (const entry of branch.list()) {
+    files.push(entry);
+  }
 
   t.is(files.find(f => f.path === "README.md").type, "blob");
   t.is(files.find(f => f.path === "tests").type, "tree");
@@ -71,7 +74,10 @@ test("list files2", async t => {
   );
   const branch = await repository.branch("master");
 
-  const files = await branch.list();
+  const files = [];
+  for await (const entry of branch.list()) {
+    files.push(entry);
+  }
 
   const allFiles = new Set(files.map(f => f.path));
 
