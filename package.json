@@ -35,6 +35,7 @@
     "@octokit/rest": "^15.12.0",
     "github-basic": "^6.0.0",
     "github-graphql-api": "^1.0.6",
+    "micromatch": "^3.1.10",
     "repository-provider": "^5.1.2"
   },
   "devDependencies": {

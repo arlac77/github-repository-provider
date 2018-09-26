@@ -12,7 +12,16 @@ export default {
     format: "cjs",
     interop: false
   },
-  external: ["repository-provider", "url", "https"],
+  external: [
+    "repository-provider",
+    "url",
+    "https",
+    "net",
+    "util",
+    "path",
+    "fs",
+    "tty"
+  ],
   plugins: [
     babel({
       runtimeHelpers: false,

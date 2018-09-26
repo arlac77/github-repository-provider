@@ -67,7 +67,7 @@ test("list files", async t => {
   t.is(files.find(f => f.path === "tests/rollup.config.js").type, "blob");
 });
 
-test("list files2", async t => {
+test("list files with pattern", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(
     "arlac77/repository-provider" /*REPOSITORY_NAME*/
@@ -75,13 +75,11 @@ test("list files2", async t => {
   const branch = await repository.branch("master");
 
   const files = [];
-  for await (const entry of branch.list()) {
+  for await (const entry of branch.list(["**/*.json"])) {
     files.push(entry);
   }
 
-  const allFiles = new Set(files.map(f => f.path));
-
-  t.truthy(allFiles.has("tests/rollup.config.js"));
+  t.is(files[0].path, "package.json");
 });
 
 test("content", async t => {

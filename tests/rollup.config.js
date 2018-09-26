@@ -12,7 +12,17 @@ export default {
     sourcemap: true,
     interop: false
   },
-  external: ["ava", "repository-provider", "url", "https"],
+  external: [
+    "ava",
+    "repository-provider",
+    "url",
+    "https",
+    "net",
+    "util",
+    "path",
+    "fs",
+    "tty"
+  ],
   plugins: [
     babel({
       babelrc: false,

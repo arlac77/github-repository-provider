@@ -1,5 +1,6 @@
 import { Branch, Content } from "repository-provider";
 import { GithubMixin } from "./github-mixin";
+import micromatch from "micromatch";
 
 /**
  * Branch on GitHub
@@ -218,11 +219,17 @@ query getOnlyRootFile {
     return list;
   }
 
-  async *list() {
+  async *list(patterns) {
     try {
       const shaBaseTree = await this.baseTreeSha(await this.refId());
       for (const entry of await this.tree(shaBaseTree)) {
-        yield entry;
+        if (patterns === undefined) {
+          yield entry;
+        } else {
+          if (micromatch([entry.path], patterns).length === 1) {
+            yield entry;
+          }
+        }
       }
     } catch (err) {
       await this.checkForApiLimitError(err);
