@@ -12,7 +12,7 @@ export class GithubBranch extends GithubMixin(Branch) {
    */
   async writeBlob(blob) {
     try {
-      const path = blob.path.replace(/\\/g, "/").replace(/^\//, "");
+      const path = blob.path;
       const mode = blob.mode || "100644";
       const type = blob.type || "blob";
 
