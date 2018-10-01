@@ -10,29 +10,28 @@ export class GithubBranch extends GithubMixin(Branch) {
    * @param {Content} blob
    * @return {Object}
    */
-  async writeBlob(blob) {
+  async writeBlob(content) {
     try {
-      const path = blob.path;
-      const mode = blob.mode || "100644";
-      const type = blob.type || "blob";
-
       const res = await this.client.post(
         `/repos/${this.repository.fullName}/git/blobs`,
         {
           content:
-            typeof blob.content === "string"
-              ? blob.content
-              : blob.content.toString("base64"),
-          encoding: typeof blob.content === "string" ? "utf-8" : "base64"
+            typeof content.content === "string"
+              ? content.content
+              : content.content.toString("base64"),
+          encoding: typeof content.content === "string" ? "utf-8" : "base64"
         }
       );
 
-      return {
-        path,
-        mode,
-        type,
+      const r = {
+        path: content.path,
+        mode: content.mode,
+        type: content.type,
         sha: res.sha
       };
+      console.log(r);
+
+      return r;
     } catch (err) {
       await this.checkForApiLimitError(err);
       throw err;
@@ -224,10 +223,10 @@ query getOnlyRootFile {
       const shaBaseTree = await this.baseTreeSha(await this.refId());
       for (const entry of await this.tree(shaBaseTree)) {
         if (patterns === undefined) {
-          yield entry;
+          yield new Content(entry.path, undefined, entry.type, entry.mode);
         } else {
           if (micromatch([entry.path], patterns).length === 1) {
-            yield entry;
+            yield new Content(entry.path, undefined, entry.type, entry.mode);
           }
         }
       }

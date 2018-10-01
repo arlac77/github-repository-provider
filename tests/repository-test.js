@@ -1,4 +1,5 @@
 import test from "ava";
+import { Content } from "repository-provider";
 import { GithubProvider } from "../src/github-provider";
 import { GithubBranch } from "../src/github-branch";
 import { GithubRepository } from "../src/github-repository";
@@ -41,10 +42,7 @@ test("create commit", async t => {
   const branch = await repository.createBranch(newName);
 
   const commit = await branch.commit("message text", [
-    {
-      path: `README.md`,
-      content: `file content #${branches.size}`
-    }
+    new Content("README.md", `file content #${branches.size}`)
   ]);
 
   t.is(commit.ref, `refs/heads/${newName}`);
@@ -62,9 +60,9 @@ test("list files", async t => {
     files.push(entry);
   }
 
-  t.is(files.find(f => f.path === "README.md").type, "blob");
-  t.is(files.find(f => f.path === "tests").type, "tree");
-  t.is(files.find(f => f.path === "tests/rollup.config.js").type, "blob");
+  t.is(files.find(f => f.path === "README.md").isFile, true);
+  t.is(files.find(f => f.path === "tests").isDirectory, true);
+  t.is(files.find(f => f.path === "tests/rollup.config.js").isFile, true);
 });
 
 test("list files with pattern", async t => {
