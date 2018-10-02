@@ -7,10 +7,10 @@ import micromatch from "micromatch";
  */
 export class GithubBranch extends GithubMixin(Branch) {
   /**
-   * @param {Content} blob
+   * @param {Content} content
    * @return {Object}
    */
-  async writeBlob(content) {
+  async writeContent(content) {
     try {
       const res = await this.client.post(
         `/repos/${this.repository.fullName}/git/blobs`,
@@ -22,16 +22,12 @@ export class GithubBranch extends GithubMixin(Branch) {
           encoding: typeof content.content === "string" ? "utf-8" : "base64"
         }
       );
-
-      const r = {
+      return {
         path: content.path,
         mode: content.mode,
         type: content.type,
         sha: res.sha
       };
-      console.log(r);
-
-      return r;
     } catch (err) {
       await this.checkForApiLimitError(err);
       throw err;
@@ -87,7 +83,7 @@ export class GithubBranch extends GithubMixin(Branch) {
   /** @inheritdoc */
   async commit(message, blobs, options = {}) {
     try {
-      const updates = await Promise.all(blobs.map(b => this.writeBlob(b)));
+      const updates = await Promise.all(blobs.map(b => this.writeContent(b)));
 
       const shaLatestCommit = await this.refId();
       const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
