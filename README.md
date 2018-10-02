@@ -45,8 +45,9 @@ repository provider for github
     -   [homePageURL](#homepageurl)
     -   [refId](#refid)
         -   [Parameters](#parameters-5)
+-   [GithubMixin](#githubmixin)
 -   [GithubBranch](#githubbranch)
-    -   [writeBlob](#writeblob)
+    -   [writeContent](#writecontent)
         -   [Parameters](#parameters-6)
     -   [createPullRequest](#createpullrequest)
         -   [Parameters](#parameters-7)
@@ -54,7 +55,6 @@ repository provider for github
         -   [Parameters](#parameters-8)
     -   [content](#content)
         -   [Parameters](#parameters-9)
--   [GithubMixin](#githubmixin)
 -   [GithubOwner](#githubowner)
 -   [GithubPullRequest](#githubpullrequest)
     -   [merge](#merge)
@@ -179,18 +179,21 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
 
+## GithubMixin
+
+common stuff for all github objects
+
 ## GithubBranch
 
 **Extends GithubMixin(Branch)**
 
 Branch on GitHub
 
-### writeBlob
+### writeContent
 
 #### Parameters
 
--   `content`  
--   `blob` **Content** 
+-   `content` **Content** 
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
@@ -217,10 +220,6 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 -   `path`  
 -   `options`   (optional, default `{}`)
-
-## GithubMixin
-
-common stuff for all github objects
 
 ## GithubOwner
 
