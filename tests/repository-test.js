@@ -94,13 +94,5 @@ test("missing content", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
   const branch = await repository.branch("master");
-
-  try {
-    const content = await branch.content("missing/file", {
-      ignoreMissing: true
-    });
-    t.pass();
-  } catch (e) {
-    t.fail(e);
-  }
+  await t.throwsAsync(async () => branch.content("missing/file"), { instanceOf: Error , message: "Not Found" })
 });

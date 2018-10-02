@@ -219,7 +219,6 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 #### Parameters
 
 -   `path`  
--   `options`   (optional, default `{}`)
 
 ## GithubOwner
 
