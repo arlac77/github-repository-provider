@@ -15,11 +15,8 @@ export class GithubBranch extends GithubMixin(Branch) {
       const res = await this.client.post(
         `/repos/${this.repository.fullName}/git/blobs`,
         {
-          content:
-            typeof content.content === "string"
-              ? content.content
-              : content.content.toString("base64"),
-          encoding: typeof content.content === "string" ? "utf-8" : "base64"
+          content: content.toString(),
+          encoding: "utf8"
         }
       );
       return {
