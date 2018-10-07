@@ -12,18 +12,24 @@ export class GithubBranch extends GithubMixin(Branch) {
    */
   async writeContent(content) {
     try {
-      const res = await this.client.post(
-        `/repos/${this.repository.fullName}/git/blobs`,
-        {
-          content: content.toString(),
-          encoding: "utf8"
-        }
-      );
+      const res = await this.octokit.gitdata.createBlob({
+        owner: this.owner.name,
+        repo: this.repository.name,
+        content: content.toString(),
+        encoding: "utf8"
+      });
+
+      /*
+      content = new Content(content.path,undefined);
+      content.sha = res.data.sha;
+      return content;
+      */
+
       return {
         path: content.path,
         mode: content.mode,
         type: content.type,
-        sha: res.sha
+        sha: res.data.sha
       };
     } catch (err) {
       await this.checkForApiLimitError(err);
@@ -39,7 +45,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       /*
       const result = await this.octokit.pullRequests.create({
         owner: this.owner.name,
-        repo: this.repository,
+        repo: this.repository.name,
         head: to.name,
         base: this.name,
         title: msg.title,
@@ -133,7 +139,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       return new Content(path, Buffer.from(res.data.content, "base64"));
     } catch (err) {
       await this.checkForApiLimitError(err);
-      if(err.code === 404) {
+      if (err.code === 404) {
         throw new Error(err.status);
       }
       throw err;
