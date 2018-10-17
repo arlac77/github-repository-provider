@@ -7,7 +7,8 @@ import micromatch from "micromatch";
  */
 export class GithubBranch extends GithubMixin(Branch) {
   /**
-   * @param {Content} content
+   * writes content into the branch
+   * @param {Content[]} content
    * @return {Object}
    */
   async writeContent(content) {
@@ -19,18 +20,9 @@ export class GithubBranch extends GithubMixin(Branch) {
         encoding: "utf8"
       });
 
-      /*
-      content = new Content(content.path,undefined);
       content.sha = res.data.sha;
-      return content;
-      */
 
-      return {
-        path: content.path,
-        mode: content.mode,
-        type: content.type,
-        sha: res.data.sha
-      };
+      return content;
     } catch (err) {
       await this.checkForApiLimitError(err);
       throw err;
@@ -87,7 +79,6 @@ export class GithubBranch extends GithubMixin(Branch) {
   async commit(message, blobs, options = {}) {
     try {
       const updates = await Promise.all(blobs.map(b => this.writeContent(b)));
-
       const shaLatestCommit = await this.refId();
       const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
       let res = await this.client.post(

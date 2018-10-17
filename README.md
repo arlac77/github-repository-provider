@@ -191,9 +191,11 @@ Branch on GitHub
 
 ### writeContent
 
+writes content into the branch
+
 #### Parameters
 
--   `content` **Content** 
+-   `content` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Content>** 
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
