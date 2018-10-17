@@ -9,7 +9,7 @@ export class GithubBranch extends GithubMixin(Branch) {
   /**
    * writes content into the branch
    * @param {Content[]} content
-   * @return {Object}
+   * @return {Promise<Content[]>} written content with sha values set
    */
   async writeContent(content) {
     try {
