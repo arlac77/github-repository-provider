@@ -44,6 +44,9 @@ test("pull requests create merge", async t => {
 
   t.is(pr.title, "title");
   t.is(pr.body, "body");
+  t.true(pr.id !== undefined);
+  t.is(pr.locked, false);
+  t.is(pr.merged, false);
 
   try {
     const result = await pr.merge();

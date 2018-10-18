@@ -34,32 +34,20 @@ export class GithubBranch extends GithubMixin(Branch) {
    */
   async createPullRequest(to, msg) {
     try {
-      /*
-      const result = await this.octokit.pullRequests.create({
+      const options = {
         owner: this.owner.name,
         repo: this.repository.name,
         head: to.name,
         base: this.name,
         title: msg.title,
         body: msg.body
-      });
-*/
-
-      const prOptions = {
-        title: msg.title,
-        body: msg.body,
-        base: this.name,
-        head: to.name
       };
 
-      const result = await this.client.post(
-        `/repos/${this.repository.fullName}/pulls`,
-        prOptions
-      );
+      const result = await this.octokit.pullRequests.create(options);
       return new this.pullRequestClass(
         this.repository,
-        result.number,
-        prOptions
+        result.data.number,
+        Object.assign(options,result.data)
       );
     } catch (err) {
       await this.checkForApiLimitError(err);
