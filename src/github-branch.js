@@ -101,15 +101,14 @@ export class GithubBranch extends GithubMixin(Branch) {
       );
       const shaNewCommit = res.sha;
 
-      res = await this.client.patch(
-        `/repos/${this.repository.fullName}/git/refs/heads/${this.name}`,
-        {
-          sha: shaNewCommit,
-          force: options.force || false
-        }
-      );
-
-      return res;
+      const result = await this.octokit.gitdata.updateReference({
+        owner: this.owner.name,
+        repo: this.repository.name,
+        ref: `heads/${this.name}`,
+        sha: shaNewCommit,
+        force: options.force || false
+      });
+      return result.data;
     } catch (err) {
       await this.checkForApiLimitError(err);
       throw err;
