@@ -70,26 +70,25 @@ export class GithubBranch extends GithubMixin(Branch) {
       const updates = await Promise.all(blobs.map(b => this.writeContent(b)));
       const shaLatestCommit = await this.refId();
       const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
-      let res = await this.client.post(
-        `/repos/${this.repository.fullName}/git/trees`,
-        {
-          tree: updates,
-          base_tree: shaBaseTree
-        }
-      );
-      const shaNewTree = res.sha;
 
-      res = await this.client.post(
-        `/repos/${this.repository.fullName}/git/commits`,
-        {
-          message,
-          tree: shaNewTree,
-          parents: [shaLatestCommit]
-        }
-      );
-      const shaNewCommit = res.sha;
+      let result = await this.octokit.gitdata.createTree({
+        owner: this.owner.name,
+        repo: this.repository.name,
+        tree: updates,
+        base_tree: shaBaseTree
+      });
+      const shaNewTree = result.data.sha;
 
-      const result = await this.octokit.gitdata.updateReference({
+      result = await this.octokit.gitdata.createCommit({
+        owner: this.owner.name,
+        repo: this.repository.name,
+        message,
+        tree: shaNewTree,
+        parents: [shaLatestCommit]
+      });
+      const shaNewCommit = result.data.sha;
+
+      result = await this.octokit.gitdata.updateReference({
         owner: this.owner.name,
         repo: this.repository.name,
         ref: `heads/${this.name}`,
