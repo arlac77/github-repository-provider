@@ -7,10 +7,6 @@ export function GithubMixin(base) {
       return this.provider.github;
     }
 
-    get client() {
-      return this.provider.client;
-    }
-
     get octokit() {
       return this.provider.octokit;
     }

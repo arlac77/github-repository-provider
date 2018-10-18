@@ -7,13 +7,12 @@ export { GithubRepository, GithubBranch, GithubOwner, GithubPullRequest };
 
 import GitHub from "github-graphql-api";
 
-const github = require("github-basic");
 const octokit = require("@octokit/rest");
 
 /**
  * GitHub provider
  *
- * @property {Object} client
+ * @property {Object} octokit
  * @property {boolean} rateLimitReached
  */
 export class GithubProvider extends Provider {
@@ -70,10 +69,7 @@ export class GithubProvider extends Provider {
       oc.authenticate(this.config);
     }
 
-    const client = github(this.config);
-
     Object.defineProperties(this, {
-      client: { value: client },
       github: { value: gh },
       octokit: { value: oc }
     });
