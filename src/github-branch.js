@@ -47,7 +47,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       return new this.pullRequestClass(
         this.repository,
         result.data.number,
-        Object.assign(options,result.data)
+        Object.assign(options, result.data)
       );
     } catch (err) {
       await this.checkForApiLimitError(err);
@@ -173,10 +173,13 @@ query getOnlyRootFile {
     const list = [];
 
     const t = async (sha, prefix) => {
-      const res = await this.client.get(
-        `/repos/${this.repository.fullName}/git/trees/${sha}`
-      );
-      const files = res.tree;
+      const result = await this.octokit.gitdata.getTree({
+        owner: this.owner.name,
+        repo: this.repository.name,
+        tree_sha: sha,
+        recursive: 1
+      });
+      const files = result.data.tree;
 
       files.forEach(f => (f.path = prefix + f.path));
 
