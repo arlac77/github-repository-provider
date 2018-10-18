@@ -68,11 +68,12 @@ export class GithubBranch extends GithubMixin(Branch) {
   }
 
   async baseTreeSha(commitSha) {
-    const res = await this.client.get(
-      `/repos/${this.repository.fullName}/commits/${commitSha}`
-    );
-
-    return res.commit.tree.sha;
+    const result = await this.octokit.gitdata.getCommit({
+      owner: this.owner.name,
+      repo: this.repository.name,
+      commit_sha: commitSha
+    });
+    return result.data.tree.sha;
   }
 
   /** @inheritdoc */
