@@ -165,13 +165,15 @@ export class GithubRepository extends GithubMixin(Repository) {
   }
 
   async deletePullRequest(name) {
-    const res = await this.client.delete(
-      `/repos/${this.fullName}/pull/${name}`
-    );
-    console.log(res);
+    const result = await this.octokit.pullRequests.update({
+      owner: this.owner.name,
+      repo: this.name,
+      number: name,
+      state: "closed"
+    });
 
     this._pullRequests.delete(name);
 
-    return res;
+    return result.data;
   }
 }

@@ -59,5 +59,7 @@ test("pull requests create merge", async t => {
     );
   }
 
+  await pr.delete();
+
   //await repository.deleteBranch(branch);
 });
