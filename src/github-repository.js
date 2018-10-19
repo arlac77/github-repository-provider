@@ -96,7 +96,7 @@ export class GithubRepository extends GithubMixin(Repository) {
     return result.repository.ref.target.oid;
   }
 
-  async createBranch(name, from /*= this.defaultBranch*/) {
+  async _createBranch(name, from, options) {
     try {
       const res = await this.octokit.gitdata.getReference({
         owner: this.owner.name,
@@ -111,7 +111,7 @@ export class GithubRepository extends GithubMixin(Repository) {
         sha: res.data.object.sha
       });
 
-      return new this.branchClass(this, name);
+      return new this.branchClass(this, name, options);
     } catch (err) {
       await this.checkForApiLimitError(err);
       throw err;

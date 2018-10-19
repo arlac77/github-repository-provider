@@ -28,6 +28,9 @@ test("create branch", async t => {
 
   t.is(branch.name, newName);
 
+  const branch2 = await repository.createBranch(newName);
+  t.deepEqual(branch, branch2);
+
   await repository.deleteBranch(newName);
   t.is(branches.get(newName), undefined);
 });

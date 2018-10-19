@@ -34,27 +34,25 @@ repository provider for github
     -   [checkForApiLimitError](#checkforapilimiterror)
         -   [Parameters](#parameters-2)
     -   [rateLimit](#ratelimit)
-    -   [options](#options)
-        -   [Parameters](#parameters-3)
     -   [optionsFromEnvironment](#optionsfromenvironment)
-        -   [Parameters](#parameters-4)
+        -   [Parameters](#parameters-3)
 -   [GithubRepository](#githubrepository)
     -   [\_initialize](#_initialize)
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
     -   [homePageURL](#homepageurl)
     -   [refId](#refid)
-        -   [Parameters](#parameters-5)
--   [GithubMixin](#githubmixin)
+        -   [Parameters](#parameters-4)
 -   [GithubBranch](#githubbranch)
     -   [writeContent](#writecontent)
-        -   [Parameters](#parameters-6)
+        -   [Parameters](#parameters-5)
     -   [createPullRequest](#createpullrequest)
-        -   [Parameters](#parameters-7)
+        -   [Parameters](#parameters-6)
     -   [commit](#commit)
-        -   [Parameters](#parameters-8)
+        -   [Parameters](#parameters-7)
     -   [content](#content)
-        -   [Parameters](#parameters-9)
+        -   [Parameters](#parameters-8)
+-   [GithubMixin](#githubmixin)
 -   [GithubOwner](#githubowner)
 -   [GithubPullRequest](#githubpullrequest)
     -   [merge](#merge)
@@ -120,16 +118,6 @@ Query the current rate limit
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** rate limit (remaining)
 
-### options
-
-Pepare configuration by mixing together defaultOptions with actual options
-
-#### Parameters
-
--   `config` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** raw config
-
-Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** combined options
-
 ### optionsFromEnvironment
 
 provide token from one of
@@ -179,10 +167,6 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
 
-## GithubMixin
-
-common stuff for all github objects
-
 ## GithubBranch
 
 **Extends GithubMixin(Branch)**
@@ -221,6 +205,10 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 #### Parameters
 
 -   `path`  
+
+## GithubMixin
+
+common stuff for all github objects
 
 ## GithubOwner
 
