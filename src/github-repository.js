@@ -101,7 +101,7 @@ export class GithubRepository extends GithubMixin(Repository) {
       const res = await this.octokit.gitdata.getReference({
         owner: this.owner.name,
         repo: this.name,
-        ref: `heads/${from === undefined ? "master" : from.name}`
+        ref: `heads/${from.name}`
       });
 
       await this.octokit.gitdata.createReference({
