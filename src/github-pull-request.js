@@ -11,9 +11,9 @@ title: 'title'
 body: 'body'
 state: 'open'
 number: 431
-locked: false,
+locked: false
+id: 224112772
 
-    id: 224112772,
     node_id: 'MDExOlB1bGxSZXF1ZXN0MjI0MTEyNzcy',
     created_at: '2018-10-18T22:00:45Z',
     updated_at: '2018-10-18T22:00:45Z',
@@ -33,11 +33,15 @@ locked: false,
    */
   async merge() {
     try {
-      return (await this.octokit.pullRequests.merge({
+      const result = await this.octokit.pullRequests.merge({
         owner: this.repository.owner.name,
         repo: this.repository.name,
         number: this.name
-      })).data;
+      });;
+
+      this.merged = result.data.merged;
+
+      return this;      
     } catch (error) {
       if (error.message) {
         error.message = JSON.parse(error.message);
