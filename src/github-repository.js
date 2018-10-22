@@ -140,6 +140,8 @@ export class GithubRepository extends GithubMixin(Repository) {
             number
             title
             state
+            locked
+            merged
        }}}}}}`,
         {
           repository: this.name,

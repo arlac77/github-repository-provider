@@ -20,6 +20,8 @@ test("pull requests list", async t => {
     const pr = prs.values().next().value;
     t.true(pr.name.length >= 1);
     t.truthy(pr.title.match(/merge package template/));
+    t.false(pr.merged);
+    t.false(pr.locked);
   }
 });
 
