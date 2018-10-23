@@ -32,12 +32,12 @@ export class GithubBranch extends GithubMixin(Branch) {
   /**
    * @see https://octokit.github.io/rest.js/#api-PullRequests-create
    */
-  async createPullRequest(to, msg) {
+  async createPullRequest(destination, msg) {
     try {
       const options = {
         owner: this.owner.name,
         repo: this.repository.name,
-        head: to.name,
+        head: destination.name,
         base: this.name,
         title: msg.title,
         body: msg.body
@@ -45,7 +45,8 @@ export class GithubBranch extends GithubMixin(Branch) {
 
       const result = await this.octokit.pullRequests.create(options);
       return new this.pullRequestClass(
-        this.repository,
+        this,
+        destination,
         result.data.number,
         Object.assign(options, result.data)
       );

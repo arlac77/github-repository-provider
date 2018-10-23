@@ -25,7 +25,7 @@ test("pull requests list", async t => {
   }
 });
 
-test("pull requests create merge", async t => {
+test("pull requests create & merge", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
   const branches = await repository.branches();

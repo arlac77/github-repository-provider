@@ -155,7 +155,8 @@ export class GithubRepository extends GithubMixin(Repository) {
 
       for (const edge of pullRequests.edges) {
         const pr = new this.pullRequestClass(
-          this,
+          await this.defaultBranch, // TODO where to take both branches from
+          await this.defaultBranch, // TODO where to take both branches from
           String(edge.node.number),
           edge.node
         );
