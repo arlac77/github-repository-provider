@@ -177,11 +177,6 @@ export class GithubProvider extends Provider {
   /*
 { Error: Server responded with status code 403:
 {"message":"API rate limit exceeded for arlac77.","documentation_url":"https://developer.github.com/v3/#rate-limiting"}
-    at Response.getBody (/usr/local/lib/node_modules/npm-template-sync/node_modules/http-response-object/index.js:34:15)
-    at Client.<anonymous> (/usr/local/lib/node_modules/npm-template-sync/node_modules/github-basic/lib/client.js:116:20)
-    at tryCallOne (/usr/local/lib/node_modules/npm-template-sync/node_modules/promise/lib/core.js:37:12)
-    at /usr/local/lib/node_modules/npm-template-sync/node_modules/promise/lib/core.js:123:15
-    at flush (/usr/local/lib/node_modules/npm-template-sync/node_modules/promise/node_modules/asap/raw.js:50:29)
     at _combinedTickCallback (internal/process/next_tick.js:131:7)
     at process._tickCallback (internal/process/next_tick.js:180:9)
   statusCode: 403,
