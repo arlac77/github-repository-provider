@@ -18,8 +18,10 @@ test("pull requests list", async t => {
     t.is(prs.size, 0);
   } else {
     const pr = prs.values().next().value;
+    t.is(pr.destination, await repository.defaultBranch);
     t.true(pr.name.length >= 1);
     t.truthy(pr.title.match(/merge package template/));
+    t.is(pr.state, 'CLOSED');
     t.false(pr.merged);
     t.false(pr.locked);
   }

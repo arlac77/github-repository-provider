@@ -136,13 +136,14 @@ export class GithubRepository extends GithubMixin(Repository) {
       { repository(name:$repository) {
         pullRequests(after:$after,first:100)
         {pageInfo {endCursor hasNextPage}
-          edges { node {
+          nodes {
             number
             title
             state
             locked
             merged
-       }}}}}}`,
+            baseRefName
+       }}}}}`,
         {
           repository: this.name,
           username: this.owner.name,
@@ -153,12 +154,13 @@ export class GithubRepository extends GithubMixin(Repository) {
       const pullRequests = result.repositoryOwner.repository.pullRequests;
       pageInfo = pullRequests.pageInfo;
 
-      for (const edge of pullRequests.edges) {
+      for (const node of pullRequests.nodes) {
         const pr = new this.pullRequestClass(
+          await this.branch(node.baseRefName),
+          //await this.defaultBranch, // TODO where to take both branches from
           await this.defaultBranch, // TODO where to take both branches from
-          await this.defaultBranch, // TODO where to take both branches from
-          String(edge.node.number),
-          edge.node
+          String(node.number),
+          node
         );
         this._pullRequests.set(pr.name, pr);
       }
