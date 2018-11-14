@@ -66,7 +66,8 @@
     "babel": false,
     "compileEnhancements": false,
     "files": [
-      "tests/*-test.js"
+      "tests/*-test.js",
+      "tests/*-test.mjs"
     ],
     "require": [
       "esm"
