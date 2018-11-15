@@ -71,6 +71,10 @@
     ],
     "require": [
       "esm"
+    ],
+    "extensions": [
+      "js",
+      "mjs"
     ]
   },
   "template": {
