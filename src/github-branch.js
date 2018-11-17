@@ -104,18 +104,18 @@ export class GithubBranch extends GithubMixin(Branch) {
   }
 
   /** @inheritdoc */
-  async content(path) {
+  async content(name) {
     try {
       //const res = await this.octokit.gitdata.getBlob({owner:this.owner.name, repo:this.repository.name, file_sha});
 
       const res = await this.octokit.repos.getContent({
         owner: this.owner.name,
         repo: this.repository.name,
-        path,
+        path: name,
         ref: this.ref
       });
 
-      return new Content(path, Buffer.from(res.data.content, "base64"));
+      return new Content(name, Buffer.from(res.data.content, "base64"));
     } catch (err) {
       await this.checkForApiLimitError(err);
       if (err.code === 404) {
@@ -181,14 +181,14 @@ query getOnlyRootFile {
       });
       const files = result.data.tree;
 
-      files.forEach(f => (f.path = prefix + f.path));
+      files.forEach(f => (f.name = prefix + f.name));
 
       list.push(...files);
 
       await Promise.all(
         files
           .filter(f => f.type === "tree")
-          .map(dir => t(dir.sha, prefix + dir.path + "/"))
+          .map(dir => t(dir.sha, prefix + dir.name + "/"))
       );
     };
 
@@ -202,10 +202,10 @@ query getOnlyRootFile {
       const shaBaseTree = await this.baseTreeSha(await this.refId());
       for (const entry of await this.tree(shaBaseTree)) {
         if (patterns === undefined) {
-          yield new Content(entry.path, undefined, entry.type, entry.mode);
+          yield new Content(entry.name, undefined, entry.type, entry.mode);
         } else {
-          if (micromatch([entry.path], patterns).length === 1) {
-            yield new Content(entry.path, undefined, entry.type, entry.mode);
+          if (micromatch([entry.name], patterns).length === 1) {
+            yield new Content(entry.name, undefined, entry.type, entry.mode);
           }
         }
       }

@@ -64,9 +64,9 @@ test("list files", async t => {
     files.push(entry);
   }
 
-  t.is(files.find(f => f.path === "README.md").isFile, true);
-  t.is(files.find(f => f.path === "tests").isDirectory, true);
-  t.is(files.find(f => f.path === "tests/rollup.config.js").isFile, true);
+  t.is(files.find(f => f.name === "README.md").isFile, true);
+  t.is(files.find(f => f.name === "tests").isDirectory, true);
+  t.is(files.find(f => f.name === "tests/rollup.config.js").isFile, true);
 });
 
 test("list files with pattern", async t => {
@@ -81,7 +81,7 @@ test("list files with pattern", async t => {
     files.push(entry);
   }
 
-  t.is(files[0].path, "package.json");
+  t.is(files[0].name, "package.json");
 });
 
 test("content", async t => {
