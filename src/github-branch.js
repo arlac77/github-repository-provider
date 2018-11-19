@@ -75,7 +75,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       let result = await this.octokit.gitdata.createTree({
         owner: this.owner.name,
         repo: this.repository.name,
-        tree: updates,
+        tree: updates.map(u => {return { path: u.name, sha: u.sha, mode: u.mode }; }),
         base_tree: shaBaseTree
       });
       const shaNewTree = result.data.sha;
@@ -181,14 +181,16 @@ query getOnlyRootFile {
       });
       const files = result.data.tree;
 
-      files.forEach(f => (f.name = prefix + f.name));
+      files.forEach(f => {
+        f.path = prefix + f.path;
+      });
 
       list.push(...files);
 
       await Promise.all(
         files
           .filter(f => f.type === "tree")
-          .map(dir => t(dir.sha, prefix + dir.name + "/"))
+          .map(dir => t(dir.sha, prefix + dir.path + "/"))
       );
     };
 
@@ -202,10 +204,10 @@ query getOnlyRootFile {
       const shaBaseTree = await this.baseTreeSha(await this.refId());
       for (const entry of await this.tree(shaBaseTree)) {
         if (patterns === undefined) {
-          yield new Content(entry.name, undefined, entry.type, entry.mode);
+          yield new Content(entry.path, undefined, entry.type, entry.mode);
         } else {
-          if (micromatch([entry.name], patterns).length === 1) {
-            yield new Content(entry.name, undefined, entry.type, entry.mode);
+          if (micromatch([entry.path], patterns).length === 1) {
+            yield new Content(entry.path, undefined, entry.type, entry.mode);
           }
         }
       }
