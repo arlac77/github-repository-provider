@@ -30,7 +30,7 @@
     "travis-deploy-once": "travis-deploy-once"
   },
   "dependencies": {
-    "@octokit/rest": "^15.17.0",
+    "@octokit/rest": "^16.0.1",
     "github-graphql-api": "^1.0.6",
     "micromatch": "^3.1.10",
     "repository-provider": "^7.1.0"
