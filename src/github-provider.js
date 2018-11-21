@@ -21,7 +21,8 @@ export class GithubProvider extends Provider {
       {
         ssh: "git@github.com:",
         url: "https://github.com/",
-        graphqlApi: "https://api.github.com/graphql"
+        graphqlApi: "https://api.github.com/graphql",
+        authentication: {}
       },
       super.defaultOptions
     );
@@ -38,21 +39,21 @@ export class GithubProvider extends Provider {
     const token = env.GH_TOKEN || env.GITHUB_TOKEN;
     return token === undefined
       ? undefined
-      : { type: "token", token: token, auth: token };
+      : { authentication: { type: "token", token: token, auth: token } };
   }
 
-  constructor(config) {
-    super(config);
+  constructor(options) {
+    super(options);
 
     const gh = new GitHub({
-      token: this.config.token,
+      token: this.authentication.token,
       apiUrl: this.graphqlApi
     });
 
     const oc = octokit();
 
-    if (this.config.type) {
-      oc.authenticate(this.config);
+    if (this.authentication.type) {
+      oc.authenticate(this.authentication);
     }
 
     Object.defineProperties(this, {
