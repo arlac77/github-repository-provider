@@ -98,13 +98,13 @@ export class GithubRepository extends GithubMixin(Repository) {
 
   async _createBranch(name, from, options) {
     try {
-      const res = await this.octokit.gitdata.getReference({
+      const res = await this.octokit.gitdata.getRef({
         owner: this.owner.name,
         repo: this.name,
         ref: `heads/${from.name}`
       });
 
-      await this.octokit.gitdata.createReference({
+      await this.octokit.gitdata.createRef({
         owner: this.owner.name,
         repo: this.name,
         ref: `refs/heads/${name}`,
@@ -119,7 +119,7 @@ export class GithubRepository extends GithubMixin(Repository) {
   }
 
   async deleteBranch(name) {
-    await this.octokit.gitdata.deleteReference({
+    await this.octokit.gitdata.deleteRef({
       owner: this.owner.name,
       repo: this.name,
       ref: `heads/${name}`
