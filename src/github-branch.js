@@ -108,7 +108,7 @@ export class GithubBranch extends GithubMixin(Branch) {
     try {
       //const res = await this.octokit.gitdata.getBlob({owner:this.owner.name, repo:this.repository.name, file_sha});
 
-      const res = await this.octokit.repos.getContent({
+      const res = await this.octokit.repos.getContents({
         owner: this.owner.name,
         repo: this.repository.name,
         path: name,
