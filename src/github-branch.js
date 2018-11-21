@@ -89,7 +89,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       });
       const shaNewCommit = result.data.sha;
 
-      result = await this.octokit.gitdata.updateReference({
+      result = await this.octokit.gitdata.updateRef({
         owner: this.owner.name,
         repo: this.repository.name,
         ref: `heads/${this.name}`,
