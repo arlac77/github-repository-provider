@@ -84,21 +84,21 @@ test("list files with pattern", async t => {
   t.is(files[0].name, "package.json");
 });
 
-test("content", async t => {
+test("branch entry", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
   const branch = await repository.branch("master");
 
-  const content = await branch.content("README.md");
+  const content = await branch.entry("README.md");
 
   t.is(content.content.length >= 5, true);
 });
 
-test("missing content", async t => {
+test("branch missing entry", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
   const branch = await repository.branch("master");
-  await t.throwsAsync(async () => branch.content("missing/file"), {
+  await t.throwsAsync(async () => branch.entry("missing/file"), {
     instanceOf: Error,
     message: "Not Found"
   });

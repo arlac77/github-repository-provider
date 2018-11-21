@@ -104,7 +104,7 @@ export class GithubBranch extends GithubMixin(Branch) {
   }
 
   /** @inheritdoc */
-  async content(name) {
+  async entry(name) {
     try {
       //const res = await this.octokit.gitdata.getBlob({owner:this.owner.name, repo:this.repository.name, file_sha});
 
@@ -118,7 +118,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       return new Content(name, Buffer.from(res.data.content, "base64"));
     } catch (err) {
       await this.checkForApiLimitError(err);
-      if (err.code === 404) {
+      if (err.status === 404) {
         throw new Error(err.status);
       }
       throw err;
@@ -199,7 +199,7 @@ query getOnlyRootFile {
     return list;
   }
 
-  async *list(patterns) {
+  async *entries(patterns) {
     try {
       const shaBaseTree = await this.baseTreeSha(await this.refId());
       for (const entry of await this.tree(shaBaseTree)) {
