@@ -54,13 +54,13 @@ test("create commit", async t => {
   }
 });
 
-test("list files", async t => {
+test("list entries", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
   const branch = await repository.branch("master");
 
   const files = [];
-  for await (const entry of branch.list()) {
+  for await (const entry of branch.entries()) {
     files.push(entry);
   }
 
@@ -69,7 +69,7 @@ test("list files", async t => {
   t.is(files.find(f => f.name === "tests/rollup.config.js").isFile, true);
 });
 
-test("list files with pattern", async t => {
+test("list entries with pattern", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(
     "arlac77/repository-provider" /*REPOSITORY_NAME*/
@@ -77,7 +77,7 @@ test("list files with pattern", async t => {
   const branch = await repository.branch("master");
 
   const files = [];
-  for await (const entry of branch.list(["**/*.json"])) {
+  for await (const entry of branch.entries(["**/*.json"])) {
     files.push(entry);
   }
 
@@ -100,6 +100,6 @@ test("branch missing entry", async t => {
   const branch = await repository.branch("master");
   await t.throwsAsync(async () => branch.entry("missing/file"), {
     instanceOf: Error,
-    message: "Not Found"
+    message: "404"
   });
 });

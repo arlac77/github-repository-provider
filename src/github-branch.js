@@ -117,6 +117,7 @@ export class GithubBranch extends GithubMixin(Branch) {
 
       return new Content(name, Buffer.from(res.data.content, "base64"));
     } catch (err) {
+
       await this.checkForApiLimitError(err);
       if (err.status === 404) {
         throw new Error(err.status);

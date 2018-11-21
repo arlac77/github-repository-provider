@@ -51,7 +51,7 @@ repository provider for github
         -   [Parameters](#parameters-6)
     -   [commit](#commit)
         -   [Parameters](#parameters-7)
-    -   [content](#content)
+    -   [entry](#entry)
         -   [Parameters](#parameters-8)
 -   [GithubOwner](#githubowner)
 -   [GithubPullRequest](#githubpullrequest)
@@ -204,11 +204,11 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 -   `blobs`  
 -   `options`   (optional, default `{}`)
 
-### content
+### entry
 
 #### Parameters
 
--   `path`  
+-   `name`  
 
 ## GithubOwner
 
