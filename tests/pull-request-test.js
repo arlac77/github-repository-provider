@@ -59,7 +59,6 @@ test("pull requests create & merge", async t => {
     t.is(pr.body, "body");
     t.true(pr.id !== undefined);
     t.is(pr.locked, false);
-
   } catch (error) {
     console.log(JSON.stringify(error));
     t.is(

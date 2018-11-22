@@ -37,9 +37,9 @@ export class GithubBranch extends GithubMixin(Branch) {
       const options = {
         owner: this.owner.name,
         repo: this.repository.name,
+        title: msg.title,
         head: destination.name,
         base: this.name,
-        title: msg.title,
         body: msg.body
       };
 

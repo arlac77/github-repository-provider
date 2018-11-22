@@ -41,8 +41,10 @@ id: 224112772
 
       this.merged = result.data.merged;
 
-      return this;      
+      return this;
     } catch (error) {
+      console.log(error);
+
       if (error.message) {
         error.message = JSON.parse(error.message);
       }
