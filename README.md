@@ -43,8 +43,9 @@ repository provider for github
     -   [homePageURL](#homepageurl)
     -   [refId](#refid)
         -   [Parameters](#parameters-4)
+-   [GithubMixin](#githubmixin)
 -   [GithubBranch](#githubbranch)
-    -   [writeContent](#writecontent)
+    -   [writeEntry](#writeentry)
         -   [Parameters](#parameters-5)
     -   [createPullRequest](#createpullrequest)
         -   [Parameters](#parameters-6)
@@ -52,7 +53,6 @@ repository provider for github
         -   [Parameters](#parameters-7)
     -   [entry](#entry)
         -   [Parameters](#parameters-8)
--   [GithubMixin](#githubmixin)
 -   [GithubOwner](#githubowner)
 -   [GithubPullRequest](#githubpullrequest)
     -   [merge](#merge)
@@ -167,21 +167,25 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
 
+## GithubMixin
+
+common stuff for all github objects
+
 ## GithubBranch
 
 **Extends GithubMixin(Branch)**
 
 Branch on GitHub
 
-### writeContent
+### writeEntry
 
 writes content into the branch
 
 #### Parameters
 
--   `content` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Content>** 
+-   `content` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Entry>** 
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Content>>** written content with sha values set
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Entry>>** written content with sha values set
 
 ### createPullRequest
 
@@ -205,10 +209,6 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 #### Parameters
 
 -   `name`  
-
-## GithubMixin
-
-common stuff for all github objects
 
 ## GithubOwner
 

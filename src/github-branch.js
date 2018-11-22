@@ -1,4 +1,4 @@
-import { Branch, Content } from "repository-provider";
+import { Branch, Entry } from "repository-provider";
 import { GithubMixin } from "./github-mixin";
 import micromatch from "micromatch";
 
@@ -8,15 +8,15 @@ import micromatch from "micromatch";
 export class GithubBranch extends GithubMixin(Branch) {
   /**
    * writes content into the branch
-   * @param {Content[]} content
-   * @return {Promise<Content[]>} written content with sha values set
+   * @param {Entry[]} content
+   * @return {Promise<Entry[]>} written content with sha values set
    */
-  async writeContent(content) {
+  async writeEntry(content) {
     try {
       const res = await this.octokit.gitdata.createBlob({
         owner: this.owner.name,
         repo: this.repository.name,
-        content: content.toString(),
+        content: await content.getString(),
         encoding: "utf8"
       });
 
@@ -68,7 +68,7 @@ export class GithubBranch extends GithubMixin(Branch) {
   /** @inheritdoc */
   async commit(message, blobs, options = {}) {
     try {
-      const updates = await Promise.all(blobs.map(b => this.writeContent(b)));
+      const updates = await Promise.all(blobs.map(b => this.writeEntry(b)));
       const shaLatestCommit = await this.refId();
       const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
 
@@ -115,7 +115,7 @@ export class GithubBranch extends GithubMixin(Branch) {
         ref: this.ref
       });
 
-      return new Content(name, Buffer.from(res.data.content, "base64"));
+      return new Entry(name, Buffer.from(res.data.content, "base64"));
     } catch (err) {
 
       await this.checkForApiLimitError(err);
@@ -205,10 +205,10 @@ query getOnlyRootFile {
       const shaBaseTree = await this.baseTreeSha(await this.refId());
       for (const entry of await this.tree(shaBaseTree)) {
         if (patterns === undefined) {
-          yield new Content(entry.path, undefined, entry.type, entry.mode);
+          yield new Entry(entry.path, undefined, entry.type, entry.mode);
         } else {
           if (micromatch([entry.path], patterns).length === 1) {
-            yield new Content(entry.path, undefined, entry.type, entry.mode);
+            yield new Entry(entry.path, undefined, entry.type, entry.mode);
           }
         }
       }

@@ -1,5 +1,5 @@
 import test from "ava";
-import { Content } from "repository-provider";
+import { Entry } from "repository-provider";
 import { GithubProvider } from "../src/github-provider";
 import { GithubBranch } from "../src/github-branch";
 import { GithubRepository } from "../src/github-repository";
@@ -45,7 +45,7 @@ test("create commit", async t => {
   const branch = await repository.createBranch(newName);
   try {
     const commit = await branch.commit("message text", [
-      new Content("README.md", `file content #${branches.size}`)
+      new Entry("README.md", `file content #${branches.size}`)
     ]);
 
     t.is(commit.ref, `refs/heads/${newName}`);
@@ -89,9 +89,9 @@ test("branch entry", async t => {
   const repository = await provider.repository(REPOSITORY_NAME);
   const branch = await repository.branch("master");
 
-  const content = await branch.entry("README.md");
+  const entry = await branch.entry("README.md");
 
-  t.is(content.content.length >= 5, true);
+  t.is(entry.content.length >= 5, true);
 });
 
 test("branch missing entry", async t => {
