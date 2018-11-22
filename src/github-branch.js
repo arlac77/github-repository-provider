@@ -1,4 +1,4 @@
-import { Branch, Entry } from "repository-provider";
+import { Branch } from "repository-provider";
 import { GithubMixin } from "./github-mixin";
 import micromatch from "micromatch";
 
@@ -8,21 +8,21 @@ import micromatch from "micromatch";
 export class GithubBranch extends GithubMixin(Branch) {
   /**
    * writes content into the branch
-   * @param {Entry[]} content
+   * @param {Entry[]} entry
    * @return {Promise<Entry[]>} written content with sha values set
    */
-  async writeEntry(content) {
+  async writeEntry(entry) {
     try {
       const res = await this.octokit.gitdata.createBlob({
         owner: this.owner.name,
         repo: this.repository.name,
-        content: await content.getString(),
+        content: await entry.getString(),
         encoding: "utf8"
       });
 
-      content.sha = res.data.sha;
+      entry.sha = res.data.sha;
 
-      return content;
+      return entry;
     } catch (err) {
       await this.checkForApiLimitError(err);
       throw err;
@@ -115,7 +115,7 @@ export class GithubBranch extends GithubMixin(Branch) {
         ref: this.ref
       });
 
-      return new Entry(name, Buffer.from(res.data.content, "base64"));
+      return new this.entryClass(name, Buffer.from(res.data.content, "base64"));
     } catch (err) {
 
       await this.checkForApiLimitError(err);
@@ -205,10 +205,10 @@ query getOnlyRootFile {
       const shaBaseTree = await this.baseTreeSha(await this.refId());
       for (const entry of await this.tree(shaBaseTree)) {
         if (patterns === undefined) {
-          yield new Entry(entry.path, undefined, entry.type, entry.mode);
+          yield new this.entryClass(entry.path, undefined, entry.type, entry.mode);
         } else {
           if (micromatch([entry.path], patterns).length === 1) {
-            yield new Entry(entry.path, undefined, entry.type, entry.mode);
+            yield new this.entryClass(entry.path, undefined, entry.type, entry.mode);
           }
         }
       }
