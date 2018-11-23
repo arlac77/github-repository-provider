@@ -62,7 +62,7 @@ test("pull requests create & merge", async t => {
   } catch (error) {
     console.log(JSON.stringify(error));
     t.is(
-      error.message.message,
+      error.message,
       "Base branch was modified. Review and try the merge again."
     );
   }
