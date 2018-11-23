@@ -5,8 +5,7 @@ import { GithubMixin } from "./github-mixin";
  * Github pull request
  */
 export class GithubPullRequest extends GithubMixin(PullRequest) {
-
-/*
+  /*
 title: 'title'
 body: 'body'
 state: 'open'
@@ -32,23 +31,14 @@ id: 224112772
    * @see https://octokit.github.io/rest.js/#api-PullRequests-merge
    */
   async merge() {
-    try {
-      const result = await this.octokit.pullRequests.merge({
-        owner: this.repository.owner.name,
-        repo: this.repository.name,
-        number: this.name
-      });;
+    const result = await this.octokit.pullRequests.merge({
+      owner: this.repository.owner.name,
+      repo: this.repository.name,
+      number: this.name
+    });
 
-      this.merged = result.data.merged;
+    this.merged = result.data.merged;
 
-      return this;
-    } catch (error) {
-      console.log(error);
-
-      if (error.message) {
-        error.message = JSON.parse(error.message);
-      }
-      throw error;
-    }
+    return this;
   }
 }
