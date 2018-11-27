@@ -24,7 +24,10 @@ export class GithubProvider extends Provider {
         graphqlApi: "https://api.github.com/graphql",
         authentication: {}
       },
-      super.defaultOptions
+      super.defaultOptions,
+      {
+        priority: 1000.0
+      }
     );
   }
 

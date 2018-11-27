@@ -53,9 +53,9 @@ repository provider for github
     -   [entry](#entry)
         -   [Parameters](#parameters-8)
 -   [GithubOwner](#githubowner)
+-   [GithubMixin](#githubmixin)
 -   [GithubPullRequest](#githubpullrequest)
     -   [merge](#merge)
--   [GithubMixin](#githubmixin)
 
 ## GithubProvider
 
@@ -210,6 +210,10 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 **Extends GithubMixin(RepositoryGroup)**
 
+## GithubMixin
+
+common stuff for all github objects
+
 ## GithubPullRequest
 
 **Extends GithubMixin(PullRequest)**
@@ -219,10 +223,6 @@ Github pull request
 ### merge
 
 -   **See: <https://octokit.github.io/rest.js/#api-PullRequests-merge>**
-
-## GithubMixin
-
-common stuff for all github objects
 
 # install
 

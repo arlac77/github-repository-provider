@@ -10,6 +10,9 @@ const config = GithubProvider.optionsFromEnvironment(process.env);
 
 test("provider", async t => {
   const provider = new GithubProvider(config);
+
+  t.is(provider.priority, 1000.0);
+
   const repository = await provider.repository(REPOSITORY_NAME);
 
   t.is(repository.fullName, REPOSITORY_NAME);
