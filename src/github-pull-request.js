@@ -31,7 +31,7 @@ id: 224112772
    * @see https://octokit.github.io/rest.js/#api-PullRequests-merge
    */
   async merge() {
-    const result = await this.octokit.pullRequests.merge({
+    const result = await this.octokit.pulls.merge({
       owner: this.repository.owner.name,
       repo: this.repository.name,
       number: this.name

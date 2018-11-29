@@ -13,7 +13,7 @@ export class GithubBranch extends GithubMixin(Branch) {
    */
   async writeEntry(entry) {
     try {
-      const res = await this.octokit.gitdata.createBlob({
+      const res = await this.octokit.git.createBlob({
         owner: this.owner.name,
         repo: this.repository.name,
         content: await entry.getString(),
@@ -43,7 +43,7 @@ export class GithubBranch extends GithubMixin(Branch) {
         body: msg.body
       };
 
-      const result = await this.octokit.pullRequests.create(options);
+      const result = await this.octokit.pulls.create(options);
       return new this.pullRequestClass(
         this,
         destination,
@@ -57,7 +57,7 @@ export class GithubBranch extends GithubMixin(Branch) {
   }
 
   async baseTreeSha(commitSha) {
-    const result = await this.octokit.gitdata.getCommit({
+    const result = await this.octokit.git.getCommit({
       owner: this.owner.name,
       repo: this.repository.name,
       commit_sha: commitSha
@@ -72,7 +72,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       const shaLatestCommit = await this.refId();
       const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
 
-      let result = await this.octokit.gitdata.createTree({
+      let result = await this.octokit.git.createTree({
         owner: this.owner.name,
         repo: this.repository.name,
         tree: updates.map(u => {return { path: u.name, sha: u.sha, mode: u.mode }; }),
@@ -80,7 +80,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       });
       const shaNewTree = result.data.sha;
 
-      result = await this.octokit.gitdata.createCommit({
+      result = await this.octokit.git.createCommit({
         owner: this.owner.name,
         repo: this.repository.name,
         message,
@@ -89,7 +89,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       });
       const shaNewCommit = result.data.sha;
 
-      result = await this.octokit.gitdata.updateRef({
+      result = await this.octokit.git.updateRef({
         owner: this.owner.name,
         repo: this.repository.name,
         ref: `heads/${this.name}`,
@@ -106,7 +106,7 @@ export class GithubBranch extends GithubMixin(Branch) {
   /** @inheritdoc */
   async entry(name) {
     try {
-      //const res = await this.octokit.gitdata.getBlob({owner:this.owner.name, repo:this.repository.name, file_sha});
+      //const res = await this.octokit.git.getBlob({owner:this.owner.name, repo:this.repository.name, file_sha});
 
       const res = await this.octokit.repos.getContents({
         owner: this.owner.name,
@@ -174,7 +174,7 @@ query getOnlyRootFile {
     const list = [];
 
     const t = async (sha, prefix) => {
-      const result = await this.octokit.gitdata.getTree({
+      const result = await this.octokit.git.getTree({
         owner: this.owner.name,
         repo: this.repository.name,
         tree_sha: sha,
