@@ -33,7 +33,7 @@
     "@octokit/rest": "^16.0.5",
     "github-graphql-api": "^1.0.6",
     "micromatch": "^3.1.10",
-    "repository-provider": "^8.5.0"
+    "repository-provider": "^8.6.1"
   },
   "devDependencies": {
     "ava": "^1.0.0-rc.2",

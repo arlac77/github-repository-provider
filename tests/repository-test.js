@@ -91,7 +91,13 @@ test("branch entry", async t => {
 
   const entry = await branch.entry("README.md");
 
+  t.is(entry.name, "README.md");
   t.is(entry.content.length >= 5, true);
+
+  /* there are no directory entries
+  const dirEntry = await branch.entry("tests");
+  t.is(dirEntry.name, "tests");
+  */
 });
 
 test("branch missing entry", async t => {

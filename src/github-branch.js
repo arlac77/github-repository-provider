@@ -1,4 +1,4 @@
-import { Branch } from "repository-provider";
+import { Branch, BaseDirectoryEntry } from "repository-provider";
 import { GithubMixin } from "./github-mixin";
 import micromatch from "micromatch";
 
@@ -75,7 +75,9 @@ export class GithubBranch extends GithubMixin(Branch) {
       let result = await this.octokit.gitdata.createTree({
         owner: this.owner.name,
         repo: this.repository.name,
-        tree: updates.map(u => {return { path: u.name, sha: u.sha, mode: u.mode }; }),
+        tree: updates.map(u => {
+          return { path: u.name, sha: u.sha, mode: u.mode };
+        }),
         base_tree: shaBaseTree
       });
       const shaNewTree = result.data.sha;
@@ -117,7 +119,6 @@ export class GithubBranch extends GithubMixin(Branch) {
 
       return new this.entryClass(name, Buffer.from(res.data.content, "base64"));
     } catch (err) {
-
       await this.checkForApiLimitError(err);
       if (err.status === 404) {
         throw new Error(err.status);
@@ -205,10 +206,28 @@ query getOnlyRootFile {
       const shaBaseTree = await this.baseTreeSha(await this.refId());
       for (const entry of await this.tree(shaBaseTree)) {
         if (patterns === undefined) {
-          yield new this.entryClass(entry.path, undefined, entry.type, entry.mode);
+          if (entry.type === "tree") {
+            yield new BaseDirectoryEntry(entry.path);
+          } else {
+            yield new this.entryClass(
+              entry.path,
+              undefined,
+              entry.type,
+              entry.mode
+            );
+          }
         } else {
           if (micromatch([entry.path], patterns).length === 1) {
-            yield new this.entryClass(entry.path, undefined, entry.type, entry.mode);
+            if (entry.type === "tree") {
+              yield new BaseDirectoryEntry(entry.path);
+            } else {
+              yield new this.entryClass(
+                entry.path,
+                undefined,
+                entry.type,
+                entry.mode
+              );
+            }
           }
         }
       }
