@@ -52,8 +52,8 @@ repository provider for github
         -   [Parameters](#parameters-7)
     -   [entry](#entry)
         -   [Parameters](#parameters-8)
--   [GithubOwner](#githubowner)
 -   [GithubMixin](#githubmixin)
+-   [GithubOwner](#githubowner)
 -   [GithubPullRequest](#githubpullrequest)
     -   [merge](#merge)
 
@@ -206,13 +206,13 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 -   `name`  
 
-## GithubOwner
-
-**Extends GithubMixin(RepositoryGroup)**
-
 ## GithubMixin
 
 common stuff for all github objects
+
+## GithubOwner
+
+**Extends GithubMixin(RepositoryGroup)**
 
 ## GithubPullRequest
 
