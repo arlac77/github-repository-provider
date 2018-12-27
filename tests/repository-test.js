@@ -1,5 +1,5 @@
 import test from "ava";
-import { Entry } from "repository-provider";
+import { Entry } from "content-entry";
 import { GithubProvider } from "../src/github-provider";
 import { GithubBranch } from "../src/github-branch";
 import { GithubRepository } from "../src/github-repository";
@@ -64,9 +64,9 @@ test("list entries", async t => {
     files.push(entry);
   }
 
-  t.is(files.find(f => f.name === "README.md").isFile, true);
-  t.is(files.find(f => f.name === "tests").isDirectory, true);
-  t.is(files.find(f => f.name === "tests/rollup.config.js").isFile, true);
+  t.is(files.find(f => f.name === "README.md").isBlob, true);
+  t.is(files.find(f => f.name === "tests").isCollection, true);
+  t.is(files.find(f => f.name === "tests/rollup.config.js").isBlob, true);
 });
 
 test("list entries with pattern", async t => {
@@ -92,12 +92,8 @@ test("branch entry", async t => {
   const entry = await branch.entry("README.md");
 
   t.is(entry.name, "README.md");
-  t.is(entry.content.length >= 5, true);
-
-  /* there are no directory entries
-  const dirEntry = await branch.entry("tests");
-  t.is(dirEntry.name, "tests");
-  */
+  t.is(entry.buffer.length >= 5, true);
+  t.is((await entry.getString()).substring(0, 3), "fil");
 });
 
 test("branch missing entry", async t => {

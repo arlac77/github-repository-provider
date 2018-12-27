@@ -1,6 +1,16 @@
-import { Branch, BaseDirectoryEntry } from "repository-provider";
+import { Branch } from "repository-provider";
+import { BaseCollectionEntry } from "content-entry/src/base-collection-entry";
+import { BufferContentEntryMixin } from "content-entry/src/buffer-content-entry-mixin";
+import { ContentEntry } from "content-entry/src/content-entry";
 import { GithubMixin } from "./github-mixin";
 import micromatch from "micromatch";
+
+class GithubContentEntry extends BufferContentEntryMixin(ContentEntry) {
+  constructor(name, buffer) {
+    super(name);
+    Object.defineProperties(this, { buffer: { value: buffer } });
+  }
+}
 
 /**
  * Branch on GitHub
@@ -207,26 +217,16 @@ query getOnlyRootFile {
       for (const entry of await this.tree(shaBaseTree)) {
         if (patterns === undefined) {
           if (entry.type === "tree") {
-            yield new BaseDirectoryEntry(entry.path);
+            yield new BaseCollectionEntry(entry.path);
           } else {
-            yield new this.entryClass(
-              entry.path,
-              undefined,
-              entry.type,
-              entry.mode
-            );
+            yield new this.entryClass(entry.path);
           }
         } else {
           if (micromatch([entry.path], patterns).length === 1) {
             if (entry.type === "tree") {
               yield new BaseDirectoryEntry(entry.path);
             } else {
-              yield new this.entryClass(
-                entry.path,
-                undefined,
-                entry.type,
-                entry.mode
-              );
+              yield new this.entryClass(entry.path);
             }
           }
         }
@@ -235,5 +235,9 @@ query getOnlyRootFile {
       await this.checkForApiLimitError(err);
       throw err;
     }
+  }
+
+  get entryClass() {
+    return GithubContentEntry;
   }
 }

@@ -1,5 +1,5 @@
 import test from "ava";
-import { Entry } from "repository-provider";
+import { Entry } from "content-entry";
 import { GithubProvider } from "../src/github-provider";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
@@ -21,7 +21,7 @@ test("pull requests list", async t => {
     t.is(pr.destination, await repository.defaultBranch);
     t.true(pr.name.length >= 1);
     t.truthy(pr.title.match(/merge package template/));
-    t.is(pr.state, 'CLOSED');
+    t.is(pr.state, "CLOSED");
     t.false(pr.merged);
     t.false(pr.locked);
   }
