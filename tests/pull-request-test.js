@@ -1,5 +1,5 @@
 import test from "ava";
-import { Entry } from "content-entry";
+import { StringContentEntry } from "content-entry";
 import { GithubProvider } from "../src/github-provider";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
@@ -36,7 +36,7 @@ test("pull requests create & merge", async t => {
   const branch = await repository.createBranch(newName);
 
   const commit = await branch.commit("message text", [
-    new Entry("README.md", `file content #${branches.size}`)
+    new StringContentEntry("README.md", `file content #${branches.size}`)
   ]);
 
   const defaultBranch = await repository.defaultBranch;

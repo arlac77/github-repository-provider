@@ -1,8 +1,8 @@
 import test from "ava";
-import { Entry } from "content-entry";
 import { GithubProvider } from "../src/github-provider";
 import { GithubBranch } from "../src/github-branch";
 import { GithubRepository } from "../src/github-repository";
+import { StringContentEntry } from "content-entry";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
 const REPOSITORY_OWNER = "arlac77";
@@ -45,7 +45,7 @@ test("create commit", async t => {
   const branch = await repository.createBranch(newName);
   try {
     const commit = await branch.commit("message text", [
-      new Entry("README.md", `file content #${branches.size}`)
+      new StringContentEntry("README.md", `file content #${branches.size}`)
     ]);
 
     t.is(commit.ref, `refs/heads/${newName}`);

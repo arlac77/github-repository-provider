@@ -1,16 +1,8 @@
 import { Branch } from "repository-provider";
 import { BaseCollectionEntry } from "content-entry/src/base-collection-entry";
-import { BufferContentEntryMixin } from "content-entry/src/buffer-content-entry-mixin";
-import { ContentEntry } from "content-entry/src/content-entry";
+import { BufferContentEntry } from "content-entry/src/buffer-content-entry";
 import { GithubMixin } from "./github-mixin";
 import micromatch from "micromatch";
-
-class GithubContentEntry extends BufferContentEntryMixin(ContentEntry) {
-  constructor(name, buffer) {
-    super(name);
-    Object.defineProperties(this, { buffer: { value: buffer } });
-  }
-}
 
 /**
  * Branch on GitHub
@@ -238,6 +230,6 @@ query getOnlyRootFile {
   }
 
   get entryClass() {
-    return GithubContentEntry;
+    return BufferContentEntry;
   }
 }
