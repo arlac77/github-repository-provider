@@ -20,11 +20,8 @@ export default {
     "util",
     "path",
     "fs",
-    "tty"
+    "tty",
+    "stream"
   ],
-  plugins: [
-    resolve(),
-    commonjs(),
-    cleanup()
-  ]
+  plugins: [resolve(), commonjs(), cleanup()]
 };

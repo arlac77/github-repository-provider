@@ -224,7 +224,7 @@ query getOnlyRootFile {
         } else {
           if (micromatch([entry.path], patterns).length === 1) {
             if (entry.type === "tree") {
-              yield new BaseDirectoryEntry(entry.path);
+              yield new BaseCollectionEntry(entry.path);
             } else {
               yield new this.entryClass(entry.path);
             }
