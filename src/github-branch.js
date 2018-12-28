@@ -86,7 +86,7 @@ export class GithubBranch extends GithubMixin(Branch) {
         owner: this.owner.name,
         repo: this.repository.name,
         tree: updates.map(u => {
-          return { path: u.name, sha: u.sha, mode: u.mode };
+          return { path: u.name, sha: u.sha, mode: u.mode || "100644" };
         }),
         base_tree: shaBaseTree
       });
