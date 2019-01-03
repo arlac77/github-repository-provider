@@ -5,9 +5,10 @@ import { GithubOwner } from "./github-owner";
 import { GithubPullRequest } from "./github-pull-request";
 export { GithubRepository, GithubBranch, GithubOwner, GithubPullRequest };
 
-import GitHub from "github-graphql-api";
+import GitHub from "github-graphql-api/dist/github";
+import octokit from "@octokit/rest";
 
-const octokit = require("@octokit/rest");
+//const octokit = require("@octokit/rest");
 
 /**
  * GitHub provider
