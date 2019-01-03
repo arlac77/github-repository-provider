@@ -28,7 +28,7 @@
     "test": "ava"
   },
   "dependencies": {
-    "@octokit/rest": "^16.3.0",
+    "@octokit/rest": "^16.3.2",
     "content-entry": "^2.0.2",
     "github-graphql-api": "^1.0.6",
     "micromatch": "^3.1.10",
