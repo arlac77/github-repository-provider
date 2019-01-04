@@ -97,25 +97,20 @@ export class GithubRepository extends GithubMixin(Repository) {
   }
 
   async _createBranch(name, from, options) {
-    try {
-      const res = await this.octokit.gitdata.getRef({
-        owner: this.owner.name,
-        repo: this.name,
-        ref: `heads/${from.name}`
-      });
+    const res = await this.octokit.gitdata.getRef({
+      owner: this.owner.name,
+      repo: this.name,
+      ref: `heads/${from.name}`
+    });
 
-      await this.octokit.gitdata.createRef({
-        owner: this.owner.name,
-        repo: this.name,
-        ref: `refs/heads/${name}`,
-        sha: res.data.object.sha
-      });
+    await this.octokit.gitdata.createRef({
+      owner: this.owner.name,
+      repo: this.name,
+      ref: `refs/heads/${name}`,
+      sha: res.data.object.sha
+    });
 
-      return new this.branchClass(this, name, options);
-    } catch (err) {
-      await this.checkForApiLimitError(err);
-      throw err;
-    }
+    return new this.branchClass(this, name, options);
   }
 
   async deleteBranch(name) {

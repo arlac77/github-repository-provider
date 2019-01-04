@@ -47,19 +47,6 @@ test("provider unreachable host", async t => {
   }
 });
 
-test("provider rate limit", async t => {
-  const provider = new GithubProvider(config);
-  const limit = await provider.rateLimit();
-  t.true(limit.remaining > 10);
-});
-
-test("provider set rateLimitReached", async t => {
-  const provider = new GithubProvider(config);
-
-  provider.rateLimitReached = true;
-  t.is(provider.rateLimitReached, true);
-});
-
 test("provider repo with full https url", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(

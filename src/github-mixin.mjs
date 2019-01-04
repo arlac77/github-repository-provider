@@ -10,9 +10,5 @@ export function GithubMixin(base) {
     get octokit() {
       return this.provider.octokit;
     }
-
-    checkForApiLimitError(err) {
-      return this.provider.checkForApiLimitError(err);
-    }
   };
 }

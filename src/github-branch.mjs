@@ -14,48 +14,38 @@ export class GithubBranch extends GithubMixin(Branch) {
    * @return {Promise<Entry[]>} written content with sha values set
    */
   async writeEntry(entry) {
-    try {
-      const res = await this.octokit.git.createBlob({
-        owner: this.owner.name,
-        repo: this.repository.name,
-        content: await entry.getString(),
-        encoding: "utf8"
-      });
+    const res = await this.octokit.git.createBlob({
+      owner: this.owner.name,
+      repo: this.repository.name,
+      content: await entry.getString(),
+      encoding: "utf8"
+    });
 
-      entry.sha = res.data.sha;
+    entry.sha = res.data.sha;
 
-      return entry;
-    } catch (err) {
-      await this.checkForApiLimitError(err);
-      throw err;
-    }
+    return entry;
   }
 
   /**
    * @see https://octokit.github.io/rest.js/#api-PullRequests-create
    */
   async createPullRequest(destination, msg) {
-    try {
-      const options = {
-        owner: this.owner.name,
-        repo: this.repository.name,
-        title: msg.title,
-        head: destination.name,
-        base: this.name,
-        body: msg.body
-      };
+    const options = {
+      owner: this.owner.name,
+      repo: this.repository.name,
+      title: msg.title,
+      head: destination.name,
+      base: this.name,
+      body: msg.body
+    };
 
-      const result = await this.octokit.pulls.create(options);
-      return new this.pullRequestClass(
-        this,
-        destination,
-        result.data.number,
-        Object.assign(options, result.data)
-      );
-    } catch (err) {
-      await this.checkForApiLimitError(err);
-      throw err;
-    }
+    const result = await this.octokit.pulls.create(options);
+    return new this.pullRequestClass(
+      this,
+      destination,
+      result.data.number,
+      Object.assign(options, result.data)
+    );
   }
 
   async baseTreeSha(commitSha) {
@@ -69,42 +59,37 @@ export class GithubBranch extends GithubMixin(Branch) {
 
   /** @inheritdoc */
   async commit(message, blobs, options = {}) {
-    try {
-      const updates = await Promise.all(blobs.map(b => this.writeEntry(b)));
-      const shaLatestCommit = await this.refId();
-      const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
+    const updates = await Promise.all(blobs.map(b => this.writeEntry(b)));
+    const shaLatestCommit = await this.refId();
+    const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
 
-      let result = await this.octokit.git.createTree({
-        owner: this.owner.name,
-        repo: this.repository.name,
-        tree: updates.map(u => {
-          return { path: u.name, sha: u.sha, mode: u.mode || "100644" };
-        }),
-        base_tree: shaBaseTree
-      });
-      const shaNewTree = result.data.sha;
+    let result = await this.octokit.git.createTree({
+      owner: this.owner.name,
+      repo: this.repository.name,
+      tree: updates.map(u => {
+        return { path: u.name, sha: u.sha, mode: u.mode || "100644" };
+      }),
+      base_tree: shaBaseTree
+    });
+    const shaNewTree = result.data.sha;
 
-      result = await this.octokit.git.createCommit({
-        owner: this.owner.name,
-        repo: this.repository.name,
-        message,
-        tree: shaNewTree,
-        parents: [shaLatestCommit]
-      });
-      const shaNewCommit = result.data.sha;
+    result = await this.octokit.git.createCommit({
+      owner: this.owner.name,
+      repo: this.repository.name,
+      message,
+      tree: shaNewTree,
+      parents: [shaLatestCommit]
+    });
+    const shaNewCommit = result.data.sha;
 
-      result = await this.octokit.git.updateRef({
-        owner: this.owner.name,
-        repo: this.repository.name,
-        ref: `heads/${this.name}`,
-        sha: shaNewCommit,
-        force: options.force || false
-      });
-      return result.data;
-    } catch (err) {
-      await this.checkForApiLimitError(err);
-      throw err;
-    }
+    result = await this.octokit.git.updateRef({
+      owner: this.owner.name,
+      repo: this.repository.name,
+      ref: `heads/${this.name}`,
+      sha: shaNewCommit,
+      force: options.force || false
+    });
+    return result.data;
   }
 
   /** @inheritdoc */
@@ -121,7 +106,6 @@ export class GithubBranch extends GithubMixin(Branch) {
 
       return new this.entryClass(name, Buffer.from(res.data.content, "base64"));
     } catch (err) {
-      await this.checkForApiLimitError(err);
       if (err.status === 404) {
         throw new Error(err.status);
       }
@@ -204,28 +188,23 @@ query getOnlyRootFile {
   }
 
   async *entries(patterns) {
-    try {
-      const shaBaseTree = await this.baseTreeSha(await this.refId());
-      for (const entry of await this.tree(shaBaseTree)) {
-        if (patterns === undefined) {
+    const shaBaseTree = await this.baseTreeSha(await this.refId());
+    for (const entry of await this.tree(shaBaseTree)) {
+      if (patterns === undefined) {
+        if (entry.type === "tree") {
+          yield new BaseCollectionEntry(entry.path);
+        } else {
+          yield new this.entryClass(entry.path);
+        }
+      } else {
+        if (micromatch([entry.path], patterns).length === 1) {
           if (entry.type === "tree") {
             yield new BaseCollectionEntry(entry.path);
           } else {
             yield new this.entryClass(entry.path);
           }
-        } else {
-          if (micromatch([entry.path], patterns).length === 1) {
-            if (entry.type === "tree") {
-              yield new BaseCollectionEntry(entry.path);
-            } else {
-              yield new this.entryClass(entry.path);
-            }
-          }
         }
       }
-    } catch (err) {
-      await this.checkForApiLimitError(err);
-      throw err;
     }
   }
 

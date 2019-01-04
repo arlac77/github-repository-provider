@@ -31,28 +31,26 @@ repository provider for github
     -   [repository](#repository)
         -   [Parameters](#parameters-1)
         -   [Examples](#examples)
-    -   [checkForApiLimitError](#checkforapilimiterror)
-        -   [Parameters](#parameters-2)
     -   [rateLimit](#ratelimit)
     -   [optionsFromEnvironment](#optionsfromenvironment)
-        -   [Parameters](#parameters-3)
+        -   [Parameters](#parameters-2)
 -   [GithubRepository](#githubrepository)
     -   [\_initialize](#_initialize)
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
     -   [homePageURL](#homepageurl)
     -   [refId](#refid)
-        -   [Parameters](#parameters-4)
+        -   [Parameters](#parameters-3)
+-   [GithubMixin](#githubmixin)
 -   [GithubBranch](#githubbranch)
     -   [writeEntry](#writeentry)
-        -   [Parameters](#parameters-5)
+        -   [Parameters](#parameters-4)
     -   [createPullRequest](#createpullrequest)
-        -   [Parameters](#parameters-6)
+        -   [Parameters](#parameters-5)
     -   [commit](#commit)
-        -   [Parameters](#parameters-7)
+        -   [Parameters](#parameters-6)
     -   [entry](#entry)
-        -   [Parameters](#parameters-8)
--   [GithubMixin](#githubmixin)
+        -   [Parameters](#parameters-7)
 -   [GithubOwner](#githubowner)
 -   [GithubPullRequest](#githubpullrequest)
     -   [merge](#merge)
@@ -70,7 +68,6 @@ GitHub provider
 ### Properties
 
 -   `octokit` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
--   `rateLimitReached` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 
 ### repository
 
@@ -100,17 +97,6 @@ const r6 = ghp.repository('arlac77/github-repository-provider');
 -   Throws **any** if name is not hosted on the provider
 
 Returns **Repository** if given name is hosted on the provider
-
-### checkForApiLimitError
-
-Check for existense of an api rate limit Error
-also sets rateLimitReached to true
-
-#### Parameters
-
--   `err` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)>** true if api rate limit error present
 
 ### rateLimit
 
@@ -167,6 +153,10 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
 
+## GithubMixin
+
+common stuff for all github objects
+
 ## GithubBranch
 
 **Extends GithubMixin(Branch)**
@@ -205,10 +195,6 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 #### Parameters
 
 -   `name`  
-
-## GithubMixin
-
-common stuff for all github objects
 
 ## GithubOwner
 
