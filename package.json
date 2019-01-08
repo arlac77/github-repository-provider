@@ -34,7 +34,7 @@
     "repository-provider": "^11.0.0"
   },
   "devDependencies": {
-    "@octokit/rest": "^16.6.0",
+    "@octokit/rest": "^16.6.1",
     "ava": "^1.0.1",
     "c8": "^3.2.1",
     "documentation": "^9.1.1",
