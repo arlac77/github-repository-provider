@@ -23,7 +23,8 @@
     "cover": "c8 --temp-directory build/coverage ava && c8 report -r lcov --temp-directory build/coverage",
     "docs": "documentation readme src/github-provider.mjs --section=API",
     "lint": "documentation lint src/github-provider.mjs",
-    "posttest": "markdown-doctest",
+    "posttest": "npm run prepare && markdown-doctest",
+    "prepare": "rollup -c",
     "test": "ava"
   },
   "dependencies": {
@@ -40,6 +41,12 @@
     "documentation": "^9.1.1",
     "esm": "^3.0.84",
     "markdown-doctest": "^0.9.1",
+    "rollup": "^1.1.0",
+    "rollup-plugin-cleanup": "^3.1.0",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-executable": "^1.4.2",
+    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
     "semantic-release": "^15.13.2"
   },
   "engines": {
