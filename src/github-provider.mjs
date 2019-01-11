@@ -9,8 +9,6 @@ import GitHub from "github-graphql-api/dist/github";
 import octokit from "@octokit/rest";
 import throttling from "@octokit/plugin-throttling";
 
-//const octokit = require("@octokit/rest");
-
 /**
  * GitHub provider
  *
