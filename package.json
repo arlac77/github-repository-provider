@@ -27,7 +27,7 @@
     "test": "ava"
   },
   "dependencies": {
-    "@octokit/plugin-throttling": "^2.2.0",
+    "@octokit/plugin-throttling": "^2.2.1",
     "@octokit/rest": "^16.8.1",
     "content-entry": "^2.0.2",
     "github-graphql-api": "^1.0.6",
