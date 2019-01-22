@@ -93,6 +93,11 @@ export class GithubRepository extends GithubMixin(Repository) {
       }
     );
 
+    // TODO why does this happen ?
+    if (result.repository.ref.target === undefined) {
+      throw new Error(`no refId for '${this.name}' ${ref}`);
+    }
+
     return result.repository.ref.target.oid;
   }
 
