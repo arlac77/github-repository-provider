@@ -41,7 +41,7 @@ export class GithubProvider extends Provider {
     const token = env.GH_TOKEN || env.GITHUB_TOKEN;
     return token === undefined
       ? undefined
-      : { authentication: { type: "token", token: token, auth: token } };
+      : { authentication: { type: "token", token } };
   }
 
   constructor(options) {
@@ -53,6 +53,7 @@ export class GithubProvider extends Provider {
     });
 
     const oc = octokit.plugin(throttling)({
+      auth: `token ${this.authentication.token}`,
       throttle: {
         onRateLimit: (retryAfter, options) => {
           console.warn(
@@ -73,10 +74,6 @@ export class GithubProvider extends Provider {
         }
       }
     });
-
-    if (this.authentication.type) {
-      oc.authenticate(this.authentication);
-    }
 
     Object.defineProperties(this, {
       github: { value: gh },
