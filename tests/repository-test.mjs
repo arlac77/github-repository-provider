@@ -76,12 +76,13 @@ test("list entries with pattern", async t => {
   );
   const branch = await repository.branch("master");
 
-  const files = [];
-  for await (const entry of branch.entries(["**/*.json"])) {
-    files.push(entry);
+  const entries = {};
+  for await (const entry of branch.entries("**/*.mjs")) {
+    entries[entry.name] = entry;
   }
 
-  t.is(files[0].name, "package.json");
+  t.is(entries["src/branch.mjs"].name, "src/branch.mjs");
+  t.is(entries["src/repository.mjs"].name, "src/repository.mjs");
 });
 
 test("branch entry", async t => {
