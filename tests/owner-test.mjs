@@ -20,7 +20,6 @@ test("owner with auth", async t => {
 test("list repositories", async t => {
   const provider = new GithubProvider(config);
   const owner = await provider.repositoryGroup(REPOSITORY_OWNER);
-  t.is(owner.name, REPOSITORY_OWNER);
 
   const reps = {};
   for await (const r of owner.repositories("npm-template*")) {
@@ -30,6 +29,20 @@ test("list repositories", async t => {
   t.true(Object.keys(reps).length >= 2);
   t.truthy(reps['npm-template-sync']);
   t.truthy(reps['npm-template-sync-github-hook']);
+});
+
+test("list branches", async t => {
+  const provider = new GithubProvider(config);
+  const owner = await provider.repositoryGroup(REPOSITORY_OWNER);
+
+  const branches = {};
+  for await (const b of owner.branches("npm-template*#master")) {
+    branches[b.fullName] = b;
+  }
+
+  t.true(Object.keys(branches).length >= 2);
+  t.truthy(branches['arlac77/npm-template-sync#master']);
+  t.truthy(branches['arlac77/npm-template-sync-github-hook#master']);
 });
 
 
