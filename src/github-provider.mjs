@@ -98,7 +98,7 @@ export class GithubProvider extends Provider {
       return undefined;
     }
 
-    let rg = this.repositoryGroups.get(name);
+    let rg = this._repositoryGroups.get(name);
     if (rg !== undefined) {
       return rg;
     }
@@ -113,7 +113,7 @@ export class GithubProvider extends Provider {
 
       if (result !== undefined && result.repositoryOwner !== undefined) {
         rg = new this.repositoryGroupClass(this, result.repositoryOwner.login);
-        this.repositoryGroups.set(rg.name, rg);
+        this._repositoryGroups.set(rg.name, rg);
       }
     } catch (e) {
       if (e == "Unauthorized") {
