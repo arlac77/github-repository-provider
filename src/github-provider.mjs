@@ -125,6 +125,25 @@ export class GithubProvider extends Provider {
   }
 
   /**
+   * List repositories for the provider
+   * @param {string[]|string} matchingPatterns
+   * @return {Iterator<Repository>} all matching repositories of the owner
+   */
+  async *repositories(patterns) {
+    if(!Array.isArray(patterns)) { patterns = [patterns]; }
+
+    for(const pattern of patterns) {
+      const m = pattern.split(/\//);
+      if(m.length === 2) {
+        const group = await this.repositoryGroup(m[0]);
+        if(group) {
+          yield * group.repositories(m[1]);
+        }
+      }
+    }
+  }
+
+  /**
    * <!-- skip-example -->
    * Lookup a repository
    * @example

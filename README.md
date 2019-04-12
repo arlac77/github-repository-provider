@@ -25,29 +25,31 @@ repository provider for github
 -   [GithubProvider](#githubprovider)
     -   [Parameters](#parameters)
     -   [Properties](#properties)
-    -   [repository](#repository)
+    -   [repositories](#repositories)
         -   [Parameters](#parameters-1)
+    -   [repository](#repository)
+        -   [Parameters](#parameters-2)
         -   [Examples](#examples)
     -   [rateLimit](#ratelimit)
     -   [optionsFromEnvironment](#optionsfromenvironment)
-        -   [Parameters](#parameters-2)
+        -   [Parameters](#parameters-3)
 -   [GithubRepository](#githubrepository)
     -   [\_initialize](#_initialize)
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
     -   [homePageURL](#homepageurl)
     -   [refId](#refid)
-        -   [Parameters](#parameters-3)
+        -   [Parameters](#parameters-4)
 -   [GithubMixin](#githubmixin)
 -   [GithubBranch](#githubbranch)
     -   [writeEntry](#writeentry)
-        -   [Parameters](#parameters-4)
-    -   [createPullRequest](#createpullrequest)
         -   [Parameters](#parameters-5)
-    -   [commit](#commit)
+    -   [createPullRequest](#createpullrequest)
         -   [Parameters](#parameters-6)
-    -   [entry](#entry)
+    -   [commit](#commit)
         -   [Parameters](#parameters-7)
+    -   [entry](#entry)
+        -   [Parameters](#parameters-8)
 -   [GithubOwner](#githubowner)
 -   [GithubPullRequest](#githubpullrequest)
     -   [merge](#merge)
@@ -65,6 +67,17 @@ GitHub provider
 ### Properties
 
 -   `octokit` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+### repositories
+
+List repositories for the provider
+
+#### Parameters
+
+-   `patterns`  
+-   `matchingPatterns` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** 
+
+Returns **Iterator&lt;Repository>** all matching repositories of the owner
 
 ### repository
 
