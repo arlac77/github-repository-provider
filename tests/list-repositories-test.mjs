@@ -13,5 +13,5 @@ test("list repositories", async t => {
   }
 
   //console.log(Object.keys(repositories));
-  t.truthy(repositories.size > 3);
+  t.truthy(Object.keys(repositories).length > 3);
 });
