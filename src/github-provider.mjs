@@ -126,7 +126,7 @@ export class GithubProvider extends Provider {
 
   /**
    * List repositories for the provider
-   * @param {string[]|string} matchingPatterns
+   * @param {string[]|string} patterns
    * @return {Iterator<Repository>} all matching repositories of the owner
    */
   async *repositories(patterns) {
