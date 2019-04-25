@@ -1,5 +1,5 @@
 import { PullRequest } from "repository-provider";
-import { GithubMixin } from "./github-mixin";
+import { GithubMixin } from "./github-mixin.mjs";
 
 /**
  * Github pull request

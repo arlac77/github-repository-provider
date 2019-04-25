@@ -1,5 +1,5 @@
 import test from "ava";
-import { GithubProvider } from "../src/github-provider";
+import { GithubProvider } from "../src/github-provider.mjs";
 
 const REPOSITORY_OWNER = "arlac77";
 

@@ -1,8 +1,8 @@
 import { Provider, Repository, Branch } from "repository-provider";
-import { GithubRepository } from "./github-repository";
-import { GithubBranch } from "./github-branch";
-import { GithubOwner } from "./github-owner";
-import { GithubPullRequest } from "./github-pull-request";
+import { GithubRepository } from "./github-repository.mjs";
+import { GithubBranch } from "./github-branch.mjs";
+import { GithubOwner } from "./github-owner.mjs";
+import { GithubPullRequest } from "./github-pull-request.mjs";
 export { GithubRepository, GithubBranch, GithubOwner, GithubPullRequest };
 
 import GitHub from "github-graphql-api/dist/github";

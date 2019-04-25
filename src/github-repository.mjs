@@ -1,5 +1,5 @@
 import { Repository } from "repository-provider";
-import { GithubMixin } from "./github-mixin";
+import { GithubMixin } from "./github-mixin.mjs";
 
 /**
  * Repository on GitHub
