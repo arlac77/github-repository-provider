@@ -29,10 +29,10 @@
   "dependencies": {
     "@octokit/plugin-throttling": "^2.4.0",
     "@octokit/rest": "^16.24.3",
-    "content-entry": "^2.1.1",
+    "content-entry": "^2.1.2",
     "github-graphql-api": "^1.0.6",
-    "micromatch": "^4.0.1",
-    "repository-provider": "^12.4.0"
+    "micromatch": "^4.0.2",
+    "repository-provider": "^12.4.2"
   },
   "devDependencies": {
     "ava": "^1.4.1",
