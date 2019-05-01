@@ -27,29 +27,31 @@ repository provider for github
     -   [Properties](#properties)
     -   [repositories](#repositories)
         -   [Parameters](#parameters-1)
-    -   [repository](#repository)
+    -   [branches](#branches)
         -   [Parameters](#parameters-2)
+    -   [repository](#repository)
+        -   [Parameters](#parameters-3)
         -   [Examples](#examples)
     -   [rateLimit](#ratelimit)
     -   [optionsFromEnvironment](#optionsfromenvironment)
-        -   [Parameters](#parameters-3)
+        -   [Parameters](#parameters-4)
 -   [GithubRepository](#githubrepository)
     -   [\_initialize](#_initialize)
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
     -   [homePageURL](#homepageurl)
     -   [refId](#refid)
-        -   [Parameters](#parameters-4)
--   [GithubMixin](#githubmixin)
+        -   [Parameters](#parameters-5)
 -   [GithubBranch](#githubbranch)
     -   [writeEntry](#writeentry)
-        -   [Parameters](#parameters-5)
-    -   [createPullRequest](#createpullrequest)
         -   [Parameters](#parameters-6)
-    -   [commit](#commit)
+    -   [createPullRequest](#createpullrequest)
         -   [Parameters](#parameters-7)
-    -   [entry](#entry)
+    -   [commit](#commit)
         -   [Parameters](#parameters-8)
+    -   [entry](#entry)
+        -   [Parameters](#parameters-9)
+-   [GithubMixin](#githubmixin)
 -   [GithubOwner](#githubowner)
 -   [GithubPullRequest](#githubpullrequest)
     -   [merge](#merge)
@@ -70,13 +72,23 @@ GitHub provider
 
 ### repositories
 
-List repositories for the provider
+List repositories of the provider
 
 #### Parameters
 
 -   `patterns` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** 
 
-Returns **Iterator&lt;Repository>** all matching repositories of the owner
+Returns **Iterator&lt;Repository>** all matching repositories of the provider
+
+### branches
+
+List branches of the provider
+
+#### Parameters
+
+-   `patterns` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** 
+
+Returns **Iterator&lt;Branch>** all matching repositories of the provider
 
 ### repository
 
@@ -162,10 +174,6 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
 
-## GithubMixin
-
-common stuff for all github objects
-
 ## GithubBranch
 
 **Extends GithubMixin(Branch)**
@@ -204,6 +212,10 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 #### Parameters
 
 -   `name`  
+
+## GithubMixin
+
+common stuff for all github objects
 
 ## GithubOwner
 
