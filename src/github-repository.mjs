@@ -173,7 +173,7 @@ export class GithubRepository extends GithubMixin(Repository) {
     const result = await this.octokit.pullRequests.update({
       owner: this.owner.name,
       repo: this.name,
-      number: name,
+      pull_number: name,
       state: "closed"
     });
 

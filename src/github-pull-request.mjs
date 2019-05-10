@@ -34,7 +34,7 @@ id: 224112772
     const result = await this.octokit.pulls.merge({
       owner: this.repository.owner.name,
       repo: this.repository.name,
-      number: this.name
+      pull_number: this.name
     });
 
     this.merged = result.data.merged;
