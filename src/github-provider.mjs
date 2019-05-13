@@ -130,14 +130,16 @@ export class GithubProvider extends Provider {
    * @return {Iterator<Repository>} all matching repositories of the provider
    */
   async *repositories(patterns) {
-    if(!Array.isArray(patterns)) { patterns = [patterns]; }
+    if (!Array.isArray(patterns)) {
+      patterns = [patterns];
+    }
 
-    for(const pattern of patterns) {
+    for (const pattern of patterns) {
       const m = pattern.split(/\//);
-      if(m.length === 2) {
+      if (m.length === 2) {
         const group = await this.repositoryGroup(m[0]);
-        if(group) {
-          yield * group.repositories(m[1]);
+        if (group) {
+          yield* group.repositories(m[1]);
         }
       }
     }
@@ -149,14 +151,16 @@ export class GithubProvider extends Provider {
    * @return {Iterator<Branch>} all matching repositories of the provider
    */
   async *branches(patterns) {
-    if(!Array.isArray(patterns)) { patterns = [patterns]; }
+    if (!Array.isArray(patterns)) {
+      patterns = [patterns];
+    }
 
-    for(const pattern of patterns) {
+    for (const pattern of patterns) {
       const m = pattern.split(/\//);
-      if(m.length === 2) {
+      if (m.length === 2) {
         const group = await this.repositoryGroup(m[0]);
-        if(group) {
-          for await ( const repository of group.repositories(m[1])) {
+        if (group) {
+          for await (const repository of group.repositories(m[1])) {
             yield repository.defaultBranch;
           }
         }
@@ -237,3 +241,5 @@ export class GithubProvider extends Provider {
     return GithubPullRequest;
   }
 }
+
+export default GithubProvider;
