@@ -111,7 +111,7 @@ export class GithubProvider extends Provider {
         }
       );
 
-      if (result !== undefined && result.repositoryOwner !== undefined) {
+      if (result && result.repositoryOwner) {
         rg = new this.repositoryGroupClass(this, result.repositoryOwner.login);
         this._repositoryGroups.set(rg.name, rg);
       }
