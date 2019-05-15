@@ -15,3 +15,15 @@ test("list repositories", async t => {
   //console.log(Object.keys(repositories));
   t.truthy(Object.keys(repositories).length > 3);
 });
+
+test("list repositories negative group", async t => {
+  const provider = new GithubProvider(config);
+
+  const repositories = {};
+
+  for await (const r of provider.repositories("xtzrtrhtl/npm-*")) {
+    repositories[r.name] = r;
+  }
+
+  t.truthy(Object.keys(repositories).length === 0);
+});
