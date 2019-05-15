@@ -16,18 +16,14 @@ import throttling from "@octokit/plugin-throttling";
  */
 export class GithubProvider extends Provider {
   static get defaultOptions() {
-    return Object.assign(
-      {
-        ssh: "git@github.com:",
-        url: "https://github.com/",
-        graphqlApi: "https://api.github.com/graphql",
-        authentication: {}
-      },
-      super.defaultOptions,
-      {
-        priority: 1000.0
-      }
-    );
+    return {
+      ssh: "git@github.com:",
+      url: "https://github.com/",
+      graphqlApi: "https://api.github.com/graphql",
+      authentication: {},
+      ...super.defaultOptions,
+      priority: 1000.0
+    };
   }
 
   /**

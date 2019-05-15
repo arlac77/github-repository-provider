@@ -40,12 +40,10 @@ export class GithubBranch extends GithubMixin(Branch) {
     };
 
     const result = await this.octokit.pulls.create(options);
-    return new this.pullRequestClass(
-      this,
-      destination,
-      result.data.number,
-      Object.assign(options, result.data)
-    );
+    return new this.pullRequestClass(this, destination, result.data.number, {
+      ...options,
+      ...result.data
+    });
   }
 
   async baseTreeSha(commitSha) {
