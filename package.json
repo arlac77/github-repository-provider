@@ -28,8 +28,8 @@
     "test": "ava"
   },
   "dependencies": {
-    "@octokit/plugin-throttling": "^2.5.0",
-    "@octokit/rest": "^16.25.5",
+    "@octokit/plugin-throttling": "^2.6.0",
+    "@octokit/rest": "^16.25.6",
     "content-entry": "^2.1.2",
     "github-graphql-api": "^1.0.6",
     "micromatch": "^4.0.2",
@@ -39,7 +39,7 @@
     "ava": "^1.4.1",
     "c8": "^4.1.5",
     "documentation": "^11.0.0",
-    "esm": "^3.2.23",
+    "esm": "^3.2.25",
     "markdown-doctest": "^0.9.1",
     "semantic-release": "^15.13.14"
   },
