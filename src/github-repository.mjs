@@ -1,4 +1,4 @@
-import { Repository } from "repository-provider";
+import { Repository, Hook } from "repository-provider";
 import { GithubMixin } from "./github-mixin.mjs";
 
 /**
@@ -180,5 +180,26 @@ export class GithubRepository extends GithubMixin(Repository) {
     this._pullRequests.delete(name);
 
     return result.data;
+  }
+
+  /**
+   * List hooks
+   * @return {Hook} all matching hook of the repository
+   */
+  async *hooks() {
+    const res = await this.octokit.repos.listHooks({
+      owner: this.owner.name,
+      repo: this.name
+    });
+
+    for (const h of res.data) {
+      yield new Hook(this, h.name, new Set(h.events), {
+        id: h.id,
+        active: h.active,
+        content_type: h.content_type,
+        ...h.config,
+        insecure_ssl: h.config.insecure_ssl !== '0'
+      });
+    }
   }
 }
