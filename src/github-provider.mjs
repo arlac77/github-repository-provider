@@ -89,6 +89,27 @@ export class GithubProvider extends Provider {
     return GithubOwner;
   }
 
+
+/*
+  async *repositoryGroups(patterns) {
+    const res = await this.octokit.repos.list({affiliation:['owner','collaborator','organization_member']});
+
+    res.data.forEach(r => {
+        console.log("full_name",r.full_name);
+
+        const [groupName,repoName] = r.full_name.split(/\//);
+
+        let rg = this._repositoryGroups.get(groupName);
+        if(rg === undefined) {
+          rg = new this.repositoryGroupClass(this, groupName);
+          this._repositoryGroups.set(rg.name, rg);
+        }
+    });
+
+    console.log(...this._repositoryGroups.keys());
+  }
+*/
+
   async repositoryGroup(name) {
     if (name === undefined) {
       return undefined;
@@ -133,6 +154,7 @@ export class GithubProvider extends Provider {
     for (const pattern of patterns) {
       const m = pattern.split(/\//);
       if (m.length === 2) {
+        //console.log("GROUP", m[0]);
         const group = await this.repositoryGroup(m[0]);
         if (group) {
           yield* group.repositories(m[1]);
