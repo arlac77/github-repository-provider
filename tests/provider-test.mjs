@@ -1,7 +1,6 @@
 import test from "ava";
 import { GithubProvider } from "../src/github-provider.mjs";
-import { GithubBranch } from "../src/github-branch.mjs";
-import { GithubRepository } from "../src/github-repository.mjs";
+
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
 const REPOSITORY_OWNER = "arlac77";
