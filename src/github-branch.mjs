@@ -111,6 +111,25 @@ export class GithubBranch extends GithubMixin(Branch) {
     }
   }
 
+  /** @inheritdoc */
+  async maybeEntry(name) {
+    try {
+      const res = await this.octokit.repos.getContents({
+        owner: this.owner.name,
+        repo: this.repository.name,
+        path: name,
+        ref: this.ref
+      });
+
+      return new this.entryClass(name, Buffer.from(res.data.content, "base64"));
+    } catch (err) {
+      if (err.status === 404) {
+        return undefined;
+      }
+      throw err;
+    }
+  }
+
   /*
 @see https://platform.github.community/t/how-can-build-a-tree-view-from-a-git-repository-tree/6003/2
 MDM6UmVmMzY5MjUyNzQ6bWFzdGVy
