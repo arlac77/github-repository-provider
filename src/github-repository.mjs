@@ -5,10 +5,6 @@ import { GithubMixin } from "./github-mixin.mjs";
  * Repository on GitHub
  */
 export class GithubRepository extends GithubMixin(Repository) {
-  get fullName() {
-    return `${this.owner.name}/${this.name}`;
-  }
-
   /**
    * Collect all branches
    * @return {Promise}
