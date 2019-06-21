@@ -27,17 +27,18 @@ export class GithubProvider extends Provider {
   }
 
   /**
-   * provide token from one of
-   * - GITHUB_TOKEN
-   * - GH_TOKEN
-   * @param {Object} env process env
-   * @return {Object} with auth token
+   * known environment variables
+   * @return {Object} 
+   * @return {string} GITHUB_TOKEN api token
+   * @return {string} GH_TOKEN api token
    */
-  static optionsFromEnvironment(env) {
-    const token = env.GH_TOKEN || env.GITHUB_TOKEN;
-    return token === undefined
-      ? undefined
-      : { authentication: { type: "token", token } };
+
+  static get environmentOptions() {
+    const def = { path: 'authentication.token', template: { type: 'token' } };
+    return {
+      'GITHUB_TOKEN': def,
+      'GH_TOKEN': def
+    };
   }
 
   constructor(options) {
@@ -53,9 +54,7 @@ export class GithubProvider extends Provider {
       throttle: {
         onRateLimit: (retryAfter, options) => {
           console.warn(
-            `Request quota exhausted for request ${options.method} ${
-              options.url
-            }`
+            `Request quota exhausted for request ${options.method} ${options.url}`
           );
 
           if (options.request.retryCount === 0) {

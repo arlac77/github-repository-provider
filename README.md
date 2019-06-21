@@ -17,6 +17,7 @@
 repository provider for github
 
 <!-- skip example -->
+
 ´´´es6
 import { GithubProvider } from 'github-repository-provider';
 
@@ -24,7 +25,7 @@ const config = GithubProvider.optionsFromEnvironment(process.env);
 const provider = new GithubProvider(config);
 const repository = await provider.repository(`myuser/repo1`);
 
-for async (const entry of repository.entries('**/*.md')) {
+for async (const entry of repository.entries('\*_/_.md')) {
     console.log(entry.name);
 }
 ´´´
@@ -35,44 +36,41 @@ for async (const entry of repository.entries('**/*.md')) {
 
 ### Table of Contents
 
-- [github-repository-provider](#github-repository-provider)
-- [API](#api)
-    - [Table of Contents](#table-of-contents)
-  - [GithubProvider](#githubprovider)
-    - [Parameters](#parameters)
-    - [Properties](#properties)
-    - [repositories](#repositories)
-      - [Parameters](#parameters-1)
-    - [branches](#branches)
-      - [Parameters](#parameters-2)
-    - [repository](#repository)
-      - [Parameters](#parameters-3)
-      - [Examples](#examples)
-    - [rateLimit](#ratelimit)
-    - [optionsFromEnvironment](#optionsfromenvironment)
-      - [Parameters](#parameters-4)
-  - [GithubRepository](#githubrepository)
-    - [\_initialize](#initialize)
-    - [urls](#urls)
-    - [issuesURL](#issuesurl)
-    - [homePageURL](#homepageurl)
-    - [refId](#refid)
-      - [Parameters](#parameters-5)
-  - [GithubBranch](#githubbranch)
-    - [writeEntry](#writeentry)
-      - [Parameters](#parameters-6)
-    - [createPullRequest](#createpullrequest)
-      - [Parameters](#parameters-7)
-    - [commit](#commit)
-      - [Parameters](#parameters-8)
-    - [entry](#entry)
-      - [Parameters](#parameters-9)
-  - [GithubMixin](#githubmixin)
-  - [GithubOwner](#githubowner)
-  - [GithubPullRequest](#githubpullrequest)
-    - [merge](#merge)
-- [install](#install)
-- [license](#license)
+-   [GithubProvider](#githubprovider)
+    -   [Parameters](#parameters)
+    -   [Properties](#properties)
+    -   [repositories](#repositories)
+        -   [Parameters](#parameters-1)
+    -   [branches](#branches)
+        -   [Parameters](#parameters-2)
+    -   [repository](#repository)
+        -   [Parameters](#parameters-3)
+        -   [Examples](#examples)
+    -   [rateLimit](#ratelimit)
+    -   [environmentOptions](#environmentoptions)
+-   [GithubRepository](#githubrepository)
+    -   [\_initialize](#_initialize)
+    -   [urls](#urls)
+    -   [issuesURL](#issuesurl)
+    -   [homePageURL](#homepageurl)
+    -   [refId](#refid)
+        -   [Parameters](#parameters-4)
+    -   [hooks](#hooks)
+-   [GithubMixin](#githubmixin)
+-   [GithubBranch](#githubbranch)
+    -   [writeEntry](#writeentry)
+        -   [Parameters](#parameters-5)
+    -   [createPullRequest](#createpullrequest)
+        -   [Parameters](#parameters-6)
+    -   [commit](#commit)
+        -   [Parameters](#parameters-7)
+    -   [entry](#entry)
+        -   [Parameters](#parameters-8)
+    -   [maybeEntry](#maybeentry)
+        -   [Parameters](#parameters-9)
+-   [GithubOwner](#githubowner)
+-   [GithubPullRequest](#githubpullrequest)
+    -   [merge](#merge)
 
 ## GithubProvider
 
@@ -143,18 +141,15 @@ Query the current rate limit
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** rate limit (remaining)
 
-### optionsFromEnvironment
+### environmentOptions
 
-provide token from one of
+known environment variables
 
--   GITHUB_TOKEN
--   GH_TOKEN
+Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
-#### Parameters
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** GITHUB_TOKEN api token
 
--   `env` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** process env
-
-Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** with auth token
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** GH_TOKEN api token
 
 ## GithubRepository
 
@@ -191,6 +186,16 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 -   `ref` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
+
+### hooks
+
+List hooks
+
+Returns **Hook** all matching hook of the repository
+
+## GithubMixin
+
+common stuff for all github objects
 
 ## GithubBranch
 
@@ -231,9 +236,11 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 -   `name`  
 
-## GithubMixin
+### maybeEntry
 
-common stuff for all github objects
+#### Parameters
+
+-   `name`  
 
 ## GithubOwner
 
