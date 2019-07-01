@@ -13,12 +13,12 @@ const entryFixtures = {
   "tests" : { isCollection: true }
 };
 
-test("list entries", async t => {
+test.only("list entries", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
   const branch = await repository.branch("master");
 
-  t.plan(Object.keys(entryFixtures).length + 1);
+  t.plan( 7 /*Object.keys(entryFixtures).length + 1*/);
 
   for await (const entry of branch.entries()) {
     const ef = entryFixtures[entry.name];
@@ -29,6 +29,14 @@ test("list entries", async t => {
       }
       else {
         t.true((await entry.getString()).startsWith(ef.startsWith));
+
+        const stream = await entry.getReadStream();
+        const chunks = [];
+        for await (const chunk of stream) {
+          chunks.push(chunk);
+        }
+        t.true(chunks.join().startsWith(ef.startsWith));
+      
       }
     }
   }
