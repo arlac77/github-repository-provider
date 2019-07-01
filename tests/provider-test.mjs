@@ -1,7 +1,6 @@
 import test from "ava";
 import { GithubProvider } from "../src/github-provider.mjs";
 
-
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
 const REPOSITORY_OWNER = "arlac77";
 
@@ -46,6 +45,48 @@ test("provider unreachable host", async t => {
   }
 });
 
+const repoFixtures = {
+  "git@mfelten.de/github-repository-provider.git": undefined,
+  "http://www.heise.de/index.html": undefined,
+
+  ["https://github.com/" + REPOSITORY_NAME]: {
+    fullName: REPOSITORY_NAME,
+    ownerName: REPOSITORY_OWNER
+  },
+  ["git@github.com:" + REPOSITORY_NAME]: {
+    fullName: REPOSITORY_NAME,
+    ownerName: REPOSITORY_OWNER
+  },
+  [`git://github.com/${REPOSITORY_NAME}.git`]: {
+    fullName: REPOSITORY_NAME,
+    ownerName: REPOSITORY_OWNER
+  },
+  "git@github.com:arlac77/github-repository-provider.git": {
+    fullName: "arlac77/github-repository-provider",
+    ownerName: REPOSITORY_OWNER
+  },
+  "https://github.com/arlac77/github-repository-provider.git#master": {
+    fullName: "arlac77/github-repository-provider",
+    ownerName: REPOSITORY_OWNER
+  }
+};
+
+test("locate repository several", async t => {
+  const provider = new GithubProvider(config);
+
+  for (const rn of Object.keys(repoFixtures)) {
+    const r = repoFixtures[rn];
+    const repository = await provider.repository(rn);
+    if (r === undefined) {
+      t.is(repository, undefined);
+    } else {
+      t.is(repository.fullName, r.fullName);
+      t.is(repository.owner.name, r.ownerName);
+      t.is(repository.provider.constructor, GithubProvider);
+    }
+  }
+});
+
 test("provider repo with full https url", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(
@@ -72,8 +113,7 @@ test("provider repo with full https url", async t => {
 
 test("provider repo undefined", async t => {
   const provider = new GithubProvider(config);
-  const repository = await provider.repository(undefined);
-  t.true(repository === undefined);
+  t.is(await provider.repository(undefined), undefined);
 });
 
 test("provider repo with git@ url", async t => {
@@ -90,85 +130,9 @@ test("provider repo with git@ url", async t => {
   );
 });
 
-test("provider repo with git://github.com", async t => {
-  const provider = new GithubProvider(config);
-  const repository = await provider.repository(
-    `git://github.com/${REPOSITORY_NAME}.git`
-  );
-  t.is(repository.fullName, REPOSITORY_NAME);
-  t.is(repository.owner.name, REPOSITORY_OWNER);
-});
-
-test("provider repo with git+ssh://github.com", async t => {
-  const provider = new GithubProvider(config);
-  const repository = await provider.repository(
-    `git+ssh://github.com/${REPOSITORY_NAME}.git`
-  );
-  t.is(repository.fullName, REPOSITORY_NAME);
-  t.is(repository.owner.name, REPOSITORY_OWNER);
-});
-
-test("provider repo with git@ unknown", async t => {
-  const provider = new GithubProvider();
-  const repository = await provider.repository(
-    "git@mfelten.de/github-repository-provider.git"
-  );
-  t.is(repository, undefined);
-});
-
-test("provider repo with git unknown 2", async t => {
-  const provider = new GithubProvider();
-  const repository = await provider.repository(
-    "http://www.heise.de/index.html"
-  );
-  t.is(repository, undefined);
-});
-
-test("provider repo with git", async t => {
-  const provider = new GithubProvider(config);
-  const repository = await provider.repository(
-    "git@github.com:arlac77/github-repository-provider.git"
-  );
-
-  t.is(repository.fullName, "arlac77/github-repository-provider");
-  t.is(repository.owner.name, REPOSITORY_OWNER);
-});
-
-test("provider repo with full url .git", async t => {
-  const provider = new GithubProvider(config);
-  const repository = await provider.repository(
-    "https://github.com/arlac77/github-repository-provider.git"
-  );
-
-  t.is(repository.fullName, "arlac77/github-repository-provider");
-  t.is(repository.owner.name, REPOSITORY_OWNER);
-});
-
 test("provider repo with undefined", async t => {
   const provider = new GithubProvider(config);
-  const branch = await provider.branch(undefined);
-
-  t.is(branch, undefined);
-});
-
-test("provider branch with full url .git#branch", async t => {
-  const provider = new GithubProvider(config);
-  const branch = await provider.branch(
-    "https://github.com/arlac77/github-repository-provider.git#master"
-  );
-
-  t.is(branch.name, "master");
-  t.is(branch.url, "https://github.com/arlac77/github-repository-provider.git");
-});
-
-test("provider repo with full url .git#branch", async t => {
-  const provider = new GithubProvider(config);
-  const repository = await provider.repository(
-    "https://github.com/arlac77/github-repository-provider.git#master"
-  );
-
-  t.is(repository.fullName, "arlac77/github-repository-provider");
-  t.is(repository.owner.name, "arlac77");
+  t.is(await provider.branch(undefined), undefined);
 });
 
 test("provider repo with full url .git#branch git+https", async t => {
@@ -181,6 +145,16 @@ test("provider repo with full url .git#branch git+https", async t => {
   t.is(branch.url, "https://github.com/arlac77/github-repository-provider.git");
   t.is(branch.owner.name, REPOSITORY_OWNER);
   t.is(branch.fullCondensedName, "arlac77/github-repository-provider");
+});
+
+test("provider branch with full url .git#branch", async t => {
+  const provider = new GithubProvider(config);
+  const branch = await provider.branch(
+    "https://github.com/arlac77/github-repository-provider.git#master"
+  );
+
+  t.is(branch.name, "master");
+  t.is(branch.url, "https://github.com/arlac77/github-repository-provider.git");
 });
 
 test("provider repo with branch name", async t => {
