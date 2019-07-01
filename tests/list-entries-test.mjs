@@ -1,30 +1,43 @@
 import test from "ava";
 import { GithubProvider } from "../src/github-provider.mjs";
+import { isBuffer } from "util";
 
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
 
 const config = GithubProvider.optionsFromEnvironment(process.env);
 
+const entryFixtures = {
+  "README.md" : { startsWith: "fil" },
+  "tests/rollup.config.js" : { startsWith: "import babel" },
+  "tests" : { isCollection: true }
+};
+
 test("list entries", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
   const branch = await repository.branch("master");
 
-  const files = [];
-  for await (const entry of branch.entries()) {
-    files.push(entry);
-  }
+  t.plan(Object.keys(entryFixtures).length + 1);
 
-  t.is(files.find(f => f.name === "README.md").isBlob, true);
-  t.is(files.find(f => f.name === "tests").isCollection, true);
-  t.is(files.find(f => f.name === "tests/rollup.config.js").isBlob, true);
+  for await (const entry of branch.entries()) {
+    const ef = entryFixtures[entry.name];
+
+    if(ef !== undefined) {
+      if(ef.isCollection) {
+        t.true(entry.isCollection);
+      }
+      else {
+        t.true((await entry.getString()).startsWith(ef.startsWith));
+      }
+    }
+  }
 });
 
-test.only("list entries with pattern", async t => {
+test("list entries with pattern", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(
-    "arlac77/repository-provider" /*REPOSITORY_NAME*/
+    "arlac77/repository-provider"
   );
   const branch = await repository.branch("master");
 

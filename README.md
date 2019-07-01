@@ -43,6 +43,7 @@ for async (const entry of repository.entries('\*_/_.md')) {
         -   [Parameters](#parameters-1)
     -   [branches](#branches)
         -   [Parameters](#parameters-2)
+    -   [repositoryBases](#repositorybases)
     -   [repository](#repository)
         -   [Parameters](#parameters-3)
         -   [Examples](#examples)
@@ -105,6 +106,18 @@ List branches of the provider
 -   `patterns` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** 
 
 Returns **Iterator&lt;Branch>** all matching repositories of the provider
+
+### repositoryBases
+
+All possible base urls
+
+-   git@github.com
+-   git://github.com
+-   git+ssh://github.com
+-   <https://github.com>
+-   git+<https://github.com>
+
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** common base urls of all repositories
 
 ### repository
 

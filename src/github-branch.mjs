@@ -1,6 +1,8 @@
 import { Branch } from "repository-provider";
 import { BaseCollectionEntry } from "content-entry/src/base-collection-entry.mjs";
 import { BufferContentEntry } from "content-entry/src/buffer-content-entry.mjs";
+import { BufferContentEntryMixin } from "content-entry/src/buffer-content-entry-mixin.mjs";
+import { ContentEntry } from "content-entry/src/content-entry.mjs";
 import { GithubMixin } from "./github-mixin.mjs";
 import micromatch from "micromatch";
 
@@ -211,14 +213,14 @@ query getOnlyRootFile {
         if (entry.type === "tree") {
           yield new BaseCollectionEntry(entry.path);
         } else {
-          yield new this.entryClass(entry.path);
+          yield new LazayBufferContentEntry(entry.path, this);
         }
       } else {
         if (micromatch([entry.path], patterns).length === 1) {
           if (entry.type === "tree") {
             yield new BaseCollectionEntry(entry.path);
           } else {
-            yield new this.entryClass(entry.path);
+            yield new LazayBufferContentEntry(entry.path, this);
           }
         }
       }
@@ -227,5 +229,26 @@ query getOnlyRootFile {
 
   get entryClass() {
     return BufferContentEntry;
+  }
+}
+
+class LazayBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
+
+  constructor(name, branch) {
+    super(name);
+    Object.defineProperties(this, {
+      branch: { value: branch }
+    });
+  }
+
+  async getBuffer() {
+    const branch = this.branch;
+    const res = await branch.octokit.repos.getContents({
+      owner: branch.owner.name,
+      repo: branch.repository.name,
+      path: this.name,
+      ref: branch.ref
+    });
+    return Buffer.from(res.data.content, "base64");
   }
 }
