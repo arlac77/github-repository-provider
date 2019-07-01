@@ -209,19 +209,14 @@ query getOnlyRootFile {
   async *entries(patterns) {
     const shaBaseTree = await this.baseTreeSha(await this.refId());
     for (const entry of await this.tree(shaBaseTree)) {
-      if (patterns === undefined) {
+      if (
+        patterns === undefined ||
+        micromatch([entry.path], patterns).length === 1
+      ) {
         if (entry.type === "tree") {
           yield new BaseCollectionEntry(entry.path);
         } else {
           yield new LazayBufferContentEntry(entry.path, this);
-        }
-      } else {
-        if (micromatch([entry.path], patterns).length === 1) {
-          if (entry.type === "tree") {
-            yield new BaseCollectionEntry(entry.path);
-          } else {
-            yield new LazayBufferContentEntry(entry.path, this);
-          }
         }
       }
     }
@@ -233,7 +228,6 @@ query getOnlyRootFile {
 }
 
 class LazayBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
-
   constructor(name, branch) {
     super(name);
     Object.defineProperties(this, {
