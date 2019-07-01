@@ -28,16 +28,16 @@ export class GithubProvider extends Provider {
 
   /**
    * known environment variables
-   * @return {Object} 
+   * @return {Object}
    * @return {string} GITHUB_TOKEN api token
    * @return {string} GH_TOKEN api token
    */
 
   static get environmentOptions() {
-    const def = { path: 'authentication.token', template: { type: 'token' } };
+    const def = { path: "authentication.token", template: { type: "token" } };
     return {
-      'GITHUB_TOKEN': def,
-      'GH_TOKEN': def
+      GITHUB_TOKEN: def,
+      GH_TOKEN: def
     };
   }
 
@@ -54,7 +54,9 @@ export class GithubProvider extends Provider {
       throttle: {
         onRateLimit: (retryAfter, options) => {
           console.warn(
-            `Request quota exhausted for request ${options.method} ${options.url}`
+            `Request quota exhausted for request ${options.method} ${
+              options.url
+            }`
           );
 
           if (options.request.retryCount === 0) {
@@ -88,26 +90,25 @@ export class GithubProvider extends Provider {
     return GithubOwner;
   }
 
-
-/*
-  async *repositoryGroups(patterns) {
-    const res = await this.octokit.repos.list({affiliation:['owner','collaborator','organization_member']});
-
-    res.data.forEach(r => {
-        console.log("full_name",r.full_name);
-
-        const [groupName,repoName] = r.full_name.split(/\//);
-
-        let rg = this._repositoryGroups.get(groupName);
-        if(rg === undefined) {
-          rg = new this.repositoryGroupClass(this, groupName);
-          this._repositoryGroups.set(rg.name, rg);
-        }
-    });
-
-    console.log(...this._repositoryGroups.keys());
-  }
-*/
+  /*
+    async *repositoryGroups(patterns) {
+      const res = await this.octokit.repos.list({affiliation:['owner','collaborator','organization_member']});
+  
+      res.data.forEach(r => {
+          console.log("full_name",r.full_name);
+  
+          const [groupName,repoName] = r.full_name.split(/\//);
+  
+          let rg = this._repositoryGroups.get(groupName);
+          if(rg === undefined) {
+            rg = new this.repositoryGroupClass(this, groupName);
+            this._repositoryGroups.set(rg.name, rg);
+          }
+      });
+  
+      console.log(...this._repositoryGroups.keys());
+    }
+  */
 
   async repositoryGroup(name) {
     if (name === undefined) {
@@ -186,6 +187,25 @@ export class GithubProvider extends Provider {
   }
 
   /**
+   * All possible base urls
+   * - git@github.com
+   * - git://github.com
+   * - git+ssh://github.com
+   * - https://github.com
+   * - git+https://github.com
+   * @return {string[]} common base urls of all repositories
+   */
+  get repositoryBases() {
+    return [
+      this.url,
+      "git+" + this.url,
+      "git+ssh://github.com",
+      "git://github.com/",
+      'git@github.com:'
+    ];
+  }
+
+  /**
    * <!-- skip-example -->
    * Lookup a repository
    * @example
@@ -207,25 +227,9 @@ export class GithubProvider extends Provider {
     if (name === undefined) {
       return undefined;
     }
-    await this._initialize();
+    await this.initialize();
 
-    try {
-      const url = new URL(name);
-
-      if (url.hostname !== "github.com") {
-        return undefined;
-      }
-    } catch (e) {}
-
-    name = name.replace(/^(git)?(\+?(ssh|https))?:\/\/[^\/]+\//, "");
-    name = name.replace(this.ssh, "");
-    name = name.replace(this.url, "");
-    name = name.replace(/#[\w\-]*$/, "");
-    name = name.replace(/\.git$/, "");
-
-    if (name.match(/@/)) {
-      return undefined;
-    }
+    name = this.normalizeRepositoryName(name);
 
     let owner = this;
 
