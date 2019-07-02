@@ -10,8 +10,20 @@ import octokit from "@octokit/rest";
 import throttling from "@octokit/plugin-throttling";
 
 /**
+ * <!-- skip-example -->
  * GitHub provider
+ * Lookup a repository
+ * @example
+ * import GithubProvider from 'github-repository-provider';
  *
+ * const ghp = new GithubProvider();
+ * const r1 = ghp.repository('git@github.com:arlac77/github-repository-provider.git');
+ * const r2 = ghp.repository('git://github.com/arlac77/github-repository-provider.git');
+ * const r3 = ghp.repository('git+ssh://github.com/arlac77/github-repository-provider.git');
+ * const r4 = ghp.repository('https://github.com/arlac77/github-repository-provider.git#master');
+ * const r5 = ghp.repository('git+https://github.com/arlac77/github-repository-provider.git#master');
+ * const r6 = ghp.repository('arlac77/github-repository-provider');
+ * // different ways to address the same repository
  * @property {Object} octokit
  */
 export class GithubProvider extends Provider {
@@ -201,52 +213,8 @@ export class GithubProvider extends Provider {
       "git+" + this.url,
       "git+ssh://github.com",
       "git://github.com/",
-      'git@github.com:'
+      "git@github.com:"
     ];
-  }
-
-  /**
-   * <!-- skip-example -->
-   * Lookup a repository
-   * @example
-   * import GithubProvider from 'github-repository-provider';
-   *
-   * const ghp = new GithubProvider();
-   * const r1 = ghp.repository('git@github.com:arlac77/github-repository-provider.git');
-   * const r2 = ghp.repository('git://github.com/arlac77/github-repository-provider.git');
-   * const r3 = ghp.repository('git+ssh://github.com/arlac77/github-repository-provider.git');
-   * const r4 = ghp.repository('https://github.com/arlac77/github-repository-provider.git#master');
-   * const r5 = ghp.repository('git+https://github.com/arlac77/github-repository-provider.git#master');
-   * const r6 = ghp.repository('arlac77/github-repository-provider');
-   * // different ways to address the same repository
-   * @param {string} name
-   * @return {Repository} if given name is hosted on the provider
-   * @throws if name is not hosted on the provider
-   */
-  async repository(name) {
-    if (name === undefined) {
-      return undefined;
-    }
-    await this.initialize();
-
-    name = this.normalizeRepositoryName(name);
-
-    let owner = this;
-
-    const m = name.match(/^([^\/]+)\/(.*)/);
-    if (m) {
-      const rg = await this.repositoryGroup(m[1]);
-      if (rg !== undefined) {
-        owner = rg;
-
-        const repository = await owner.repository(m[2]);
-        if (repository !== undefined) {
-          return repository;
-        }
-      }
-    }
-
-    return undefined;
   }
 
   /**

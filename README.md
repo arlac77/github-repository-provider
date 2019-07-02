@@ -39,14 +39,12 @@ for async (const entry of repository.entries('\*_/_.md')) {
 -   [GithubProvider](#githubprovider)
     -   [Parameters](#parameters)
     -   [Properties](#properties)
+    -   [Examples](#examples)
     -   [repositories](#repositories)
         -   [Parameters](#parameters-1)
     -   [branches](#branches)
         -   [Parameters](#parameters-2)
     -   [repositoryBases](#repositorybases)
-    -   [repository](#repository)
-        -   [Parameters](#parameters-3)
-        -   [Examples](#examples)
     -   [rateLimit](#ratelimit)
     -   [environmentOptions](#environmentoptions)
 -   [GithubRepository](#githubrepository)
@@ -55,20 +53,20 @@ for async (const entry of repository.entries('\*_/_.md')) {
     -   [issuesURL](#issuesurl)
     -   [homePageURL](#homepageurl)
     -   [refId](#refid)
-        -   [Parameters](#parameters-4)
+        -   [Parameters](#parameters-3)
     -   [hooks](#hooks)
--   [GithubMixin](#githubmixin)
 -   [GithubBranch](#githubbranch)
     -   [writeEntry](#writeentry)
-        -   [Parameters](#parameters-5)
+        -   [Parameters](#parameters-4)
     -   [createPullRequest](#createpullrequest)
-        -   [Parameters](#parameters-6)
+        -   [Parameters](#parameters-5)
     -   [commit](#commit)
-        -   [Parameters](#parameters-7)
+        -   [Parameters](#parameters-6)
     -   [entry](#entry)
-        -   [Parameters](#parameters-8)
+        -   [Parameters](#parameters-7)
     -   [maybeEntry](#maybeentry)
-        -   [Parameters](#parameters-9)
+        -   [Parameters](#parameters-8)
+-   [GithubMixin](#githubmixin)
 -   [GithubOwner](#githubowner)
 -   [GithubPullRequest](#githubpullrequest)
     -   [merge](#merge)
@@ -77,7 +75,10 @@ for async (const entry of repository.entries('\*_/_.md')) {
 
 **Extends Provider**
 
+<!-- skip-example -->
+
 GitHub provider
+Lookup a repository
 
 ### Parameters
 
@@ -86,6 +87,21 @@ GitHub provider
 ### Properties
 
 -   `octokit` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+### Examples
+
+```javascript
+import GithubProvider from 'github-repository-provider';
+
+const ghp = new GithubProvider();
+const r1 = ghp.repository('git@github.com:arlac77/github-repository-provider.git');
+const r2 = ghp.repository('git://github.com/arlac77/github-repository-provider.git');
+const r3 = ghp.repository('git+ssh://github.com/arlac77/github-repository-provider.git');
+const r4 = ghp.repository('https://github.com/arlac77/github-repository-provider.git#master');
+const r5 = ghp.repository('git+https://github.com/arlac77/github-repository-provider.git#master');
+const r6 = ghp.repository('arlac77/github-repository-provider');
+// different ways to address the same repository
+```
 
 ### repositories
 
@@ -118,35 +134,6 @@ All possible base urls
 -   git+<https://github.com>
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** common base urls of all repositories
-
-### repository
-
-<!-- skip-example -->
-
-Lookup a repository
-
-#### Parameters
-
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### Examples
-
-```javascript
-import GithubProvider from 'github-repository-provider';
-
-const ghp = new GithubProvider();
-const r1 = ghp.repository('git@github.com:arlac77/github-repository-provider.git');
-const r2 = ghp.repository('git://github.com/arlac77/github-repository-provider.git');
-const r3 = ghp.repository('git+ssh://github.com/arlac77/github-repository-provider.git');
-const r4 = ghp.repository('https://github.com/arlac77/github-repository-provider.git#master');
-const r5 = ghp.repository('git+https://github.com/arlac77/github-repository-provider.git#master');
-const r6 = ghp.repository('arlac77/github-repository-provider');
-// different ways to address the same repository
-```
-
--   Throws **any** if name is not hosted on the provider
-
-Returns **Repository** if given name is hosted on the provider
 
 ### rateLimit
 
@@ -206,10 +193,6 @@ List hooks
 
 Returns **Hook** all matching hook of the repository
 
-## GithubMixin
-
-common stuff for all github objects
-
 ## GithubBranch
 
 **Extends GithubMixin(Branch)**
@@ -254,6 +237,10 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 #### Parameters
 
 -   `name`  
+
+## GithubMixin
+
+common stuff for all github objects
 
 ## GithubOwner
 
