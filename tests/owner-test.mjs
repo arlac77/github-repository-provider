@@ -13,7 +13,6 @@ test("owner with auth", async t => {
   const repo = await owner.repository("github-repository-provider");
   t.is(repo.name, "github-repository-provider");
   t.is(repo.fullName, "arlac77/github-repository-provider");
-  //  t.is(repo.description, "repository provider for github");
   t.true(owner._repositories.size > 25);
 });
 

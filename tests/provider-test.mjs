@@ -17,9 +17,6 @@ test("provider", async t => {
   t.is(repository.name, "sync-test-repository");
   t.is(repository.owner.name, "arlac77");
 
-  const branches = await repository.branches();
-  t.is(branches.get("master").name, "master");
-
   const branch = await repository.branch("master");
 
   t.is(branch.owner.name, "arlac77");
@@ -164,6 +161,6 @@ test("provider repo with branch name", async t => {
   t.is(repository.fullName, REPOSITORY_NAME);
   t.is(repository.owner.name, REPOSITORY_OWNER);
 
-  const branches = await repository.branches();
-  t.is(branches.get("master").name, "master");
+  const branch = await repository.branch('master');
+  t.is(branch.name, "master");
 });

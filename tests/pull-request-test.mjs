@@ -30,13 +30,17 @@ test("pull requests list", async t => {
 test("pull requests create & merge", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
-  const branches = await repository.branches();
 
-  const newName = `pr-test-${branches.size}`;
+  let n = 0;
+  for await(const branch of repository.branches()) {
+    n++;
+  }
+
+  const newName = `pr-test-${n}`;
   const branch = await repository.createBranch(newName);
 
   const commit = await branch.commit("message text", [
-    new StringContentEntry("README.md", `file content #${branches.size}`)
+    new StringContentEntry("README.md", `file content #${n}`)
   ]);
 
   const defaultBranch = await repository.defaultBranch;

@@ -16,11 +16,13 @@ test("repository refId", async t => {
 test("create branch", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
-  const branches = await repository.branches();
 
-  //t.is(branches.get('master').name, 'master');
+  let n = 0;
+  for await(const branch of repository.branches()) {
+    n++;
+  }
 
-  const newName = `test-${branches.size}`;
+  const newName = `test-${n}`;
   const branch = await repository.createBranch(newName);
 
   t.is(branch.name, newName);
@@ -29,20 +31,22 @@ test("create branch", async t => {
   t.deepEqual(branch, branch2);
 
   await repository.deleteBranch(newName);
-  t.is(branches.get(newName), undefined);
+  t.is(await repository.branch(newName), undefined);
 });
 
 test("create commit", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
 
-  const branches = await repository.branches();
-
-  const newName = `commit-test-${branches.size}`;
+  let n = 0;
+  for await(const branch of repository.branches()) {
+    n++;
+  }
+  const newName = `commit-test-${n}`;
   const branch = await repository.createBranch(newName);
   try {
     const commit = await branch.commit("message text", [
-      new StringContentEntry("README.md", `file content #${branches.size}`)
+      new StringContentEntry("README.md", `file content #${n}`)
     ]);
 
     t.is(commit.ref, `refs/heads/${newName}`);
