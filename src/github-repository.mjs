@@ -114,14 +114,14 @@ export class GithubRepository extends GithubMixin(Repository) {
     return super.deleteBranch(name);
   }
 
-  async pullRequests() {
+  async _fetchPullRequests() {
     let pageInfo = {};
 
     do {
       const result = await this.github.query(
         `query($username: String!, $repository:String!, $after: String) { repositoryOwner(login: $username)
       { repository(name:$repository) {
-        pullRequests(after:$after,first:100)
+        pullRequests(after:$after,first:100 states: [MERGED,OPEN])
         {pageInfo {endCursor hasNextPage}
           nodes {
             number
@@ -144,7 +144,6 @@ export class GithubRepository extends GithubMixin(Repository) {
       for (const node of pullRequests.nodes) {
         const pr = new this.pullRequestClass(
           await this.branch(node.baseRefName),
-          //await this.defaultBranch, // TODO where to take both branches from
           await this.defaultBranch, // TODO where to take both branches from
           String(node.number),
           node
@@ -152,8 +151,6 @@ export class GithubRepository extends GithubMixin(Repository) {
         this._pullRequests.set(pr.name, pr);
       }
     } while (pageInfo.hasNextPage);
-
-    return this._pullRequests;
   }
 
   async deletePullRequest(name) {
