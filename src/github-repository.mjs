@@ -1,20 +1,11 @@
-import { Repository, Hook } from "repository-provider";
+import { Repository } from "repository-provider";
 import { GithubMixin } from "./github-mixin.mjs";
 
 /**
  * Repository on GitHub
  */
 export class GithubRepository extends GithubMixin(Repository) {
-  /**
-   * Collect all branches
-   * @return {Promise}
-   */
-  async _initialize() {
-    await super._initialize();
-    await this.fetchAllBranches();
-  }
-
-  async fetchAllBranches() {
+  async _fetchBranches() {
     let pageInfo = {};
 
     do {
@@ -178,24 +169,20 @@ export class GithubRepository extends GithubMixin(Repository) {
     return result.data;
   }
 
-  /**
-   * List hooks
-   * @return {Hook} all matching hook of the repository
-   */
-  async *hooks() {
+  async _fetchHooks() {
     const res = await this.octokit.repos.listHooks({
       owner: this.owner.name,
       repo: this.name
     });
 
     for (const h of res.data) {
-      yield new Hook(this, h.name, new Set(h.events), {
+      this._hooks.push(new this.hookClass(this, h.name, new Set(h.events), {
         id: h.id,
         active: h.active,
         content_type: h.content_type,
         ...h.config,
         insecure_ssl: h.config.insecure_ssl !== '0'
-      });
+      }));
     }
   }
 }

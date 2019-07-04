@@ -48,13 +48,11 @@ for async (const entry of repository.entries('\*_/_.md')) {
     -   [rateLimit](#ratelimit)
     -   [environmentOptions](#environmentoptions)
 -   [GithubRepository](#githubrepository)
-    -   [\_initialize](#_initialize)
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
     -   [homePageURL](#homepageurl)
     -   [refId](#refid)
         -   [Parameters](#parameters-3)
-    -   [hooks](#hooks)
 -   [GithubBranch](#githubbranch)
     -   [writeEntry](#writeentry)
         -   [Parameters](#parameters-4)
@@ -157,12 +155,6 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Repository on GitHub
 
-### \_initialize
-
-Collect all branches
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)** 
-
 ### urls
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** github https url
@@ -186,12 +178,6 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 -   `ref` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
-
-### hooks
-
-List hooks
-
-Returns **Hook** all matching hook of the repository
 
 ## GithubBranch
 
