@@ -1,4 +1,5 @@
 import test from "ava";
+import { assertRepo } from './util.mjs';
 import { GithubProvider } from "../src/github-provider.mjs";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
@@ -41,34 +42,6 @@ test("provider unreachable host", async t => {
     t.is(true, false);
   }
 });
-
-async function assertRepo(t, repository, fixture) {
-  if (fixture === undefined) {
-    t.is(repository, undefined);
-  } else {
-    t.is(repository.fullName, fixture.fullName);
-
-    if (fixture.owner) {
-      t.is(repository.owner.name, fixture.owner.name);
-      t.is(repository.owner.id, fixture.owner.id);
-    }
-
-    if (fixture.hooks) {
-      let n = 0;
-      for await (const h of repository.hooks()) {
-        const fh = fixture.hooks[n++];
-        t.is(h.id, fh.id);
-        t.is(h.url, fh.url);
-        t.is(h.active, fh.active);
-        t.deepEqual(h.events, fh.events);
-      }
-    }
-
-    if (fixture.provider) {
-      t.is(repository.provider.constructor, fixture.provider);
-    }
-  }
-}
 
 const repoFixtures = {
   "git@mfelten.de/github-repository-provider.git": undefined,
