@@ -129,7 +129,14 @@ export class GithubRepository extends GithubMixin(Repository) {
             state
             locked
             merged
+            baseRepository {
+              nameWithOwner
+            }
             baseRefName
+            headRepository {
+              nameWithOwner
+            }
+            headRefName
        }}}}}`,
         {
           repository: this.name,
@@ -142,9 +149,17 @@ export class GithubRepository extends GithubMixin(Repository) {
       pageInfo = pullRequests.pageInfo;
 
       for (const node of pullRequests.nodes) {
+        const source = await this.provider.branch([node.baseRepository.nameWithOwner, node.baseRefName].join('#'));
+        const dest = await this.provider.branch([node.headRepository.nameWithOwner, node.headRefName].join('#'));
+
+        /*
+        console.log("SOURCE",[node.baseRepository.nameWithOwner, node.baseRefName].join('#'), source);
+        console.log("DEST",[node.headRepository.nameWithOwner, node.headRefName].join('#'), dest);
+        console.log("PR",node.number,node.state);
+*/
         const pr = new this.pullRequestClass(
-          await this.branch(node.baseRefName),
-          await this.defaultBranch, // TODO where to take both branches from
+          source,
+          dest,
           String(node.number),
           node
         );
