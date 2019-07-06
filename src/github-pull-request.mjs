@@ -5,6 +5,57 @@ import { GithubMixin } from "./github-mixin.mjs";
  * Github pull request
  */
 export class GithubPullRequest extends GithubMixin(PullRequest) {
+
+  static async *list(destination, states) {
+    let pageInfo = {};
+
+    const provider = destination.provider;
+
+    do {
+      const result = await provider.github.query(
+        `query($username: String!, $repository:String!, $after: String) { repositoryOwner(login: $username)
+      { repository(name:$repository) {
+        pullRequests(after:$after,first:100 states: [MERGED,OPEN])
+        {pageInfo {endCursor hasNextPage}
+          nodes {
+            number
+            title
+            state
+            locked
+            merged
+            baseRepository {
+              nameWithOwner
+            }
+            baseRefName
+            headRepository {
+              nameWithOwner
+            }
+            headRefName
+       }}}}}`,
+        {
+          repository: destination.name,
+          username: destination.owner.name,
+          after: pageInfo.endCursor
+        }
+      );
+
+      const pullRequests = result.repositoryOwner.repository.pullRequests;
+      pageInfo = pullRequests.pageInfo;
+
+      for (const node of pullRequests.nodes) {
+        const source = await provider.branch([node.baseRepository.nameWithOwner, node.baseRefName].join('#'));
+        const dest = await provider.branch([node.headRepository.nameWithOwner, node.headRefName].join('#'));
+
+        yield new destination.pullRequestClass(
+          source,
+          dest,
+          String(node.number),
+          node
+        );
+      }
+    } while (pageInfo.hasNextPage);
+  }
+
   /*
 title: 'title'
 body: 'body'

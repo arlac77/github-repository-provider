@@ -42,6 +42,13 @@ export class GithubBranch extends GithubMixin(Branch) {
     };
 
     const result = await this.octokit.pulls.create(options);
+
+    /*
+    delete result.data.base;
+    delete result.data.head;
+    console.log(result.data);
+*/
+
     return new this.pullRequestClass(this, destination, result.data.number, {
       ...options,
       ...result.data

@@ -53,7 +53,6 @@ for async (const entry of repository.entries('\*_/_.md')) {
     -   [homePageURL](#homepageurl)
     -   [refId](#refid)
         -   [Parameters](#parameters-3)
--   [GithubMixin](#githubmixin)
 -   [GithubBranch](#githubbranch)
     -   [writeEntry](#writeentry)
         -   [Parameters](#parameters-4)
@@ -65,6 +64,7 @@ for async (const entry of repository.entries('\*_/_.md')) {
         -   [Parameters](#parameters-7)
     -   [maybeEntry](#maybeentry)
         -   [Parameters](#parameters-8)
+-   [GithubMixin](#githubmixin)
 -   [GithubOwner](#githubowner)
 -   [GithubPullRequest](#githubpullrequest)
     -   [merge](#merge)
@@ -179,10 +179,6 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
 
-## GithubMixin
-
-common stuff for all github objects
-
 ## GithubBranch
 
 **Extends GithubMixin(Branch)**
@@ -227,6 +223,10 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 #### Parameters
 
 -   `name`  
+
+## GithubMixin
+
+common stuff for all github objects
 
 ## GithubOwner
 

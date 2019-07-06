@@ -114,60 +114,6 @@ export class GithubRepository extends GithubMixin(Repository) {
     return super.deleteBranch(name);
   }
 
-  async _fetchPullRequests() {
-    let pageInfo = {};
-
-    do {
-      const result = await this.github.query(
-        `query($username: String!, $repository:String!, $after: String) { repositoryOwner(login: $username)
-      { repository(name:$repository) {
-        pullRequests(after:$after,first:100 states: [MERGED,OPEN])
-        {pageInfo {endCursor hasNextPage}
-          nodes {
-            number
-            title
-            state
-            locked
-            merged
-            baseRepository {
-              nameWithOwner
-            }
-            baseRefName
-            headRepository {
-              nameWithOwner
-            }
-            headRefName
-       }}}}}`,
-        {
-          repository: this.name,
-          username: this.owner.name,
-          after: pageInfo.endCursor
-        }
-      );
-
-      const pullRequests = result.repositoryOwner.repository.pullRequests;
-      pageInfo = pullRequests.pageInfo;
-
-      for (const node of pullRequests.nodes) {
-        const source = await this.provider.branch([node.baseRepository.nameWithOwner, node.baseRefName].join('#'));
-        const dest = await this.provider.branch([node.headRepository.nameWithOwner, node.headRefName].join('#'));
-
-        /*
-        console.log("SOURCE",[node.baseRepository.nameWithOwner, node.baseRefName].join('#'), source);
-        console.log("DEST",[node.headRepository.nameWithOwner, node.headRefName].join('#'), dest);
-        console.log("PR",node.number,node.state);
-*/
-        const pr = new this.pullRequestClass(
-          source,
-          dest,
-          String(node.number),
-          node
-        );
-        this._pullRequests.set(pr.name, pr);
-      }
-    } while (pageInfo.hasNextPage);
-  }
-
   async deletePullRequest(name) {
     const result = await this.octokit.pullRequests.update({
       owner: this.owner.name,
