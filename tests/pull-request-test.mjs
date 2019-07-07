@@ -1,4 +1,5 @@
 import test from "ava";
+import { pullRequestLivecycle} from './util.mjs';
 import { StringContentEntry } from "content-entry";
 import { GithubProvider } from "../src/github-provider.mjs";
 
@@ -21,35 +22,10 @@ test("pull requests list", async t => {
   }
 });
 
-test("pull requests create & merge", async t => {
-  const provider = GithubProvider.initialize(undefined, process.env);
-  const repository = await provider.repository(REPOSITORY_NAME);
+test.only("pull requests create decline", async t => {
+  await pullRequestLivecycle(t, GithubProvider.initialize(undefined, process.env), REPOSITORY_NAME);
 
-  let n = 0;
-  for await (const branch of repository.branches()) {
-    n++;
-  }
-
-  const newName = `pr-test-${n}`;
-  const branch = await repository.createBranch(newName);
-
-  const commit = await branch.commit("message text", [
-    new StringContentEntry("README.md", `file content #${n}`)
-  ]);
-
-  const defaultBranch = await repository.defaultBranch;
-
-  let pr = await defaultBranch.createPullRequest(branch, {
-    body: "body",
-    title: "title"
-  });
-
-  t.is(pr.title, "title");
-  t.is(pr.body, "body");
-  t.true(pr.id !== undefined);
-  t.is(pr.locked, false);
-  t.is(pr.merged, false);
-
+  /*
   try {
     await pr.merge();
     t.is(pr.merged, true);
@@ -67,4 +43,5 @@ test("pull requests create & merge", async t => {
 
   await pr.delete();
   await repository.deleteBranch(newName);
+  */
 });
