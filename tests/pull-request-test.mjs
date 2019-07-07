@@ -51,7 +51,7 @@ test("pull requests create & merge", async t => {
   t.is(pr.merged, false);
 
   try {
-    pr = await pr.merge();
+    await pr.merge();
     t.is(pr.merged, true);
     t.is(pr.title, "title");
     t.is(pr.body, "body");
