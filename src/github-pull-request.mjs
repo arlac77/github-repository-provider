@@ -6,6 +6,14 @@ import { GithubMixin } from "./github-mixin.mjs";
  */
 export class GithubPullRequest extends GithubMixin(PullRequest) {
 
+  /**
+   * All valid merge methods
+   * @return {Set<string>} valid merge methods
+   */
+  static get validMergeMethods() {
+    return new Set(["MERGE", "SQUASH", "REBASE"]);
+  }
+
   static async *list(destination, states) {
     let pageInfo = {};
 
@@ -81,15 +89,26 @@ id: 224112772
   /**
    * @see https://octokit.github.io/rest.js/#api-PullRequests-merge
    */
-  async merge() {
+  async _merge(method='MERGE') {
     const result = await this.octokit.pulls.merge({
       owner: this.repository.owner.name,
       repo: this.repository.name,
-      pull_number: this.name
+      pull_number: this.name,
+      merge_method: method
     });
 
-    this.merged = result.data.merged;
-
-    return this;
+    //this.merged = result.data.merged;
+  }
+  
+  async _write() {
+    const result = await this.octokit.pulls.merge({
+      owner: this.repository.owner.name,
+      repo: this.repository.name,
+      state: this.state,
+      base: this.destination.name,
+      pull_number: this.name,
+      title: this.title,
+      body: this.body
+    });
   }
 }
