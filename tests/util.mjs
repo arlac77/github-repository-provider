@@ -42,24 +42,25 @@ export async function pullRequestLivecycle(t, provider, repoName) {
     new StringContentEntry("README.md", `file content #${name}`)
   ]);
 
-
   const pr = await provider.pullRequestClass.open(source, destination, {
     title: `test pr from ${name}`,
     body: "this is the body\n- a\n- b\n- c"
   });
+
+  t.is(pr.source, source);
+  t.is(pr.destination, destination);
+  t.true(pr.number !== undefined);
 
   t.is(pr.title, `test pr from ${name}`);
   t.is(pr.body, "this is the body\n- a\n- b\n- c");
   t.is(pr.state, "OPEN");
   t.is(pr.locked, false);
   t.is(pr.merged, false);
-  t.true(pr.number !== undefined);
 
   for await (const p of provider.pullRequestClass.list(repository)) {
-    console.log('LIST',p, pr.equals(p), pr.number,p.number, pr.repository, p.repository);
+    console.log("LIST", p, pr.equals(p));
   }
 
-  
   //await pr.decline();
   await source.delete();
 }
