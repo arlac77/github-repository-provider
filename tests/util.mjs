@@ -7,6 +7,10 @@ export async function assertRepo(t, repository, fixture) {
   } else {
     t.is(repository.fullName, fixture.fullName);
 
+    if(fixture.description !== undefined) {
+      t.is(repository.description, fixture.description);
+    }
+
     if (fixture.owner) {
       t.is(repository.owner.name, fixture.owner.name);
       t.is(repository.owner.id, fixture.owner.id);
