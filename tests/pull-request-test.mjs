@@ -22,16 +22,13 @@ test("pull requests list", async t => {
   }
 });
 
-test.only("pull requests create decline", async t => {
+test("pull requests create decline", async t => {
   await pullRequestLivecycle(t, GithubProvider.initialize(undefined, process.env), REPOSITORY_NAME);
 
   /*
   try {
     await pr.merge();
     t.is(pr.merged, true);
-    t.is(pr.title, "title");
-    t.is(pr.body, "body");
-    t.true(pr.id !== undefined);
     t.is(pr.locked, false);
   } catch (error) {
     console.log(JSON.stringify(error));

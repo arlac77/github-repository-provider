@@ -67,7 +67,9 @@ for async (const entry of repository.entries('\*_/_.md')) {
 -   [GithubMixin](#githubmixin)
 -   [GithubOwner](#githubowner)
 -   [GithubPullRequest](#githubpullrequest)
-    -   [merge](#merge)
+    -   [\_merge](#_merge)
+        -   [Parameters](#parameters-9)
+    -   [validMergeMethods](#validmergemethods)
 
 ## GithubProvider
 
@@ -238,9 +240,19 @@ common stuff for all github objects
 
 Github pull request
 
-### merge
+### \_merge
 
 -   **See: <https://octokit.github.io/rest.js/#api-PullRequests-merge>**
+
+#### Parameters
+
+-   `method`   (optional, default `"MERGE"`)
+
+### validMergeMethods
+
+All valid merge methods
+
+Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** valid merge methods
 
 # install
 

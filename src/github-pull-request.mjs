@@ -13,21 +13,24 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
     return new Set(["MERGE", "SQUASH", "REBASE"]);
   }
 
+  static get defaultListStates() {
+    return new Set(['OPEN']);
+  }
+
   static async fetch(repository, number) {
 
   }
   
-  static async *list(destination, states) {
+  static async *list(destination, states= this.defaultListStates) {
     let pageInfo = {};
 
     const provider = destination.provider;
 
-    console.log("LIST PR", destination);
     do {
       const result = await provider.github.query(
-        `query($username: String!, $repository:String!, $after: String) { repositoryOwner(login: $username)
+        `query($username: String!, $repository:String!, $states:[PullRequestState!], $after: String) { repositoryOwner(login: $username)
       { repository(name:$repository) {
-        pullRequests(after:$after,first:100 states: [OPEN])
+        pullRequests(after:$after,first:100 states:$states)
         {pageInfo {endCursor hasNextPage}
           nodes {
             number
@@ -47,7 +50,8 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
         {
           repository: destination.name,
           username: destination.owner.name,
-          after: pageInfo.endCursor
+          after: pageInfo.endCursor,
+          states: [...states]
         }
       );
 
@@ -59,10 +63,10 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
       pageInfo = pullRequests.pageInfo;
 
       for (const node of pullRequests.nodes) {
-        const source = await provider.branch(
+        const dest = await provider.branch(
           [node.baseRepository.nameWithOwner, node.baseRefName].join("#")
         );
-        const dest = await provider.branch(
+        const source = await provider.branch(
           [node.headRepository.nameWithOwner, node.headRefName].join("#")
         );
 
@@ -96,10 +100,6 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
       destination,
       result.data.number,
       result.data
-      /*{
-        ...options,
-        ...result.data
-      }*/
     );
   }
 
