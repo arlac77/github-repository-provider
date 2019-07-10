@@ -5,7 +5,13 @@ export async function assertRepo(t, repository, fixture) {
   if (fixture === undefined) {
     t.is(repository, undefined);
   } else {
-    t.is(repository.fullName, fixture.fullName);
+    if(fixture.fullName !== undefined) {
+      t.is(repository.fullName, fixture.fullName);
+    }
+
+    if(fixture.condensedName !== undefined) {
+      t.is(repository.condensedName, fixture.condensedName);
+    }
 
     if(fixture.description !== undefined) {
       t.is(repository.description, fixture.description);
