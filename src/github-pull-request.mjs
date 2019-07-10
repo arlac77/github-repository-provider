@@ -13,15 +13,9 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
     return new Set(["MERGE", "SQUASH", "REBASE"]);
   }
 
-  static get defaultListStates() {
-    return new Set(['OPEN']);
-  }
+  static async fetch(repository, number) {}
 
-  static async fetch(repository, number) {
-
-  }
-  
-  static async *list(destination, states= this.defaultListStates) {
+  static async *list(destination, states = this.defaultListStates) {
     let pageInfo = {};
 
     const provider = destination.provider;

@@ -1,6 +1,5 @@
 import test from "ava";
 import { pullRequestLivecycle} from './util.mjs';
-import { StringContentEntry } from "content-entry";
 import { GithubProvider } from "../src/github-provider.mjs";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
