@@ -1,6 +1,5 @@
 import test from "ava";
 import { GithubProvider } from "../src/github-provider.mjs";
-import { isBuffer } from "util";
 
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
