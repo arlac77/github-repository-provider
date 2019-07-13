@@ -88,7 +88,6 @@ test("locate repository several", async t => {
   const provider = new GithubProvider(config);
 
   for (const rn of Object.keys(repoFixtures)) {
-    const r = repoFixtures[rn];
     const repository = await provider.repository(rn);
     await assertRepo(t, repository, repoFixtures[rn]);
   }
