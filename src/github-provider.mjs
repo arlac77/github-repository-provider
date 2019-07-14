@@ -134,14 +134,14 @@ export class GithubProvider extends Provider {
 
     try {
       const result = await this.github.query(
-        "query($username: String!) { repositoryOwner(login: $username) { login } }",
+        "query($username: String!) { repositoryOwner(login: $username) { login, id } }",
         {
           username: name
         }
       );
 
       if (result && result.repositoryOwner) {
-        rg = new this.repositoryGroupClass(this, result.repositoryOwner.login);
+        rg = new this.repositoryGroupClass(this, result.repositoryOwner.login, result.repositoryOwner);
         this._repositoryGroups.set(rg.name, rg);
       }
     } catch (e) {
