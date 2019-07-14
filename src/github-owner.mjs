@@ -5,10 +5,6 @@ import { GithubMixin } from "./github-mixin.mjs";
  *
  */
 export class GithubOwner extends GithubMixin(RepositoryGroup) {
-  get repositoryClass() {
-    return this.provider.repositoryClass;
-  }
-
   async _initialize() {
     await this.fetchAllRepositories();
   }
