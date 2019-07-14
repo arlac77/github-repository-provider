@@ -1,25 +1,47 @@
 import { generateBranchName } from "repository-provider";
 import { StringContentEntry } from "content-entry";
 
-export async function assertRepo(t, repository, fixture) {
+export async function assertRepo(t, repository, fixture, url) {
+
+  t.log(url);
   if (fixture === undefined) {
     t.is(repository, undefined);
   } else {
-    if(fixture.fullName !== undefined) {
+    if (fixture.name !== undefined) {
+      t.is(repository.name, fixture.name);
+    }
+
+    if (fixture.fullName !== undefined) {
       t.is(repository.fullName, fixture.fullName);
     }
 
-    if(fixture.condensedName !== undefined) {
+    if (fixture.condensedName !== undefined) {
       t.is(repository.condensedName, fixture.condensedName);
     }
 
-    if(fixture.description !== undefined) {
+    if (fixture.description !== undefined) {
       t.is(repository.description, fixture.description);
     }
 
+    if (fixture.uuid !== undefined) {
+      t.is(repository.uuid, fixture.uuid);
+    }
+
+    if (fixture.id !== undefined) {
+      t.is(repository.id, fixture.id);
+    }
+
     if (fixture.owner) {
-      t.is(repository.owner.name, fixture.owner.name);
-      t.is(repository.owner.id, fixture.owner.id);
+      if (fixture.owner.name !== undefined) {
+        t.is(repository.owner.name, fixture.owner.name);
+      }
+
+      if (fixture.owner.id !== undefined) {
+        t.is(repository.owner.id, fixture.owner.id);
+      }
+      if (fixture.owner.uuid !== undefined) {
+        t.is(repository.owner.uuid, fixture.owner.uuid);
+      }
     }
 
     if (fixture.hooks) {

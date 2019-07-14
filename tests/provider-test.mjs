@@ -1,5 +1,5 @@
 import test from "ava";
-import { assertRepo } from './util.mjs';
+import { assertRepo } from "./util.mjs";
 import { GithubProvider } from "../src/github-provider.mjs";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
@@ -48,40 +48,48 @@ const repoFixtures = {
   "http://www.heise.de/index.html": undefined,
 
   ["https://github.com/" + REPOSITORY_NAME]: {
+    provider: GithubProvider,
     fullName: REPOSITORY_NAME,
-    owner: { name: REPOSITORY_OWNER }
+    owner: { name: "arlac77", id: 'MDQ6VXNlcjE1ODg2Mg==' },
   },
   ["git@github.com:" + REPOSITORY_NAME]: {
+    provider: GithubProvider,
     fullName: REPOSITORY_NAME,
-    owner: { name: REPOSITORY_OWNER }
+    owner: { name: "arlac77", id: 'MDQ6VXNlcjE1ODg2Mg==' },
   },
   [`git://github.com/${REPOSITORY_NAME}.git`]: {
+    provider: GithubProvider,
     fullName: REPOSITORY_NAME,
-    owner: { name: REPOSITORY_OWNER }
+    owner: { name: "arlac77", id: 'MDQ6VXNlcjE1ODg2Mg==' },
   },
   "git@github.com:arlac77/github-repository-provider.git": {
+    provider: GithubProvider,
+    name: "github-repository-provider",
     fullName: "arlac77/github-repository-provider",
-    owner: { name: REPOSITORY_OWNER }
+    id: 'MDEwOlJlcG9zaXRvcnkxMTA5OTg4Njg=',
+    owner: { name: "arlac77", id: 'MDQ6VXNlcjE1ODg2Mg==' },
   },
   "https://github.com/arlac77/github-repository-provider.git#master": {
+    provider: GithubProvider,
+    name: "github-repository-provider",
+    id: 'MDEwOlJlcG9zaXRvcnkxMTA5OTg4Njg=',
     fullName: "arlac77/github-repository-provider",
-    owner: { name: REPOSITORY_OWNER }
+    owner: { name: "arlac77", id: 'MDQ6VXNlcjE1ODg2Mg==' },
   },
-
   "https://github.com/arlac77/hook-ci.git#master": {
+    provider: GithubProvider,
+    name: "hook-ci",
     fullName: "arlac77/hook-ci",
-    owner: { name: REPOSITORY_OWNER },
-  hooks: [
-    {
-      id: 74923460,
-      active: true,
-      url: 'https://mfelten.dynv6.net/services/ci/api/webhook',
-      events: new Set([
-        'push'
-      ])
-    }
-  ]
-}
+    owner: { name: "arlac77", id: 'MDQ6VXNlcjE1ODg2Mg==' },
+    hooks: [
+      {
+        id: 74923460,
+        active: true,
+        url: "https://mfelten.dynv6.net/services/ci/api/webhook",
+        events: new Set(["push"])
+      }
+    ]
+  }
 };
 
 test("locate repository several", async t => {
@@ -89,7 +97,7 @@ test("locate repository several", async t => {
 
   for (const rn of Object.keys(repoFixtures)) {
     const repository = await provider.repository(rn);
-    await assertRepo(t, repository, repoFixtures[rn]);
+    await assertRepo(t, repository, repoFixtures[rn], rn);
   }
 });
 
