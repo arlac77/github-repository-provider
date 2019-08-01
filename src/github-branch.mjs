@@ -223,7 +223,7 @@ query getOnlyRootFile {
         if (entry.type === "tree") {
           yield new BaseCollectionEntry(entry.path);
         } else {
-          yield new LazayBufferContentEntry(entry.path, this);
+          yield new LazyBufferContentEntry(entry.path, this);
         }
       }
     }
@@ -234,7 +234,7 @@ query getOnlyRootFile {
   }
 }
 
-class LazayBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
+class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
   constructor(name, branch) {
     super(name);
     Object.defineProperties(this, {
