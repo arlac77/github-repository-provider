@@ -27,7 +27,7 @@ test.only("list entries", async t => {
         t.true(entry.isCollection);
       }
       else {
-        t.true((await entry.getString()).startsWith(ef.startsWith));
+        t.true((await entry.getString()).startsWith(ef.startsWith), `${entry.name} '${ef.startsWith}'`);
 
         const stream = await entry.getReadStream();
         const chunks = [];
