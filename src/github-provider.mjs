@@ -44,7 +44,6 @@ export class GithubProvider extends Provider {
    * @return {string} GITHUB_TOKEN api token
    * @return {string} GH_TOKEN api token
    */
-
   static get environmentOptions() {
     const def = { path: "authentication.token", template: { type: "token" } };
     return {
