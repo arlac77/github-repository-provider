@@ -27,9 +27,12 @@ export class GithubRepository extends GithubMixin(Repository) {
           after: pageInfo.endCursor
         }
       );
-      //console.log(JSON.stringify(result, undefined, 2));
+      const repo = result.repositoryOwner.repository;
 
-      const refs = result.repositoryOwner.repository.refs;
+      if (!repo) {
+        break;
+      }
+      const refs = repo.refs;
       pageInfo = refs.pageInfo;
 
       for (const edge of refs.edges) {
@@ -134,13 +137,15 @@ export class GithubRepository extends GithubMixin(Repository) {
     });
 
     for (const h of res.data) {
-      this._hooks.push(new this.hookClass(this, h.name, new Set(h.events), {
-        id: h.id,
-        active: h.active,
-        content_type: h.content_type,
-        ...h.config,
-        insecure_ssl: h.config.insecure_ssl !== '0'
-      }));
+      this._hooks.push(
+        new this.hookClass(this, h.name, new Set(h.events), {
+          id: h.id,
+          active: h.active,
+          content_type: h.content_type,
+          ...h.config,
+          insecure_ssl: h.config.insecure_ssl !== "0"
+        })
+      );
     }
   }
 }
