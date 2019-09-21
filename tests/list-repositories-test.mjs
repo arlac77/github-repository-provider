@@ -16,6 +16,20 @@ test("list repositories", async t => {
   t.truthy(Object.keys(repositories).length > 3);
 });
 
+test("list repositories more", async t => {
+  const provider = new GithubProvider(config);
+
+  const branches = {};
+
+  for await (const r of provider.repositories("arlac77/*")) {
+    branches[r.name] = await r.defaultBranch;
+  }
+
+  //console.log(Object.keys(branches));
+  t.truthy(Object.keys(branches).length > 50);
+});
+
+
 test("list repositories non owner", async t => {
   const provider = new GithubProvider(config);
 
