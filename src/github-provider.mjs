@@ -8,6 +8,7 @@ export { GithubRepository, GithubBranch, GithubOwner, GithubPullRequest };
 import GitHub from "github-graphql-api/dist/github";
 import octokit from "@octokit/rest";
 import throttling from "@octokit/plugin-throttling";
+import micromatch from "micromatch";
 
 /**
  * <!-- skip-example -->
@@ -65,9 +66,7 @@ export class GithubProvider extends Provider {
       throttle: {
         onRateLimit: (retryAfter, options) => {
           console.warn(
-            `Request quota exhausted for request ${options.method} ${
-              options.url
-            }`
+            `Request quota exhausted for request ${options.method} ${options.url}`
           );
 
           if (options.request.retryCount === 0) {
@@ -101,25 +100,25 @@ export class GithubProvider extends Provider {
     return GithubOwner;
   }
 
-  /*
-    async *repositoryGroups(patterns) {
-      const res = await this.octokit.repos.list({affiliation:['owner','collaborator','organization_member']});
-  
-      res.data.forEach(r => {
-          console.log("full_name",r.full_name);
-  
-          const [groupName,repoName] = r.full_name.split(/\//);
-  
-          let rg = this._repositoryGroups.get(groupName);
-          if(rg === undefined) {
-            rg = new this.repositoryGroupClass(this, groupName);
-            this._repositoryGroups.set(rg.name, rg);
-          }
-      });
-  
-      console.log(...this._repositoryGroups.keys());
+  async *repositoryGroups(patterns) {
+    const res = await this.octokit.repos.list({
+      affiliation: ["owner", "collaborator", "organization_member"]
+    });
+
+    res.data.forEach(r => {
+      const [groupName, repoName] = r.full_name.split(/\//);
+
+      let rg = this._repositoryGroups.get(groupName);
+      if (rg === undefined) {
+        rg = new this.repositoryGroupClass(this, groupName);
+        this._repositoryGroups.set(rg.name, rg);
+      }
+    });
+
+    for(const name of micromatch([...this._repositoryGroups.keys()], patterns)) {
+      yield this._repositoryGroups.get(name);
     }
-  */
+  }
 
   async repositoryGroup(name) {
     if (name === undefined) {
@@ -140,7 +139,11 @@ export class GithubProvider extends Provider {
       );
 
       if (result && result.repositoryOwner) {
-        rg = new this.repositoryGroupClass(this, result.repositoryOwner.login, result.repositoryOwner);
+        rg = new this.repositoryGroupClass(
+          this,
+          result.repositoryOwner.login,
+          result.repositoryOwner
+        );
         this._repositoryGroups.set(rg.name, rg);
       }
     } catch (e) {
