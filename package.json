@@ -33,7 +33,7 @@
     "content-entry": "^2.2.2",
     "github-graphql-api": "^1.0.6",
     "micromatch": "^4.0.2",
-    "repository-provider": "^16.7.3"
+    "repository-provider": "^16.7.4"
   },
   "devDependencies": {
     "ava": "^2.4.0",
