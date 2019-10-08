@@ -115,7 +115,9 @@ export class GithubProvider extends Provider {
       }
     });
 
-    for(const name of micromatch([...this._repositoryGroups.keys()], patterns)) {
+    for (const name of patterns
+      ? micromatch([...this._repositoryGroups.keys()], patterns)
+      : this._repositoryGroups.keys()) {
       yield this._repositoryGroups.get(name);
     }
   }

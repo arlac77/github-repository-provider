@@ -15,3 +15,16 @@ test("list groups", async t => {
   //console.log(Object.keys(groups));
   t.truthy(Object.keys(groups).length >= 1);
 });
+
+test("list groups without pattern", async t => {
+  const provider = new GithubProvider(config);
+
+  const groups = {};
+
+  for await (const g of provider.repositoryGroups()) {
+    groups[g.name] = g;
+  }
+
+  //console.log(Object.keys(groups));
+  t.truthy(Object.keys(groups).length >= 1);
+});
