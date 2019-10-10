@@ -1,5 +1,5 @@
 import test from "ava";
-import { pullRequestLivecycle} from "repository-provider-test-support";
+import { pullRequestLivecycle } from "repository-provider-test-support";
 import { GithubProvider } from "../src/github-provider.mjs";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
@@ -12,8 +12,8 @@ test("pull requests list", async t => {
     t.is(pr.destination, await repository.defaultBranch);
     t.true(pr.number !== undefined);
     t.true(pr.title.length >= 1);
-   // t.truthy(pr.title.match(/merge package template/));
-    t.is(pr.state, ["MERGED","OPEN"].find(s => s === pr.state));
+    // t.truthy(pr.title.match(/merge package template/));
+    t.is(pr.state, ["MERGED", "OPEN"].find(s => s === pr.state));
     //t.false(pr.merged);
     t.false(pr.locked);
   }
@@ -22,7 +22,11 @@ test("pull requests list", async t => {
 });
 
 test("pull requests create decline", async t => {
-  await pullRequestLivecycle(t, GithubProvider.initialize(undefined, process.env), REPOSITORY_NAME);
+  await pullRequestLivecycle(
+    t,
+    GithubProvider.initialize(undefined, process.env),
+    REPOSITORY_NAME
+  );
 
   /*
   try {

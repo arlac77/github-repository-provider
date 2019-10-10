@@ -18,7 +18,7 @@ test("create branch", async t => {
   const repository = await provider.repository(REPOSITORY_NAME);
 
   let n = 0;
-  for await(const branch of repository.branches()) {
+  for await (const branch of repository.branches()) {
     n++;
   }
 
@@ -39,7 +39,7 @@ test("create commit", async t => {
   const repository = await provider.repository(REPOSITORY_NAME);
 
   let n = 0;
-  for await(const branch of repository.branches()) {
+  for await (const branch of repository.branches()) {
     n++;
   }
   const newName = `commit-test-${n}`;
