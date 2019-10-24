@@ -1,11 +1,13 @@
 import test from "ava";
-import { assertRepo } from "repository-provider-test-support";
+import { assertRepo, providerTest } from "repository-provider-test-support";
 import { GithubProvider } from "../src/github-provider.mjs";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
 const REPOSITORY_OWNER = "arlac77";
 
 const config = GithubProvider.optionsFromEnvironment(process.env);
+
+test(providerTest,new GithubProvider(config));
 
 test("provider", async t => {
   const provider = new GithubProvider(config);

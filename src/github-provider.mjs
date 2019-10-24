@@ -163,6 +163,14 @@ export class GithubProvider extends Provider {
    * @return {Iterator<Repository>} all matching repositories of the provider
    */
   async *repositories(patterns) {
+    if(patterns === undefined || patterns === "*") {
+      this.initialize();
+      for(const group of this._repositoryGroups.values()) {
+        yield* group.repositories();
+      }
+      return;
+    }
+
     if (!Array.isArray(patterns)) {
       patterns = [patterns];
     }
@@ -170,7 +178,6 @@ export class GithubProvider extends Provider {
     for (const pattern of patterns) {
       const m = pattern.split(/\//);
       if (m.length === 2) {
-        //console.log("GROUP", m[0]);
         const group = await this.repositoryGroup(m[0]);
         if (group) {
           yield* group.repositories(m[1]);

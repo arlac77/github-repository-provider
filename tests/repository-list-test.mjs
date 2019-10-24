@@ -5,7 +5,16 @@ import { GithubProvider } from "../src/github-provider.mjs";
 
 const config = GithubProvider.optionsFromEnvironment(process.env);
 
-test(repositoryListTest, new GithubProvider(config), "arlac77/npm-*", {
+const provider = new GithubProvider(config);
+test(repositoryListTest, provider, "arlac77/npm-*", {
+  "npm-template-sync": { name: "npm-template-sync" }
+});
+
+test.skip(repositoryListTest, provider, "*", {
+  "npm-template-sync": { name: "npm-template-sync" }
+});
+
+test.skip(repositoryListTest, provider, undefined, {
   "npm-template-sync": { name: "npm-template-sync" }
 });
 
