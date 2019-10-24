@@ -5,7 +5,7 @@ import { GithubProvider } from "../src/github-provider.mjs";
 
 const config = GithubProvider.optionsFromEnvironment(process.env);
 
-test.only(repositoryListTest, new GithubProvider(config), "arlac77/npm-*", {
+test(repositoryListTest, new GithubProvider(config), "arlac77/npm-*", {
   "npm-template-sync": { name: "npm-template-sync" }
 });
 
