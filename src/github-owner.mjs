@@ -9,6 +9,9 @@ export class GithubOwner extends GithubMixin(RepositoryGroup) {
     await this.fetchAllRepositories();
   }
 
+  /**
+   * @see https://developer.github.com/v4/object/repository/
+   */
   async fetchAllRepositories() {
     let pageInfo = {};
 
@@ -17,7 +20,7 @@ export class GithubOwner extends GithubMixin(RepositoryGroup) {
         `query($username: String!,$after: String) { repositoryOwner(login: $username)
       { repositories(after:$after,first:100,affiliations:[OWNER])
         {pageInfo {endCursor hasNextPage}
-          nodes { id name description } } }}`,
+          nodes { id name description isArchived isLocked isDisabled } } }}`,
         {
           username: this.name,
           after: pageInfo.endCursor
