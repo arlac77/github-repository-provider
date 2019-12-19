@@ -229,6 +229,24 @@ query getOnlyRootFile {
     }
   }
 
+  /**
+   * https://developer.github.com/v3/repos/contents/
+   * @param {Iterator<ContentEntry>} entries
+   */
+  async removeEntires(entries) {
+    for await (const entry of entries) {
+      await this.octokit.repos.deleteFile({
+        owner: this.owner.name,
+        repo: this.repository.name,
+        path: entry.name
+        // message,
+        // sha
+      });
+    }
+
+    // DELETE /repos/:owner/:repo/contents/:path
+  }
+
   get entryClass() {
     return BufferContentEntry;
   }
