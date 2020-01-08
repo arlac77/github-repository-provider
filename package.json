@@ -26,7 +26,8 @@
     "docs": "documentation readme src/github-provider.mjs --section=API",
     "lint": "documentation lint src/github-provider.mjs",
     "posttest": "markdown-doctest",
-    "test": "ava"
+    "test": "ava",
+    "prepare": "rollup -c"
   },
   "dependencies": {
     "@octokit/plugin-throttling": "2.7.1",
