@@ -18,7 +18,7 @@ repository provider for github
 
 <!-- skip example -->
 
-´´´es6
+```javascript
 import { GithubProvider } from 'github-repository-provider';
 
 const config = GithubProvider.optionsFromEnvironment(process.env);
@@ -65,10 +65,13 @@ for async (const entry of repository.entries('\*_/_.md')) {
         -   [Parameters](#parameters-7)
     -   [maybeEntry](#maybeentry)
         -   [Parameters](#parameters-8)
+    -   [removeEntires](#removeentires)
+        -   [Parameters](#parameters-9)
 -   [GithubOwner](#githubowner)
+    -   [fetchAllRepositories](#fetchallrepositories)
 -   [GithubPullRequest](#githubpullrequest)
     -   [\_merge](#_merge)
-        -   [Parameters](#parameters-9)
+        -   [Parameters](#parameters-10)
     -   [validMergeMethods](#validmergemethods)
 
 ## GithubProvider
@@ -230,9 +233,21 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 -   `name`  
 
+### removeEntires
+
+<https://developer.github.com/v3/repos/contents/>
+
+#### Parameters
+
+-   `entries` **Iterator&lt;ContentEntry>** 
+
 ## GithubOwner
 
 **Extends GithubMixin(RepositoryGroup)**
+
+### fetchAllRepositories
+
+-   **See: <https://developer.github.com/v4/object/repository/>**
 
 ## GithubPullRequest
 
