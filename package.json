@@ -29,12 +29,12 @@
     "test": "ava"
   },
   "dependencies": {
-    "@octokit/plugin-throttling": "3.0.0",
-    "@octokit/rest": "16.36.0",
-    "content-entry": "^2.2.5",
+    "@octokit/plugin-throttling": "3.1.0",
+    "@octokit/rest": "16.38.1",
+    "content-entry": "^2.2.6",
     "github-graphql-api": "^1.0.6",
     "micromatch": "^4.0.2",
-    "repository-provider": "^16.11.0"
+    "repository-provider": "^16.11.1"
   },
   "devDependencies": {
     "ava": "^2.4.0",
