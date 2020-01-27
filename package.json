@@ -29,12 +29,12 @@
     "test": "ava"
   },
   "dependencies": {
-    "@octokit/plugin-throttling": "3.1.0",
+    "@octokit/plugin-throttling": "3.2.0",
     "@octokit/rest": "16.38.2",
     "content-entry": "^2.2.6",
     "github-graphql-api": "^1.0.6",
     "micromatch": "^4.0.2",
-    "repository-provider": "^16.11.1"
+    "repository-provider": "^16.11.2"
   },
   "devDependencies": {
     "ava": "^2.4.0",
@@ -43,7 +43,7 @@
     "esm": "^3.2.25",
     "markdown-doctest": "^1.0.0",
     "repository-provider-test-support": "github:arlac77/repository-provider-test-support",
-    "semantic-release": "^16.0.2"
+    "semantic-release": "^16.0.3"
   },
   "engines": {
     "node": ">=12.14.1"
