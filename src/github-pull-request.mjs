@@ -67,7 +67,7 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
         yield new destination.pullRequestClass(
           source,
           dest,
-          String(node.number),
+          node.number,
           node
         );
       }
