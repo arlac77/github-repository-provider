@@ -27,21 +27,4 @@ test("pull requests create decline", async t => {
     GithubProvider.initialize(undefined, process.env),
     REPOSITORY_NAME
   );
-
-  /*
-  try {
-    await pr.merge();
-    t.is(pr.merged, true);
-    t.is(pr.locked, false);
-  } catch (error) {
-    console.log(JSON.stringify(error));
-    t.is(
-      error.message,
-      "Base branch was modified. Review and try the merge again."
-    );
-  }
-
-  await pr.delete();
-  await repository.deleteBranch(newName);
-  */
 });
