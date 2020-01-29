@@ -15,12 +15,7 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
 
   static async fetch(repository, number) {}
 
-  static async *list(
-    repository,
-    sourceBranch,
-    destinationBranch,
-    states = this.defaultListStates
-  ) {
+  static async *list(repository, filter = {}) {
     let pageInfo = {};
 
     const provider = repository.provider;
@@ -47,12 +42,12 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
             headRefName
        }}}}}`,
         {
-          headRefName: sourceBranch ? sourceBranch.name : undefined,
-          baseRefName: destinationBranch ? destinationBranch.name : undefined,
+          headRefName: filter.source ? filter.source.name : undefined,
+          baseRefName: filter.destination ? filter.destination.name : undefined,
           repository: repository.name,
           username: repository.owner.name,
           after: pageInfo.endCursor,
-          states: states ? [...states] : undefined
+          states: [...(filter.states ? filter.states : this.defaultListStates)]
         }
       );
 
@@ -77,27 +72,29 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
   }
 
   static async open(source, destination, options) {
-    for await (const p of source.provider.pullRequestClass.list(source.repository,source,destination)) {
+    for await (const p of source.provider.pullRequestClass.list(
+      source.repository,
+      { source, destination }
+    )) {
       return p;
     }
 
+    //    try {
+    const result = await source.octokit.pulls.create({
+      owner: destination.owner.name,
+      repo: destination.repository.name,
+      base: destination.name,
+      head: source.name,
+      ...options
+    });
 
-//    try {
-      const result = await source.octokit.pulls.create({
-        owner: destination.owner.name,
-        repo: destination.repository.name,
-        base: destination.name,
-        head: source.name,
-        ...options
-      });
-
-      return new source.pullRequestClass(
-        source,
-        destination,
-        result.data.number,
-        result.data
-      );
-  /*  } catch (e) {
+    return new source.pullRequestClass(
+      source,
+      destination,
+      result.data.number,
+      result.data
+    );
+    /*  } catch (e) {
       if (
         e.errors && 
         e.errors.find(e =>
