@@ -21,7 +21,7 @@ test("pull requests list", async t => {
   t.true(repository !== undefined);
 });
 
-test("pull requests create decline", async t => {
+test.only("pull requests create decline", async t => {
   await pullRequestLivecycle(
     t,
     GithubProvider.initialize(undefined, process.env),

@@ -15,16 +15,21 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
 
   static async fetch(repository, number) {}
 
-  static async *list(destination, states = this.defaultListStates) {
+  static async *list(
+    repository,
+    sourceBranch,
+    destinationBranch,
+    states = this.defaultListStates
+  ) {
     let pageInfo = {};
 
-    const provider = destination.provider;
+    const provider = repository.provider;
 
     do {
       const result = await provider.github.query(
-        `query($username: String!, $repository:String!, $states:[PullRequestState!], $after: String) { repositoryOwner(login: $username)
+        `query($username: String!, $repository:String!, $baseRefName:String, $headRefName:String $states:[PullRequestState!], $after: String) { repositoryOwner(login: $username)
       { repository(name:$repository) {
-        pullRequests(after:$after,first:100 states:$states)
+        pullRequests(baseRefName:$baseRefName, headRefName:$headRefName, after:$after, first:100, states:$states)
         {pageInfo {endCursor hasNextPage}
           nodes {
             number
@@ -42,10 +47,12 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
             headRefName
        }}}}}`,
         {
-          repository: destination.name,
-          username: destination.owner.name,
+          headRefName: sourceBranch ? sourceBranch.name : undefined,
+          baseRefName: destinationBranch ? destinationBranch.name : undefined,
+          repository: repository.name,
+          username: repository.owner.name,
           after: pageInfo.endCursor,
-          states: [...states]
+          states: states ? [...states] : undefined
         }
       );
 
@@ -64,37 +71,45 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
           [node.headRepository.nameWithOwner, node.headRefName].join("#")
         );
 
-        yield new destination.pullRequestClass(
-          source,
-          dest,
-          node.number,
-          node
-        );
+        yield new repository.pullRequestClass(source, dest, node.number, node);
       }
     } while (pageInfo.hasNextPage);
   }
 
   static async open(source, destination, options) {
-    const result = await source.octokit.pulls.create({
-      owner: destination.owner.name,
-      repo: destination.repository.name,
-      base: destination.name,
-      head: source.name,
-      ...options
-    });
+    for await (const p of source.provider.pullRequestClass.list(source.repository,source,destination)) {
+      return p;
+    }
 
-    /*
-  delete result.data.base;
-  delete result.data.head;
-  console.log(result.data);
-*/
 
-    return new source.pullRequestClass(
-      source,
-      destination,
-      result.data.number,
-      result.data
-    );
+//    try {
+      const result = await source.octokit.pulls.create({
+        owner: destination.owner.name,
+        repo: destination.repository.name,
+        base: destination.name,
+        head: source.name,
+        ...options
+      });
+
+      return new source.pullRequestClass(
+        source,
+        destination,
+        result.data.number,
+        result.data
+      );
+  /*  } catch (e) {
+      if (
+        e.errors && 
+        e.errors.find(e =>
+          e.message.startsWith("A pull request already exists")
+        )
+      ) {
+
+        for await (const p of source.provider.pullRequestClass.list(source.repository,source,destination)) {
+          return p;
+        }
+      } else throw e;
+    }*/
   }
 
   /*
