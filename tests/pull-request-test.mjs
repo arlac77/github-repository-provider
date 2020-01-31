@@ -4,7 +4,15 @@ import { GithubProvider } from "../src/github-provider.mjs";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
 
-test("pull requests list", async t => {
+test("pr lifecycle", async t => {
+  await pullRequestLivecycle(
+    t,
+    GithubProvider.initialize(undefined, process.env),
+    REPOSITORY_NAME
+  );
+});
+
+test("pr list", async t => {
   const provider = GithubProvider.initialize(undefined, process.env);
   const repository = await provider.repository(REPOSITORY_NAME);
 
@@ -21,10 +29,3 @@ test("pull requests list", async t => {
   t.true(repository !== undefined);
 });
 
-test.only("pull requests create decline", async t => {
-  await pullRequestLivecycle(
-    t,
-    GithubProvider.initialize(undefined, process.env),
-    REPOSITORY_NAME
-  );
-});
