@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@octokit/plugin-throttling": "3.2.0",
-    "@octokit/rest": "16.40.1",
+    "@octokit/rest": "16.41.1",
     "content-entry": "^2.2.6",
     "github-graphql-api": "^1.0.6",
     "micromatch": "^4.0.2",
