@@ -1,0 +1,10 @@
+{
+  "name": "github-repository-provider",
+  "description": "repository provider for github",
+  "icons": [
+    {
+      "src": "facicon.ico",
+      "sizes": "16x16"
+    }
+  ]
+}
