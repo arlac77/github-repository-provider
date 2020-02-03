@@ -92,13 +92,13 @@ export class GithubRepository extends GithubMixin(Repository) {
   }
 
   async _createBranch(name, from, options) {
-    const res = await this.octokit.gitdata.getRef({
+    const res = await this.octokit.git.getRef({
       owner: this.owner.name,
       repo: this.name,
       ref: `heads/${from.name}`
     });
 
-    await this.octokit.gitdata.createRef({
+    await this.octokit.git.createRef({
       owner: this.owner.name,
       repo: this.name,
       ref: `refs/heads/${name}`,
@@ -109,7 +109,7 @@ export class GithubRepository extends GithubMixin(Repository) {
   }
 
   async deleteBranch(name) {
-    await this.octokit.gitdata.deleteRef({
+    await this.octokit.git.deleteRef({
       owner: this.owner.name,
       repo: this.name,
       ref: `heads/${name}`
@@ -118,7 +118,7 @@ export class GithubRepository extends GithubMixin(Repository) {
   }
 
   async deletePullRequest(name) {
-    const result = await this.octokit.pullRequests.update({
+    const result = await this.octokit.pulls.update({
       owner: this.owner.name,
       repo: this.name,
       pull_number: name,
