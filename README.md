@@ -53,7 +53,6 @@ console.log(entry.name);
     -   [homePageURL](#homepageurl)
     -   [refId](#refid)
         -   [Parameters](#parameters-3)
--   [GithubMixin](#githubmixin)
 -   [GithubBranch](#githubbranch)
     -   [writeEntry](#writeentry)
         -   [Parameters](#parameters-4)
@@ -67,6 +66,7 @@ console.log(entry.name);
         -   [Parameters](#parameters-8)
     -   [removeEntires](#removeentires)
         -   [Parameters](#parameters-9)
+-   [GithubMixin](#githubmixin)
 -   [GithubOwner](#githubowner)
     -   [fetchAllRepositories](#fetchallrepositories)
 -   [GithubPullRequest](#githubpullrequest)
@@ -184,10 +184,6 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
 
-## GithubMixin
-
-common stuff for all github objects
-
 ## GithubBranch
 
 **Extends GithubMixin(Branch)**
@@ -240,6 +236,10 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 #### Parameters
 
 -   `entries` **Iterator&lt;ContentEntry>** 
+
+## GithubMixin
+
+common stuff for all github objects
 
 ## GithubOwner
 
