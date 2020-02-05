@@ -6,7 +6,7 @@ const REPOSITORY_NAME = "arlac77/sync-test-repository";
 
 const config = GithubProvider.optionsFromEnvironment(process.env);
 
-test("list entries", async t => {
+test("branch entries list", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
   const branch = await repository.branch("master");
@@ -18,7 +18,7 @@ test("list entries", async t => {
   });
 });
 
-test("list entries with pattern", async t => {
+test("branch entries list with pattern", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository("arlac77/repository-provider");
   const branch = await repository.branch("master");
