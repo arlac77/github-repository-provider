@@ -64,6 +64,14 @@ export class GithubRepository extends GithubMixin(Repository) {
     return `${this.provider.url}${this.fullName}#readme`;
   }
 
+  async update() {
+    const response = await this.octokit.repos.update({
+      owner: this.owner.name,
+      repo: this.name,
+      description: this.description
+    });
+  }
+
   /**
    *
    * @param {string} ref

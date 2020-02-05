@@ -8,12 +8,11 @@ test("create & delete repo", async t => {
   const provider = new GithubProvider(config);
   const group = await provider.repositoryGroup("arlac77");
   const repo = await group.createRepository("test-repo-1", {
-    description: "a description"
+    description: "a description",
+    auto_init: true
   });
   t.truthy(repo);
   
-  //await repo.createBranch('master');
-
   t.is(repo.description, "a description");
 
   try {
