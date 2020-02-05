@@ -36,12 +36,24 @@ export class GithubOwner extends GithubMixin(RepositoryGroup) {
       }
     } while (pageInfo.hasNextPage);
   }
-  
+
   async _createRepository(name, options) {
-     const response = await this.octokit.repos.createInOrg(this.name,name);
-     
-     console.log(response);
-     
-     return new this.repositoryClass(this, name, options);
+    // todo check that group is current auth user
+    const response = await this.octokit.repos.createForAuthenticatedUser({
+      //org: this.name,
+      name,
+      ...options
+    });
+
+    return new this.repositoryClass(this, name, options);
+  }
+
+  async deleteRepository(name) {
+    const response = await this.octokit.repos.delete({
+      owner: this.name,
+      repo: name });
+
+    console.log(response);
+    return super.deleteRepository();
   }
 }
