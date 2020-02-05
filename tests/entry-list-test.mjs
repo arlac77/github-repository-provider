@@ -1,60 +1,32 @@
 import test from "ava";
 import { GithubProvider } from "../src/github-provider.mjs";
-
+import { entryListTest } from "repository-provider-test-support";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
 
 const config = GithubProvider.optionsFromEnvironment(process.env);
 
-const entryFixtures = {
-  "README.md" : { startsWith: "fil" },
-  "tests/rollup.config.js" : { startsWith: "import babel" },
-  "tests" : { isCollection: true },
-  "a/b/c/file.txt" : { startsWith: "file content" }
-};
-
 test("list entries", async t => {
   const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
   const branch = await repository.branch("master");
-
-  t.plan( 1 + 3 * 2);
-
-  for await (const entry of branch.entries()) {
-    const ef = entryFixtures[entry.name];
-
-    if(ef !== undefined) {
-      if(ef.isCollection) {
-        t.true(entry.isCollection);
-      }
-      else {
-        t.true((await entry.getString()).startsWith(ef.startsWith), `${entry.name} '${ef.startsWith}'`);
-
-        const stream = await entry.getReadStream();
-        const chunks = [];
-        for await (const chunk of stream) {
-          chunks.push(chunk);
-        }
-        t.true(chunks.join().startsWith(ef.startsWith));
-      }
-    }
-  }
+  await entryListTest(t, branch, undefined, {
+    "README.md": { startsWith: "fil" },
+    "tests/rollup.config.js": { startsWith: "import babel" },
+    tests: { isCollection: true },
+    "a/b/c/file.txt": { startsWith: "file content" }
+  });
 });
 
 test("list entries with pattern", async t => {
   const provider = new GithubProvider(config);
-  const repository = await provider.repository(
-    "arlac77/repository-provider"
-  );
+  const repository = await provider.repository("arlac77/repository-provider");
   const branch = await repository.branch("master");
 
-  const entries = {};
-  for await (const entry of branch.entries(["**/*.mjs",'!tests/*.mjs'])) {
-    entries[entry.name] = entry;
-  }
-
-  t.is(entries["tests/repository-test.mjs"], undefined);
-  t.is(entries["src/repository.mjs"].name, "src/repository.mjs");
+  await entryListTest(t, branch, ["**/*.mjs", "!tests/*.mjs"], {
+    "tests/repository-test.mjs": { notPresent: true },
+    "src/repository.mjs": { startsWith: "import" }
+  });
 });
 
 test("branch entry", async t => {
