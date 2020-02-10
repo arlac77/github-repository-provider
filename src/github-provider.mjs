@@ -5,7 +5,7 @@ import { GithubOwner } from "./github-owner.mjs";
 import { GithubPullRequest } from "./github-pull-request.mjs";
 export { GithubRepository, GithubBranch, GithubOwner, GithubPullRequest };
 
-import GitHub from "github-graphql-api/dist/github";
+import GitHub from "github-graphql-api/dist/github.mjs";
 import octokit from "@octokit/rest";
 import throttling from "@octokit/plugin-throttling";
 import micromatch from "micromatch";
