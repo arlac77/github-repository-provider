@@ -139,50 +139,6 @@ export class GithubBranch extends GithubMixin(Branch) {
     }
   }
 
-  /*
-@see https://platform.github.community/t/how-can-build-a-tree-view-from-a-git-repository-tree/6003/2
-MDM6UmVmMzY5MjUyNzQ6bWFzdGVy
-query getOnlyRootFile {
-  repository(owner: "s-xq", name: "github-android") {
-    ref(qualifiedName: "refs/heads/master") {
-      target {
-        ... on Commit {
-          tree {
-            entries {
-              name
-              mode
-              type
-              object {
-                ... on Tree {
-                  entries {
-                    name
-                    mode
-                    type
-                    object {
-                      ... on Tree {
-                        entries {
-                          name
-                          mode
-                          type
-                          object {
-                            ... on Tree {
-                              oid
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-*/
   async tree(tree_sha) {
     const result = await this.octokit.git.getTree({
       owner: this.owner.name,
