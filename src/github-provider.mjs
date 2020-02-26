@@ -6,7 +6,7 @@ import { GithubPullRequest } from "./github-pull-request.mjs";
 export { GithubRepository, GithubBranch, GithubOwner, GithubPullRequest };
 
 import GitHub from "github-graphql-api/dist/github.mjs";
-import octokit from "@octokit/rest";
+import Octokit from "@octokit/rest";
 import throttling from "@octokit/plugin-throttling";
 import micromatch from "micromatch";
 
@@ -61,7 +61,7 @@ export class GithubProvider extends Provider {
       apiUrl: this.graphqlApi
     });
 
-    const oc = octokit.plugin(throttling.throttling)({
+    const oc = /*Octokit. */ Octokit.plugin(throttling.throttling)({
       auth: `token ${this.authentication.token}`,
       throttle: {
         onRateLimit: (retryAfter, options) => {
