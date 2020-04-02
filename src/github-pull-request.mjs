@@ -65,7 +65,6 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
         const source = await provider.branch(
           [node.headRepository.nameWithOwner, node.headRefName].join("#")
         );
-
         yield new repository.pullRequestClass(source, dest, node.number, node);
       }
     } while (pageInfo.hasNextPage);

@@ -1,3 +1,4 @@
+import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import { RepositoryGroup } from "repository-provider";
 import { GithubMixin } from "./github-mixin.mjs";
 
@@ -5,14 +6,10 @@ import { GithubMixin } from "./github-mixin.mjs";
  *
  */
 export class GithubOwner extends GithubMixin(RepositoryGroup) {
-  async _initialize() {
-    await this.fetchAllRepositories();
-  }
-
   /**
    * @see https://developer.github.com/v4/object/repository/
    */
-  async fetchAllRepositories() {
+  async initialize() {
     let pageInfo = {};
 
     do {
@@ -51,9 +48,12 @@ export class GithubOwner extends GithubMixin(RepositoryGroup) {
   async deleteRepository(name) {
     const response = await this.octokit.repos.delete({
       owner: this.name,
-      repo: name });
+      repo: name
+    });
 
     console.log(response);
     return super.deleteRepository();
   }
 }
+
+replaceWithOneTimeExecutionMethod(GithubOwner.prototype, "initialize");

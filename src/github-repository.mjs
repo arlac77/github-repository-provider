@@ -1,3 +1,4 @@
+import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import { Repository } from "repository-provider";
 import { GithubMixin } from "./github-mixin.mjs";
 
@@ -5,7 +6,7 @@ import { GithubMixin } from "./github-mixin.mjs";
  * Repository on GitHub
  */
 export class GithubRepository extends GithubMixin(Repository) {
-  async _fetchBranches() {
+  async initializeBranches() {
     let pageInfo = {};
 
     do {
@@ -138,7 +139,7 @@ export class GithubRepository extends GithubMixin(Repository) {
     return result.data;
   }
 
-  async _fetchHooks() {
+  async initializeHooks() {
     const res = await this.octokit.repos.listHooks({
       owner: this.owner.name,
       repo: this.name
@@ -157,3 +158,13 @@ export class GithubRepository extends GithubMixin(Repository) {
     }
   }
 }
+
+replaceWithOneTimeExecutionMethod(
+  GithubRepository.prototype,
+  "initializeBranches"
+);
+
+replaceWithOneTimeExecutionMethod(
+  GithubRepository.prototype,
+  "initializeHooks"
+);

@@ -52,6 +52,7 @@ console.log(entry.name);
     -   [homePageURL](#homepageurl)
     -   [refId](#refid)
         -   [Parameters](#parameters-3)
+-   [GithubMixin](#githubmixin)
 -   [GithubBranch](#githubbranch)
     -   [writeEntry](#writeentry)
         -   [Parameters](#parameters-4)
@@ -65,9 +66,8 @@ console.log(entry.name);
         -   [Parameters](#parameters-8)
     -   [removeEntires](#removeentires)
         -   [Parameters](#parameters-9)
--   [GithubMixin](#githubmixin)
 -   [GithubOwner](#githubowner)
-    -   [fetchAllRepositories](#fetchallrepositories)
+    -   [initialize](#initialize)
 -   [GithubPullRequest](#githubpullrequest)
     -   [\_merge](#_merge)
         -   [Parameters](#parameters-10)
@@ -183,6 +183,10 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
 
+## GithubMixin
+
+common stuff for all github objects
+
 ## GithubBranch
 
 **Extends GithubMixin(Branch)**
@@ -236,15 +240,11 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 -   `entries` **Iterator&lt;ContentEntry>** 
 
-## GithubMixin
-
-common stuff for all github objects
-
 ## GithubOwner
 
 **Extends GithubMixin(RepositoryGroup)**
 
-### fetchAllRepositories
+### initialize
 
 -   **See: <https://developer.github.com/v4/object/repository/>**
 
