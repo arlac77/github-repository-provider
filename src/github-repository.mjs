@@ -168,3 +168,5 @@ replaceWithOneTimeExecutionMethod(
   GithubRepository.prototype,
   "initializeHooks"
 );
+
+replaceWithOneTimeExecutionMethod(GithubRepository.prototype, "initializePullRequests");
