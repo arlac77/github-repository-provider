@@ -176,11 +176,16 @@ export class GithubProvider extends Provider {
     }
 
     for (const pattern of patterns) {
-      const m = pattern.split(/\//);
-      if (m.length === 2) {
-        const group = await this.repositoryGroup(m[0]);
+      const [groupName, repoName] = pattern.split(/\//);
+
+      console.log(groupName, repoName);
+
+      if (groupName !== undefined) {
+        const group = await this.repositoryGroup(groupName);
         if (group) {
-          yield* group.repositories(m[1]);
+        console.log(group);
+
+          yield* group.repositories(repoName);
         }
       }
     }

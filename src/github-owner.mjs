@@ -9,13 +9,13 @@ export class GithubOwner extends GithubMixin(RepositoryGroup) {
   /**
    * @see https://developer.github.com/v4/object/repository/
    */
-  async initialize() {
+  async initializeRepositories() {
     let pageInfo = {};
 
     do {
       const result = await this.github.query(
         `query($username: String!,$after: String) { repositoryOwner(login: $username)
-      { repositories(after:$after,first:100,affiliations:[OWNER])
+      { repositories(after:$after,first:100,affiliations:[OWNER,COLLABORATOR,ORGANIZATION_MEMBER])
         {pageInfo {endCursor hasNextPage}
           nodes { id name description isArchived isLocked isDisabled } } }}`,
         {
@@ -56,4 +56,4 @@ export class GithubOwner extends GithubMixin(RepositoryGroup) {
   }
 }
 
-replaceWithOneTimeExecutionMethod(GithubOwner.prototype, "initialize");
+replaceWithOneTimeExecutionMethod(GithubOwner.prototype, "initializeRepositories");

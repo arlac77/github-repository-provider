@@ -31,7 +31,7 @@ test("list repositories more", async t => {
   t.truthy(Object.keys(branches).length > 50);
 });
 
-test.skip("list repositories non owner", async t => {
+test("list repositories non owner", async t => {
   const provider = new GithubProvider(config);
 
   const repositories = {};
