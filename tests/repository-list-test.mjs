@@ -59,11 +59,6 @@ test("list repositories negative group", async t => {
 test.skip("list repositories all", async t => {
   const provider = new GithubProvider(config);
 
-  //_initializeRepositoryGroups
-  for await (const g of provider.repositoryGroups()) {
-    console.log(g);
-  }
-
   const repositories = {};
 
   for await (const r of provider.repositories("*/*")) {
