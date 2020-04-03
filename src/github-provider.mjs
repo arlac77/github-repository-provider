@@ -65,17 +65,17 @@ export class GithubProvider extends Provider {
       auth: `token ${this.authentication.token}`,
       throttle: {
         onRateLimit: (retryAfter, options) => {
-          console.warn(
+          this.warn(
             `Request quota exhausted for request ${options.method} ${options.url}`
           );
 
           if (options.request.retryCount === 0) {
-            console.log(`Retrying after ${retryAfter} seconds!`);
+            this.info(`Retrying after ${retryAfter} seconds!`);
             return true;
           }
         },
         onAbuseLimit: (retryAfter, options) => {
-          console.warn(
+          this.warn(
             `Abuse detected for request ${options.method} ${options.url}`
           );
         }
@@ -163,9 +163,9 @@ export class GithubProvider extends Provider {
    * @return {Iterator<Repository>} all matching repositories of the provider
    */
   async *repositories(patterns) {
-    if(patterns === undefined || patterns === "*") {
+    if (patterns === undefined || patterns === "*") {
       this.initialize();
-      for(const group of this._repositoryGroups.values()) {
+      for (const group of this._repositoryGroups.values()) {
         yield* group.repositories();
       }
       return;
