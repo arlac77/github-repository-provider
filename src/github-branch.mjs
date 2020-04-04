@@ -46,7 +46,6 @@ export class GithubBranch extends GithubMixin(Branch) {
     /*
     delete result.data.base;
     delete result.data.head;
-    console.log(result.data);
 */
 
     return new this.pullRequestClass(this, destination, result.data.number, {

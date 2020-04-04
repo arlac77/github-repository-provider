@@ -35,7 +35,7 @@ export class GithubProvider extends Provider {
       graphqlApi: "https://api.github.com/graphql",
       authentication: {},
       ...super.defaultOptions,
-      priority: 1000.0
+      priority: 1000.0,
     };
   }
 
@@ -49,7 +49,7 @@ export class GithubProvider extends Provider {
     const def = { path: "authentication.token", template: { type: "token" } };
     return {
       GITHUB_TOKEN: def,
-      GH_TOKEN: def
+      GH_TOKEN: def,
     };
   }
 
@@ -58,7 +58,7 @@ export class GithubProvider extends Provider {
 
     const gh = new GitHub({
       token: this.authentication.token,
-      apiUrl: this.graphqlApi
+      apiUrl: this.graphqlApi,
     });
 
     const oc = /*Octokit. */ Octokit.plugin(throttling.throttling)({
@@ -78,13 +78,13 @@ export class GithubProvider extends Provider {
           this.warn(
             `Abuse detected for request ${options.method} ${options.url}`
           );
-        }
-      }
+        },
+      },
     });
 
     Object.defineProperties(this, {
       github: { value: gh },
-      octokit: { value: oc }
+      octokit: { value: oc },
     });
   }
 
@@ -102,10 +102,10 @@ export class GithubProvider extends Provider {
 
   async *repositoryGroups(patterns) {
     const res = await this.octokit.repos.list({
-      affiliation: ["owner", "collaborator", "organization_member"]
+      affiliation: ["owner", "collaborator", "organization_member"],
     });
 
-    res.data.forEach(r => {
+    res.data.forEach((r) => {
       const [groupName, repoName] = r.full_name.split(/\//);
 
       let rg = this._repositoryGroups.get(groupName);
@@ -136,7 +136,7 @@ export class GithubProvider extends Provider {
       const result = await this.github.query(
         "query($username: String!) { repositoryOwner(login: $username) { login, id } }",
         {
-          username: name
+          username: name,
         }
       );
 
@@ -178,13 +178,9 @@ export class GithubProvider extends Provider {
     for (const pattern of patterns) {
       const [groupName, repoName] = pattern.split(/\//);
 
-      console.log(groupName, repoName);
-
       if (groupName !== undefined) {
         const group = await this.repositoryGroup(groupName);
         if (group) {
-        console.log(group);
-
           yield* group.repositories(repoName);
         }
       }
@@ -229,7 +225,7 @@ export class GithubProvider extends Provider {
       "git+" + this.url,
       "git+ssh://github.com",
       "git://github.com/",
-      "git@github.com:"
+      "git@github.com:",
     ];
   }
 
