@@ -12,8 +12,8 @@ import micromatch from "micromatch";
 export class GithubBranch extends GithubMixin(Branch) {
   /**
    * writes content into the branch
-   * @param {Entry[]} entry
-   * @return {Promise<Entry[]>} written content with sha values set
+   * @param {Entry} entry
+   * @return {Promise<Entry>} written content with sha values set
    */
   async writeEntry(entry) {
     const res = await this.octokit.git.createBlob({
@@ -64,8 +64,8 @@ export class GithubBranch extends GithubMixin(Branch) {
   }
 
   /** @inheritdoc */
-  async commit(message, blobs, options = {}) {
-    const updates = await Promise.all(blobs.map(b => this.writeEntry(b)));
+  async commit(message, entries, options = {}) {
+    const updates = await Promise.all(entries.map(entry => this.writeEntry(entry)));
     const shaLatestCommit = await this.refId();
     const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
 
@@ -95,6 +95,7 @@ export class GithubBranch extends GithubMixin(Branch) {
       sha: shaNewCommit,
       force: options.force || false
     });
+
     return result.data;
   }
 

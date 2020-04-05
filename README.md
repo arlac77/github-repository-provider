@@ -67,7 +67,7 @@ console.log(entry.name);
     -   [removeEntires](#removeentires)
         -   [Parameters](#parameters-9)
 -   [GithubOwner](#githubowner)
-    -   [initialize](#initialize)
+    -   [initializeRepositories](#initializerepositories)
 -   [GithubPullRequest](#githubpullrequest)
     -   [\_merge](#_merge)
         -   [Parameters](#parameters-10)
@@ -199,13 +199,14 @@ writes content into the branch
 
 #### Parameters
 
--   `entry` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Entry>** 
+-   `entry` **Entry** 
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Entry>>** written content with sha values set
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;Entry>** written content with sha values set
 
 ### createPullRequest
 
--   **See: <https://octokit.github.io/rest.js/#api-PullRequests-create>**
+-   **See: <https://octokit.github.io/rest.js/#api-PullRequests-create>
+    **
 
 #### Parameters
 
@@ -217,7 +218,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 #### Parameters
 
 -   `message`  
--   `blobs`  
+-   `entries`  
 -   `options`   (optional, default `{}`)
 
 ### entry
@@ -244,9 +245,10 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 **Extends GithubMixin(RepositoryGroup)**
 
-### initialize
+### initializeRepositories
 
--   **See: <https://developer.github.com/v4/object/repository/>**
+-   **See: <https://developer.github.com/v4/object/repository/>
+    **
 
 ## GithubPullRequest
 
@@ -256,7 +258,8 @@ Github pull request
 
 ### \_merge
 
--   **See: <https://octokit.github.io/rest.js/#api-PullRequests-merge>**
+-   **See: <https://octokit.github.io/rest.js/#api-PullRequests-merge>
+    **
 
 #### Parameters
 
