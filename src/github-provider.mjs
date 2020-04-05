@@ -188,29 +188,6 @@ export class GithubProvider extends Provider {
   }
 
   /**
-   * List branches of the provider
-   * @param {string[]|string} patterns
-   * @return {Iterator<Branch>} all matching repositories of the provider
-   */
-  async *branches(patterns) {
-    if (!Array.isArray(patterns)) {
-      patterns = [patterns];
-    }
-
-    for (const pattern of patterns) {
-      const m = pattern.split(/\//);
-      if (m.length === 2) {
-        const group = await this.repositoryGroup(m[0]);
-        if (group) {
-          for await (const repository of group.repositories(m[1])) {
-            yield repository.defaultBranch;
-          }
-        }
-      }
-    }
-  }
-
-  /**
    * All possible base urls
    * - git@github.com
    * - git://github.com
