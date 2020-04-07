@@ -1,4 +1,7 @@
-import { Provider, Repository, Branch } from "repository-provider";
+import fetch from "node-fetch";
+import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
+
+import { Provider } from "repository-provider";
 import { GithubRepository } from "./github-repository.mjs";
 import { GithubBranch } from "./github-branch.mjs";
 import { GithubOwner } from "./github-owner.mjs";
@@ -8,7 +11,6 @@ export { GithubRepository, GithubBranch, GithubOwner, GithubPullRequest };
 import GitHub from "github-graphql-api/dist/github.mjs";
 import Octokit from "@octokit/rest";
 import throttling from "@octokit/plugin-throttling";
-import micromatch from "micromatch";
 
 /**
  * <!-- skip-example -->
@@ -32,10 +34,11 @@ export class GithubProvider extends Provider {
     return {
       ssh: "git@github.com:",
       url: "https://github.com/",
+      api: "https://api.github.com",
       graphqlApi: "https://api.github.com/graphql",
       authentication: {},
       ...super.defaultOptions,
-      priority: 1000.0,
+      priority: 1000.0
     };
   }
 
@@ -49,7 +52,7 @@ export class GithubProvider extends Provider {
     const def = { path: "authentication.token", template: { type: "token" } };
     return {
       GITHUB_TOKEN: def,
-      GH_TOKEN: def,
+      GH_TOKEN: def
     };
   }
 
@@ -58,7 +61,7 @@ export class GithubProvider extends Provider {
 
     const gh = new GitHub({
       token: this.authentication.token,
-      apiUrl: this.graphqlApi,
+      apiUrl: this.graphqlApi
     });
 
     const oc = /*Octokit. */ Octokit.plugin(throttling.throttling)({
@@ -78,13 +81,13 @@ export class GithubProvider extends Provider {
           this.warn(
             `Abuse detected for request ${options.method} ${options.url}`
           );
-        },
-      },
+        }
+      }
     });
 
     Object.defineProperties(this, {
       github: { value: gh },
-      octokit: { value: oc },
+      octokit: { value: oc }
     });
   }
 
@@ -100,90 +103,45 @@ export class GithubProvider extends Provider {
     return GithubOwner;
   }
 
-  async *repositoryGroups(patterns) {
-    const res = await this.octokit.repos.list({
-      affiliation: ["owner", "collaborator", "organization_member"],
+  fetch(url, options) {
+    let headers = {
+      authorization: `token ${this.authentication.token}`
+    };
+
+    if (options) {
+      if (options.headers) {
+        headers = { ...options.headers, ...headers };
+      }
+      /*if (options.data) {
+        options.body = JSON.stringify(options.data);
+        delete options.data;
+        headers["Content-Type"] = "application/json";
+      }*/
+    }
+
+    return fetch(`${this.api}/${url}`, {
+      ...options,
+      headers
     });
-
-    res.data.forEach((r) => {
-      const [groupName, repoName] = r.full_name.split(/\//);
-
-      let rg = this._repositoryGroups.get(groupName);
-      if (rg === undefined) {
-        rg = new this.repositoryGroupClass(this, groupName);
-        this._repositoryGroups.set(rg.name, rg);
-      }
-    });
-
-    for (const name of patterns
-      ? micromatch([...this._repositoryGroups.keys()], patterns)
-      : this._repositoryGroups.keys()) {
-      yield this._repositoryGroups.get(name);
-    }
-  }
-
-  async repositoryGroup(name) {
-    if (name === undefined) {
-      return undefined;
-    }
-
-    let rg = this._repositoryGroups.get(name);
-    if (rg !== undefined) {
-      return rg;
-    }
-
-    try {
-      const result = await this.github.query(
-        "query($username: String!) { repositoryOwner(login: $username) { login, id } }",
-        {
-          username: name,
-        }
-      );
-
-      if (result && result.repositoryOwner) {
-        rg = new this.repositoryGroupClass(
-          this,
-          result.repositoryOwner.login,
-          result.repositoryOwner
-        );
-        this._repositoryGroups.set(rg.name, rg);
-      }
-    } catch (e) {
-      if (e == "Unauthorized") {
-      } else {
-        throw e;
-      }
-    }
-    return rg;
   }
 
   /**
-   * List repositories of the provider
-   * @param {string[]|string} patterns
-   * @return {Iterator<Repository>} all matching repositories of the provider
+   * @see https://developer.github.com/v3/repos/#list-repositories-for-the-authenticated-user
    */
-  async *repositories(patterns) {
-    if (patterns === undefined || patterns === "*") {
-      this.initialize();
-      for (const group of this._repositoryGroups.values()) {
-        yield* group.repositories();
+  async initializeRepositories() {
+    for (let page = 1; ; page++) {
+      const res = await this.fetch(`user/repos?page=${page}`);
+      const json = await res.json();
+
+      if (json.length === 0 || !Array.isArray(json)) {
+        break;
       }
-      return;
-    }
 
-    if (!Array.isArray(patterns)) {
-      patterns = [patterns];
-    }
-
-    for (const pattern of patterns) {
-      const [groupName, repoName] = pattern.split(/\//);
-
-      if (groupName !== undefined) {
-        const group = await this.repositoryGroup(groupName);
-        if (group) {
-          yield* group.repositories(repoName);
-        }
-      }
+      json.map(async r => {
+        const [groupName, repoName] = r.full_name.split(/\//);
+        const group = this.addRepositoryGroup(groupName, r.owner);
+        const repository = group.addRepository(repoName, r);
+      });
     }
   }
 
@@ -202,7 +160,7 @@ export class GithubProvider extends Provider {
       "git+" + this.url,
       "git+ssh://github.com",
       "git://github.com/",
-      "git@github.com:",
+      "git@github.com:"
     ];
   }
 
@@ -219,5 +177,6 @@ export class GithubProvider extends Provider {
     return GithubPullRequest;
   }
 }
+replaceWithOneTimeExecutionMethod(GithubProvider.prototype, "initializeRepositories");
 
 export default GithubProvider;

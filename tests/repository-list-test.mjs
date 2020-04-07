@@ -11,17 +11,17 @@ test(repositoryListTest, provider, "arlac77/npm-*", {
 });
 
 test(repositoryListTest, provider, "xtzrtrhtl/npm-*");
-test(repositoryListTest, provider, "arlac77/*", 50);
+test(repositoryListTest, provider, "arlac77/*", 100);
 
 test(repositoryListTest, provider, "k0nsti/konsum*", {
   "k0nsti/konsum": { name: "konsum" },
   "k0nsti/konsum-db": { name: "konsum-db" }
 });
 
-test.skip(repositoryListTest, provider, "*", {
-  "npm-template-sync": { name: "npm-template-sync" }
+test(repositoryListTest, provider, "*", {
+  "arlac77/npm-template-sync": { name: "npm-template-sync" }
 });
 
-test.skip(repositoryListTest, provider, undefined, {
-  "npm-template-sync": { name: "npm-template-sync" }
+test(repositoryListTest, provider, undefined, {
+  "arlac77/npm-template-sync": { name: "npm-template-sync" }
 });

@@ -5,9 +5,9 @@ import { entryListTest } from "repository-provider-test-support";
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
 
 const config = GithubProvider.optionsFromEnvironment(process.env);
+const provider = new GithubProvider(config);
 
 test("branch entries list", async t => {
-  const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
   const branch = await repository.branch("master");
   await entryListTest(t, branch, undefined, {
@@ -19,7 +19,6 @@ test("branch entries list", async t => {
 });
 
 test("branch entries list with pattern", async t => {
-  const provider = new GithubProvider(config);
   const repository = await provider.repository("arlac77/repository-provider");
   const branch = await repository.branch("master");
 
@@ -30,7 +29,6 @@ test("branch entries list with pattern", async t => {
 });
 
 test("branch entry", async t => {
-  const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
   const branch = await repository.branch("master");
 
@@ -42,7 +40,6 @@ test("branch entry", async t => {
 });
 
 test("branch missing entry", async t => {
-  const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
   const branch = await repository.branch("master");
   await t.throwsAsync(async () => branch.entry("missing/file"), {

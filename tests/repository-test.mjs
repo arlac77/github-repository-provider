@@ -5,16 +5,15 @@ import { StringContentEntry } from "content-entry";
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
 
 const config = GithubProvider.optionsFromEnvironment(process.env);
+const provider = new GithubProvider(config);
 
 test("repository refId", async t => {
-  const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
 
   t.is((await repository.refId("refs/heads/master")).length, 40);
 });
 
 test("create branch", async t => {
-  const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
 
   let n = 0;
@@ -35,7 +34,6 @@ test("create branch", async t => {
 });
 
 test("create commit", async t => {
-  const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
 
   let n = 0;

@@ -39,10 +39,7 @@ console.log(entry.name);
     -   [Parameters](#parameters)
     -   [Properties](#properties)
     -   [Examples](#examples)
-    -   [repositories](#repositories)
-        -   [Parameters](#parameters-1)
-    -   [branches](#branches)
-        -   [Parameters](#parameters-2)
+    -   [initializeRepositories](#initializerepositories)
     -   [repositoryBases](#repositorybases)
     -   [rateLimit](#ratelimit)
     -   [environmentOptions](#environmentoptions)
@@ -51,26 +48,25 @@ console.log(entry.name);
     -   [issuesURL](#issuesurl)
     -   [homePageURL](#homepageurl)
     -   [refId](#refid)
-        -   [Parameters](#parameters-3)
--   [GithubMixin](#githubmixin)
+        -   [Parameters](#parameters-1)
 -   [GithubBranch](#githubbranch)
     -   [writeEntry](#writeentry)
-        -   [Parameters](#parameters-4)
+        -   [Parameters](#parameters-2)
     -   [createPullRequest](#createpullrequest)
-        -   [Parameters](#parameters-5)
+        -   [Parameters](#parameters-3)
     -   [commit](#commit)
-        -   [Parameters](#parameters-6)
+        -   [Parameters](#parameters-4)
     -   [entry](#entry)
-        -   [Parameters](#parameters-7)
+        -   [Parameters](#parameters-5)
     -   [maybeEntry](#maybeentry)
-        -   [Parameters](#parameters-8)
+        -   [Parameters](#parameters-6)
     -   [removeEntires](#removeentires)
-        -   [Parameters](#parameters-9)
+        -   [Parameters](#parameters-7)
 -   [GithubOwner](#githubowner)
-    -   [initializeRepositories](#initializerepositories)
+-   [GithubMixin](#githubmixin)
 -   [GithubPullRequest](#githubpullrequest)
     -   [\_merge](#_merge)
-        -   [Parameters](#parameters-10)
+        -   [Parameters](#parameters-8)
     -   [validMergeMethods](#validmergemethods)
 
 ## GithubProvider
@@ -105,25 +101,10 @@ const r6 = ghp.repository('arlac77/github-repository-provider');
 // different ways to address the same repository
 ```
 
-### repositories
+### initializeRepositories
 
-List repositories of the provider
-
-#### Parameters
-
--   `patterns` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** 
-
-Returns **Iterator&lt;Repository>** all matching repositories of the provider
-
-### branches
-
-List branches of the provider
-
-#### Parameters
-
--   `patterns` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** 
-
-Returns **Iterator&lt;Branch>** all matching repositories of the provider
+-   **See: <https://developer.github.com/v3/repos/#list-repositories-for-the-authenticated-user>
+    **
 
 ### repositoryBases
 
@@ -183,10 +164,6 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
 
-## GithubMixin
-
-common stuff for all github objects
-
 ## GithubBranch
 
 **Extends GithubMixin(Branch)**
@@ -245,10 +222,9 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 **Extends GithubMixin(RepositoryGroup)**
 
-### initializeRepositories
+## GithubMixin
 
--   **See: <https://developer.github.com/v4/object/repository/>
-    **
+common stuff for all github objects
 
 ## GithubPullRequest
 

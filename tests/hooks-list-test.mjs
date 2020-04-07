@@ -4,9 +4,9 @@ import { GithubProvider } from "../src/github-provider.mjs";
 const REPOSITORY_NAME = "arlac77/github-repository-provider";
 
 const config = GithubProvider.optionsFromEnvironment(process.env);
+const provider = new GithubProvider(config);
 
 test("hooks list", async t => {
-  const provider = new GithubProvider(config);
   const repository = await provider.repository(REPOSITORY_NAME);
 
   const hooks = [];

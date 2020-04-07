@@ -4,9 +4,9 @@ import { GithubProvider } from "../src/github-provider.mjs";
 const REPOSITORY_OWNER = "arlac77";
 
 const config = GithubProvider.optionsFromEnvironment(process.env);
+const provider = new GithubProvider(config);
 
 test("owner with auth", async t => {
-  const provider = new GithubProvider(config);
   const owner = await provider.repositoryGroup(REPOSITORY_OWNER);
   t.is(owner.name, REPOSITORY_OWNER);
 
@@ -17,7 +17,6 @@ test("owner with auth", async t => {
 });
 
 test("list repositories", async t => {
-  const provider = new GithubProvider(config);
   const owner = await provider.repositoryGroup(REPOSITORY_OWNER);
 
   const reps = {};
@@ -31,7 +30,6 @@ test("list repositories", async t => {
 });
 
 test("list branches", async t => {
-  const provider = new GithubProvider(config);
   const owner = await provider.repositoryGroup(REPOSITORY_OWNER);
 
   const branches = {};
