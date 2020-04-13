@@ -177,6 +177,7 @@ export class GithubProvider extends Provider {
     return GithubPullRequest;
   }
 }
+
 replaceWithOneTimeExecutionMethod(GithubProvider.prototype, "initializeRepositories");
 
 export default GithubProvider;
