@@ -29,13 +29,13 @@
   },
   "dependencies": {
     "@octokit/plugin-throttling": "3.2.0",
-    "@octokit/rest": "^16.43.1",
-    "content-entry": "^2.3.0",
+    "@octokit/rest": "16.43.1",
+    "content-entry": "^2.3.2",
     "github-graphql-api": "^1.0.6",
     "micromatch": "^4.0.2",
     "node-fetch": "^2.6.0",
-    "one-time-execution-method": "^2.0.0",
-    "repository-provider": "^16.15.0"
+    "one-time-execution-method": "^2.0.1",
+    "repository-provider": "^16.15.1"
   },
   "devDependencies": {
     "ava": "^3.7.0",
