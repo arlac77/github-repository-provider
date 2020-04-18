@@ -35,7 +35,7 @@
     "micromatch": "^4.0.2",
     "node-fetch": "^2.6.0",
     "one-time-execution-method": "^2.0.1",
-    "repository-provider": "^16.15.1"
+    "repository-provider": "^16.16.0"
   },
   "devDependencies": {
     "ava": "^3.7.0",
