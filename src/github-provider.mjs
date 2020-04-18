@@ -163,6 +163,16 @@ export class GithubProvider extends Provider {
       "git@github.com:"
     ];
   }
+  
+  /**
+   * Normalizes a repository name
+   * always use lowercase names
+   * @param {string} name
+   * @return {string} normalized name
+   */
+  normalizeRepositoryName(name) {
+    return super.normalizeRepositoryName(name).toLowerCase();
+  }
 
   /**
    * Query the current rate limit

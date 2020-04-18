@@ -16,6 +16,16 @@ export class GithubOwner extends GithubMixin(RepositoryGroup) {
     return new this.repositoryClass(this, name, options);
   }
 
+  /**
+   * Normalizes a repository name
+   * always use lowercase names
+   * @param {string} name
+   * @return {string} normalized name
+   */
+  normalizeRepositoryName(name) {
+    return super.normalizeRepositoryName(name).toLowerCase();
+  }
+
   async deleteRepository(name) {
     const response = await this.octokit.repos.delete({
       owner: this.name,

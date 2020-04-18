@@ -7,11 +7,12 @@ const config = GithubProvider.optionsFromEnvironment(process.env);
 const provider = new GithubProvider(config);
 
 test(repositoryListTest, provider, "arlac77/npm-*", {
-  "arlac77/npm-template-sync": { name: "npm-template-sync" }
+  "arlac77/Npm-template-sync": { name: "npm-template-sync" }
 });
 
 test(repositoryListTest, provider, "xtzrtrhtl/npm-*");
 test(repositoryListTest, provider, "arlac77/*", 100);
+//test(repositoryListTest, provider, "Arlac77/*", 100);
 
 test(repositoryListTest, provider, "k0nsti/konsum*", {
   "k0nsti/konsum": { name: "konsum" },
