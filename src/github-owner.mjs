@@ -22,8 +22,9 @@ export class GithubOwner extends GithubMixin(RepositoryGroup) {
    * @param {string} name
    * @return {string} normalized name
    */
-  normalizeRepositoryName(name) {
-    return super.normalizeRepositoryName(name).toLowerCase();
+  normalizeRepositoryName(name,forLookup) {
+    name = super.normalizeRepositoryName(name,forLookup);
+    return forLookup ? name.toLowerCase() : name;
   }
 
   async deleteRepository(name) {
