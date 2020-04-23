@@ -41,8 +41,6 @@ console.log(entry.name);
     -   [Examples](#examples)
     -   [initializeRepositories](#initializerepositories)
     -   [repositoryBases](#repositorybases)
-    -   [normalizeRepositoryName](#normalizerepositoryname)
-        -   [Parameters](#parameters-1)
     -   [rateLimit](#ratelimit)
     -   [environmentOptions](#environmentoptions)
 -   [GithubRepository](#githubrepository)
@@ -50,27 +48,25 @@ console.log(entry.name);
     -   [issuesURL](#issuesurl)
     -   [homePageURL](#homepageurl)
     -   [refId](#refid)
-        -   [Parameters](#parameters-2)
+        -   [Parameters](#parameters-1)
 -   [GithubMixin](#githubmixin)
 -   [GithubBranch](#githubbranch)
     -   [writeEntry](#writeentry)
-        -   [Parameters](#parameters-3)
+        -   [Parameters](#parameters-2)
     -   [createPullRequest](#createpullrequest)
-        -   [Parameters](#parameters-4)
+        -   [Parameters](#parameters-3)
     -   [commit](#commit)
-        -   [Parameters](#parameters-5)
+        -   [Parameters](#parameters-4)
     -   [entry](#entry)
-        -   [Parameters](#parameters-6)
+        -   [Parameters](#parameters-5)
     -   [maybeEntry](#maybeentry)
-        -   [Parameters](#parameters-7)
+        -   [Parameters](#parameters-6)
     -   [removeEntires](#removeentires)
-        -   [Parameters](#parameters-8)
+        -   [Parameters](#parameters-7)
 -   [GithubOwner](#githubowner)
-    -   [normalizeRepositoryName](#normalizerepositoryname-1)
-        -   [Parameters](#parameters-9)
 -   [GithubPullRequest](#githubpullrequest)
     -   [\_merge](#_merge)
-        -   [Parameters](#parameters-10)
+        -   [Parameters](#parameters-8)
     -   [validMergeMethods](#validmergemethods)
 
 ## GithubProvider
@@ -121,18 +117,6 @@ All possible base urls
 -   git+<https://github.com>
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** common base urls of all repositories
-
-### normalizeRepositoryName
-
-Normalizes a repository name
-always use lowercase names
-
-#### Parameters
-
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `forLookup`  
-
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** normalized name
 
 ### rateLimit
 
@@ -241,18 +225,6 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 ## GithubOwner
 
 **Extends GithubMixin(RepositoryGroup)**
-
-### normalizeRepositoryName
-
-Normalizes a repository name
-always use lowercase names
-
-#### Parameters
-
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `forLookup`  
-
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** normalized name
 
 ## GithubPullRequest
 

@@ -163,15 +163,13 @@ export class GithubProvider extends Provider {
       "git@github.com:"
     ];
   }
-   
-  get areRepositoryNamesCaseSensitive()
-  {
+
+  get areRepositoryNamesCaseSensitive() {
     return false;
   }
 
-  get areGroupNamesCaseSensitive()
-  {
-    return true;
+  get areGroupNamesCaseSensitive() {
+    return false;
   }
 
   /**
@@ -188,6 +186,9 @@ export class GithubProvider extends Provider {
   }
 }
 
-replaceWithOneTimeExecutionMethod(GithubProvider.prototype, "initializeRepositories");
+replaceWithOneTimeExecutionMethod(
+  GithubProvider.prototype,
+  "initializeRepositories"
+);
 
 export default GithubProvider;

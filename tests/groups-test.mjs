@@ -9,7 +9,7 @@ const provider = new GithubProvider(config);
 test(groupListTest, provider, undefined, { arlac77: {} });
 test(groupListTest, provider, "*", { arlac77: {} });
 test(groupListTest, provider, "arlac77", { arlac77: {} });
-test.skip(groupListTest, provider, "Arlac77", { arlac77: {} });
+test(groupListTest, provider, "Arlac77", { arlac77: {} });
 
 test(groupListTest, provider, "xarlac77", undefined);
 
