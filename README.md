@@ -64,6 +64,7 @@ console.log(entry.name);
     -   [removeEntires](#removeentires)
         -   [Parameters](#parameters-7)
 -   [GithubOwner](#githubowner)
+-   [type](#type)
 -   [GithubPullRequest](#githubpullrequest)
     -   [\_merge](#_merge)
         -   [Parameters](#parameters-8)
@@ -225,6 +226,12 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 ## GithubOwner
 
 **Extends GithubMixin(RepositoryGroup)**
+
+## type
+
+type of the repository group either User or Organization.
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ## GithubPullRequest
 

@@ -8,7 +8,8 @@ const provider = new GithubProvider(config);
 
 test(groupListTest, provider, undefined, { arlac77: {} });
 test(groupListTest, provider, "*", { arlac77: {} });
-test(groupListTest, provider, "arlac77", { arlac77: {} });
+test(groupListTest, provider, "arlac77", { arlac77: { type: "User" } });
+test(groupListTest, provider, "kronos-integration", { "Kronos-Integration": { type: "Organization" } });
 test(groupListTest, provider, "Arlac77", { arlac77: {} });
 
 test(groupListTest, provider, "xarlac77", undefined);
