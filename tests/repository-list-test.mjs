@@ -12,7 +12,7 @@ test(repositoryListTest, provider, "arlac77/npm-*", {
 
 test(repositoryListTest, provider, "xtzrtrhtl/npm-*");
 test(repositoryListTest, provider, "arlac77/*", 100);
-//test(repositoryListTest, provider, "Arlac77/*", 100);
+test(repositoryListTest, provider, "Arlac77/*", 100);
 
 test(repositoryListTest, provider, "k0nsti/konsum*", {
   "k0nsti/konsum": { name: "konsum" },
