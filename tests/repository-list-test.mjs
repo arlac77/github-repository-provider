@@ -6,8 +6,8 @@ import { GithubProvider } from "../src/github-provider.mjs";
 const config = GithubProvider.optionsFromEnvironment(process.env);
 const provider = new GithubProvider(config);
 
-test(repositoryListTest, provider, "arlac77/npm-*", {
-  "arlac77/Npm-template-sync": { name: "npm-template-sync" }
+test(repositoryListTest, provider, "arlac77/Npm-*", {
+  "arlac77/npm-template-sync": { name: "npm-template-sync" }
 });
 
 test(repositoryListTest, provider, "xtzrtrhtl/npm-*");
@@ -20,7 +20,8 @@ test(repositoryListTest, provider, "k0nsti/konsum*", {
 });
 
 test(repositoryListTest, provider, "*", {
-  "arlac77/npm-template-sync": { name: "npm-template-sync" }
+  "arlac77/npm-template-sync": { name: "npm-template-sync" },
+  "Kronos-Integration/service": { name: "service" }
 });
 
 test(repositoryListTest, provider, undefined, {
