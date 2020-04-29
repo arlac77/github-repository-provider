@@ -26,7 +26,7 @@ test("provider", async t => {
 });
 
 test.skip("provider create repo", async t => {
-  const repository = await provider.createRepo("arlac77/test-repo-1");
+  const repository = await provider.createRepository("arlac77/test-repo-1");
   t.is(repository.name, "arlac77/test-repo-1");
 });
 
