@@ -16,7 +16,7 @@ export class GithubOwner extends GithubMixin(RepositoryGroup) {
     };
   }
 
-  async _createRepository(name, options) {
+  async createRepository(name, options) {
     // todo check that group is current auth user
     const response = await this.octokit.repos.createForAuthenticatedUser({
       //org: this.name,
@@ -24,7 +24,7 @@ export class GithubOwner extends GithubMixin(RepositoryGroup) {
       ...options
     });
 
-    return new this.repositoryClass(this, name, options);
+    return this.addRepository(name, options);
   }
 
   async deleteRepository(name) {
