@@ -37,7 +37,7 @@ export class GithubRepository extends GithubMixin(Repository) {
       pageInfo = refs.pageInfo;
 
       for (const edge of refs.edges) {
-        const branch = new this.branchClass(this, edge.node.name, edge.node);
+        this.addBranch(edge.node.name, edge.node);
       }
     } while (pageInfo.hasNextPage);
   }
@@ -100,11 +100,16 @@ export class GithubRepository extends GithubMixin(Repository) {
     return result.repository.ref.target.oid;
   }
 
-  async _createBranch(name, from, options) {
+  async createBranch(name, from, options) {
+    const branch = this._branches.get(name);
+    if (branch) {
+      return branch;
+    }
+
     const res = await this.octokit.git.getRef({
       owner: this.owner.name,
       repo: this.name,
-      ref: `heads/${from.name}`
+      ref: `heads/${from === undefined ? this.defaultBranchName : from.name}`
     });
 
     await this.octokit.git.createRef({
@@ -114,7 +119,7 @@ export class GithubRepository extends GithubMixin(Repository) {
       sha: res.data.object.sha
     });
 
-    return new this.branchClass(this, name, options);
+    return this.addBranch(name, options);
   }
 
   async deleteBranch(name) {
@@ -169,4 +174,7 @@ replaceWithOneTimeExecutionMethod(
   "initializeHooks"
 );
 
-replaceWithOneTimeExecutionMethod(GithubRepository.prototype, "initializePullRequests");
+replaceWithOneTimeExecutionMethod(
+  GithubRepository.prototype,
+  "initializePullRequests"
+);
