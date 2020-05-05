@@ -52,3 +52,23 @@ test("create commit", async t => {
     await repository.deleteBranch(newName);
   }
 });
+
+test("create commit into new directory", async t => {
+  const repository = await provider.repository(REPOSITORY_NAME);
+
+  let n = 0;
+  for await (const branch of repository.branches()) {
+    n++;
+  }
+  const newName = `commit-test-${n}`;
+  const branch = await repository.createBranch(newName);
+  try {
+    const commit = await branch.commit("message text", [
+      new StringContentEntry(`directory-${n}/README.md`, `file content #${n}`)
+    ]);
+
+    t.is(commit.ref, `refs/heads/${newName}`);
+  } finally {
+    await repository.deleteBranch(newName);
+  }
+});
