@@ -151,7 +151,7 @@ export class GithubRepository extends GithubMixin(Repository) {
     });
 
     for (const h of res.data) {
-      this._hooks.push(
+      this.addHook(
         new this.hookClass(this, h.name, new Set(h.events), {
           id: h.id,
           active: h.active,
