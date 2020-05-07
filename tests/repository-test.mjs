@@ -21,7 +21,7 @@ test("create branch", async t => {
     n++;
   }
 
-  const newName = `test-${n}`;
+  const newName = `test-create-branch-${n}`;
   const branch = await repository.createBranch(newName);
 
   t.is(branch.name, newName);
@@ -40,7 +40,7 @@ test("create commit", async t => {
   for await (const branch of repository.branches()) {
     n++;
   }
-  const newName = `commit-test-${n}`;
+  const newName = `test-commit-${n}`;
   const branch = await repository.createBranch(newName);
   try {
     const commit = await branch.commit("message text", [
@@ -60,7 +60,7 @@ test("create commit into new directory", async t => {
   for await (const branch of repository.branches()) {
     n++;
   }
-  const newName = `commit-test-${n}`;
+  const newName = `test-commit-dir-${n}`;
   const branch = await repository.createBranch(newName);
   try {
     const commit = await branch.commit("message text", [
