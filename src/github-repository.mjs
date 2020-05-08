@@ -6,6 +6,16 @@ import { GithubMixin } from "./github-mixin.mjs";
  * Repository on GitHub
  */
 export class GithubRepository extends GithubMixin(Repository) {
+
+  /*
+  delete_branch_on_merge
+  allow_rebase_merge
+  allow_merge_commit
+  allow_squash_merge
+  auto_init
+  is_template
+  */
+
   async initializeBranches() {
     let pageInfo = {};
 
