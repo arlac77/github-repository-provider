@@ -64,7 +64,7 @@ test("create commit into new directory", async t => {
   const branch = await repository.createBranch(newName);
   try {
     const commit = await branch.commit("message text", [
-      new StringContentEntry(`directory-${n}/README.md`, `file content #${n}`)
+      new StringContentEntry(`directory-${n}/a/b/c/README.md`, `file content #${n}`)
     ]);
 
     t.is(commit.ref, `refs/heads/${newName}`);
