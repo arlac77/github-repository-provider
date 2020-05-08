@@ -65,16 +65,24 @@ export class GithubBranch extends GithubMixin(Branch) {
 
   /** @inheritdoc */
   async commit(message, entries, options = {}) {
-    const updates = await Promise.all(entries.map(entry => this.writeEntry(entry)));
+    const updates = await Promise.all(
+      entries.map(entry => this.writeEntry(entry))
+    );
     const shaLatestCommit = await this.refId();
     const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
 
     let result = await this.octokit.git.createTree({
       owner: this.owner.name,
       repo: this.repository.name,
-      tree: updates.map(u => {
-        return { path: u.name, sha: u.sha, mode: "100" + u.unixMode.toString(8) };
-      }),
+      tree:
+        updates.map(u => {
+          return {
+            path: u.name,
+            sha: u.sha,
+            type: "blob",
+            mode: "100" + u.unixMode.toString(8)
+          };
+        }),
       base_tree: shaBaseTree
     });
     const shaNewTree = result.data.sha;
