@@ -66,7 +66,7 @@ export class GithubRepository extends GithubMixin(Repository) {
   }
 
   async update() {
-    const response = await this.octokit.repos.update({
+    return this.octokit.repos.update({
       owner: this.owner.name,
       repo: this.name,
       description: this.description
