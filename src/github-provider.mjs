@@ -64,7 +64,7 @@ export class GithubProvider extends Provider {
       apiUrl: this.graphqlApi
     });
 
-    const oc = /*Octokit. */ Octokit.plugin(throttling.throttling)({
+    const oc = new (Octokit.Octokit.plugin(throttling.throttling))({
       auth: `token ${this.authentication.token}`,
       throttle: {
         onRateLimit: (retryAfter, options) => {
