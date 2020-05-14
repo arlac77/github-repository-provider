@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 
-import { Provider } from "repository-provider";
+import { Provider, mapAttributes } from "repository-provider";
 import { GithubRepository } from "./github-repository.mjs";
 import { GithubBranch } from "./github-branch.mjs";
 import { GithubOwner } from "./github-owner.mjs";
@@ -11,6 +11,14 @@ export { GithubRepository, GithubBranch, GithubOwner, GithubPullRequest };
 import GitHub from "github-graphql-api/dist/github.mjs";
 import Octokit from "@octokit/rest";
 import throttling from "@octokit/plugin-throttling";
+
+
+const repositoryAttributeMapping = {
+  archived: "isArchived",
+  is_template: "isTemplate",
+  private: "isPrivate",
+  default_branch: "defaultBranchName"
+};
 
 /**
  * <!-- skip-example -->
@@ -140,7 +148,7 @@ export class GithubProvider extends Provider {
       json.forEach(r => {
         const [groupName, repoName] = r.full_name.split(/\//);
         const group = this.addRepositoryGroup(groupName, r.owner);
-        const repository = group.addRepository(repoName, r);
+        const repository = group.addRepository(repoName, mapAttributes(r, repositoryAttributeMapping));
       });
     }
   }
