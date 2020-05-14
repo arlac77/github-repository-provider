@@ -20,8 +20,10 @@ test(repositoryListTest, provider, "k0nsti/konsum*", {
 });
 
 test(repositoryListTest, provider, "*", {
-  "arlac77/npm-template-sync": { name: "npm-template-sync" },
-  "Kronos-Integration/service": { name: "service" }
+  //"arlac77/template-github": { isTemplate: true },
+  "arlac77/npm-template-sync": { isArchived: false, name: "npm-template-sync" },
+  "Kronos-Integration/service": { name: "service" },
+  "Kronos-Tools/npm-package-template-minimal": { isArchived: true }
 });
 
 test(repositoryListTest, provider, undefined, {

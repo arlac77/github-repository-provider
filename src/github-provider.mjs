@@ -15,7 +15,7 @@ import throttling from "@octokit/plugin-throttling";
 
 const repositoryAttributeMapping = {
   archived: "isArchived",
-  is_template: "isTemplate",
+  // is_template: "isTemplate",
   private: "isPrivate",
   default_branch: "defaultBranchName"
 };
