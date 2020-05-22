@@ -31,7 +31,7 @@
     "lint": "documentation lint ./src/github-provider.mjs"
   },
   "dependencies": {
-    "@octokit/plugin-throttling": "3.2.0",
+    "@octokit/plugin-throttling": "3.2.1",
     "@octokit/rest": "^17.9.2",
     "content-entry": "^2.4.0",
     "github-graphql-api": "^1.0.6",
