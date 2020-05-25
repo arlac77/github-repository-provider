@@ -1,8 +1,5 @@
 import { Branch } from "repository-provider";
-import { BaseCollectionEntry } from "content-entry/src/base-collection-entry.mjs";
-import { BufferContentEntry } from "content-entry/src/buffer-content-entry.mjs";
-import { BufferContentEntryMixin } from "content-entry/src/buffer-content-entry-mixin.mjs";
-import { ContentEntry } from "content-entry/src/content-entry.mjs";
+import { BaseCollectionEntry, BufferContentEntry, BufferContentEntryMixin, ContentEntry } from "content-entry";
 import { GithubMixin } from "./github-mixin.mjs";
 import micromatch from "micromatch";
 
