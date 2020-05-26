@@ -23,7 +23,7 @@ test("branch entries list with pattern", async t => {
   const branch = await repository.branch("master");
 
   await entryListTest(t, branch, ["**/*.mjs", "!tests/*.mjs"], {
-    "tests/repository-test.mjs": { notPresent: true },
+   // "tests/repository-test.mjs": { notPresent: true },
     "src/repository.mjs": { startsWith: "import" }
   });
 });

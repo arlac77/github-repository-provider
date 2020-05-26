@@ -1,7 +1,11 @@
-import { Branch } from "repository-provider";
-import { BaseCollectionEntry, BufferContentEntry, BufferContentEntryMixin, ContentEntry } from "content-entry";
+import { Branch, match } from "repository-provider";
+import {
+  BaseCollectionEntry,
+  BufferContentEntry,
+  BufferContentEntryMixin,
+  ContentEntry
+} from "content-entry";
 import { GithubMixin } from "./github-mixin.mjs";
-import micromatch from "micromatch";
 
 /**
  * Branch on GitHub
@@ -71,15 +75,14 @@ export class GithubBranch extends GithubMixin(Branch) {
     let result = await this.octokit.git.createTree({
       owner: this.owner.name,
       repo: this.repository.name,
-      tree:
-        updates.map(u => {
-          return {
-            path: u.name,
-            sha: u.sha,
-            type: "blob",
-            mode: "100" + u.unixMode.toString(8)
-          };
-        }),
+      tree: updates.map(u => {
+        return {
+          path: u.name,
+          sha: u.sha,
+          type: "blob",
+          mode: "100" + u.unixMode.toString(8)
+        };
+      }),
       base_tree: shaBaseTree
     });
     const shaNewTree = result.data.sha;
@@ -156,17 +159,15 @@ export class GithubBranch extends GithubMixin(Branch) {
 
   async *entries(patterns) {
     const shaBaseTree = await this.baseTreeSha(await this.refId());
-    for (const entry of await this.tree(shaBaseTree)) {
-      if (
-        patterns === undefined ||
-        micromatch([entry.path], patterns).length === 1
-      ) {
-        if (entry.type === "tree") {
-          yield new BaseCollectionEntry(entry.path);
-        } else {
-          yield new LazyBufferContentEntry(entry.path, this);
-        }
-      }
+
+    for (const entry of match(
+      await this.tree(shaBaseTree),
+      patterns,
+      entry => entry.path
+    )) {
+      yield entry.type === "tree"
+        ? new BaseCollectionEntry(entry.path)
+        : new LazyBufferContentEntry(entry.path, this);
     }
   }
 
