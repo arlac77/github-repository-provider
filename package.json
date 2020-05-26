@@ -8,8 +8,7 @@
   "type": "module",
   "main": "./src/github-provider.mjs",
   "exports": {
-    ".": "./src/github-provider.mjs",
-    "./": "./"
+    ".": "./src/github-provider.mjs"
   },
   "description": "repository provider for github",
   "keywords": [
@@ -31,9 +30,9 @@
     "lint": "documentation lint ./src/github-provider.mjs"
   },
   "dependencies": {
-    "@octokit/plugin-throttling": "3.2.1",
+    "@octokit/plugin-throttling": "^3.2.1",
     "@octokit/rest": "^17.9.2",
-    "content-entry": "^2.4.1",
+    "content-entry": "^2.4.2",
     "github-graphql-api": "^1.0.6",
     "micromatch": "^4.0.2",
     "node-fetch": "^2.6.0",
