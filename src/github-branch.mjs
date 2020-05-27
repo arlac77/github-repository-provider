@@ -163,7 +163,7 @@ export class GithubBranch extends GithubMixin(Branch) {
     for (const entry of match(
       await this.tree(shaBaseTree),
       patterns,
-      entry => entry.path
+      { getName: entry => entry.path }
     )) {
       yield entry.type === "tree"
         ? new BaseCollectionEntry(entry.path)
