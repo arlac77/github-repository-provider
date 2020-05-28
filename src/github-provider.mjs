@@ -111,21 +111,11 @@ export class GithubProvider extends Provider {
     return GithubOwner;
   }
 
-  fetch(url, options) {
-    let headers = {
-      authorization: `token ${this.authentication.token}`
+  fetch(url, options={}) {
+    const headers = {
+      authorization: `token ${this.authentication.token}`,
+      ...options.headers
     };
-
-    if (options) {
-      if (options.headers) {
-        headers = { ...options.headers, ...headers };
-      }
-      /*if (options.data) {
-        options.body = JSON.stringify(options.data);
-        delete options.data;
-        headers["Content-Type"] = "application/json";
-      }*/
-    }
 
     return fetch(`${this.api}/${url}`, {
       ...options,
