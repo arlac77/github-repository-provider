@@ -103,7 +103,7 @@ export class GithubProvider extends Provider {
     return GithubOwner;
   }
 
-  fetch(url, options={}) {
+  fetch(url, options = {}) {
     const headers = {
       authorization: `token ${this.authentication.token}`,
       ...options.headers

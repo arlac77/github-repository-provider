@@ -161,11 +161,9 @@ export class GithubBranch extends GithubMixin(Branch) {
   async *entries(patterns) {
     const shaBaseTree = await this.baseTreeSha(await this.refId());
 
-    for (const entry of matcher(
-      await this.tree(shaBaseTree),
-      patterns,
-      { name: "path" }
-    )) {
+    for (const entry of matcher(await this.tree(shaBaseTree), patterns, {
+      name: "path"
+    })) {
       yield entry.type === "tree"
         ? new BaseCollectionEntry(entry.path)
         : new LazyBufferContentEntry(entry.path, this);

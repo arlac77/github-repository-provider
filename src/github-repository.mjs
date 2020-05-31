@@ -6,8 +6,7 @@ import { GithubMixin } from "./github-mixin.mjs";
  * Repository on GitHub
  */
 export class GithubRepository extends GithubMixin(Repository) {
-
-  static get attributeMapping() { 
+  static get attributeMapping() {
     return {
       ...super.attributeMapping,
       archived: "isArchived",
