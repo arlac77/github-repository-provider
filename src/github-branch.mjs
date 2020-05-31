@@ -1,4 +1,5 @@
-import { Branch, match } from "repository-provider";
+import { matcher } from "matching-iterator";
+import { Branch } from "repository-provider";
 import {
   BaseCollectionEntry,
   BufferContentEntry,
@@ -160,10 +161,10 @@ export class GithubBranch extends GithubMixin(Branch) {
   async *entries(patterns) {
     const shaBaseTree = await this.baseTreeSha(await this.refId());
 
-    for (const entry of match(
+    for (const entry of matcher(
       await this.tree(shaBaseTree),
       patterns,
-      { getName: entry => entry.path }
+      { name: "path" }
     )) {
       yield entry.type === "tree"
         ? new BaseCollectionEntry(entry.path)

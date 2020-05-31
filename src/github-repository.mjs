@@ -7,6 +7,16 @@ import { GithubMixin } from "./github-mixin.mjs";
  */
 export class GithubRepository extends GithubMixin(Repository) {
 
+  static get attributeMapping() { 
+    return {
+      ...super.attributeMapping,
+      archived: "isArchived",
+      // is_template: "isTemplate",
+      private: "isPrivate",
+      default_branch: "defaultBranchName"
+    };
+  }
+
   /*
   delete_branch_on_merge
   allow_rebase_merge

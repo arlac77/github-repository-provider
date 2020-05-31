@@ -34,9 +34,10 @@
     "@octokit/rest": "^17.9.2",
     "content-entry": "^2.5.0",
     "github-graphql-api": "^1.0.6",
+    "matching-iterator": "^1.0.0",
     "node-fetch": "^2.6.0",
     "one-time-execution-method": "^2.0.1",
-    "repository-provider": "^19.4.0"
+    "repository-provider": "^20.1.0"
   },
   "devDependencies": {
     "ava": "^3.8.2",
@@ -46,7 +47,7 @@
     "semantic-release": "^17.0.8"
   },
   "engines": {
-    "node": ">=12.16.3"
+    "node": ">=12.17.0"
   },
   "repository": {
     "type": "git",
