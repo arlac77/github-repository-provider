@@ -35,9 +35,9 @@
     "content-entry": "^2.5.0",
     "github-graphql-api": "^1.0.6",
     "matching-iterator": "^1.0.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.0.0-beta.6-exportfix",
     "one-time-execution-method": "^2.0.1",
-    "repository-provider": "^20.1.0"
+    "repository-provider": "^20.1.2"
   },
   "devDependencies": {
     "ava": "^3.8.2",
