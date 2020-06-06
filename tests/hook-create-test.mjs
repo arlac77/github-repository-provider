@@ -1,5 +1,5 @@
 import test from "ava";
-import { GithubProvider } from "../src/github-provider.mjs";
+import GithubProvider from "github-repository-provider";
 import { Hook } from "repository-provider";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";

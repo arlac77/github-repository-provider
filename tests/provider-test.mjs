@@ -1,6 +1,6 @@
 import test from "ava";
 import { assertRepo, providerTest } from "repository-provider-test-support";
-import { GithubProvider } from "../src/github-provider.mjs";
+import GithubProvider from "github-repository-provider";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
 const REPOSITORY_OWNER = "arlac77";

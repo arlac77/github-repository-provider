@@ -1,6 +1,6 @@
 import test from "ava";
-import { GithubProvider } from "../src/github-provider.mjs";
 import { StringContentEntry } from "content-entry";
+import GithubProvider from "github-repository-provider";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
 

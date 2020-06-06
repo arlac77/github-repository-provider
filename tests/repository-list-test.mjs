@@ -1,7 +1,7 @@
 import test from "ava";
 import { repositoryListTest } from "repository-provider-test-support";
 
-import { GithubProvider } from "../src/github-provider.mjs";
+import GithubProvider from "github-repository-provider";
 
 const config = GithubProvider.optionsFromEnvironment(process.env);
 const provider = new GithubProvider(config);
