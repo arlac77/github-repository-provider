@@ -113,7 +113,7 @@ export class GithubBranch extends GithubMixin(Branch) {
     try {
       //const res = await this.octokit.git.getBlob({owner:this.owner.name, repo:this.repository.name, file_sha});
 
-      const res = await this.octokit.repos.getContents({
+      const res = await this.octokit.repos.getContent({
         owner: this.owner.name,
         repo: this.repository.name,
         path: name,
@@ -132,7 +132,7 @@ export class GithubBranch extends GithubMixin(Branch) {
   /** @inheritdoc */
   async maybeEntry(name) {
     try {
-      const res = await this.octokit.repos.getContents({
+      const res = await this.octokit.repos.getContent({
         owner: this.owner.name,
         repo: this.repository.name,
         path: name,
@@ -203,7 +203,7 @@ class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
 
   async getBuffer() {
     const branch = this.branch;
-    const res = await branch.octokit.repos.getContents({
+    const res = await branch.octokit.repos.getContent({
       owner: branch.owner.name,
       repo: branch.repository.name,
       path: this.name,

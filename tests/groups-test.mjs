@@ -6,18 +6,18 @@ import GithubProvider from "github-repository-provider";
 const config = GithubProvider.optionsFromEnvironment(process.env);
 const provider = new GithubProvider(config);
 
-test(groupListTest, provider, undefined, { "GithubProvider/arlac77": {} });
-test(groupListTest, provider, "*", { "GithubProvider/arlac77": {} });
+test(groupListTest, provider, undefined, { "arlac77": {} });
+test(groupListTest, provider, "*", { "arlac77": {} });
 test(groupListTest, provider, "arlac77", {
-  "GithubProvider/arlac77": { type: "User" }
+  "arlac77": { type: "User" }
 });
 test(groupListTest, provider, "kronos-integration", {
-  "GithubProvider/Kronos-Integration": {
+  "Kronos-Integration": {
     url: "https://api.github.com/users/Kronos-Integration",
     type: "Organization"
   }
 });
-test(groupListTest, provider, "Arlac77", { "GithubProvider/arlac77": {} });
+test(groupListTest, provider, "Arlac77", { "arlac77": {} });
 
 test(groupListTest, provider, "xarlac77", undefined);
 

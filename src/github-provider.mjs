@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 
-import { Provider } from "repository-provider";
+import { MultiGroupProvider } from "repository-provider";
 import { GithubRepository } from "./github-repository.mjs";
 import { GithubBranch } from "./github-branch.mjs";
 import { GithubOwner } from "./github-owner.mjs";
@@ -29,7 +29,7 @@ import throttling from "@octokit/plugin-throttling";
  * // different ways to address the same repository
  * @property {Object} octokit
  */
-export class GithubProvider extends Provider {
+export class GithubProvider extends MultiGroupProvider {
   static get defaultOptions() {
     return {
       ssh: "git@github.com:",
