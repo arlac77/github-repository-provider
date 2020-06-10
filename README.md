@@ -48,6 +48,7 @@ console.log(entry.name);
     -   [homePageURL](#homepageurl)
     -   [refId](#refid)
         -   [Parameters](#parameters-1)
+-   [GithubMixin](#githubmixin)
 -   [GithubBranch](#githubbranch)
     -   [writeEntry](#writeentry)
         -   [Parameters](#parameters-2)
@@ -61,9 +62,7 @@ console.log(entry.name);
         -   [Parameters](#parameters-6)
     -   [removeEntires](#removeentires)
         -   [Parameters](#parameters-7)
--   [GithubMixin](#githubmixin)
 -   [GithubOwner](#githubowner)
--   [type](#type)
 -   [GithubPullRequest](#githubpullrequest)
     -   [\_merge](#_merge)
         -   [Parameters](#parameters-8)
@@ -71,7 +70,7 @@ console.log(entry.name);
 
 ## GithubProvider
 
-**Extends Provider**
+**Extends MultiGroupProvider**
 
 <!-- skip-example -->
 
@@ -164,6 +163,10 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
 
+## GithubMixin
+
+common stuff for all github objects
+
 ## GithubBranch
 
 **Extends GithubMixin(Branch)**
@@ -218,19 +221,9 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 -   `entries` **Iterator&lt;ContentEntry>** 
 
-## GithubMixin
-
-common stuff for all github objects
-
 ## GithubOwner
 
 **Extends GithubMixin(RepositoryGroup)**
-
-## type
-
-type of the repository group either User or Organization.
-
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ## GithubPullRequest
 
