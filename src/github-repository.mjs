@@ -164,7 +164,7 @@ export class GithubRepository extends GithubMixin(Repository) {
   }
 
   async initializeHooks() {
-    const res = await this.octokit.repos.listHooks({
+    const res = await this.octokit.repos.listWebhooks({
       owner: this.owner.name,
       repo: this.name
     });
