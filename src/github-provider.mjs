@@ -34,17 +34,23 @@ import throttling from "@octokit/plugin-throttling";
 export class GithubProvider extends MultiGroupProvider {
   static get attributes() {
     return {
-      ssh: "git@github.com:",
-      url: "https://github.com/",
-      api: "https://api.github.com",
-      graphqlApi: "https://api.github.com/graphql",
+      ssh: {
+        default: "git@github.com:"
+      },
+      url: {
+        default: "https://github.com/"
+      },
+      api: {
+        default: "https://api.github.com"
+      },
+      graphqlApi: { default: "https://api.github.com/graphql" },
       "authentication.token": {
         env: ["GITHUB_TOKEN", "GH_TOKEN"],
         additionalAttributes: { "authentication.type": "token" },
         private: true
       },
       ...super.attributes,
-      priority: 1000.0
+      priority: { default: 1000.0 }
     };
   }
 
@@ -52,7 +58,7 @@ export class GithubProvider extends MultiGroupProvider {
     super(options);
 
     // TODO
-    if(this.authentication === undefined) {
+    if (this.authentication === undefined) {
       this.authentication = {};
     }
 
