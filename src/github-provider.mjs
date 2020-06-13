@@ -16,6 +16,8 @@ import throttling from "@octokit/plugin-throttling";
  * <!-- skip-example -->
  * GitHub provider
  * Lookup a repository
+ * known environment variables
+ * - GITHUB_TOKEN or GH_TOKEN api token
  * @example
  * import GithubProvider from 'github-repository-provider';
  *
@@ -30,34 +32,29 @@ import throttling from "@octokit/plugin-throttling";
  * @property {Object} octokit
  */
 export class GithubProvider extends MultiGroupProvider {
-  static get defaultOptions() {
+  static get attributes() {
     return {
       ssh: "git@github.com:",
       url: "https://github.com/",
       api: "https://api.github.com",
       graphqlApi: "https://api.github.com/graphql",
-      authentication: {},
-      ...super.defaultOptions,
+      "authentication.token": {
+        env: ["GITHUB_TOKEN", "GH_TOKEN"],
+        additionalAttributes: { "authentication.type": "token" },
+        private: true
+      },
+      ...super.attributes,
       priority: 1000.0
-    };
-  }
-
-  /**
-   * known environment variables
-   * @return {Object}
-   * @return {string} GITHUB_TOKEN api token
-   * @return {string} GH_TOKEN api token
-   */
-  static get environmentOptions() {
-    const def = { path: "authentication.token", template: { type: "token" } };
-    return {
-      GITHUB_TOKEN: def,
-      GH_TOKEN: def
     };
   }
 
   constructor(options) {
     super(options);
+
+    // TODO
+    if(this.authentication === undefined) {
+      this.authentication = {};
+    }
 
     const gh = new GitHub({
       token: this.authentication.token,
