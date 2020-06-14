@@ -41,7 +41,6 @@ console.log(entry.name);
     -   [initializeRepositories](#initializerepositories)
     -   [repositoryBases](#repositorybases)
     -   [rateLimit](#ratelimit)
-    -   [environmentOptions](#environmentoptions)
 -   [GithubRepository](#githubrepository)
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
@@ -76,6 +75,9 @@ console.log(entry.name);
 
 GitHub provider
 Lookup a repository
+known environment variables
+
+-   GITHUB_TOKEN or GH_TOKEN api token
 
 ### Parameters
 
@@ -122,16 +124,6 @@ Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Gl
 Query the current rate limit
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** rate limit (remaining)
-
-### environmentOptions
-
-known environment variables
-
-Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** GITHUB_TOKEN api token
-
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** GH_TOKEN api token
 
 ## GithubRepository
 
