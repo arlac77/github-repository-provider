@@ -34,6 +34,7 @@ import throttling from "@octokit/plugin-throttling";
 export class GithubProvider extends MultiGroupProvider {
   static get attributes() {
     return {
+      ...super.attributes,
       ssh: {
         default: "git@github.com:"
       },
@@ -49,16 +50,22 @@ export class GithubProvider extends MultiGroupProvider {
         additionalAttributes: { "authentication.type": "token" },
         private: true
       },
-      ...super.attributes,
       priority: { default: 1000.0 }
     };
+  }
+
+  /**
+   * @param {Object} options
+   * @return {boolean} true if authentication is present
+   */
+  static areOptionsSufficciant(options) {
+    return options["authentication.type"] !== undefined;
   }
 
   constructor(options) {
     super(options);
 
-    // TODO
-    if (this.authentication === undefined) {
+    if(this.authentication === undefined) {
       this.authentication = {};
     }
 
