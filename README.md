@@ -41,30 +41,32 @@ console.log(entry.name);
     -   [initializeRepositories](#initializerepositories)
     -   [repositoryBases](#repositorybases)
     -   [rateLimit](#ratelimit)
+    -   [areOptionsSufficciant](#areoptionssufficciant)
+        -   [Parameters](#parameters-1)
 -   [GithubRepository](#githubrepository)
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
     -   [homePageURL](#homepageurl)
     -   [refId](#refid)
-        -   [Parameters](#parameters-1)
+        -   [Parameters](#parameters-2)
 -   [GithubMixin](#githubmixin)
 -   [GithubBranch](#githubbranch)
     -   [writeEntry](#writeentry)
-        -   [Parameters](#parameters-2)
-    -   [createPullRequest](#createpullrequest)
         -   [Parameters](#parameters-3)
-    -   [commit](#commit)
+    -   [createPullRequest](#createpullrequest)
         -   [Parameters](#parameters-4)
-    -   [entry](#entry)
+    -   [commit](#commit)
         -   [Parameters](#parameters-5)
-    -   [maybeEntry](#maybeentry)
+    -   [entry](#entry)
         -   [Parameters](#parameters-6)
-    -   [removeEntires](#removeentires)
+    -   [maybeEntry](#maybeentry)
         -   [Parameters](#parameters-7)
+    -   [removeEntires](#removeentires)
+        -   [Parameters](#parameters-8)
 -   [GithubOwner](#githubowner)
 -   [GithubPullRequest](#githubpullrequest)
     -   [\_merge](#_merge)
-        -   [Parameters](#parameters-8)
+        -   [Parameters](#parameters-9)
     -   [validMergeMethods](#validmergemethods)
 
 ## GithubProvider
@@ -124,6 +126,14 @@ Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Gl
 Query the current rate limit
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** rate limit (remaining)
+
+### areOptionsSufficciant
+
+#### Parameters
+
+-   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** true if authentication is present
 
 ## GithubRepository
 
