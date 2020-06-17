@@ -99,29 +99,60 @@ export class GithubRepository extends GithubMixin(Repository) {
       return branch;
     }
 
-    const res = await this.octokit.git.getRef({
-      owner: this.owner.name,
-      repo: this.name,
-      ref: `heads/${from === undefined ? this.defaultBranchName : from.name}`
+    let sha;
+
+    /* if (this._branches.keys().next().value === undefined) {
+    //https://stackoverflow.com/questions/9765453/is-gits-semi-secret-empty-tree-object-reliable-and-why-is-there-not-a-symbolic/9766506#9766506
+    //empty_tree sha1:4b825dc642cb6eb9a060e54bf8d69288fbee4904
+  //empty_tree sha256:6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321
+
+      sha = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
+
+      const res = await this.provider.fetch(`repos/${this.slug}/git/commits`, {
+        method: "POST",
+        body: JSON.stringify({
+          message: "Initial commit",
+          tree: sha
+        })
+      });
+
+      console.log(res);
+    } 
+    */
+    let res = await this.provider.fetch(
+      `repos/${this.slug}/git/ref/heads/${
+        from === undefined ? this.defaultBranchName : from.name
+      }`
+    );
+    let json = await res.json();
+    sha = json.object.sha;
+
+    // console.log("SHA", sha);
+
+    res = await this.provider.fetch(`repos/${this.slug}/git/refs`, {
+      method: "POST",
+      body: JSON.stringify({
+        ref: `refs/heads/${name}`,
+        sha
+      })
     });
 
-    await this.octokit.git.createRef({
-      owner: this.owner.name,
-      repo: this.name,
-      ref: `refs/heads/${name}`,
-      sha: res.data.object.sha
-    });
-
-    return this.addBranch(name, options);
+    if (res.ok) {
+      return this.addBranch(name, options);
+    }
   }
 
   async deleteBranch(name) {
-    await this.octokit.git.deleteRef({
-      owner: this.owner.name,
-      repo: this.name,
-      ref: `heads/${name}`
-    });
-    return super.deleteBranch(name);
+    const res = await this.provider.fetch(
+      `repos/${this.slug}/git/refs/heads/${name}`,
+      {
+        method: "DELETE"
+      }
+    );
+
+    if(res.ok) {
+      return super.deleteBranch(name);
+    }
   }
 
   async deletePullRequest(name) {
