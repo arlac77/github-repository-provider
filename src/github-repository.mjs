@@ -16,11 +16,6 @@ export class GithubRepository extends GithubMixin(Repository) {
     };
   }
 
-  get slug()
-  {
-    return `${this.owner.name}/${this.name}`;
-  }
-
   /*
   delete_branch_on_merge
   allow_rebase_merge
@@ -35,7 +30,9 @@ export class GithubRepository extends GithubMixin(Repository) {
    */
   async initializeBranches() {
     for (let page = 1; ; page++) {
-      const res = await this.provider.fetch(`/repos/${this.slug}/branches?page=${page}`);
+      const res = await this.provider.fetch(
+        `/repos/${this.slug}/branches?page=${page}`
+      );
       const json = await res.json();
 
       if (json.length === 0 || !Array.isArray(json)) {
@@ -83,25 +80,17 @@ export class GithubRepository extends GithubMixin(Repository) {
    * @return {string} sha of the ref
    */
   async refId(ref) {
-    const result = await this.github.query(
-      `query($owner:String!,$repository:String!,$ref:String!) {
-      repository(owner:$owner,name:$repository) {
-        ref(qualifiedName:$ref) {
-          target { oid }
-        }}}`,
-      {
-        owner: this.owner.name,
-        repository: this.name,
-        ref
-      }
-    );
+    ref = ref.replace(/^refs\//, "");
+
+    const res = await this.provider.fetch(`/repos/${this.slug}/git/ref/${ref}`);
+    const json = await res.json();
 
     // TODO why does this happen ?
-    if (!result.repository.ref) {
+    if (!json.object.sha) {
       throw new Error(`no refId for '${this.name}' '${ref}'`);
     }
 
-    return result.repository.ref.target.oid;
+    return json.object.sha;
   }
 
   async createBranch(name, from, options) {
