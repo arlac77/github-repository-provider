@@ -40,10 +40,10 @@ console.log(entry.name);
     -   [Examples](#examples)
     -   [initializeRepositories](#initializerepositories)
     -   [repositoryBases](#repositorybases)
-    -   [rateLimit](#ratelimit)
     -   [areOptionsSufficciant](#areoptionssufficciant)
         -   [Parameters](#parameters-1)
 -   [GithubRepository](#githubrepository)
+    -   [initializeBranches](#initializebranches)
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
     -   [homePageURL](#homepageurl)
@@ -64,10 +64,16 @@ console.log(entry.name);
     -   [removeEntires](#removeentires)
         -   [Parameters](#parameters-8)
 -   [GithubOwner](#githubowner)
+-   [isLastLink](#islastlink)
+    -   [Parameters](#parameters-9)
 -   [GithubPullRequest](#githubpullrequest)
     -   [\_merge](#_merge)
-        -   [Parameters](#parameters-9)
+        -   [Parameters](#parameters-10)
     -   [validMergeMethods](#validmergemethods)
+    -   [fetch](#fetch)
+        -   [Parameters](#parameters-11)
+    -   [list](#list)
+        -   [Parameters](#parameters-12)
 
 ## GithubProvider
 
@@ -121,12 +127,6 @@ All possible base urls
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** common base urls of all repositories
 
-### rateLimit
-
-Query the current rate limit
-
-Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** rate limit (remaining)
-
 ### areOptionsSufficciant
 
 #### Parameters
@@ -140,6 +140,11 @@ Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 **Extends GithubMixin(Repository)**
 
 Repository on GitHub
+
+### initializeBranches
+
+-   **See: <https://developer.github.com/v3/repos/branches/>
+    **
 
 ### urls
 
@@ -158,6 +163,9 @@ Deliver the url of the repositories home page.
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### refId
+
+-   **See: <https://developer.github.com/v3/git/refs/>
+    **
 
 #### Parameters
 
@@ -227,6 +235,15 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 **Extends GithubMixin(RepositoryGroup)**
 
+## isLastLink
+
+'<https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="prev", <https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="last", <https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="first"',
+
+### Parameters
+
+-   `link`  
+-   `page`  
+
 ## GithubPullRequest
 
 **Extends GithubMixin(PullRequest)**
@@ -247,6 +264,25 @@ Github pull request
 All valid merge methods
 
 Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** valid merge methods
+
+### fetch
+
+GET /repos/:owner/:repo/pulls/:pull_number
+
+#### Parameters
+
+-   `repository`  
+-   `number`  
+
+### list
+
+-   **See: <https://developer.github.com/v3/pulls/>
+    **
+
+#### Parameters
+
+-   `repository`  
+-   `filter`   (optional, default `{}`)
 
 # install
 
