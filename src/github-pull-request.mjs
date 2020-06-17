@@ -5,14 +5,17 @@ import { GithubMixin } from "./github-mixin.mjs";
 '<https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="prev", <https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="last", <https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="first"',
 */
 function isLastLink(link, page) {
-  if(link === undefined) {
+  if (link === undefined) {
     return;
   }
 
-  const rels = link.split(/\s*,\s*/).map(r => {
-    const m = r.match(/\?page=(\d+).*;\s*rel="(\w+)"/);
-    return m ? { page: m[1], rel: m[2] } : undefined;
-  }).filter(r => r !== undefined);
+  const rels = link
+    .split(/\s*,\s*/)
+    .map(r => {
+      const m = r.match(/\?page=(\d+).*;\s*rel="(\w+)"/);
+      return m ? { page: m[1], rel: m[2] } : undefined;
+    })
+    .filter(r => r !== undefined);
 
   console.log(rels);
 }
@@ -87,6 +90,12 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
     }
   }
 
+  /**
+   * @see https://developer.github.com/v3/pulls/#create-a-pull-request
+   * @param {Branch} source
+   * @param {Branch} destination
+   * @param {Object} options
+   */
   static async open(source, destination, options) {
     for await (const p of source.provider.pullRequestClass.list(
       source.repository,
@@ -95,21 +104,22 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
       return p;
     }
 
-    //    try {
-    const result = await source.octokit.pulls.create({
-      owner: destination.owner.name,
-      repo: destination.repository.name,
-      base: destination.name,
-      head: source.name,
-      ...options
-    });
-
-    return new source.pullRequestClass(
-      source,
-      destination,
-      result.data.number,
-      result.data
+    const res = await destination.provider.fetch(
+      `/repos/${destination.repository.slug}/pulls`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          head: source.name,
+          base: destination.name,
+          ...options
+        })
+      }
     );
+    // console.log(res);
+    const json = await res.json();
+
+    return new source.pullRequestClass(source, destination, json.number, json);
+
     /*  } catch (e) {
       if (
         e.errors && 
@@ -125,44 +135,34 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
     }*/
   }
 
-  /*
-    node_id: 'MDExOlB1bGxSZXF1ZXN0MjI0MTEyNzcy',
-    created_at: '2018-10-18T22:00:45Z',
-    updated_at: '2018-10-18T22:00:45Z',
-    closed_at: null,
-    merged_at: null,
-    merge_commit_sha: null,
-    assignee: null,
-    assignees: [],
-    requested_reviewers: [],
-    requested_teams: [],
-    labels: [],
-    milestone: null,
-*/
-
   /**
-   * @see https://octokit.github.io/rest.js/#api-PullRequests-merge
+   * @see https://developer.github.com/v3/pulls/#merge-a-pull-request
    */
   async _merge(method = "MERGE") {
-    const result = await this.octokit.pulls.merge({
-      owner: this.repository.owner.name,
-      repo: this.repository.name,
-      pull_number: this.name,
-      merge_method: method
-    });
-
-    //this.merged = result.data.merged;
+    const res = await this.provicer.fetch(
+      `/repos/${this.source.repository.slug}/pulls/${this.number}/merge`,
+      {
+        method: "PUT",
+        body: JSON.stringify({ merge_method: method, sha: "???" })
+      }
+    );
   }
 
+  /**
+   *
+   */
   async _write() {
-    const result = await this.octokit.pulls.merge({
-      owner: this.repository.owner.name,
-      repo: this.repository.name,
-      state: this.state,
-      base: this.destination.name,
-      pull_number: this.name,
-      title: this.title,
-      body: this.body
-    });
+    const res = await this.provider.fetch(
+      `/repos/${this.source.repository.slug}/pulls/${this.number}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          title: this.title,
+          body: this.body,
+          state: this.state
+        })
+      }
+    );
+    console.log(res);
   }
 }
