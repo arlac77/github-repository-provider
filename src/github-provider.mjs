@@ -65,7 +65,7 @@ export class GithubProvider extends MultiGroupProvider {
   constructor(options) {
     super(options);
 
-    if(this.authentication === undefined) {
+    if (this.authentication === undefined) {
       this.authentication = {};
     }
 
@@ -119,7 +119,7 @@ export class GithubProvider extends MultiGroupProvider {
       ...options.headers
     };
 
-    return fetch(`${this.api}/${url}`, {
+    return fetch(new URL(url, this.api), {
       ...options,
       headers
     });
@@ -170,15 +170,6 @@ export class GithubProvider extends MultiGroupProvider {
 
   get areGroupNamesCaseSensitive() {
     return false;
-  }
-
-  /**
-   * Query the current rate limit
-   * @return {Object} rate limit (remaining)
-   */
-  async rateLimit() {
-    const result = await this.github.query("query { rateLimit { remaining } }");
-    return result.rateLimit;
   }
 
   get pullRequestClass() {
