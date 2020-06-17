@@ -30,6 +30,9 @@ export class GithubRepository extends GithubMixin(Repository) {
   is_template
   */
 
+  /**
+   * @see https://developer.github.com/v3/repos/branches/
+   */
   async initializeBranches() {
     for (let page = 1; ; page++) {
       const res = await this.provider.fetch(`/repos/${this.slug}/branches?page=${page}`);
@@ -75,7 +78,7 @@ export class GithubRepository extends GithubMixin(Repository) {
   }
 
   /**
-   *
+   * @see https://developer.github.com/v3/git/refs/
    * @param {string} ref
    * @return {string} sha of the ref
    */
