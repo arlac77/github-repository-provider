@@ -155,17 +155,28 @@ export class GithubRepository extends GithubMixin(Repository) {
     }
   }
 
+  /**
+   * @see https://developer.github.com/v3/pulls/#update-a-pull-request 
+   * 
+   * @param name 
+   */
   async deletePullRequest(name) {
+
+    const res = await this.provider.fetch(`/repos/${this.slug}/pulls/${name}`,{ method: "PATCH", body: JSON.stringify({state: "closed"}) });
+
+    /*
     const result = await this.octokit.pulls.update({
       owner: this.owner.name,
       repo: this.name,
       pull_number: name,
       state: "closed"
     });
+*/
 
     this._pullRequests.delete(name);
 
-    return result.data;
+    
+    //return result.data;
   }
 
   async initializeHooks() {
