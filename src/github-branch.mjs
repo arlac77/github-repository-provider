@@ -12,38 +12,48 @@ import { GithubMixin } from "./github-mixin.mjs";
  * Branch on GitHub
  */
 export class GithubBranch extends GithubMixin(Branch) {
+  get slug() {
+    return this.repository.slug;
+  }
+
   /**
-   * writes content into the branch
+   * Writes content into the branch
+   * @see https://developer.github.com/v3/git/blobs/#get-a-blob
    * @param {Entry} entry
    * @return {Promise<Entry>} written content with sha values set
    */
   async writeEntry(entry) {
-    const res = await this.octokit.git.createBlob({
-      owner: this.owner.name,
-      repo: this.repository.name,
-      content: await entry.getString(),
-      encoding: "utf8"
+    const res = await this.provider.fetch(`/repos/${this.slug}/git/blobs`, {
+      method: "POST",
+      body: JSON.stringify({
+        content: await entry.getString(),
+        encoding: "utf8"
+      })
     });
+    const json = await res.json();
 
-    entry.sha = res.data.sha;
+    entry.sha = json.sha;
 
     return entry;
   }
 
   /**
-   * 
+   *
    */
   async createPullRequest(destination, msg) {
-    return this.pullRequestClass.open( destination, this, msg);
+    return this.pullRequestClass.open(destination, this, msg);
   }
 
-  async baseTreeSha(commitSha) {
-    const result = await this.octokit.git.getCommit({
-      owner: this.owner.name,
-      repo: this.repository.name,
-      commit_sha: commitSha
-    });
-    return result.data.tree.sha;
+  /**
+   * @see https://developer.github.com/v3/git/commits/#get-a-commit
+   * @param {string} sha
+   */
+  async baseTreeSha(sha) {
+    const res = await this.provider.fetch(
+      `/repos/${this.slug}/git/commits/${sha}`
+    );
+    const json = await res.json();
+    return json.tree.sha;
   }
 
   /** @inheritdoc */
@@ -133,7 +143,8 @@ export class GithubBranch extends GithubMixin(Branch) {
    */
   async tree(tree_sha) {
     const res = await this.provider.fetch(
-      `/repos/${this.repository.slug}/git/trees/${tree_sha}?recursive=1`);
+      `/repos/${this.slug}/git/trees/${tree_sha}?recursive=1`
+    );
     const json = await res.json();
     return json.tree;
   }
@@ -157,7 +168,7 @@ export class GithubBranch extends GithubMixin(Branch) {
   async removeEntires(entries) {
     for await (const entry of entries) {
       const res = await this.provider.fetch(
-        `/repos/${this.repository.slug}/contents/${entry.name}`,
+        `/repos/${this.slug}/contents/${entry.name}`,
         {
           method: "DELETE",
           body: JSON.stringify({ branch: this.name, message: "", sha: "" })
