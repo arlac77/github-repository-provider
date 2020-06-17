@@ -16,6 +16,11 @@ export class GithubRepository extends GithubMixin(Repository) {
     };
   }
 
+  get slug()
+  {
+    return `${this.owner.name}/${this.name}`;
+  }
+
   /*
   delete_branch_on_merge
   allow_rebase_merge
@@ -26,39 +31,16 @@ export class GithubRepository extends GithubMixin(Repository) {
   */
 
   async initializeBranches() {
-    let pageInfo = {};
+    for (let page = 1; ; page++) {
+      const res = await this.provider.fetch(`/repos/${this.slug}/branches?page=${page}`);
+      const json = await res.json();
 
-    do {
-      const result = await this.github.query(
-        `query($owner:String!,$name:String!,$after: String) {
-  repositoryOwner(login: $owner) {
-    repository(name:$name) {
-        refs(after:$after,first:100,refPrefix:"refs/heads/")
-        {
-          pageInfo {endCursor hasNextPage}
-          edges { node { name } }
-        }
-    }
-  }
-}`, // target { oid }
-        {
-          owner: this.owner.name,
-          name: this.name,
-          after: pageInfo.endCursor
-        }
-      );
-      const repo = result.repositoryOwner.repository;
-
-      if (!repo) {
+      if (json.length === 0 || !Array.isArray(json)) {
         break;
       }
-      const refs = repo.refs;
-      pageInfo = refs.pageInfo;
 
-      for (const edge of refs.edges) {
-        this.addBranch(edge.node.name, edge.node);
-      }
-    } while (pageInfo.hasNextPage);
+      json.forEach(b => this.addBranch(b.name, b));
+    }
   }
 
   /**
