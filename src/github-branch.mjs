@@ -111,8 +111,6 @@ export class GithubBranch extends GithubMixin(Branch) {
   /** @inheritdoc */
   async entry(name) {
     try {
-      //const res = await this.octokit.git.getBlob({owner:this.owner.name, repo:this.repository.name, file_sha});
-
       const res = await this.octokit.repos.getContent({
         owner: this.owner.name,
         repo: this.repository.name,
@@ -148,14 +146,15 @@ export class GithubBranch extends GithubMixin(Branch) {
     }
   }
 
+  /**
+   * @see https://developer.github.com/v3/git/trees/
+   * @param tree_sha
+   */
   async tree(tree_sha) {
-    const result = await this.octokit.git.getTree({
-      owner: this.owner.name,
-      repo: this.repository.name,
-      tree_sha,
-      recursive: 1
-    });
-    return result.data.tree;
+    const res = await this.provider.fetch(
+      `/repos/${this.repository.slug}/git/trees/${tree_sha}?recursive=1`);
+    const json = await res.json();
+    return json.tree;
   }
 
   async *entries(patterns) {
@@ -176,16 +175,14 @@ export class GithubBranch extends GithubMixin(Branch) {
    */
   async removeEntires(entries) {
     for await (const entry of entries) {
-      await this.octokit.repos.deleteFile({
-        owner: this.owner.name,
-        repo: this.repository.name,
-        path: entry.name
-        // message,
-        // sha
-      });
+      const res = await this.provider.fetch(
+        `/repos/${this.repository.slug}/contents/${entry.name}`,
+        {
+          method: "DELETE",
+          body: JSON.stringify({ branch: this.name, message: "", sha: "" })
+        }
+      );
     }
-
-    // DELETE /repos/:owner/:repo/contents/:path
   }
 
   get entryClass() {
