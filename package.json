@@ -30,8 +30,6 @@
     "lint": "documentation lint ./src/github-provider.mjs"
   },
   "dependencies": {
-    "@octokit/plugin-throttling": "^3.2.2",
-    "@octokit/rest": "18.0.0",
     "content-entry": "^2.5.0",
     "matching-iterator": "1.1.0",
     "node-fetch": "3.0.0-beta.7",

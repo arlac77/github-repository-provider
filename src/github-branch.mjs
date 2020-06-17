@@ -6,12 +6,11 @@ import {
   BufferContentEntryMixin,
   ContentEntry
 } from "content-entry";
-import { GithubMixin } from "./github-mixin.mjs";
 
 /**
  * Branch on GitHub
  */
-export class GithubBranch extends GithubMixin(Branch) {
+export class GithubBranch extends Branch {
   get slug() {
     return this.repository.slug;
   }
@@ -56,7 +55,14 @@ export class GithubBranch extends GithubMixin(Branch) {
     return json.tree.sha;
   }
 
-  /** @inheritdoc */
+  /**
+   * @see https://developer.github.com/v3/git/trees/#create-a-tree
+   * @see https://developer.github.com/v3/git/commits/#create-a-commit
+   * @see https://developer.github.com/v3/git/refs/#update-a-reference
+   * @param message
+   * @param entries
+   * @param options
+   */
   async commit(message, entries, options = {}) {
     const updates = await Promise.all(
       entries.map(entry => this.writeEntry(entry))
@@ -64,39 +70,53 @@ export class GithubBranch extends GithubMixin(Branch) {
     const shaLatestCommit = await this.refId();
     const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
 
-    let result = await this.octokit.git.createTree({
-      owner: this.owner.name,
-      repo: this.repository.name,
-      tree: updates.map(u => {
-        return {
-          path: u.name,
-          sha: u.sha,
-          type: "blob",
-          mode: "100" + u.unixMode.toString(8)
-        };
-      }),
-      base_tree: shaBaseTree
-    });
-    const shaNewTree = result.data.sha;
-
-    result = await this.octokit.git.createCommit({
-      owner: this.owner.name,
-      repo: this.repository.name,
-      message,
-      tree: shaNewTree,
-      parents: [shaLatestCommit]
-    });
-    const shaNewCommit = result.data.sha;
-
-    result = await this.octokit.git.updateRef({
-      owner: this.owner.name,
-      repo: this.repository.name,
-      ref: `heads/${this.name}`,
-      sha: shaNewCommit,
-      force: options.force || false
+    let result = await this.provider.fetch(`/repos/${this.slug}/git/trees`, {
+      method: "POST",
+      body: JSON.stringify({
+        base_tree: shaBaseTree,
+        tree: updates.map(u => {
+          return {
+            path: u.name,
+            sha: u.sha,
+            type: "blob",
+            mode: "100" + u.unixMode.toString(8)
+          };
+        })
+      })
     });
 
-    return result.data;
+    let json = await result.json();
+
+    //console.log("CREATE TREE", json);
+    const shaNewTree = json.sha;
+
+    result = await this.provider.fetch(`/repos/${this.slug}/git/commits`, {
+      method: "POST",
+      body: JSON.stringify({
+        message,
+        tree: shaNewTree,
+        parents: [shaLatestCommit]
+      })
+    });
+    json = await result.json();
+
+    //console.log("CREATE COMMIT", json);
+
+    const sha = json.sha;
+
+    result = await this.provider.fetch(
+      `/repos/${this.slug}/git/refs/heads/${this.name}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          ...options,
+          sha
+        })
+      }
+    );
+
+    json = await result.json();
+    return json;
   }
 
   /**

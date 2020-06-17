@@ -1,11 +1,10 @@
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import { Repository } from "repository-provider";
-import { GithubMixin } from "./github-mixin.mjs";
 
 /**
  * Repository on GitHub
  */
-export class GithubRepository extends GithubMixin(Repository) {
+export class GithubRepository extends Repository {
   static get attributeMapping() {
     return {
       ...super.attributeMapping,

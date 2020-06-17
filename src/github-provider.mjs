@@ -8,9 +8,6 @@ import { GithubOwner } from "./github-owner.mjs";
 import { GithubPullRequest } from "./github-pull-request.mjs";
 export { GithubRepository, GithubBranch, GithubOwner, GithubPullRequest };
 
-import Octokit from "@octokit/rest";
-import throttling from "@octokit/plugin-throttling";
-
 /**
  * <!-- skip-example -->
  * GitHub provider
@@ -28,7 +25,6 @@ import throttling from "@octokit/plugin-throttling";
  * const r5 = ghp.repository('git+https://github.com/arlac77/github-repository-provider.git#master');
  * const r6 = ghp.repository('arlac77/github-repository-provider');
  * // different ways to address the same repository
- * @property {Object} octokit
  */
 export class GithubProvider extends MultiGroupProvider {
   static get attributes() {
@@ -66,31 +62,6 @@ export class GithubProvider extends MultiGroupProvider {
     if (this.authentication === undefined) {
       this.authentication = {};
     }
-
-    const oc = new (Octokit.Octokit.plugin(throttling.throttling))({
-      auth: `token ${this.authentication.token}`,
-      throttle: {
-        onRateLimit: (retryAfter, options) => {
-          this.warn(
-            `Request quota exhausted for request ${options.method} ${options.url}`
-          );
-
-          if (options.request.retryCount === 0) {
-            this.info(`Retrying after ${retryAfter} seconds!`);
-            return true;
-          }
-        },
-        onAbuseLimit: (retryAfter, options) => {
-          this.warn(
-            `Abuse detected for request ${options.method} ${options.url}`
-          );
-        }
-      }
-    });
-
-    Object.defineProperties(this, {
-      octokit: { value: oc }
-    });
   }
 
   get repositoryClass() {

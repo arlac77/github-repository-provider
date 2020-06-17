@@ -1,10 +1,9 @@
 import { RepositoryGroup } from "repository-provider";
-import { GithubMixin } from "./github-mixin.mjs";
 
 /**
  * @see https://developer.github.com/v3/repos/#create-a-repository-for-the-authenticated-user
  */
-export class GithubOwner extends GithubMixin(RepositoryGroup) {
+export class GithubOwner extends RepositoryGroup {
   async createRepository(name, options) {
     const res = await this.provider.fetch("/user/repos", {
       method: "POST",

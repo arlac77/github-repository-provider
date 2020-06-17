@@ -1,5 +1,4 @@
 import { PullRequest } from "repository-provider";
-import { GithubMixin } from "./github-mixin.mjs";
 
 /**
 '<https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="prev", <https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="last", <https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="first"',
@@ -23,7 +22,7 @@ function isLastLink(link, page) {
 /**
  * Github pull request
  */
-export class GithubPullRequest extends GithubMixin(PullRequest) {
+export class GithubPullRequest extends PullRequest {
   /**
    * All valid merge methods
    * @return {Set<string>} valid merge methods
