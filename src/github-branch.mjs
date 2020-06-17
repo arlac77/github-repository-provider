@@ -99,42 +99,34 @@ export class GithubBranch extends GithubMixin(Branch) {
     return result.data;
   }
 
-  /** @inheritdoc */
+  /**
+   * @see https://developer.github.com/v3/repos/contents/#get-repository-content
+   * @param name
+   */
   async entry(name) {
-    try {
-      const res = await this.octokit.repos.getContent({
-        owner: this.owner.name,
-        repo: this.repository.name,
-        path: name,
-        ref: this.ref
-      });
+    const res = await this.provider.fetch(
+      `/repos/${this.slug}/contents/${name}?ref=${this.ref}`
+    );
 
-      return new this.entryClass(name, Buffer.from(res.data.content, "base64"));
-    } catch (err) {
-      if (err.status === 404) {
-        throw new Error(err.status);
-      }
-      throw err;
+    if (res.status != 200) {
+      throw new Error(res.status);
     }
+    const json = await res.json();
+
+    return new this.entryClass(name, Buffer.from(json.content, "base64"));
   }
 
   /** @inheritdoc */
   async maybeEntry(name) {
-    try {
-      const res = await this.octokit.repos.getContent({
-        owner: this.owner.name,
-        repo: this.repository.name,
-        path: name,
-        ref: this.ref
-      });
-
-      return new this.entryClass(name, Buffer.from(res.data.content, "base64"));
-    } catch (err) {
-      if (err.status === 404) {
-        return undefined;
-      }
-      throw err;
+    const res = await this.provider.fetch(
+      `/repos/${this.slug}/contents/${name}?ref=${this.ref}`
+    );
+    if (res.status === 404) {
+      return undefined;
     }
+
+    const json = await res.json();
+    return new this.entryClass(name, Buffer.from(json.content, "base64"));
   }
 
   /**
@@ -192,12 +184,11 @@ class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
 
   async getBuffer() {
     const branch = this.branch;
-    const res = await branch.octokit.repos.getContent({
-      owner: branch.owner.name,
-      repo: branch.repository.name,
-      path: this.name,
-      ref: branch.ref
-    });
-    return Buffer.from(res.data.content, "base64");
+    const res = await branch.provider.fetch(
+      `/repos/${branch.slug}/contents/${this.name}?ref=${branch.ref}`
+    );
+
+    const json = await res.json();
+    return Buffer.from(json.content, "base64");
   }
 }
