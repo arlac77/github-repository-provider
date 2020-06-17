@@ -2,6 +2,22 @@ import { PullRequest } from "repository-provider";
 import { GithubMixin } from "./github-mixin.mjs";
 
 /**
+'<https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="prev", <https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="last", <https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="first"',
+*/
+function isLastLink(link, page) {
+  if(link === undefined) {
+    return;
+  }
+
+  const rels = link.split(/\s*,\s*/).map(r => {
+    const m = r.match(/\?page=(\d+).*;\s*rel="(\w+)"/);
+    return m ? { page: m[1], rel: m[2] } : undefined;
+  }).filter(r => r !== undefined);
+
+  console.log(rels);
+}
+
+/**
  * Github pull request
  */
 export class GithubPullRequest extends GithubMixin(PullRequest) {
@@ -13,61 +29,62 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
     return new Set(["MERGE", "SQUASH", "REBASE"]);
   }
 
+  /**
+   * GET /repos/:owner/:repo/pulls/:pull_number
+   * @param repository
+   * @param number
+   */
   static async fetch(repository, number) {}
 
+  /**
+   * @see https://developer.github.com/v3/pulls/
+   * @param repository
+   * @param filter
+   */
   static async *list(repository, filter = {}) {
-    let pageInfo = {};
-
     const provider = repository.provider;
 
-    do {
-      const result = await provider.github.query(
-        `query($username: String!, $repository:String!, $baseRefName:String, $headRefName:String $states:[PullRequestState!], $after: String) { repositoryOwner(login: $username)
-      { repository(name:$repository) {
-        pullRequests(baseRefName:$baseRefName, headRefName:$headRefName, after:$after, first:100, states:$states)
-        {pageInfo {endCursor hasNextPage}
-          nodes {
-            number
-            title
-            state
-            locked
-            merged
-            baseRepository {
-              nameWithOwner
-            }
-            baseRefName
-            headRepository {
-              nameWithOwner
-            }
-            headRefName
-       }}}}}`,
-        {
-          headRefName: filter.source ? filter.source.name : undefined,
-          baseRefName: filter.destination ? filter.destination.name : undefined,
-          repository: repository.name,
-          username: repository.owner.name,
-          after: pageInfo.endCursor,
-          states: [...(filter.states ? filter.states : this.defaultListStates)]
+    function bf(name, branch) {
+      return branch === undefined
+        ? ""
+        : `&${name}=${branch.owner.name}:${branch.name}`;
+    }
+
+    const head = bf("head", filter.source);
+    const base = bf("base", undefined, filter.destination); // TODO
+
+    for (const state of [
+      ...(filter.states ? filter.states : this.defaultListStates)
+    ]) {
+      for (let page = 1; ; page++) {
+        const res = await provider.fetch(
+          `/repos/${repository.slug}/pulls?page=${page}&state=${state}${head}${base}`
+        );
+
+        isLastLink(res.headers.link);
+
+        const json = await res.json();
+
+        if (json.length === 0 || !Array.isArray(json)) {
+          break;
         }
-      );
 
-      if (!result.repositoryOwner.repository) {
-        break;
+        for (const node of json) {
+          const [source, dest] = await Promise.all(
+            [node.head, node.base].map(r =>
+              provider.branch([r.repo.full_name, r.ref].join("#"))
+            )
+          );
+
+          yield new repository.pullRequestClass(
+            source,
+            dest,
+            node.number,
+            node
+          );
+        }
       }
-
-      const pullRequests = result.repositoryOwner.repository.pullRequests;
-      pageInfo = pullRequests.pageInfo;
-
-      for (const node of pullRequests.nodes) {
-        const dest = await provider.branch(
-          [node.baseRepository.nameWithOwner, node.baseRefName].join("#")
-        );
-        const source = await provider.branch(
-          [node.headRepository.nameWithOwner, node.headRefName].join("#")
-        );
-        yield new repository.pullRequestClass(source, dest, node.number, node);
-      }
-    } while (pageInfo.hasNextPage);
+    }
   }
 
   static async open(source, destination, options) {

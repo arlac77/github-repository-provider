@@ -8,7 +8,6 @@ import { GithubOwner } from "./github-owner.mjs";
 import { GithubPullRequest } from "./github-pull-request.mjs";
 export { GithubRepository, GithubBranch, GithubOwner, GithubPullRequest };
 
-import GitHub from "github-graphql-api/dist/github.mjs";
 import Octokit from "@octokit/rest";
 import throttling from "@octokit/plugin-throttling";
 
@@ -44,7 +43,6 @@ export class GithubProvider extends MultiGroupProvider {
       api: {
         default: "https://api.github.com"
       },
-      graphqlApi: { default: "https://api.github.com/graphql" },
       "authentication.token": {
         env: ["GITHUB_TOKEN", "GH_TOKEN"],
         additionalAttributes: { "authentication.type": "token" },
@@ -69,11 +67,6 @@ export class GithubProvider extends MultiGroupProvider {
       this.authentication = {};
     }
 
-    const gh = new GitHub({
-      token: this.authentication.token,
-      apiUrl: this.graphqlApi
-    });
-
     const oc = new (Octokit.Octokit.plugin(throttling.throttling))({
       auth: `token ${this.authentication.token}`,
       throttle: {
@@ -96,7 +89,6 @@ export class GithubProvider extends MultiGroupProvider {
     });
 
     Object.defineProperties(this, {
-      github: { value: gh },
       octokit: { value: oc }
     });
   }
