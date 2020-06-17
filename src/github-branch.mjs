@@ -31,29 +31,10 @@ export class GithubBranch extends GithubMixin(Branch) {
   }
 
   /**
-   * @see https://octokit.github.io/rest.js/#api-PullRequests-create
+   * 
    */
   async createPullRequest(destination, msg) {
-    const options = {
-      owner: this.owner.name,
-      repo: this.repository.name,
-      title: msg.title,
-      head: destination.name,
-      base: this.name,
-      body: msg.body
-    };
-
-    const result = await this.octokit.pulls.create(options);
-
-    /*
-    delete result.data.base;
-    delete result.data.head;
-*/
-
-    return new this.pullRequestClass(this, destination, result.data.number, {
-      ...options,
-      ...result.data
-    });
+    return this.pullRequestClass.open( destination, this, msg);
   }
 
   async baseTreeSha(commitSha) {

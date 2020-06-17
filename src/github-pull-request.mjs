@@ -115,24 +115,8 @@ export class GithubPullRequest extends GithubMixin(PullRequest) {
         })
       }
     );
-    // console.log(res);
     const json = await res.json();
-
     return new source.pullRequestClass(source, destination, json.number, json);
-
-    /*  } catch (e) {
-      if (
-        e.errors && 
-        e.errors.find(e =>
-          e.message.startsWith("A pull request already exists")
-        )
-      ) {
-
-        for await (const p of source.provider.pullRequestClass.list(source.repository,source,destination)) {
-          return p;
-        }
-      } else throw e;
-    }*/
   }
 
   /**
