@@ -66,11 +66,13 @@ export class GithubRepository extends GithubMixin(Repository) {
     return `${this.provider.url}${this.fullName}#readme`;
   }
 
+  /**
+   * @see https://developer.github.com/v3/repos/#update-a-repository
+   */
   async update() {
-    return this.octokit.repos.update({
-      owner: this.owner.name,
-      repo: this.name,
-      description: this.description
+    return this.provider.fetch(`/repos/${this.slug}`, {
+      method: "PATCH",
+      body: JSON.stringify({ description: this.description })
     });
   }
 
@@ -150,42 +152,32 @@ export class GithubRepository extends GithubMixin(Repository) {
       }
     );
 
-    if(res.ok) {
+    if (res.ok) {
       return super.deleteBranch(name);
     }
   }
 
   /**
-   * @see https://developer.github.com/v3/pulls/#update-a-pull-request 
-   * 
-   * @param name 
+   * @see https://developer.github.com/v3/pulls/#update-a-pull-request
+   *
+   * @param name
    */
   async deletePullRequest(name) {
-
-    const res = await this.provider.fetch(`/repos/${this.slug}/pulls/${name}`,{ method: "PATCH", body: JSON.stringify({state: "closed"}) });
-
-    /*
-    const result = await this.octokit.pulls.update({
-      owner: this.owner.name,
-      repo: this.name,
-      pull_number: name,
-      state: "closed"
+    const res = await this.provider.fetch(`/repos/${this.slug}/pulls/${name}`, {
+      method: "PATCH",
+      body: JSON.stringify({ state: "closed" })
     });
-*/
 
     this._pullRequests.delete(name);
-
-    
-    //return result.data;
   }
 
+  /**
+   * @see https://developer.github.com/v3/repos/hooks/
+   */
   async initializeHooks() {
-    const res = await this.octokit.repos.listWebhooks({
-      owner: this.owner.name,
-      repo: this.name
-    });
+    const res = await this.provider.fetch(`/repos/${this.slug}/hooks`);
 
-    for (const h of res.data) {
+    for (const h of await res.json()) {
       this.addHook(
         new this.hookClass(this, h.name, new Set(h.events), {
           id: h.id,
