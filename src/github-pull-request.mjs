@@ -40,20 +40,11 @@ export class GithubPullRequest extends PullRequest {
     for (const state of [
       ...(filter.states ? filter.states : this.defaultListStates)
     ]) {
-      for (let page = 1; ; page++) {
-        const res = await provider.fetch(
-          `/repos/${repository.slug}/pulls?page=${page}&state=${state}${head}${base}`
-        );
+      let next = `/repos/${repository.slug}/pulls?state=${state}${head}${base}`;
 
-        //console.log("LINK",getLink(res.headers.link));
-
-        const json = await res.json();
-
-        if (json.length === 0 || !Array.isArray(json)) {
-          break;
-        }
-
-        for (const node of json) {
+      do {
+        const response = await provider.fetch(next);
+        for (const node of await response.json()) {
           const [source, dest] = await Promise.all(
             [node.head, node.base].map(r =>
               provider.branch([r.repo.full_name, r.ref].join("#"))
@@ -67,7 +58,8 @@ export class GithubPullRequest extends PullRequest {
             node
           );
         }
-      }
+        next = getLink(response.headers);
+      } while (next);
     }
   }
 

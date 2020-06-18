@@ -1,5 +1,6 @@
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import { Repository } from "repository-provider";
+import { getLink } from "./util.mjs";
 
 /**
  * Repository on GitHub
@@ -25,21 +26,18 @@ export class GithubRepository extends Repository {
   */
 
   /**
-   * @see https://developer.github.com/v3/repos/branches/
+   * @see https://developer.github.com/v3/repos/branches/#list-branches
    */
   async initializeBranches() {
-    for (let page = 1; ; page++) {
-      const res = await this.provider.fetch(
-        `/repos/${this.slug}/branches?page=${page}`
-      );
-      const json = await res.json();
+    let next = `/repos/${this.slug}/branches`;
 
-      if (json.length === 0 || !Array.isArray(json)) {
-        break;
-      }
+    do {
+      const response = await this.provider.fetch(next);
+      const json = await response.json();
 
       json.forEach(b => this.addBranch(b.name, b));
-    }
+      next = getLink(response.headers);
+    } while (next);
   }
 
   /**
@@ -174,19 +172,24 @@ export class GithubRepository extends Repository {
    * @see https://developer.github.com/v3/repos/hooks/
    */
   async initializeHooks() {
-    const res = await this.provider.fetch(`/repos/${this.slug}/hooks`);
+    let next = `/repos/${this.slug}/hooks`;
 
-    for (const h of await res.json()) {
-      this.addHook(
-        new this.hookClass(this, h.name, new Set(h.events), {
-          id: h.id,
-          active: h.active,
-          content_type: h.content_type,
-          ...h.config,
-          insecure_ssl: h.config.insecure_ssl !== "0"
-        })
-      );
-    }
+    do {
+      const response = await this.provider.fetch(next);
+
+      for (const h of await response.json()) {
+        this.addHook(
+          new this.hookClass(this, h.name, new Set(h.events), {
+            id: h.id,
+            active: h.active,
+            content_type: h.content_type,
+            ...h.config,
+            insecure_ssl: h.config.insecure_ssl !== "0"
+          })
+        );
+      }
+      next = getLink(response.headers);
+    } while (next);
   }
 }
 
