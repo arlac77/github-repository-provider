@@ -1,6 +1,6 @@
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import { Repository } from "repository-provider";
-import { getLink } from "./util.mjs";
+import { getHeaderLink } from "fetch-link-util";
 
 /**
  * Repository on GitHub
@@ -36,7 +36,7 @@ export class GithubRepository extends Repository {
       const json = await response.json();
 
       json.forEach(b => this.addBranch(b.name, b));
-      next = getLink(response.headers);
+      next = getHeaderLink(response.headers);
     } while (next);
   }
 
@@ -188,7 +188,7 @@ export class GithubRepository extends Repository {
           })
         );
       }
-      next = getLink(response.headers);
+      next = getHeaderLink(response.headers);
     } while (next);
   }
 }

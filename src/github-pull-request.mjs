@@ -1,5 +1,5 @@
 import { PullRequest } from "repository-provider";
-import { getLink } from "./util.mjs";
+import { getHeaderLink } from "fetch-link-util";
 
 /**
  * Github pull request
@@ -58,7 +58,7 @@ export class GithubPullRequest extends PullRequest {
             node
           );
         }
-        next = getLink(response.headers);
+        next = getHeaderLink(response.headers);
       } while (next);
     }
   }
