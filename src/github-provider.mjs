@@ -42,18 +42,11 @@ export class GithubProvider extends MultiGroupProvider {
       "authentication.token": {
         env: ["GITHUB_TOKEN", "GH_TOKEN"],
         additionalAttributes: { "authentication.type": "token" },
-        private: true
+        private: true,
+        mandatory: true
       },
       priority: { default: 1000.0 }
     };
-  }
-
-  /**
-   * @param {Object} options
-   * @return {boolean} true if authentication is present
-   */
-  static areOptionsSufficciant(options) {
-    return options["authentication.type"] !== undefined;
   }
 
   constructor(options) {
