@@ -1,23 +1,5 @@
 import { PullRequest } from "repository-provider";
-
-/**
-'<https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="prev", <https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="last", <https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="first"',
-*/
-function isLastLink(link, page) {
-  if (link === undefined) {
-    return;
-  }
-
-  const rels = link
-    .split(/\s*,\s*/)
-    .map(r => {
-      const m = r.match(/\?page=(\d+).*;\s*rel="(\w+)"/);
-      return m ? { page: m[1], rel: m[2] } : undefined;
-    })
-    .filter(r => r !== undefined);
-
-  console.log(rels);
-}
+import { getLink } from "./util.mjs";
 
 /**
  * Github pull request
@@ -32,14 +14,14 @@ export class GithubPullRequest extends PullRequest {
   }
 
   /**
-   * GET /repos/:owner/:repo/pulls/:pull_number
+   * @see https://developer.github.com/v3/pulls/#pull-requests
    * @param repository
    * @param number
    */
   static async fetch(repository, number) {}
 
   /**
-   * @see https://developer.github.com/v3/pulls/
+   * @see https://developer.github.com/v3/pulls/#list-pull-requests
    * @param repository
    * @param filter
    */
@@ -63,7 +45,7 @@ export class GithubPullRequest extends PullRequest {
           `/repos/${repository.slug}/pulls?page=${page}&state=${state}${head}${base}`
         );
 
-        isLastLink(res.headers.link);
+        //console.log("LINK",getLink(res.headers.link));
 
         const json = await res.json();
 
