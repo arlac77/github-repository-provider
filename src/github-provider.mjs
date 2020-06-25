@@ -8,6 +8,8 @@ import { GithubOwner } from "./github-owner.mjs";
 import { GithubPullRequest } from "./github-pull-request.mjs";
 export { GithubRepository, GithubBranch, GithubOwner, GithubPullRequest };
 
+const domain = "github.com";
+
 /**
  * <!-- skip-example -->
  * GitHub provider
@@ -31,13 +33,13 @@ export class GithubProvider extends MultiGroupProvider {
     return {
       ...super.attributes,
       ssh: {
-        default: "git@github.com:"
+        default: `git@${domain}:`
       },
       url: {
-        default: "https://github.com/"
+        default: `https://${domain}/`
       },
       api: {
-        default: "https://api.github.com"
+        default: `https://api.${domain}`
       },
       "authentication.token": {
         env: ["GITHUB_TOKEN", "GH_TOKEN"],
@@ -111,7 +113,6 @@ export class GithubProvider extends MultiGroupProvider {
    * @return {string[]} common base urls of all repositories
    */
   get repositoryBases() {
-    const domain = "github.com";
     return [
       this.url,
       "git+" + this.url,
