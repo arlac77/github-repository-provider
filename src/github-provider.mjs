@@ -111,12 +111,13 @@ export class GithubProvider extends MultiGroupProvider {
    * @return {string[]} common base urls of all repositories
    */
   get repositoryBases() {
+    const domain = "github.com";
     return [
       this.url,
       "git+" + this.url,
-      "git+ssh://github.com",
-      "git://github.com/",
-      "git@github.com:"
+      `git+ssh://${domain}`,
+      `git://${domain}/`,
+      `git@${domain}:`
     ];
   }
 
