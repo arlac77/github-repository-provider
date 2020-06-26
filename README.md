@@ -36,44 +36,51 @@ console.log(entry.name);
 
 -   [GithubProvider](#githubprovider)
     -   [Parameters](#parameters)
-    -   [Properties](#properties)
     -   [Examples](#examples)
     -   [initializeRepositories](#initializerepositories)
     -   [repositoryBases](#repositorybases)
-    -   [areOptionsSufficciant](#areoptionssufficciant)
-        -   [Parameters](#parameters-1)
 -   [GithubRepository](#githubrepository)
     -   [initializeBranches](#initializebranches)
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
     -   [homePageURL](#homepageurl)
+    -   [update](#update)
     -   [refId](#refid)
+        -   [Parameters](#parameters-1)
+    -   [deletePullRequest](#deletepullrequest)
         -   [Parameters](#parameters-2)
--   [GithubMixin](#githubmixin)
+    -   [initializeHooks](#initializehooks)
 -   [GithubBranch](#githubbranch)
     -   [writeEntry](#writeentry)
         -   [Parameters](#parameters-3)
     -   [createPullRequest](#createpullrequest)
         -   [Parameters](#parameters-4)
-    -   [commit](#commit)
+    -   [baseTreeSha](#basetreesha)
         -   [Parameters](#parameters-5)
-    -   [entry](#entry)
+    -   [commit](#commit)
         -   [Parameters](#parameters-6)
-    -   [maybeEntry](#maybeentry)
+    -   [entry](#entry)
         -   [Parameters](#parameters-7)
-    -   [removeEntires](#removeentires)
+    -   [maybeEntry](#maybeentry)
         -   [Parameters](#parameters-8)
+    -   [tree](#tree)
+        -   [Parameters](#parameters-9)
+    -   [removeEntires](#removeentires)
+        -   [Parameters](#parameters-10)
 -   [GithubOwner](#githubowner)
--   [isLastLink](#islastlink)
-    -   [Parameters](#parameters-9)
+    -   [deleteRepository](#deleterepository)
+        -   [Parameters](#parameters-11)
 -   [GithubPullRequest](#githubpullrequest)
     -   [\_merge](#_merge)
-        -   [Parameters](#parameters-10)
+        -   [Parameters](#parameters-12)
+    -   [\_write](#_write)
     -   [validMergeMethods](#validmergemethods)
     -   [fetch](#fetch)
-        -   [Parameters](#parameters-11)
+        -   [Parameters](#parameters-13)
     -   [list](#list)
-        -   [Parameters](#parameters-12)
+        -   [Parameters](#parameters-14)
+    -   [open](#open)
+        -   [Parameters](#parameters-15)
 
 ## GithubProvider
 
@@ -90,10 +97,6 @@ known environment variables
 ### Parameters
 
 -   `options`  
-
-### Properties
-
--   `octokit` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### Examples
 
@@ -127,23 +130,15 @@ All possible base urls
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** common base urls of all repositories
 
-### areOptionsSufficciant
-
-#### Parameters
-
--   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** true if authentication is present
-
 ## GithubRepository
 
-**Extends GithubMixin(Repository)**
+**Extends Repository**
 
 Repository on GitHub
 
 ### initializeBranches
 
--   **See: <https://developer.github.com/v3/repos/branches/>
+-   **See: <https://developer.github.com/v3/repos/branches/#list-branches>
     **
 
 ### urls
@@ -162,6 +157,11 @@ Deliver the url of the repositories home page.
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
+### update
+
+-   **See: <https://developer.github.com/v3/repos/#update-a-repository>
+    **
+
 ### refId
 
 -   **See: <https://developer.github.com/v3/git/refs/>
@@ -173,19 +173,32 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
 
-## GithubMixin
+### deletePullRequest
 
-common stuff for all github objects
+-   **See: <https://developer.github.com/v3/pulls/#update-a-pull-request>
+    **
+
+#### Parameters
+
+-   `name`  
+
+### initializeHooks
+
+-   **See: <https://developer.github.com/v3/repos/hooks/>
+    **
 
 ## GithubBranch
 
-**Extends GithubMixin(Branch)**
+**Extends Branch**
 
 Branch on GitHub
 
 ### writeEntry
 
-writes content into the branch
+-   **See: <https://developer.github.com/v3/git/blobs/#get-a-blob>
+    **
+
+Writes content into the branch
 
 #### Parameters
 
@@ -195,15 +208,28 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ### createPullRequest
 
--   **See: <https://octokit.github.io/rest.js/#api-PullRequests-create>
-    **
-
 #### Parameters
 
 -   `destination`  
 -   `msg`  
 
+### baseTreeSha
+
+-   **See: <https://developer.github.com/v3/git/commits/#get-a-commit>
+    **
+
+#### Parameters
+
+-   `sha` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
 ### commit
+
+-   **See: <https://developer.github.com/v3/git/trees/#create-a-tree>
+    **
+-   **See: <https://developer.github.com/v3/git/commits/#create-a-commit>
+    **
+-   **See: <https://developer.github.com/v3/git/refs/#update-a-reference>
+    **
 
 #### Parameters
 
@@ -212,6 +238,9 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 -   `options`   (optional, default `{}`)
 
 ### entry
+
+-   **See: <https://developer.github.com/v3/repos/contents/#get-repository-content>
+    **
 
 #### Parameters
 
@@ -223,6 +252,15 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 -   `name`  
 
+### tree
+
+-   **See: <https://developer.github.com/v3/git/trees/>
+    **
+
+#### Parameters
+
+-   `tree_sha`  
+
 ### removeEntires
 
 <https://developer.github.com/v3/repos/contents/>
@@ -233,31 +271,36 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ## GithubOwner
 
-**Extends GithubMixin(RepositoryGroup)**
+**Extends RepositoryGroup**
 
-## isLastLink
+-   **See: <https://developer.github.com/v3/repos/#create-a-repository-for-the-authenticated-user>
+    **
 
-'<https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="prev", <https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="last", <https://api.github.com/repositories/253911783/pulls?page=1&state=OPEN&head=arlac77%3Apr-test%2Fsource-1>; rel="first"',
+### deleteRepository
 
-### Parameters
+-   **See: <https://developer.github.com/v3/repos/#delete-a-repository>
+    **
 
--   `link`  
--   `page`  
+#### Parameters
+
+-   `name`  
 
 ## GithubPullRequest
 
-**Extends GithubMixin(PullRequest)**
+**Extends PullRequest**
 
 Github pull request
 
 ### \_merge
 
--   **See: <https://octokit.github.io/rest.js/#api-PullRequests-merge>
+-   **See: <https://developer.github.com/v3/pulls/#merge-a-pull-request>
     **
 
 #### Parameters
 
 -   `method`   (optional, default `"MERGE"`)
+
+### \_write
 
 ### validMergeMethods
 
@@ -267,7 +310,8 @@ Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Glob
 
 ### fetch
 
-GET /repos/:owner/:repo/pulls/:pull_number
+-   **See: <https://developer.github.com/v3/pulls/#pull-requests>
+    **
 
 #### Parameters
 
@@ -276,13 +320,24 @@ GET /repos/:owner/:repo/pulls/:pull_number
 
 ### list
 
--   **See: <https://developer.github.com/v3/pulls/>
+-   **See: <https://developer.github.com/v3/pulls/#list-pull-requests>
     **
 
 #### Parameters
 
 -   `repository`  
 -   `filter`   (optional, default `{}`)
+
+### open
+
+-   **See: <https://developer.github.com/v3/pulls/#create-a-pull-request>
+    **
+
+#### Parameters
+
+-   `source` **Branch** 
+-   `destination` **Branch** 
+-   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 # install
 
