@@ -33,15 +33,19 @@ export class GithubProvider extends MultiGroupProvider {
     return {
       ...super.attributes,
       ssh: {
+        type: "url",
         default: `git@${domain}:`
       },
       url: {
+        type: "url",
         default: `https://${domain}/`
       },
       api: {
+        type: "url",
         default: `https://api.${domain}`
       },
       "authentication.token": {
+        type: "string",
         env: ["GITHUB_TOKEN", "GH_TOKEN"],
         additionalAttributes: { "authentication.type": "token" },
         private: true,

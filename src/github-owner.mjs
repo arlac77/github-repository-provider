@@ -13,7 +13,6 @@ export class GithubOwner extends RepositoryGroup {
       })
     });
 
-    console.log(res);
     return this.addRepository(name, options);
   }
 
