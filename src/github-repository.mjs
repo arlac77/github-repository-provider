@@ -179,12 +179,9 @@ export class GithubRepository extends Repository {
 
       for (const h of await response.json()) {
         this.addHook(
-          new this.hookClass(this, h.name, new Set(h.events), {
-            id: h.id,
-            active: h.active,
-            content_type: h.content_type,
+          new this.hookClass(this, h.id, new Set(h.events), {
+            ...h,
             ...h.config,
-            insecure_ssl: h.config.insecure_ssl !== "0"
           })
         );
       }
