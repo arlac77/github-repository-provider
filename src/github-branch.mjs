@@ -64,6 +64,7 @@ export class GithubBranch extends Branch {
    * @param options
    */
   async commit(message, entries, options = {}) {
+    console.log("WWW",entries.map(e=>e.unixMode));
     const updates = await Promise.all(
       entries.map(entry => this.writeEntry(entry))
     );
@@ -75,6 +76,7 @@ export class GithubBranch extends Branch {
       body: JSON.stringify({
         base_tree: shaBaseTree,
         tree: updates.map(u => {
+console.log("XXX",u.name,u.unixMode, u.constructor.name);
           return {
             path: u.name,
             sha: u.sha,
@@ -87,7 +89,6 @@ export class GithubBranch extends Branch {
 
     let json = await result.json();
 
-    //console.log("CREATE TREE", json);
     const shaNewTree = json.sha;
 
     result = await this.provider.fetch(`/repos/${this.slug}/git/commits`, {
@@ -99,8 +100,6 @@ export class GithubBranch extends Branch {
       })
     });
     json = await result.json();
-
-    //console.log("CREATE COMMIT", json);
 
     const sha = json.sha;
 
