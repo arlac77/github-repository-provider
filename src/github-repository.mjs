@@ -178,12 +178,10 @@ export class GithubRepository extends Repository {
       const response = await this.provider.fetch(next);
 
       for (const h of await response.json()) {
-        this.addHook(
-          new this.hookClass(this, h.id, new Set(h.events), {
-            ...h,
-            ...h.config,
-          })
-        );
+        new this.hookClass(this, h.id, new Set(h.events), {
+          ...h,
+          ...h.config,
+        });
       }
       next = getHeaderLink(response.headers);
     } while (next);
