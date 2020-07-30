@@ -35,7 +35,7 @@ export class GithubPullRequest extends PullRequest {
     }
 
     const head = bf("head", filter.source);
-    const base = bf("base", filter.destination); // TODO
+    const base = bf("base", undefined /*filter.destination*/); // TODO
 
     for (const state of [
       ...(filter.states ? filter.states : this.defaultListStates)
