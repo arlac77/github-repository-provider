@@ -7,12 +7,12 @@ export class GithubOwner extends RepositoryGroup {
   async createRepository(name, options) {
     const res = await this.provider.fetch("/user/repos", {
       method: "POST",
-      body: JSON.stringofy({
+      body: JSON.stringify({
         name,
         ...options
       })
     });
-
+    console.log(res);
     return this.addRepository(name, options);
   }
 

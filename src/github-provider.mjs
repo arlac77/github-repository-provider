@@ -102,7 +102,7 @@ export class GithubProvider extends MultiGroupProvider {
       json.forEach(r => {
         const [groupName, repoName] = r.full_name.split(/\//);
         const group = this.addRepositoryGroup(groupName, r.owner);
-        const repository = group.addRepository(repoName, r);
+        group.addRepository(repoName, r);
       });
     }
   }
