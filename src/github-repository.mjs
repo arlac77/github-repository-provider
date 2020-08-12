@@ -165,7 +165,9 @@ export class GithubRepository extends Repository {
       body: JSON.stringify({ state: "closed" })
     });
 
-    this._pullRequests.delete(name);
+    if (res.ok) {
+      this._pullRequests.delete(name);
+    }
   }
 
   /**

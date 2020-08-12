@@ -176,13 +176,10 @@ export class GithubBranch extends Branch {
    */
   async removeEntires(entries) {
     for await (const entry of entries) {
-      const res = await this.provider.fetch(
-        `/repos/${this.slug}/contents/${entry.name}`,
-        {
-          method: "DELETE",
-          body: JSON.stringify({ branch: this.name, message: "", sha: "" })
-        }
-      );
+      await this.provider.fetch(`/repos/${this.slug}/contents/${entry.name}`, {
+        method: "DELETE",
+        body: JSON.stringify({ branch: this.name, message: "", sha: "" })
+      });
     }
   }
 
