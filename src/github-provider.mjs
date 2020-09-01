@@ -75,16 +75,36 @@ export class GithubProvider extends MultiGroupProvider {
     return GithubOwner;
   }
 
-  fetch(url, options = {}) {
+  async fetch(url, options = {}) {
     const headers = {
       authorization: `token ${this.authentication.token}`,
       ...options.headers
     };
 
-    return fetch(new URL(url, this.api), {
-      ...options,
-      headers
-    });
+    let response;
+
+    for (let i = 0; i < 10; i++) {
+      response = await fetch(new URL(url, this.api), {
+        ...options,
+        headers
+      });
+      if (response.ok) {
+        return response;
+      }
+
+      const remainingRateLimit = parseInt(
+        response.headers["x-ratelimit-remaining"]
+      );
+
+      console.log("x-ratelimit-remaining", remainingRateLimit);
+
+      if (remainingRateLimit <= 10) {
+        console.log("wait ...");
+        await new Promise(resolve => setTimeout(resolve, 100000));
+      }
+    }
+
+    return response;
   }
 
   /**
