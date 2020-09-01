@@ -75,60 +75,16 @@ export class GithubProvider extends MultiGroupProvider {
     return GithubOwner;
   }
 
-  async fetch(url, options = {}) {
-    const headers = {
-      authorization: `token ${this.authentication.token}`,
-      ...options.headers
-    };
-
-    let response;
-
-    for (let i = 0; i < 10; i++) {
-      response = await fetch(new URL(url, this.api), {
+  fetch(url, options = {}) {
+    return rateLimitHandler(() =>
+      fetch(new URL(url, this.api), {
         ...options,
-        headers
-      });
-      if (response.ok) {
-        return response;
-      }
-
-      switch (response.status) {
-        default:
-          console.log(url, response.status);
-          break;
-
-        case 403:
-          // https://developer.github.com/v3/#rate-limiting
-
-          const remainingRateLimit = parseInt(
-            response.headers.get("x-ratelimit-remaining")
-          );
-
-          const resetRateLimit = parseInt(
-            response.headers.get("X-ratelimit-reset")
-          );
-
-          const millisecondsToWait =
-            new Date(resetRateLimit * 1000).getTime() - Date.now();
-
-          console.log(
-            "x-ratelimit-remaining",
-            remainingRateLimit,
-            resetRateLimit,
-            millisecondsToWait / 1000
-          );
-
-          if (millisecondsToWait > 0) {
-            console.log("wait ...", millisecondsToWait / 1000);
-            await new Promise(resolve =>
-              setTimeout(resolve, millisecondsToWait)
-            );
-          }
-          break;
-      }
-    }
-
-    return response;
+        headers: {
+          authorization: `token ${this.authentication.token}`,
+          ...options.headers
+        }
+      })
+    );
   }
 
   /**
@@ -189,3 +145,43 @@ replaceWithOneTimeExecutionMethod(
 );
 
 export default GithubProvider;
+
+async function rateLimitHandler(fetcher) {
+  let response;
+
+  for (let i = 0; i < 10; i++) {
+    response = await fetcher();
+
+    switch (response.status) {
+      default:
+        return response;
+
+      case 403:
+        // https://developer.github.com/v3/#rate-limiting
+
+        const remainingRateLimit = parseInt(
+          response.headers.get("x-ratelimit-remaining")
+        );
+
+        const resetRateLimit = parseInt(
+          response.headers.get("X-ratelimit-reset")
+        );
+
+        const millisecondsToWait =
+          new Date(resetRateLimit * 1000).getTime() - Date.now();
+
+        console.log(
+          "x-ratelimit-remaining",
+          remainingRateLimit,
+          resetRateLimit,
+          millisecondsToWait / 1000
+        );
+
+        if (millisecondsToWait > 0) {
+          console.log("wait ...", millisecondsToWait / 1000);
+          await new Promise(resolve => setTimeout(resolve, millisecondsToWait));
+        }
+    }
+  }
+  return response;
+}
