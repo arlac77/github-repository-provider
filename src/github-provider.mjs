@@ -92,15 +92,36 @@ export class GithubProvider extends MultiGroupProvider {
         return response;
       }
 
-      const remainingRateLimit = parseInt(
-        response.headers["x-ratelimit-remaining"]
-      );
+      switch (response.status) {
+        default:
+          console.log(url, response.status);
+        break;
 
-      console.log("x-ratelimit-remaining", remainingRateLimit);
+        case 403:
+                  // https://developer.github.com/v3/#rate-limiting
 
-      if (remainingRateLimit <= 10) {
-        console.log("wait ...");
-        await new Promise(resolve => setTimeout(resolve, 100000));
+          const remainingRateLimit = parseInt(
+            response.headers.get("x-ratelimit-remaining")
+          );
+
+          const resetRateLimit = parseInt(
+            response.headers.get("X-ratelimit-reset")
+          );
+
+          const millisecondsToWait = (new Date(resetRateLimit * 1000)).getTime() - Date.now();
+
+          console.log(
+            "x-ratelimit-remaining",
+            remainingRateLimit,
+            resetRateLimit,
+            millisecondsToWait / 1000
+          );
+
+          if (millisecondsToWait > 1) {
+            console.log("wait ...", millisecondsToWait / 1000);
+            await new Promise(resolve => setTimeout(resolve, millisecondsToWait));
+          }
+          break;
       }
     }
 
