@@ -95,10 +95,10 @@ export class GithubProvider extends MultiGroupProvider {
       switch (response.status) {
         default:
           console.log(url, response.status);
-        break;
+          break;
 
         case 403:
-                  // https://developer.github.com/v3/#rate-limiting
+          // https://developer.github.com/v3/#rate-limiting
 
           const remainingRateLimit = parseInt(
             response.headers.get("x-ratelimit-remaining")
@@ -108,7 +108,8 @@ export class GithubProvider extends MultiGroupProvider {
             response.headers.get("X-ratelimit-reset")
           );
 
-          const millisecondsToWait = (new Date(resetRateLimit * 1000)).getTime() - Date.now();
+          const millisecondsToWait =
+            new Date(resetRateLimit * 1000).getTime() - Date.now();
 
           console.log(
             "x-ratelimit-remaining",
@@ -117,9 +118,11 @@ export class GithubProvider extends MultiGroupProvider {
             millisecondsToWait / 1000
           );
 
-          if (millisecondsToWait > 1) {
+          if (millisecondsToWait > 0) {
             console.log("wait ...", millisecondsToWait / 1000);
-            await new Promise(resolve => setTimeout(resolve, millisecondsToWait));
+            await new Promise(resolve =>
+              setTimeout(resolve, millisecondsToWait)
+            );
           }
           break;
       }
