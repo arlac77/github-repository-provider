@@ -33,6 +33,7 @@ test("hooks list", async t => {
   t.is(hook.content_type, "form");
   t.is(hook.url, "https://notify.travis-ci.org");
   t.true(hook.active);
+  t.is(hook.name, "web");
 
   t.deepEqual(hook.toJSON(), {
     name: "web",
