@@ -146,10 +146,10 @@ replaceWithOneTimeExecutionMethod(
 
 export default GithubProvider;
 
-async function rateLimitHandler(fetcher) {
+async function rateLimitHandler(fetcher,queryWait = (msecs,nthTry) => nthTry < 5 ? msecs : -1) {
   let response;
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0;; i++) {
     response = await fetcher();
 
     switch (response.status) {
@@ -164,10 +164,10 @@ async function rateLimitHandler(fetcher) {
         );
 
         const resetRateLimit = parseInt(
-          response.headers.get("X-ratelimit-reset")
+          response.headers.get("x-ratelimit-reset")
         );
 
-        const millisecondsToWait =
+        let millisecondsToWait =
           new Date(resetRateLimit * 1000).getTime() - Date.now();
 
         console.log(
@@ -177,10 +177,10 @@ async function rateLimitHandler(fetcher) {
           millisecondsToWait / 1000
         );
 
-        if (millisecondsToWait > 0) {
-          console.log("wait ...", millisecondsToWait / 1000);
-          await new Promise(resolve => setTimeout(resolve, millisecondsToWait));
-        }
+        millisecondsToWait = queryWait(millisecondsToWait, i, response);
+        if(millisecondsToWait <= 0) { return response; }
+        console.log("wait ...", millisecondsToWait / 1000);
+        await new Promise(resolve => setTimeout(resolve, millisecondsToWait));
     }
   }
   return response;
