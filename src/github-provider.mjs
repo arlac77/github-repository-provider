@@ -179,7 +179,7 @@ async function rateLimitHandler(fetcher,queryWait = (msecs,nthTry) => nthTry < 5
 
         millisecondsToWait = queryWait(millisecondsToWait, i, response);
         if(millisecondsToWait <= 0) { return response; }
-        console.log("wait ...", millisecondsToWait / 1000);
+        console.log(`wait ${millisecondsToWait / 1000} (${response.url}) ...`);
         await new Promise(resolve => setTimeout(resolve, millisecondsToWait));
     }
   }
