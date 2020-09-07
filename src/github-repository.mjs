@@ -157,7 +157,7 @@ export class GithubRepository extends Repository {
   /**
    * @see https://developer.github.com/v3/pulls/#update-a-pull-request
    *
-   * @param name
+   * @param {string} name
    */
   async deletePullRequest(name) {
     const res = await this.provider.fetch(`/repos/${this.slug}/pulls/${name}`, {
