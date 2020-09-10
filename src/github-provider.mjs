@@ -146,7 +146,7 @@ replaceWithOneTimeExecutionMethod(
 
 export default GithubProvider;
 
-async function rateLimitHandler(fetcher,queryWait = (msecs,nthTry) => nthTry < 5 ? msecs : -1) {
+async function rateLimitHandler(fetcher,queryWait = (msecs,nthTry) => nthTry < 5 ? msecs + 10 : -1) {
   let response;
 
   for (let i = 0;; i++) {
