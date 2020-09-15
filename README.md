@@ -75,12 +75,10 @@ console.log(entry.name);
         -   [Parameters](#parameters-12)
     -   [\_write](#_write)
     -   [validMergeMethods](#validmergemethods)
-    -   [fetch](#fetch)
-        -   [Parameters](#parameters-13)
     -   [list](#list)
-        -   [Parameters](#parameters-14)
+        -   [Parameters](#parameters-13)
     -   [open](#open)
-        -   [Parameters](#parameters-15)
+        -   [Parameters](#parameters-14)
 
 ## GithubProvider
 
@@ -307,16 +305,6 @@ Github pull request
 All valid merge methods
 
 Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** valid merge methods
-
-### fetch
-
--   **See: <https://developer.github.com/v3/pulls/#pull-requests>
-    **
-
-#### Parameters
-
--   `repository`  
--   `number`  
 
 ### list
 
