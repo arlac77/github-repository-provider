@@ -14,13 +14,6 @@ export class GithubPullRequest extends PullRequest {
   }
 
   /**
-   * @see https://developer.github.com/v3/pulls/#pull-requests
-   * @param repository
-   * @param number
-   */
-  static async fetch(repository, number) {}
-
-  /**
    * @see https://developer.github.com/v3/pulls/#list-pull-requests
    * @param repository
    * @param filter
