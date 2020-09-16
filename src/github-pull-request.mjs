@@ -63,7 +63,7 @@ export class GithubPullRequest extends PullRequest {
    * @param {Object} options
    */
   static async open(source, destination, options) {
-    for await (const p of source.provider.pullRequestClass.list(
+    for await (const p of this.list(
       source.repository,
       { source, destination }
     )) {
@@ -81,8 +81,14 @@ export class GithubPullRequest extends PullRequest {
         })
       }
     );
+
     const json = await res.json();
-    return new this(source, destination, json.number, json);
+
+    if(res.ok) {
+      return new this(source, destination, json.number, json);
+    }
+
+    throw new Error(json.errors.map(e=>e.message).join(';'));
   }
 
   /**
