@@ -44,7 +44,7 @@ export class GithubPullRequest extends PullRequest {
             )
           );
 
-          yield new repository.pullRequestClass(
+          yield new this(
             source,
             dest,
             node.number,
@@ -82,14 +82,14 @@ export class GithubPullRequest extends PullRequest {
       }
     );
     const json = await res.json();
-    return new source.pullRequestClass(source, destination, json.number, json);
+    return new this(source, destination, json.number, json);
   }
 
   /**
    * @see https://developer.github.com/v3/pulls/#merge-a-pull-request
    */
   async _merge(method = "MERGE") {
-    const res = await this.provicer.fetch(
+    const res = await this.provider.fetch(
       `/repos/${this.source.repository.slug}/pulls/${this.number}/merge`,
       {
         method: "PUT",
