@@ -53,32 +53,30 @@ console.log(entry.name);
 -   [GithubBranch](#githubbranch)
     -   [writeEntry](#writeentry)
         -   [Parameters](#parameters-3)
-    -   [createPullRequest](#createpullrequest)
-        -   [Parameters](#parameters-4)
     -   [baseTreeSha](#basetreesha)
-        -   [Parameters](#parameters-5)
+        -   [Parameters](#parameters-4)
     -   [commit](#commit)
-        -   [Parameters](#parameters-6)
+        -   [Parameters](#parameters-5)
     -   [entry](#entry)
-        -   [Parameters](#parameters-7)
+        -   [Parameters](#parameters-6)
     -   [maybeEntry](#maybeentry)
-        -   [Parameters](#parameters-8)
+        -   [Parameters](#parameters-7)
     -   [tree](#tree)
-        -   [Parameters](#parameters-9)
+        -   [Parameters](#parameters-8)
     -   [removeEntires](#removeentires)
-        -   [Parameters](#parameters-10)
+        -   [Parameters](#parameters-9)
 -   [GithubOwner](#githubowner)
     -   [deleteRepository](#deleterepository)
-        -   [Parameters](#parameters-11)
+        -   [Parameters](#parameters-10)
 -   [GithubPullRequest](#githubpullrequest)
     -   [\_merge](#_merge)
-        -   [Parameters](#parameters-12)
+        -   [Parameters](#parameters-11)
     -   [\_write](#_write)
     -   [validMergeMethods](#validmergemethods)
     -   [list](#list)
-        -   [Parameters](#parameters-13)
+        -   [Parameters](#parameters-12)
     -   [open](#open)
-        -   [Parameters](#parameters-14)
+        -   [Parameters](#parameters-13)
 
 ## GithubProvider
 
@@ -203,13 +201,6 @@ Writes content into the branch
 -   `entry` **Entry** 
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;Entry>** written content with sha values set
-
-### createPullRequest
-
-#### Parameters
-
--   `destination`  
--   `msg`  
 
 ### baseTreeSha
 
