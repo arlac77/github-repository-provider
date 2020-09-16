@@ -19,16 +19,13 @@ export class GithubPullRequest extends PullRequest {
    * @param filter
    */
   static async *list(repository, filter = {}) {
-    const provider = repository.provider;
-
-    function bf(name, branch) {
-      return branch === undefined
+    const branchName = (name, branch) =>
+      branch === undefined
         ? ""
         : `&${name}=${branch.owner.name}:${branch.name}`;
-    }
 
-    const head = bf("head", filter.source);
-    const base = bf("base", undefined /*filter.destination*/); // TODO
+    const head = branchName("head", filter.source);
+    const base = branchName("base", undefined /*filter.destination*/); // TODO
 
     for (const state of [
       ...(filter.states ? filter.states : this.defaultListStates)
@@ -36,6 +33,7 @@ export class GithubPullRequest extends PullRequest {
       let next = `/repos/${repository.slug}/pulls?state=${state}${head}${base}`;
 
       do {
+        const provider = repository.provider;
         const response = await provider.fetch(next);
         for (const node of await response.json()) {
           const [source, dest] = await Promise.all(
@@ -44,12 +42,7 @@ export class GithubPullRequest extends PullRequest {
             )
           );
 
-          yield new this(
-            source,
-            dest,
-            node.number,
-            node
-          );
+          yield new this(source, dest, node.number, node);
         }
         next = getHeaderLink(response.headers);
       } while (next);
@@ -63,10 +56,10 @@ export class GithubPullRequest extends PullRequest {
    * @param {Object} options
    */
   static async open(source, destination, options) {
-    for await (const p of this.list(
-      source.repository,
-      { source, destination }
-    )) {
+    for await (const p of this.list(source.repository, {
+      source,
+      destination
+    })) {
       return p;
     }
 
@@ -84,11 +77,11 @@ export class GithubPullRequest extends PullRequest {
 
     const json = await res.json();
 
-    if(res.ok) {
+    if (res.ok) {
       return new this(source, destination, json.number, json);
     }
 
-    throw new Error(json.errors.map(e=>e.message).join(';'));
+    throw new Error(json.errors.map(e => e.message).join(";"));
   }
 
   /**
