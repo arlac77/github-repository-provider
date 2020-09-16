@@ -37,13 +37,6 @@ export class GithubBranch extends Branch {
   }
 
   /**
-   *
-   */
-  async createPullRequest(destination, msg) {
-    return this.pullRequestClass.open(destination, this, msg);
-  }
-
-  /**
    * @see https://developer.github.com/v3/git/commits/#get-a-commit
    * @param {string} sha
    */
