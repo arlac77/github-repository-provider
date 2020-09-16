@@ -1,7 +1,7 @@
 import { RepositoryGroup } from "repository-provider";
 
 /**
- * @see https://developer.github.com/v3/repos/#create-a-repository-for-the-authenticated-user
+ * {@link https://developer.github.com/v3/repos/#create-a-repository-for-the-authenticated-user}
  */
 export class GithubOwner extends RepositoryGroup {
   async createRepository(name, options) {
@@ -17,8 +17,8 @@ export class GithubOwner extends RepositoryGroup {
   }
 
   /**
-   * @see https://developer.github.com/v3/repos/#delete-a-repository
-   * @param name
+   * {@link https://developer.github.com/v3/repos/#delete-a-repository}
+   * @param {string} name
    */
   async deleteRepository(name) {
     const res = await this.provider.fetch(`/repos/${this.name}/${name}`, {

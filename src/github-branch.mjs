@@ -17,8 +17,8 @@ export class GithubBranch extends Branch {
 
   /**
    * Writes content into the branch
-   * @see https://developer.github.com/v3/git/blobs/#get-a-blob
-   * @param {Entry} entry
+   * {@link https://developer.github.com/v3/git/blobs/#get-a-blob}
+   * @param {ConentEntry} entry
    * @return {Promise<Entry>} written content with sha values set
    */
   async writeEntry(entry) {
@@ -37,7 +37,7 @@ export class GithubBranch extends Branch {
   }
 
   /**
-   * @see https://developer.github.com/v3/git/commits/#get-a-commit
+   * {@link https://developer.github.com/v3/git/commits/#get-a-commit}
    * @param {string} sha
    */
   async baseTreeSha(sha) {
@@ -49,12 +49,12 @@ export class GithubBranch extends Branch {
   }
 
   /**
-   * @see https://developer.github.com/v3/git/trees/#create-a-tree
-   * @see https://developer.github.com/v3/git/commits/#create-a-commit
-   * @see https://developer.github.com/v3/git/refs/#update-a-reference
-   * @param message
-   * @param entries
-   * @param options
+   * {@link https://developer.github.com/v3/git/trees/#create-a-tree}
+   * {@link https://developer.github.com/v3/git/commits/#create-a-commit}
+   * {@link https://developer.github.com/v3/git/refs/#update-a-reference}
+   * @param {String} message
+   * @param {ContentEntry[]} entries
+   * @param {Object} options
    */
   async commit(message, entries, options = {}) {
     const updates = await Promise.all(
@@ -110,8 +110,8 @@ export class GithubBranch extends Branch {
   }
 
   /**
-   * @see https://developer.github.com/v3/repos/contents/#get-repository-content
-   * @param name
+   * {@link https://developer.github.com/v3/repos/contents/#get-repository-content}
+   * @param {string} name
    */
   async entry(name) {
     const res = await this.provider.fetch(

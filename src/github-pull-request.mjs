@@ -14,9 +14,9 @@ export class GithubPullRequest extends PullRequest {
   }
 
   /**
-   * @see https://developer.github.com/v3/pulls/#list-pull-requests
-   * @param repository
-   * @param filter
+   * {@link https://developer.github.com/v3/pulls/#list-pull-requests}
+   * @param {Repository} repository
+   * @param {Object} filter
    */
   static async *list(repository, filter = {}) {
     const branchName = (name, branch) =>
@@ -50,7 +50,7 @@ export class GithubPullRequest extends PullRequest {
   }
 
   /**
-   * @see https://developer.github.com/v3/pulls/#create-a-pull-request
+   * {@link https://developer.github.com/v3/pulls/#create-a-pull-request}
    * @param {Branch} source
    * @param {Branch} destination
    * @param {Object} options
@@ -85,7 +85,7 @@ export class GithubPullRequest extends PullRequest {
   }
 
   /**
-   * @see https://developer.github.com/v3/pulls/#merge-a-pull-request
+   * {@link https://developer.github.com/v3/pulls/#merge-a-pull-request}
    */
   async _merge(method = "MERGE") {
     const res = await this.provider.fetch(

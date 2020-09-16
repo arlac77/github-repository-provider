@@ -89,7 +89,7 @@ export class GithubProvider extends MultiGroupProvider {
   }
 
   /**
-   * @see https://developer.github.com/v3/repos/#list-repositories-for-the-authenticated-user
+   * {@link https://developer.github.com/v3/repos/#list-repositories-for-the-authenticated-user}
    */
   async initializeRepositories() {
     for (let page = 1; ; page++) {

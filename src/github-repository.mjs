@@ -26,7 +26,7 @@ export class GithubRepository extends Repository {
   */
 
   /**
-   * @see https://developer.github.com/v3/repos/branches/#list-branches
+   * {@link https://developer.github.com/v3/repos/branches/#list-branches}
    */
   async initializeBranches() {
     let next = `/repos/${this.slug}/branches`;
@@ -64,7 +64,7 @@ export class GithubRepository extends Repository {
   }
 
   /**
-   * @see https://developer.github.com/v3/repos/#update-a-repository
+   * {@link https://developer.github.com/v3/repos/#update-a-repository}
    */
   async update() {
     return this.provider.fetch(`/repos/${this.slug}`, {
@@ -74,7 +74,7 @@ export class GithubRepository extends Repository {
   }
 
   /**
-   * @see https://developer.github.com/v3/git/refs/
+   * {@link https://developer.github.com/v3/git/refs/}
    * @param {string} ref
    * @return {string} sha of the ref
    */
@@ -155,7 +155,7 @@ export class GithubRepository extends Repository {
   }
 
   /**
-   * @see https://developer.github.com/v3/pulls/#update-a-pull-request
+   * {@link https://developer.github.com/v3/pulls/#update-a-pull-request}
    *
    * @param {string} name
    */
@@ -171,7 +171,7 @@ export class GithubRepository extends Repository {
   }
 
   /**
-   * @see https://developer.github.com/v3/repos/hooks/
+   * {@link https://developer.github.com/v3/repos/hooks/}
    */
   async initializeHooks() {
     let next = `/repos/${this.slug}/hooks`;
