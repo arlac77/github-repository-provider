@@ -111,8 +111,7 @@ const r6 = ghp.repository('arlac77/github-repository-provider');
 
 ### initializeRepositories
 
--   **See: <https://developer.github.com/v3/repos/#list-repositories-for-the-authenticated-user>
-    **
+<https://developer.github.com/v3/repos/#list-repositories-for-the-authenticated-user>
 
 ### repositoryBases
 
@@ -134,8 +133,7 @@ Repository on GitHub
 
 ### initializeBranches
 
--   **See: <https://developer.github.com/v3/repos/branches/#list-branches>
-    **
+<https://developer.github.com/v3/repos/branches/#list-branches>
 
 ### urls
 
@@ -155,13 +153,11 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### update
 
--   **See: <https://developer.github.com/v3/repos/#update-a-repository>
-    **
+<https://developer.github.com/v3/repos/#update-a-repository>
 
 ### refId
 
--   **See: <https://developer.github.com/v3/git/refs/>
-    **
+<https://developer.github.com/v3/git/refs/>
 
 #### Parameters
 
@@ -171,8 +167,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### deletePullRequest
 
--   **See: <https://developer.github.com/v3/pulls/#update-a-pull-request>
-    **
+<https://developer.github.com/v3/pulls/#update-a-pull-request>
 
 #### Parameters
 
@@ -180,8 +175,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### initializeHooks
 
--   **See: <https://developer.github.com/v3/repos/hooks/>
-    **
+<https://developer.github.com/v3/repos/hooks/>
 
 ## GithubBranch
 
@@ -191,21 +185,18 @@ Branch on GitHub
 
 ### writeEntry
 
--   **See: <https://developer.github.com/v3/git/blobs/#get-a-blob>
-    **
-
 Writes content into the branch
+<https://developer.github.com/v3/git/blobs/#get-a-blob>
 
 #### Parameters
 
--   `entry` **Entry** 
+-   `entry` **ConentEntry** 
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;Entry>** written content with sha values set
 
 ### baseTreeSha
 
--   **See: <https://developer.github.com/v3/git/commits/#get-a-commit>
-    **
+<https://developer.github.com/v3/git/commits/#get-a-commit>
 
 #### Parameters
 
@@ -213,27 +204,23 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ### commit
 
--   **See: <https://developer.github.com/v3/git/trees/#create-a-tree>
-    **
--   **See: <https://developer.github.com/v3/git/commits/#create-a-commit>
-    **
--   **See: <https://developer.github.com/v3/git/refs/#update-a-reference>
-    **
+<https://developer.github.com/v3/git/trees/#create-a-tree>
+<https://developer.github.com/v3/git/commits/#create-a-commit>
+<https://developer.github.com/v3/git/refs/#update-a-reference>
 
 #### Parameters
 
--   `message`  
--   `entries`  
--   `options`   (optional, default `{}`)
+-   `message` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `entries` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;ContentEntry>** 
+-   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{}`)
 
 ### entry
 
--   **See: <https://developer.github.com/v3/repos/contents/#get-repository-content>
-    **
+<https://developer.github.com/v3/repos/contents/#get-repository-content>
 
 #### Parameters
 
--   `name`  
+-   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### maybeEntry
 
@@ -262,17 +249,15 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 **Extends RepositoryGroup**
 
--   **See: <https://developer.github.com/v3/repos/#create-a-repository-for-the-authenticated-user>
-    **
+<https://developer.github.com/v3/repos/#create-a-repository-for-the-authenticated-user>
 
 ### deleteRepository
 
--   **See: <https://developer.github.com/v3/repos/#delete-a-repository>
-    **
+<https://developer.github.com/v3/repos/#delete-a-repository>
 
 #### Parameters
 
--   `name`  
+-   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ## GithubPullRequest
 
@@ -282,8 +267,7 @@ Github pull request
 
 ### \_merge
 
--   **See: <https://developer.github.com/v3/pulls/#merge-a-pull-request>
-    **
+<https://developer.github.com/v3/pulls/#merge-a-pull-request>
 
 #### Parameters
 
@@ -299,18 +283,16 @@ Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Glob
 
 ### list
 
--   **See: <https://developer.github.com/v3/pulls/#list-pull-requests>
-    **
+<https://developer.github.com/v3/pulls/#list-pull-requests>
 
 #### Parameters
 
--   `repository`  
--   `filter`   (optional, default `{}`)
+-   `repository` **Repository** 
+-   `filter` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{}`)
 
 ### open
 
--   **See: <https://developer.github.com/v3/pulls/#create-a-pull-request>
-    **
+<https://developer.github.com/v3/pulls/#create-a-pull-request>
 
 #### Parameters
 
