@@ -52,7 +52,7 @@ export class GithubBranch extends Branch {
    * {@link https://developer.github.com/v3/git/trees/#create-a-tree}
    * {@link https://developer.github.com/v3/git/commits/#create-a-commit}
    * {@link https://developer.github.com/v3/git/refs/#update-a-reference}
-   * @param {String} message
+   * @param {string} message
    * @param {ContentEntry[]} entries
    * @param {Object} options
    */
