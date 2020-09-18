@@ -12,18 +12,21 @@ export class GithubRepository extends Repository {
       archived: "isArchived",
       // is_template: "isTemplate",
       private: "isPrivate",
+      fork: "isFork",
       default_branch: "defaultBranchName"
     };
   }
 
-  /*
-  delete_branch_on_merge
-  allow_rebase_merge
-  allow_merge_commit
-  allow_squash_merge
-  auto_init
-  is_template
-  */
+  static get attributes() {
+    return {
+      ...super.attributes,
+      auto_init: { type: "boolean" },
+      allow_squash_merge: { type: "boolean" },
+      allow_merge_commit: { type: "boolean" },
+      allow_rebase_merge: { type: "boolean" },
+      delete_branch_on_merge: { type: "boolean" }
+    };
+  }
 
   /**
    * {@link https://developer.github.com/v3/repos/branches/#list-branches}
