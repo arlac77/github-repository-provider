@@ -13,6 +13,15 @@ export class GithubPullRequest extends PullRequest {
     return new Set(["MERGE", "SQUASH", "REBASE"]);
   }
 
+  static get attributes() {
+    return {
+      ...super.attributes,
+      maintainer_can_modify: {
+        type: "boolean"
+      }
+    };
+  }
+
   /**
    * {@link https://developer.github.com/v3/pulls/#list-pull-requests}
    * @param {Repository} repository
