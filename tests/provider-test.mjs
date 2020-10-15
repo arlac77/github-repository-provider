@@ -12,6 +12,7 @@ test(providerTest, provider);
 
 test("provider", async t => {
   t.is(provider.priority, 1000.0);
+  t.is(provider.name, 'github');
 
   const repository = await provider.repository(REPOSITORY_NAME);
 

@@ -127,6 +127,14 @@ export class GithubProvider extends MultiGroupProvider {
     ];
   }
 
+  /**
+   * We are called github
+   * @return {string} github
+   */
+  get name() {
+    return 'github';
+  }
+
   get areRepositoryNamesCaseSensitive() {
     return false;
   }
