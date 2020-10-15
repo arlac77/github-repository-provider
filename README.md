@@ -39,6 +39,7 @@ console.log(entry.name);
     -   [Examples](#examples)
     -   [initializeRepositories](#initializerepositories)
     -   [repositoryBases](#repositorybases)
+    -   [name](#name)
 -   [GithubRepository](#githubrepository)
     -   [initializeBranches](#initializebranches)
     -   [urls](#urls)
@@ -124,6 +125,12 @@ All possible base urls
 -   git+<https://github.com>
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** common base urls of all repositories
+
+### name
+
+We are called github
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** github
 
 ## GithubRepository
 
