@@ -167,7 +167,7 @@ export class GithubBranch extends Branch {
    * https://developer.github.com/v3/repos/contents/
    * @param {Iterator<ContentEntry>} entries
    */
-  async removeEntires(entries) {
+  async removeEntries(entries) {
     for await (const entry of entries) {
       await this.provider.fetch(`/repos/${this.slug}/contents/${entry.name}`, {
         method: "DELETE",
