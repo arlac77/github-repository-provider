@@ -11,9 +11,6 @@ import {
  * Branch on GitHub
  */
 export class GithubBranch extends Branch {
-  get slug() {
-    return this.repository.slug;
-  }
 
   /**
    * Writes content into the branch
