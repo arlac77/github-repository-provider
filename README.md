@@ -60,7 +60,7 @@ console.log(entry.name);
         -   [Parameters](#parameters-7)
     -   [tree](#tree)
         -   [Parameters](#parameters-8)
-    -   [removeEntires](#removeentires)
+    -   [removeEntries](#removeentries)
         -   [Parameters](#parameters-9)
 -   [GithubOwner](#githubowner)
     -   [deleteRepository](#deleterepository)
@@ -240,7 +240,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 -   `tree_sha`  
 
-### removeEntires
+### removeEntries
 
 <https://developer.github.com/v3/repos/contents/>
 
