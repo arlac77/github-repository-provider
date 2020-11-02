@@ -10,7 +10,7 @@ export class GithubRepository extends Repository {
     return {
       ...super.attributeMapping,
       archived: "isArchived",
-      // is_template: "isTemplate",
+      is_template: "isTemplate",
       private: "isPrivate",
       fork: "isFork",
       default_branch: "defaultBranchName"
@@ -185,7 +185,7 @@ export class GithubRepository extends Repository {
       for (const h of await response.json()) {
         new this.hookClass(this, h.id, new Set(h.events), {
           ...h,
-          ...h.config,
+          ...h.config
         });
       }
       next = getHeaderLink(response.headers);
