@@ -93,7 +93,11 @@ export class GithubProvider extends MultiGroupProvider {
    */
   async initializeRepositories() {
     for (let page = 1; ; page++) {
-      const res = await this.fetch(`user/repos?page=${page}`);
+      const res = await this.fetch(`user/repos?page=${page}`, {
+        headers: {
+          accept: "application/vnd.github.baptiste-preview+json"
+        }
+      });
       const json = await res.json();
 
       if (json.length === 0 || !Array.isArray(json)) {
@@ -132,7 +136,7 @@ export class GithubProvider extends MultiGroupProvider {
    * @return {string} github
    */
   get name() {
-    return 'github';
+    return "github";
   }
 
   get areRepositoryNamesCaseSensitive() {
