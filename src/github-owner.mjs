@@ -7,6 +7,9 @@ export class GithubOwner extends RepositoryGroup {
   async createRepository(name, options) {
     const response = await this.provider.fetch("/user/repos", {
       method: "POST",
+      headers: {
+         accept: "application/vnd.github.nebula-preview+json"
+      },
       body: JSON.stringify({
         name,
         ...options
