@@ -5,15 +5,17 @@ import { RepositoryGroup } from "repository-provider";
  */
 export class GithubOwner extends RepositoryGroup {
   async createRepository(name, options) {
-    const res = await this.provider.fetch("/user/repos", {
+    const response = await this.provider.fetch("/user/repos", {
       method: "POST",
       body: JSON.stringify({
         name,
         ...options
       })
     });
-    console.log(res);
-    return this.addRepository(name, options);
+
+    if(response.ok) {
+      return this.addRepository(name, options);  
+    }
   }
 
   /**
@@ -21,10 +23,9 @@ export class GithubOwner extends RepositoryGroup {
    * @param {string} name
    */
   async deleteRepository(name) {
-    const res = await this.provider.fetch(`/repos/${this.name}/${name}`, {
+    const response = await this.provider.fetch(`/repos/${this.name}/${name}`, {
       method: "DELETE"
     });
-    console.log(res);
-    return super.deleteRepository();
+    return super.deleteRepository(name);
   }
 }
