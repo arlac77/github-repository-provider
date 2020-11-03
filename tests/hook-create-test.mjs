@@ -4,8 +4,7 @@ import { Hook } from "repository-provider";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
 
-const config = GithubProvider.optionsFromEnvironment(process.env);
-const provider = new GithubProvider(config);
+const provider = GithubProvider.initialize(undefined, process.env);
 
 
 test("add hook", async t => {

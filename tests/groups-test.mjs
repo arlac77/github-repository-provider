@@ -1,10 +1,8 @@
 import test from "ava";
 import { groupListTest, groupTest } from "repository-provider-test-support";
-
 import GithubProvider from "github-repository-provider";
 
-const config = GithubProvider.optionsFromEnvironment(process.env);
-const provider = new GithubProvider(config);
+const provider = GithubProvider.initialize(undefined, process.env);
 
 test(groupListTest, provider, undefined, { "arlac77": {} });
 test(groupListTest, provider, "*", { "arlac77": {} });

@@ -3,8 +3,7 @@ import GithubProvider from "github-repository-provider";
 
 const REPOSITORY_NAME = "arlac77/github-repository-provider";
 
-const config = GithubProvider.optionsFromEnvironment(process.env);
-const provider = new GithubProvider(config);
+const provider = GithubProvider.initialize(undefined, process.env);
 
 test("hooks list", async t => {
   const repository = await provider.repository(REPOSITORY_NAME);

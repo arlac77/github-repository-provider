@@ -1,9 +1,8 @@
 import test from "ava";
 import { repositoryListTest } from "repository-provider-test-support";
-
 import GithubProvider from "github-repository-provider";
 
-const provider = new GithubProvider(GithubProvider.optionsFromEnvironment(process.env));
+const provider = GithubProvider.initialize(undefined, process.env);
 
 test(repositoryListTest, provider, "arlac77/Npm-*", {
   "arlac77/npm-template-sync": { name: "npm-template-sync" }
