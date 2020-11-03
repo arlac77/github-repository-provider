@@ -11,6 +11,7 @@ test(repositoryListTest, provider, "arlac77/Npm-*", {
 
 test(repositoryListTest, provider, "xtzrtrhtl/npm-*");
 test(repositoryListTest, provider, "https://github.com/arlac77/*", 100);
+test(repositoryListTest, provider, "git@github.com:arlac77/*", 100);
 test(repositoryListTest, provider, "arlac77/*", 100);
 test(repositoryListTest, provider, "Arlac77/*", 100);
 
