@@ -8,7 +8,7 @@ export class GithubOwner extends RepositoryGroup {
     const response = await this.provider.fetch("/user/repos", {
       method: "POST",
       headers: {
-         accept: "application/vnd.github.nebula-preview+json"
+        accept: "application/vnd.github.nebula-preview+json"
       },
       body: JSON.stringify({
         name,
@@ -16,8 +16,8 @@ export class GithubOwner extends RepositoryGroup {
       })
     });
 
-    if(response.ok) {
-      return this.addRepository(name, options);  
+    if (response.ok) {
+      return this.addRepository(name, options);
     }
   }
 
