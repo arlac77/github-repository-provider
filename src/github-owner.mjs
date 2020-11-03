@@ -4,6 +4,22 @@ import { RepositoryGroup } from "repository-provider";
  * {@link https://developer.github.com/v3/repos/#create-a-repository-for-the-authenticated-user}
  */
 export class GithubOwner extends RepositoryGroup {
+  static get attributes() {
+    return {
+      ...super.attributes,
+      isAdmin: { type: "boolean", default: false }
+    };
+  }
+  /**
+   * Map attributes between external and internal representation
+   */
+  static get attributeMapping() {
+    return {
+      ...super.attributeMapping,
+      site_admin: "isAdmin"
+    };
+  }
+
   async createRepository(name, options) {
     const response = await this.provider.fetch("/user/repos", {
       method: "POST",
