@@ -6,8 +6,7 @@ import { RepositoryGroup } from "repository-provider";
 export class GithubOwner extends RepositoryGroup {
   static get attributes() {
     return {
-      ...super.attributes,
-      isAdmin: { type: "boolean", default: false }
+      ...super.attributes
     };
   }
   /**
