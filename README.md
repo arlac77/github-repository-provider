@@ -65,6 +65,7 @@ console.log(entry.name);
 -   [GithubOwner](#githubowner)
     -   [deleteRepository](#deleterepository)
         -   [Parameters](#parameters-10)
+    -   [attributeMapping](#attributemapping)
 -   [GithubPullRequest](#githubpullrequest)
     -   [\_merge](#_merge)
         -   [Parameters](#parameters-11)
@@ -261,6 +262,10 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 #### Parameters
 
 -   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+### attributeMapping
+
+Map attributes between external and internal representation
 
 ## GithubPullRequest
 

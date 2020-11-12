@@ -3,8 +3,7 @@ import GithubProvider from "github-repository-provider";
 
 const REPOSITORY_OWNER = "arlac77";
 
-const config = GithubProvider.optionsFromEnvironment(process.env);
-const provider = new GithubProvider(config);
+const provider = GithubProvider.initialize(undefined, process.env);
 
 test("owner with auth", async t => {
   const owner = await provider.repositoryGroup(REPOSITORY_OWNER);
