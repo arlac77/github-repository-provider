@@ -41,8 +41,12 @@ export class GithubBranch extends Branch {
     const res = await this.provider.fetch(
       `/repos/${this.slug}/git/commits/${sha}`
     );
-    const json = await res.json();
-    return json.tree.sha;
+    if(res.ok) {
+      const json = await res.json();
+      return json.tree.sha;  
+    }
+
+    throw new Error(`Unable to decode %{res.url}`);
   }
 
   /**
