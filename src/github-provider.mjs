@@ -39,10 +39,12 @@ export class GithubProvider extends MultiGroupProvider {
       },
       url: {
         type: "url",
+        env: ["GITHUB_SERVER_URL"],
         default: `https://${domain}/`
       },
       api: {
         type: "url",
+        env: ["GITHUB_API_URL"],
         default: `https://api.${domain}`
       },
       "authentication.token": {
