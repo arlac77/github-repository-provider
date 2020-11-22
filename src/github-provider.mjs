@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
-import { rateLimitHandler,defaultWaitDecide } from "fetch-rate-limit-util";
+import { rateLimitHandler, defaultWaitDecide } from "fetch-rate-limit-util";
 
 import { MultiGroupProvider } from "repository-provider";
 import { GithubRepository } from "./github-repository.mjs";
@@ -85,22 +85,30 @@ export class GithubProvider extends MultiGroupProvider {
       this.api,
       this.authentication.token ? "TOKEN PRESENT" : "NO TOKEN"
     );
-    return rateLimitHandler(() =>
-      fetch(new URL(url, this.api), {
-        ...options,
-        headers: {
-          authorization: `token ${this.authentication.token}`,
-          ...options.headers
-        }
-      }),(millisecondsToWait,
-        rateLimitRemaining,
-        nthTry,
-        response) => {
-          console.log("WAIT",millisecondsToWait,rateLimitRemaining,nthTry);
-        return defaultWaitDecide(millisecondsToWait,
+    return rateLimitHandler(
+      () =>
+        fetch(new URL(url, this.api), {
+          ...options,
+          headers: {
+            authorization: `token ${this.authentication.token}`,
+            ...options.headers
+          }
+        }),
+      (millisecondsToWait, rateLimitRemaining, nthTry, response) => {
+        console.log(
+          "WAIT",
+          millisecondsToWait,
           rateLimitRemaining,
           nthTry,
-          response)
+          response.status,
+          response.headers
+        );
+        return defaultWaitDecide(
+          millisecondsToWait,
+          rateLimitRemaining,
+          nthTry,
+          response
+        );
       }
     );
   }
