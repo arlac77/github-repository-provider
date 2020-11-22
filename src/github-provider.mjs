@@ -83,7 +83,7 @@ export class GithubProvider extends MultiGroupProvider {
       "FETCH",
       url,
       this.api,
-      this.authentication.token ? "TOKEN PRESENT" : "NO TOKEN"
+      this.authentication.token.substring(0, 4)
     );
     return rateLimitHandler(
       () =>
