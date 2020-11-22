@@ -79,6 +79,12 @@ export class GithubProvider extends MultiGroupProvider {
   }
 
   fetch(url, options = {}) {
+    console.log(
+      "FETCH",
+      url,
+      this.api,
+      this.authentication.token ? "TOKEN PRESENT" : "NO TOKEN"
+    );
     return rateLimitHandler(() =>
       fetch(new URL(url, this.api), {
         ...options,
