@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
-import { rateLimitHandler } from "fetch-rate-limit-util";
+import { rateLimitHandler,defaultWaitDecide } from "fetch-rate-limit-util";
 
 import { MultiGroupProvider } from "repository-provider";
 import { GithubRepository } from "./github-repository.mjs";
@@ -92,7 +92,16 @@ export class GithubProvider extends MultiGroupProvider {
           authorization: `token ${this.authentication.token}`,
           ...options.headers
         }
-      })
+      }),(millisecondsToWait,
+        rateLimitRemaining,
+        nthTry,
+        response) => {
+          console.log("WAIT",millisecondsToWait,rateLimitRemaining,nthTry);
+        return defaultWaitDecide(millisecondsToWait,
+          rateLimitRemaining,
+          nthTry,
+          response)
+      }
     );
   }
 
