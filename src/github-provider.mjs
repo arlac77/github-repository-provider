@@ -40,6 +40,7 @@ export class GithubProvider extends MultiGroupProvider {
       url: {
         type: "url",
         env: ["GITHUB_SERVER_URL"],
+        set: value => (value.endsWith("/") ? value : value + "/"),
         default: `https://${domain}/`
       },
       api: {
