@@ -46,6 +46,7 @@ export class GithubProvider extends MultiGroupProvider {
       api: {
         type: "url",
         env: ["GITHUB_API_URL"],
+        set: value => value.replace(/\/$/, ""),
         default: `https://api.${domain}`
       },
       "authentication.token": {
@@ -86,15 +87,14 @@ export class GithubProvider extends MultiGroupProvider {
       this.api,
       this.authentication.token.substring(0, 4)
     );*/
-    return rateLimitHandler(
-      () =>
-        fetch(new URL(url, this.api), {
-          ...options,
-          headers: {
-            authorization: `token ${this.authentication.token}`,
-            ...options.headers
-          }
-        })
+    return rateLimitHandler(() =>
+      fetch(new URL(url, this.api), {
+        ...options,
+        headers: {
+          authorization: `token ${this.authentication.token}`,
+          ...options.headers
+        }
+      })
     );
   }
 
