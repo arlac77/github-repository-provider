@@ -99,7 +99,7 @@ export class GithubProvider extends MultiGroupProvider {
         );
 
         if(msecs > 0) {
-          this.warn(`Rate limit reached: waiting for ${msecs}ms`);
+          this.warn(`Rate limit reached: waiting for ${msecs/1000}s`);
         }
         return msecs;
       }
