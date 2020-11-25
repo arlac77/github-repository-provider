@@ -61,6 +61,15 @@ export class GithubBranch extends Branch {
     const updates = await Promise.all(
       entries.map(entry => this.writeEntry(entry))
     );
+
+    /*
+     * 1st. commit on empty tree
+     * https://stackoverflow.com/questions/9765453/is-gits-semi-secret-empty-tree-object-reliable-and-why-is-there-not-a-symbolic/9766506#9766506
+     * empty_tree=$(git mktree </dev/null)
+     * sha1:4b825dc642cb6eb9a060e54bf8d69288fbee4904
+     * sha256:6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321
+     */
+
     const shaLatestCommit = await this.refId();
     const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
 
