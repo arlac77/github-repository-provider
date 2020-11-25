@@ -115,6 +115,7 @@ const r6 = ghp.repository('arlac77/github-repository-provider');
 
 All possible base urls
 
+-   github:
 -   git@github.com
 -   git://github.com
 -   git+ssh://github.com
