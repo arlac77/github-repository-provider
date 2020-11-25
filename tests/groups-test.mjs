@@ -19,6 +19,8 @@ test(groupListTest, provider, undefined, groupArlac77);
 test(groupListTest, provider, "*", groupArlac77);
 test(groupListTest, provider, "https://github.com/*", groupArlac77);
 test(groupListTest, provider, "arlac77", groupArlac77);
+test.skip(groupListTest, provider, "github:arlac77", groupArlac77);
+
 test(groupListTest, provider, "https://github.com/arlac77", groupArlac77);
 test(groupListTest, provider, "Arlac77", groupArlac77);
 test(groupListTest, provider, "https://github.com/Arlac77", groupArlac77);
