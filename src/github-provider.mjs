@@ -141,8 +141,8 @@ export class GithubProvider extends MultiGroupProvider {
    */
   get repositoryBases() {
     return [
-      this.url,
       this.name + ':',
+      this.url,
       "git+" + this.url,
       `git+ssh://${domain}`,
       `git://${domain}/`,

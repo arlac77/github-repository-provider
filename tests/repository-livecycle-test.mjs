@@ -10,7 +10,7 @@ test("create & delete repo", async t =>
     "arlac77",
     { description: "a description" },
     async (t, repository) => {
-      t.is(repository.defaultBranchName,"main");
+      t.is(repository.defaultBranchName, "main");
       const db = await repository.defaultBranch;
 
       t.is(db.name, repository.defaultBranchName, "default branch name");
