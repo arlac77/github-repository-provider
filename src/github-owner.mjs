@@ -21,9 +21,11 @@ export class GithubOwner extends RepositoryGroup {
 
   /**
    * {@link https://developer.github.com/v3/repos/#create-a-repository-for-the-authenticated-user}
+   * @param {string} name
+   * @param {Object} options
    * @return {Repository} newly created repository
    */
-  async createRepository(name, options) {
+  async createRepository(name, options={}) {
     const response = await this.provider.fetch("/user/repos", {
       method: "POST",
       headers: {
