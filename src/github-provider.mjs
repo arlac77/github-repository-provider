@@ -140,14 +140,13 @@ export class GithubProvider extends MultiGroupProvider {
    * @return {string[]} common base urls of all repositories
    */
   get repositoryBases() {
-    return [
-      this.name + ':',
+    return super.repositoryBases.concat([
       this.url,
       "git+" + this.url,
       `git+ssh://${domain}`,
       `git://${domain}/`,
       `git@${domain}:`
-    ];
+    ]);
   }
 
   /**
