@@ -15,7 +15,7 @@ test(repositoryListTest, provider, "arlac77/*", 100);
 test(repositoryListTest, provider, "Arlac77/*", 100);
 
 test(repositoryListTest, provider, "k0nsti/konsum*", {
-  "k0nsti/konsum": { name: "konsum" },
+  "k0nsti/konsum": { defaultBranchName: "master", name: "konsum" },
   "k0nsti/konsum-db": { name: "konsum-db" }
 });
 

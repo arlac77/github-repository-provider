@@ -28,6 +28,10 @@ export class GithubRepository extends Repository {
     };
   }
 
+  get defaultBranchName() {
+    return "main";
+  }
+
   /**
    * {@link https://developer.github.com/v3/repos/branches/#list-branches}
    */
@@ -103,42 +107,41 @@ export class GithubRepository extends Repository {
 
     let sha;
 
-    /* if (this._branches.keys().next().value === undefined) {
-    //https://stackoverflow.com/questions/9765453/is-gits-semi-secret-empty-tree-object-reliable-and-why-is-there-not-a-symbolic/9766506#9766506
-    //empty_tree sha1:4b825dc642cb6eb9a060e54bf8d69288fbee4904
-  //empty_tree sha256:6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321
-
+    if (this._branches.size === 0) {
+      
+      /*
+       * https://stackoverflow.com/questions/9765453/is-gits-semi-secret-empty-tree-object-reliable-and-why-is-there-not-a-symbolic/9766506#9766506
+       * sha1:4b825dc642cb6eb9a060e54bf8d69288fbee4904
+       * sha256:6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321
+       */
       sha = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
-
-      const res = await this.provider.fetch(`repos/${this.slug}/git/commits`, {
+      /*const res = await this.provider.fetch(`repos/${this.slug}/git/commits`, {
         method: "POST",
         body: JSON.stringify({
           message: "Initial commit",
           tree: sha
         })
       });
-
       console.log(res);
-    } 
-    */
-    let res = await this.provider.fetch(
-      `repos/${this.slug}/git/ref/heads/${
-        from === undefined ? this.defaultBranchName : from.name
-      }`
-    );
-    let json = await res.json();
-    sha = json.object.sha;
+      */
+    } else {
+      const res = await this.provider.fetch(
+        `repos/${this.slug}/git/ref/heads/${
+          from === undefined ? this.defaultBranchName : from.name
+        }`
+      );
+      let json = await res.json();
+      sha = json.object.sha;
+    }
 
-    // console.log("SHA", sha);
-
-    res = await this.provider.fetch(`repos/${this.slug}/git/refs`, {
+    const res = await this.provider.fetch(`repos/${this.slug}/git/refs`, {
       method: "POST",
       body: JSON.stringify({
         ref: `refs/heads/${name}`,
         sha
       })
     });
-
+    
     if (res.ok) {
       return this.addBranch(name, options);
     }

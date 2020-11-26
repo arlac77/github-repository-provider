@@ -31,11 +31,13 @@ export class GithubOwner extends RepositoryGroup {
       },
       body: JSON.stringify({
         name,
+        auto_init: true,
         ...options
       })
     });
 
     if (response.ok) {
+      options.defaultBranchName = "main";
       return this.addRepository(name, options);
     }
   }

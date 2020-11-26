@@ -7,5 +7,13 @@ test("create & delete repo", async t =>
     t,
     GithubProvider.initialize(undefined, process.env),
     "test-repo-1",
-    "arlac77"
+    "arlac77",
+    { description: "a description" },
+    async (t, repository) => {
+      t.is(repository.defaultBranchName,"main");
+      const db = await repository.defaultBranch;
+
+      t.is(db.name, repository.defaultBranchName, "default branch name");
+      t.is(repository.description, "a description", "description");
+    }
   ));
