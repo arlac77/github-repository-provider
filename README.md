@@ -62,18 +62,20 @@ console.log(entry.name);
     -   [removeEntries](#removeentries)
         -   [Parameters](#parameters-9)
 -   [GithubOwner](#githubowner)
-    -   [deleteRepository](#deleterepository)
+    -   [createRepository](#createrepository)
         -   [Parameters](#parameters-10)
+    -   [deleteRepository](#deleterepository)
+        -   [Parameters](#parameters-11)
     -   [attributeMapping](#attributemapping)
 -   [GithubPullRequest](#githubpullrequest)
     -   [\_merge](#_merge)
-        -   [Parameters](#parameters-11)
+        -   [Parameters](#parameters-12)
     -   [\_write](#_write)
     -   [validMergeMethods](#validmergemethods)
     -   [list](#list)
-        -   [Parameters](#parameters-12)
-    -   [open](#open)
         -   [Parameters](#parameters-13)
+    -   [open](#open)
+        -   [Parameters](#parameters-14)
 
 ## GithubProvider
 
@@ -254,6 +256,17 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 **Extends RepositoryGroup**
 
 <https://developer.github.com/v3/repos/#create-a-repository-for-the-authenticated-user>
+
+### createRepository
+
+<https://developer.github.com/v3/repos/#create-a-repository-for-the-authenticated-user>
+
+#### Parameters
+
+-   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{}`)
+
+Returns **Repository** newly created repository
 
 ### deleteRepository
 
