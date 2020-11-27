@@ -32,13 +32,13 @@
     "lint:docs": "documentation lint ./src/github-provider.mjs"
   },
   "dependencies": {
-    "content-entry": "^2.5.1",
+    "content-entry": "^2.6.0",
     "fetch-link-util": "^1.0.1",
     "fetch-rate-limit-util": "^1.1.3",
     "matching-iterator": "^1.1.2",
     "node-fetch": "^3.0.0-beta.9",
     "one-time-execution-method": "^2.0.3",
-    "repository-provider": "^24.7.6"
+    "repository-provider": "^24.8.0"
   },
   "devDependencies": {
     "ava": "^3.13.0",
