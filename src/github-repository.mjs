@@ -40,6 +40,12 @@ export class GithubRepository extends Repository {
 
     do {
       const response = await this.provider.fetch(next);
+
+      if(!response.ok) {
+        this.error(`Unable to fetch branches ${response.status} ${response.url}`);
+        return;
+      }
+
       const json = await response.json();
 
       json.forEach(b => this.addBranch(b.name, b));
