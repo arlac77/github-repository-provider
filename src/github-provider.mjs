@@ -126,6 +126,10 @@ export class GithubProvider extends MultiGroupProvider {
 
       const json = await response.json();
 
+      /*if (json.length === 0 || !Array.isArray(json)) {
+        break;
+      }*/
+
       json.forEach(r => {
         const [groupName, repoName] = r.full_name.split(/\//);
         this.addRepositoryGroup(groupName, r.owner).addRepository(repoName, r);
