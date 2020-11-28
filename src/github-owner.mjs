@@ -39,6 +39,7 @@ export class GithubOwner extends RepositoryGroup {
     });
 
     if (response.ok) {
+      this.info(`Repository ${name} created`);
       options.defaultBranchName = "main";
       return this.addRepository(name, options);
     }
