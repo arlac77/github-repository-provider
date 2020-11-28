@@ -98,8 +98,8 @@ export class GithubProvider extends MultiGroupProvider {
           response
         );
 
-        if(msecs > 0) {
-          this.warn(`Rate limit reached: waiting for ${msecs/1000}s`);
+        if (msecs > 0) {
+          this.warn(`Rate limit reached: waiting for ${msecs / 1000}s`);
         }
         return msecs;
       }
@@ -116,9 +116,11 @@ export class GithubProvider extends MultiGroupProvider {
           accept: "application/vnd.github.baptiste-preview+json"
         }
       });
-      
-      if(!response.ok) {
-        this.error(`Unable to fetch repositories ${response.status} ${response.url}`);
+
+      if (!response.ok) {
+        this.error(
+          `Unable to fetch repositories ${response.status} ${response.url}`
+        );
         return;
       }
 

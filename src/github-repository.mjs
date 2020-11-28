@@ -41,8 +41,10 @@ export class GithubRepository extends Repository {
     do {
       const response = await this.provider.fetch(next);
 
-      if(!response.ok) {
-        this.error(`Unable to fetch branches ${response.status} ${response.url}`);
+      if (!response.ok) {
+        this.error(
+          `Unable to fetch branches ${response.status} ${response.url}`
+        );
         return;
       }
 
@@ -114,7 +116,6 @@ export class GithubRepository extends Repository {
     let sha;
 
     if (this._branches.size === 0) {
-      
       /*
        * https://stackoverflow.com/questions/9765453/is-gits-semi-secret-empty-tree-object-reliable-and-why-is-there-not-a-symbolic/9766506#9766506
        * sha1:4b825dc642cb6eb9a060e54bf8d69288fbee4904
@@ -147,7 +148,7 @@ export class GithubRepository extends Repository {
         sha
       })
     });
-    
+
     if (res.ok) {
       return this.addBranch(name, options);
     }
