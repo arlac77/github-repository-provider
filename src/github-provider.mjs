@@ -111,16 +111,22 @@ export class GithubProvider extends MultiGroupProvider {
    */
   async initializeRepositories() {
     for (let page = 1; ; page++) {
-      const res = await this.fetch(`user/repos?page=${page}`, {
+      const response = await this.fetch(`user/repos?page=${page}`, {
         headers: {
           accept: "application/vnd.github.baptiste-preview+json"
         }
       });
-      const json = await res.json();
-
-      if (json.length === 0 || !Array.isArray(json)) {
-        break;
+      
+      if(!response.ok) {
+        this.error(`Unable to fetch repositories ${response.status} ${response.url}`);
+        return;
       }
+
+      const json = await response.json();
+
+      /*if (json.length === 0 || !Array.isArray(json)) {
+        break;
+      }*/
 
       json.forEach(r => {
         const [groupName, repoName] = r.full_name.split(/\//);
