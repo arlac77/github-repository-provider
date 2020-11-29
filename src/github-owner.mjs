@@ -25,24 +25,29 @@ export class GithubOwner extends RepositoryGroup {
    * @param {Object} options
    * @return {Repository} newly created repository
    */
-  async createRepository(name, options={}) {
-    const response = await this.provider.fetch("/user/repos", {
-      method: "POST",
-      headers: {
-        accept: "application/vnd.github.nebula-preview+json"
-      },
-      body: JSON.stringify({
-        name,
-        auto_init: true,
-        ...options
-      })
-    });
+  async createRepository(name, options = {}) {
+    const response = await this.provider.fetch(
+      this.type === "Organization" ? `orgs/${this.name}/repos` : "/user/repos",
+      {
+        method: "POST",
+        headers: {
+          accept: "application/vnd.github.nebula-preview+json"
+        },
+        body: JSON.stringify({
+          name,
+          auto_init: true,
+          ...options
+        })
+      }
+    );
 
     if (response.ok) {
       this.provider.info(`Repository ${name} created`);
       options.defaultBranchName = "main";
       return this.addRepository(name, options);
     }
+
+    this.provider.error(`Repository ${name} creation error ${response.status}`);
   }
 
   /**
