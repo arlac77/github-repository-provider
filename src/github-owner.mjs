@@ -1,7 +1,9 @@
 import { RepositoryGroup } from "repository-provider";
 
 /**
- * {@link https://developer.github.com/v3/repos/#create-a-repository-for-the-authenticated-user}
+ * Represents github repo owner either
+ * - users
+ * - organization
  */
 export class GithubOwner extends RepositoryGroup {
   static get attributes() {
@@ -9,8 +11,9 @@ export class GithubOwner extends RepositoryGroup {
       ...super.attributes
     };
   }
+
   /**
-   * Map attributes between external and internal representation
+   * Map attributes between external and internal representation.
    */
   static get attributeMapping() {
     return {
