@@ -30,6 +30,10 @@ const domain = "github.com";
  * // different ways to address the same repository
  */
 export class GithubProvider extends MultiGroupProvider {
+  static get name() {
+    return 'github';
+  }
+
   static get attributes() {
     return {
       ...super.attributes,

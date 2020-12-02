@@ -5,14 +5,15 @@ import GithubProvider from "github-repository-provider";
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
 const REPOSITORY_OWNER = "arlac77";
 
-
 const provider = GithubProvider.initialize(undefined, process.env);
 
 test(providerTest, provider);
 
+test("provider factory name", t => t.is(GithubProvider.name, "github"));
+
 test("provider", async t => {
   t.is(provider.priority, 1000.0);
-  t.is(provider.name, 'github');
+  t.is(provider.name, "github");
 
   const repository = await provider.repository(REPOSITORY_NAME);
 
