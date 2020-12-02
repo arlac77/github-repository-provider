@@ -30,8 +30,12 @@ const domain = "github.com";
  * // different ways to address the same repository
  */
 export class GithubProvider extends MultiGroupProvider {
+  /**
+   * We are called github.
+   * @return {string} github
+   */
   static get name() {
-    return 'github';
+    return "github";
   }
 
   static get attributes() {
@@ -159,14 +163,6 @@ export class GithubProvider extends MultiGroupProvider {
       `git://${domain}/`,
       `git@${domain}:`
     ]);
-  }
-
-  /**
-   * We are called github
-   * @return {string} github
-   */
-  get name() {
-    return "github";
   }
 
   get areRepositoryNamesCaseSensitive() {
