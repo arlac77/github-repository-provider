@@ -127,7 +127,7 @@ Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Gl
 
 ### name
 
-We are called github
+We are called github.
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** github
 
@@ -255,7 +255,10 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 **Extends RepositoryGroup**
 
-<https://developer.github.com/v3/repos/#create-a-repository-for-the-authenticated-user>
+Represents github repo owner either
+
+-   users
+-   organization
 
 ### createRepository
 
@@ -278,7 +281,7 @@ Returns **Repository** newly created repository
 
 ### attributeMapping
 
-Map attributes between external and internal representation
+Map attributes between external and internal representation.
 
 ## GithubPullRequest
 
