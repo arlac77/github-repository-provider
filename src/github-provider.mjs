@@ -68,14 +68,6 @@ export class GithubProvider extends MultiGroupProvider {
     };
   }
 
-  constructor(options) {
-    super(options);
-
-    if (this.authentication === undefined) {
-      this.authentication = {};
-    }
-  }
-
   get repositoryClass() {
     return GithubRepository;
   }
