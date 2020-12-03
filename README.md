@@ -30,7 +30,6 @@ console.log(entry.name);
 ### Table of Contents
 
 -   [GithubProvider](#githubprovider)
-    -   [Parameters](#parameters)
     -   [Examples](#examples)
     -   [initializeRepositories](#initializerepositories)
     -   [repositoryBases](#repositorybases)
@@ -42,40 +41,40 @@ console.log(entry.name);
     -   [homePageURL](#homepageurl)
     -   [update](#update)
     -   [refId](#refid)
-        -   [Parameters](#parameters-1)
+        -   [Parameters](#parameters)
     -   [deletePullRequest](#deletepullrequest)
-        -   [Parameters](#parameters-2)
+        -   [Parameters](#parameters-1)
     -   [initializeHooks](#initializehooks)
 -   [GithubBranch](#githubbranch)
     -   [writeEntry](#writeentry)
-        -   [Parameters](#parameters-3)
+        -   [Parameters](#parameters-2)
     -   [baseTreeSha](#basetreesha)
-        -   [Parameters](#parameters-4)
+        -   [Parameters](#parameters-3)
     -   [commit](#commit)
-        -   [Parameters](#parameters-5)
+        -   [Parameters](#parameters-4)
     -   [entry](#entry)
-        -   [Parameters](#parameters-6)
+        -   [Parameters](#parameters-5)
     -   [maybeEntry](#maybeentry)
-        -   [Parameters](#parameters-7)
+        -   [Parameters](#parameters-6)
     -   [tree](#tree)
-        -   [Parameters](#parameters-8)
+        -   [Parameters](#parameters-7)
     -   [removeEntries](#removeentries)
-        -   [Parameters](#parameters-9)
+        -   [Parameters](#parameters-8)
 -   [GithubOwner](#githubowner)
     -   [createRepository](#createrepository)
-        -   [Parameters](#parameters-10)
+        -   [Parameters](#parameters-9)
     -   [deleteRepository](#deleterepository)
-        -   [Parameters](#parameters-11)
+        -   [Parameters](#parameters-10)
     -   [attributeMapping](#attributemapping)
 -   [GithubPullRequest](#githubpullrequest)
     -   [\_merge](#_merge)
-        -   [Parameters](#parameters-12)
+        -   [Parameters](#parameters-11)
     -   [\_write](#_write)
     -   [validMergeMethods](#validmergemethods)
     -   [list](#list)
-        -   [Parameters](#parameters-13)
+        -   [Parameters](#parameters-12)
     -   [open](#open)
-        -   [Parameters](#parameters-14)
+        -   [Parameters](#parameters-13)
 
 ## GithubProvider
 
@@ -88,10 +87,6 @@ Lookup a repository
 known environment variables
 
 -   GITHUB_TOKEN or GH_TOKEN api token
-
-### Parameters
-
--   `options`  
 
 ### Examples
 
