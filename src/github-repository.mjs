@@ -97,11 +97,16 @@ export class GithubRepository extends Repository {
     ref = ref.replace(/^refs\//, "");
 
     const res = await this.provider.fetch(`/repos/${this.slug}/git/ref/${ref}`);
+
+    if(!res) {
+      throw new Error(`Unable to fetch ${res.url}: ${res.code}`);
+    }
+
     const json = await res.json();
 
     // TODO why does this happen ?
     if (!json.object.sha) {
-      throw new Error(`no refId for '${this.name}' '${ref}'`);
+      throw new Error(`No refId for '${this.name}' '${ref}'`);
     }
 
     return json.object.sha;
