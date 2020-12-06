@@ -91,6 +91,9 @@ export class GithubProvider extends MultiGroupProvider {
           }
         }),
       (millisecondsToWait, rateLimitRemaining, nthTry, response) => {
+
+        this.rateLimitRemaining = rateLimitRemaining;
+        
         const msecs = defaultWaitDecide(
           millisecondsToWait,
           rateLimitRemaining,
