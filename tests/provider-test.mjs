@@ -11,9 +11,10 @@ test(providerTest, provider);
 
 test("provider factory name", t => t.is(GithubProvider.name, "github"));
 
-test("provider", async t => {
+test.only("provider", async t => {
   t.is(provider.priority, 1000.0);
   t.is(provider.name, "github");
+  t.true(provider.reateLimitRemaining >= 0 && provider.reateLimitRemaining <= Number.MAX_VALUE, "rate limit remaining is present");
 
   const repository = await provider.repository(REPOSITORY_NAME);
 
