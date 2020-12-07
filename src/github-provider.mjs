@@ -65,7 +65,7 @@ export class GithubProvider extends MultiGroupProvider {
         mandatory: true
       },
       priority: { default: 1000.0 },
-      reateLimitRemaining: { writeable: true, default: Number.MAX_VALUE }
+      reateLimitRemaining: { writable: true, default: Number.MAX_VALUE }
     };
   }
 
