@@ -41,7 +41,7 @@
     "repository-provider": "^25.0.1"
   },
   "devDependencies": {
-    "ava": "^3.13.0",
+    "ava": "^3.14.0",
     "c8": "^7.3.5",
     "documentation": "github:arlac77/documentation",
     "repository-provider-test-support": "^1.2.33",
