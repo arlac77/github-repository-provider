@@ -115,8 +115,7 @@ export class GithubBranch extends Branch {
       }
     );
 
-    json = await result.json();
-    return json;
+    return result.json();
   }
 
   /**
