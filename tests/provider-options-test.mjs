@@ -29,6 +29,27 @@ test(
   true
 );
 
+test(
+  providerOptionsFromEnvironmentTest,
+  GithubProvider,
+  { GH_TOKEN: "abc" },
+  {
+    "authentication.type": "token",
+    "authentication.token": "abc"
+  },
+  true
+);
+test(
+  providerOptionsFromEnvironmentTest,
+  GithubProvider,
+  { GITHUB_TOKEN: "abc" },
+  {
+    "authentication.type": "token",
+    "authentication.token": "abc"
+  },
+  true
+);
+
 const ENV2 = {
   NODE_ENV: "test",
   DOTNET_NOLOGO: '"1"',
@@ -75,8 +96,7 @@ const ENV2 = {
   GITHUB_BASE_REF: "",
   GITHUB_ACTION_REPOSITORY: "actions/setup-node",
   PERFLOG_LOCATION_SETTING: "RUNNER_PERFLOG",
-  PATH:
-    "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin",
+  PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin",
   INVOCATION_ID: "cff0cd8dbdc74aea96050673081ca69c",
   RUNNER_TOOL_CACHE: "/opt/hostedtoolcache",
   RUNNER_TRACKING_ID: "github_292b7624-94c6-47fa-90ce-551a4c36ad9f",
@@ -117,7 +137,7 @@ const ENV2 = {
   HOMEBREW_REPOSITORY: '"/home/linuxbrew/.linuxbrew/Homebrew"',
   CHROME_BIN: "/usr/bin/google-chrome",
   SELENIUM_JAR_PATH: "/usr/share/java/selenium-server-standalone.jar",
-  INIT_CWD: "/home/runner/work/service-repositories/service-repositories",
+  INIT_CWD: "/home/runner/work/service-repositories/service-repositories"
 };
 
 test(
