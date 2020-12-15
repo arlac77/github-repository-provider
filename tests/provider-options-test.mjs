@@ -1,4 +1,6 @@
 import test from "ava";
+import { providerOptionsFromEnvironmentTest } from "repository-provider-test-support";
+
 import GithubProvider from "github-repository-provider";
 
 const ENV = {
@@ -7,14 +9,18 @@ const ENV = {
   GITHUB_API_URL: "https://mygithub.com/api/v3/"
 };
 
-test("provider env options", async t => {
-  t.deepEqual(GithubProvider.optionsFromEnvironment(ENV), {
+test(
+  providerOptionsFromEnvironmentTest,
+  GithubProvider,
+  ENV,
+  {
     "authentication.type": "token",
     "authentication.token": "abc",
     url: "https://mygithub.com",
     api: "https://mygithub.com/api/v3/"
-  });
-});
+  },
+  true
+);
 
 test("provider properties from env options", async t => {
   const provider = GithubProvider.initialize(undefined, ENV);
