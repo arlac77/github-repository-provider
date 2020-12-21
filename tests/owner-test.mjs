@@ -23,9 +23,8 @@ test("list repositories", async t => {
     reps[r.name] = r;
   }
 
-  t.true(Object.keys(reps).length >= 2);
+  t.true(Object.keys(reps).length >= 1);
   t.truthy(reps['npm-template-sync']);
-  t.truthy(reps['npm-template-sync-github-hook']);
 });
 
 test("list branches", async t => {
@@ -36,9 +35,8 @@ test("list branches", async t => {
     branches[b.fullName] = b;
   }
 
-  t.true(Object.keys(branches).length >= 2);
+  t.true(Object.keys(branches).length >= 1);
   t.truthy(branches['arlac77/npm-template-sync#master']);
-  t.truthy(branches['arlac77/npm-template-sync-github-hook#master']);
 });
 
 
