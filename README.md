@@ -328,7 +328,7 @@ Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Glob
 With [npm](http://npmjs.org) do:
 
 ```shell
-npm install mock-repository-provider
+npm install github-repository-provider
 ```
 
 # license
