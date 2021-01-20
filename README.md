@@ -33,11 +33,41 @@ console.log(entry.name);
 
 ### Table of Contents
 
+-   [GithubBranch](#githubbranch)
+    -   [writeEntry](#writeentry)
+        -   [Parameters](#parameters)
+    -   [baseTreeSha](#basetreesha)
+        -   [Parameters](#parameters-1)
+    -   [commit](#commit)
+        -   [Parameters](#parameters-2)
+    -   [entry](#entry)
+        -   [Parameters](#parameters-3)
+    -   [maybeEntry](#maybeentry)
+        -   [Parameters](#parameters-4)
+    -   [tree](#tree)
+        -   [Parameters](#parameters-5)
+    -   [removeEntries](#removeentries)
+        -   [Parameters](#parameters-6)
+-   [GithubOwner](#githubowner)
+    -   [createRepository](#createrepository)
+        -   [Parameters](#parameters-7)
+    -   [deleteRepository](#deleterepository)
+        -   [Parameters](#parameters-8)
+    -   [attributeMapping](#attributemapping)
 -   [GithubProvider](#githubprovider)
     -   [Examples](#examples)
     -   [initializeRepositories](#initializerepositories)
     -   [repositoryBases](#repositorybases)
     -   [name](#name)
+-   [GithubPullRequest](#githubpullrequest)
+    -   [\_merge](#_merge)
+        -   [Parameters](#parameters-9)
+    -   [\_write](#_write)
+    -   [validMergeMethods](#validmergemethods)
+    -   [list](#list)
+        -   [Parameters](#parameters-10)
+    -   [open](#open)
+        -   [Parameters](#parameters-11)
 -   [GithubRepository](#githubrepository)
     -   [initializeBranches](#initializebranches)
     -   [urls](#urls)
@@ -45,142 +75,10 @@ console.log(entry.name);
     -   [homePageURL](#homepageurl)
     -   [update](#update)
     -   [refId](#refid)
-        -   [Parameters](#parameters)
-    -   [deletePullRequest](#deletepullrequest)
-        -   [Parameters](#parameters-1)
-    -   [initializeHooks](#initializehooks)
--   [GithubBranch](#githubbranch)
-    -   [writeEntry](#writeentry)
-        -   [Parameters](#parameters-2)
-    -   [baseTreeSha](#basetreesha)
-        -   [Parameters](#parameters-3)
-    -   [commit](#commit)
-        -   [Parameters](#parameters-4)
-    -   [entry](#entry)
-        -   [Parameters](#parameters-5)
-    -   [maybeEntry](#maybeentry)
-        -   [Parameters](#parameters-6)
-    -   [tree](#tree)
-        -   [Parameters](#parameters-7)
-    -   [removeEntries](#removeentries)
-        -   [Parameters](#parameters-8)
--   [GithubOwner](#githubowner)
-    -   [createRepository](#createrepository)
-        -   [Parameters](#parameters-9)
-    -   [deleteRepository](#deleterepository)
-        -   [Parameters](#parameters-10)
-    -   [attributeMapping](#attributemapping)
--   [GithubPullRequest](#githubpullrequest)
-    -   [\_merge](#_merge)
-        -   [Parameters](#parameters-11)
-    -   [\_write](#_write)
-    -   [validMergeMethods](#validmergemethods)
-    -   [list](#list)
         -   [Parameters](#parameters-12)
-    -   [open](#open)
+    -   [deletePullRequest](#deletepullrequest)
         -   [Parameters](#parameters-13)
-
-## GithubProvider
-
-**Extends MultiGroupProvider**
-
-<!-- skip-example -->
-
-GitHub provider
-Lookup a repository
-known environment variables
-
--   GITHUB_TOKEN or GH_TOKEN api token
-
-### Examples
-
-```javascript
-import GithubProvider from 'github-repository-provider';
-
-const ghp = new GithubProvider();
-const r1 = ghp.repository('git@github.com:arlac77/github-repository-provider.git');
-const r2 = ghp.repository('git://github.com/arlac77/github-repository-provider.git');
-const r3 = ghp.repository('git+ssh://github.com/arlac77/github-repository-provider.git');
-const r4 = ghp.repository('https://github.com/arlac77/github-repository-provider.git#master');
-const r5 = ghp.repository('git+https://github.com/arlac77/github-repository-provider.git#master');
-const r6 = ghp.repository('arlac77/github-repository-provider');
-// different ways to address the same repository
-```
-
-### initializeRepositories
-
-<https://developer.github.com/v3/repos/#list-repositories-for-the-authenticated-user>
-
-### repositoryBases
-
-All possible base urls
-
--   github:
--   git@github.com
--   git://github.com
--   git+ssh://github.com
--   <https://github.com>
--   git+<https://github.com>
-
-Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** common base urls of all repositories
-
-### name
-
-We are called github.
-
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** github
-
-## GithubRepository
-
-**Extends Repository**
-
-Repository on GitHub
-
-### initializeBranches
-
-<https://developer.github.com/v3/repos/branches/#list-branches>
-
-### urls
-
-Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** github https url
-
-### issuesURL
-
-Deliver the url of issue tracking system.
-
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-### homePageURL
-
-Deliver the url of the repositories home page.
-
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-### update
-
-<https://developer.github.com/v3/repos/#update-a-repository>
-
-### refId
-
-<https://developer.github.com/v3/git/refs/>
-
-#### Parameters
-
--   `ref` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
-
-### deletePullRequest
-
-<https://developer.github.com/v3/pulls/#update-a-pull-request>
-
-#### Parameters
-
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-### initializeHooks
-
-<https://developer.github.com/v3/repos/hooks/>
+    -   [initializeHooks](#initializehooks)
 
 ## GithubBranch
 
@@ -282,6 +180,56 @@ Returns **Repository** newly created repository
 
 Map attributes between external and internal representation.
 
+## GithubProvider
+
+**Extends MultiGroupProvider**
+
+<!-- skip-example -->
+
+GitHub provider
+Lookup a repository
+known environment variables
+
+-   GITHUB_TOKEN or GH_TOKEN api token
+
+### Examples
+
+```javascript
+import GithubProvider from 'github-repository-provider';
+
+const ghp = new GithubProvider();
+const r1 = ghp.repository('git@github.com:arlac77/github-repository-provider.git');
+const r2 = ghp.repository('git://github.com/arlac77/github-repository-provider.git');
+const r3 = ghp.repository('git+ssh://github.com/arlac77/github-repository-provider.git');
+const r4 = ghp.repository('https://github.com/arlac77/github-repository-provider.git#master');
+const r5 = ghp.repository('git+https://github.com/arlac77/github-repository-provider.git#master');
+const r6 = ghp.repository('arlac77/github-repository-provider');
+// different ways to address the same repository
+```
+
+### initializeRepositories
+
+<https://developer.github.com/v3/repos/#list-repositories-for-the-authenticated-user>
+
+### repositoryBases
+
+All possible base urls
+
+-   github:
+-   git@github.com
+-   git://github.com
+-   git+ssh://github.com
+-   <https://github.com>
+-   git+<https://github.com>
+
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** common base urls of all repositories
+
+### name
+
+We are called github.
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** github
+
 ## GithubPullRequest
 
 **Extends PullRequest**
@@ -322,6 +270,58 @@ Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Glob
 -   `source` **Branch** 
 -   `destination` **Branch** 
 -   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+## GithubRepository
+
+**Extends Repository**
+
+Repository on GitHub
+
+### initializeBranches
+
+<https://developer.github.com/v3/repos/branches/#list-branches>
+
+### urls
+
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** github https url
+
+### issuesURL
+
+Deliver the url of issue tracking system.
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+### homePageURL
+
+Deliver the url of the repositories home page.
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+### update
+
+<https://developer.github.com/v3/repos/#update-a-repository>
+
+### refId
+
+<https://developer.github.com/v3/git/refs/>
+
+#### Parameters
+
+-   `ref` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
+
+### deletePullRequest
+
+<https://developer.github.com/v3/pulls/#update-a-pull-request>
+
+#### Parameters
+
+-   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+### initializeHooks
+
+<https://developer.github.com/v3/repos/hooks/>
 
 # install
 
