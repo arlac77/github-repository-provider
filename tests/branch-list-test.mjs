@@ -4,6 +4,6 @@ import GithubProvider from "github-repository-provider";
 
 const provider = GithubProvider.initialize(undefined, process.env);
 
-test(branchListTest, provider, "arlac77/npm-*", 5);
-test(branchListTest, provider, "https://github.com/arlac77/npm-*", 5);
+test(branchListTest, provider, "arlac77/npm-*", 3);
+test(branchListTest, provider, "https://github.com/arlac77/npm-*", 3);
 test(branchListTest, provider, "arlac77/unknown-*");

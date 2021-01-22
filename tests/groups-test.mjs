@@ -32,4 +32,4 @@ test(groupTest, provider, "arlac77", { name: "arlac77" });
 test(groupTest, provider, "github:arlac77", { name: "arlac77" });
 test(groupTest, provider, "xarlac77", undefined);
 test(groupTest, provider, "otherProvider:arlac77", undefined);
-test(groupTest, provider, "k0nsti", { name: "k0nsti" });
+test(groupTest, provider, "konsumation", { name: "konsumation" });

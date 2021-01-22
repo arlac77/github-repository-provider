@@ -19,24 +19,24 @@ test("list repositories", async t => {
   const owner = await provider.repositoryGroup(REPOSITORY_OWNER);
 
   const reps = {};
-  for await (const r of owner.repositories("npm-template*")) {
+  for await (const r of owner.repositories("repository*")) {
     reps[r.name] = r;
   }
 
   t.true(Object.keys(reps).length >= 1);
-  t.truthy(reps['npm-template-sync']);
+  t.truthy(reps["repository-provider"]);
 });
 
 test("list branches", async t => {
   const owner = await provider.repositoryGroup(REPOSITORY_OWNER);
 
   const branches = {};
-  for await (const b of owner.branches("npm-template*#master")) {
+  for await (const b of owner.branches("repository-provider*#master")) {
     branches[b.fullName] = b;
   }
 
   t.true(Object.keys(branches).length >= 1);
-  t.truthy(branches['arlac77/npm-template-sync#master']);
+  t.truthy(branches['arlac77/repository-provider#master']);
 });
 
 
