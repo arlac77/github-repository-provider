@@ -84,7 +84,7 @@ console.log(entry.name);
 
 **Extends Branch**
 
-Branch on GitHub
+Branch on GitHub.
 
 ### writeEntry
 
@@ -186,8 +186,8 @@ Map attributes between external and internal representation.
 
 <!-- skip-example -->
 
-GitHub provider
-Lookup a repository
+GitHub provider.
+Lookup a repository.
 known environment variables
 
 -   GITHUB_TOKEN or GH_TOKEN api token
@@ -234,7 +234,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 **Extends PullRequest**
 
-Github pull request
+Github pull request.
 
 ### \_merge
 
@@ -275,7 +275,7 @@ Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Glob
 
 **Extends Repository**
 
-Repository on GitHub
+Repository on GitHub.
 
 ### initializeBranches
 
