@@ -3,7 +3,7 @@ import { Repository } from "repository-provider";
 import { getHeaderLink } from "fetch-link-util";
 
 /**
- * Repository on GitHub
+ * Repository on GitHub.
  */
 export class GithubRepository extends Repository {
   static get attributeMapping() {

@@ -13,8 +13,8 @@ const domain = "github.com";
 
 /**
  * <!-- skip-example -->
- * GitHub provider
- * Lookup a repository
+ * GitHub provider.
+ * Lookup a repository.
  * known environment variables
  * - GITHUB_TOKEN or GH_TOKEN api token
  * @example

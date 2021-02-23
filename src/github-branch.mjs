@@ -8,7 +8,7 @@ import {
 } from "content-entry";
 
 /**
- * Branch on GitHub
+ * Branch on GitHub.
  */
 export class GithubBranch extends Branch {
 

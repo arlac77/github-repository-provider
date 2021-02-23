@@ -2,7 +2,7 @@ import { PullRequest } from "repository-provider";
 import { getHeaderLink } from "fetch-link-util";
 
 /**
- * Github pull request
+ * Github pull request.
  */
 export class GithubPullRequest extends PullRequest {
   /**

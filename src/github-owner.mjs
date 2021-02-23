@@ -6,12 +6,6 @@ import { RepositoryGroup } from "repository-provider";
  * - organization
  */
 export class GithubOwner extends RepositoryGroup {
-  static get attributes() {
-    return {
-      ...super.attributes
-    };
-  }
-
   /**
    * Map attributes between external and internal representation.
    */
