@@ -38,6 +38,13 @@ export class GithubProvider extends MultiGroupProvider {
     return "github";
   }
 
+  /**
+   * @return {string} default instance environment name prefix
+   */
+  static get instanceIdentifier() {
+    return "GITHUB_"
+  }
+
   static get attributes() {
     return {
       ...super.attributes,
@@ -47,19 +54,19 @@ export class GithubProvider extends MultiGroupProvider {
       },
       url: {
         type: "url",
-        env: ["GITHUB_SERVER_URL"],
+        env: ["{{instanceIdentifier}}SERVER_URL"],
         set: value => (value.endsWith("/") ? value : value + "/"),
         default: `https://${domain}/`
       },
       api: {
         type: "url",
-        env: ["GITHUB_API_URL"],
+        env: ["{{instanceIdentifier}}API_URL"],
         set: value => value.replace(/\/$/, ""),
         default: `https://api.${domain}`
       },
       "authentication.token": {
         type: "string",
-        env: ["GITHUB_TOKEN", "GH_TOKEN"],
+        env: ["{{instanceIdentifier}}TOKEN", "GH_TOKEN"],
         additionalAttributes: { "authentication.type": "token" },
         private: true,
         mandatory: true
