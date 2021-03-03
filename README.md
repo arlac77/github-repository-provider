@@ -59,6 +59,7 @@ console.log(entry.name);
     -   [initializeRepositories](#initializerepositories)
     -   [repositoryBases](#repositorybases)
     -   [name](#name)
+    -   [instanceIdentifier](#instanceidentifier)
 -   [GithubPullRequest](#githubpullrequest)
     -   [\_merge](#_merge)
         -   [Parameters](#parameters-9)
@@ -229,6 +230,10 @@ Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Gl
 We are called github.
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** github
+
+### instanceIdentifier
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** default instance environment name prefix
 
 ## GithubPullRequest
 
