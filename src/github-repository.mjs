@@ -32,48 +32,37 @@ export class GithubRepository extends Repository {
     return "main";
   }
 
-  /**
-   * {@link https://developer.github.com/v3/repos/branches/#list-branches}
-   */
-  async initializeBranches() {
-    let next = `/repos/${this.slug}/branches`;
+  async _initializeSlot(typeName, addMethodName) {
+    let next = `/repos/${this.slug}/${typeName}`;
 
     do {
       const response = await this.provider.fetch(next);
 
       if (!response.ok) {
         this.error(
-          `Unable to fetch branches ${response.status} ${response.url}`
+          `Unable to fetch ${typeName} ${response.status} ${response.url}`
         );
         return;
       }
 
       const json = await response.json();
-      json.forEach(b => this.addBranch(b.name, b));
+      json.forEach(b => this[addMethodName](b.name, b));
       next = getHeaderLink(response.headers);
     } while (next);
+  }
+
+  /**
+   * {@link https://developer.github.com/v3/repos/branches/#list-branches}
+   */
+  async initializeBranches() {
+    return this._initializeSlot("branches", "addBranch");
   }
 
   /**
    * {@link https://docs.github.com/en/rest/reference/repos#list-repository-tags}
    */
   async initializeTags() {
-    let next = `/repos/${this.slug}/tags`;
-
-    do {
-      const response = await this.provider.fetch(next);
-
-      if (!response.ok) {
-        this.error(
-          `Unable to fetch tags ${response.status} ${response.url}`
-        );
-        return;
-      }
-
-      const json = await response.json();
-      json.forEach(b => this.addTag(b.name, b));
-      next = getHeaderLink(response.headers);
-    } while (next);
+    return this._initializeSlot("tags", "addTag");
   }
 
   /**
@@ -119,7 +108,7 @@ export class GithubRepository extends Repository {
 
     const res = await this.provider.fetch(`/repos/${this.slug}/git/ref/${ref}`);
 
-    if(!res) {
+    if (!res) {
       throw new Error(`Unable to fetch ${res.url}: ${res.code}`);
     }
 
