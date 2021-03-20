@@ -49,8 +49,29 @@ export class GithubRepository extends Repository {
       }
 
       const json = await response.json();
-
       json.forEach(b => this.addBranch(b.name, b));
+      next = getHeaderLink(response.headers);
+    } while (next);
+  }
+
+  /**
+   * {@link https://docs.github.com/en/rest/reference/repos#list-repository-tags}
+   */
+  async initializeTags() {
+    let next = `/repos/${this.slug}/tags`;
+
+    do {
+      const response = await this.provider.fetch(next);
+
+      if (!response.ok) {
+        this.error(
+          `Unable to fetch tags ${response.status} ${response.url}`
+        );
+        return;
+      }
+
+      const json = await response.json();
+      json.forEach(b => this.addTag(b.name, b));
       next = getHeaderLink(response.headers);
     } while (next);
   }
