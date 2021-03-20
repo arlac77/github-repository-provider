@@ -71,6 +71,7 @@ console.log(entry.name);
         -   [Parameters](#parameters-11)
 -   [GithubRepository](#githubrepository)
     -   [initializeBranches](#initializebranches)
+    -   [initializeTags](#initializetags)
     -   [urls](#urls)
     -   [issuesURL](#issuesurl)
     -   [homePageURL](#homepageurl)
@@ -285,6 +286,10 @@ Repository on GitHub.
 ### initializeBranches
 
 <https://developer.github.com/v3/repos/branches/#list-branches>
+
+### initializeTags
+
+<https://docs.github.com/en/rest/reference/repos#list-repository-tags>
 
 ### urls
 
