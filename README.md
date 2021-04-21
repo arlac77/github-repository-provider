@@ -3,7 +3,7 @@
 [![minified size](https://badgen.net/bundlephobia/min/github-repository-provider)](https://bundlephobia.com/result?p=github-repository-provider)
 [![downloads](http://img.shields.io/npm/dm/github-repository-provider.svg?style=flat-square)](https://npmjs.org/package/github-repository-provider)
 [![GitHub Issues](https://img.shields.io/github/issues/arlac77/github-repository-provider.svg?style=flat-square)](https://github.com/arlac77/github-repository-provider/issues)
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Farlac77%2Fgithub-repository-provider%2Fbadge&style=flat)](https://actions-badge.atrox.dev/arlac77/github-repository-provider/goto)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Farlac77%2Fgithub-repository-provider%2Fbadge\&style=flat)](https://actions-badge.atrox.dev/arlac77/github-repository-provider/goto)
 [![Styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![Known Vulnerabilities](https://snyk.io/test/github/arlac77/github-repository-provider/badge.svg)](https://snyk.io/test/github/arlac77/github-repository-provider)
@@ -33,54 +33,54 @@ console.log(entry.name);
 
 ### Table of Contents
 
--   [GithubBranch](#githubbranch)
-    -   [writeEntry](#writeentry)
-        -   [Parameters](#parameters)
-    -   [baseTreeSha](#basetreesha)
-        -   [Parameters](#parameters-1)
-    -   [commit](#commit)
-        -   [Parameters](#parameters-2)
-    -   [entry](#entry)
-        -   [Parameters](#parameters-3)
-    -   [maybeEntry](#maybeentry)
-        -   [Parameters](#parameters-4)
-    -   [tree](#tree)
-        -   [Parameters](#parameters-5)
-    -   [removeEntries](#removeentries)
-        -   [Parameters](#parameters-6)
--   [GithubOwner](#githubowner)
-    -   [createRepository](#createrepository)
-        -   [Parameters](#parameters-7)
-    -   [deleteRepository](#deleterepository)
-        -   [Parameters](#parameters-8)
-    -   [attributeMapping](#attributemapping)
--   [GithubProvider](#githubprovider)
-    -   [Examples](#examples)
-    -   [initializeRepositories](#initializerepositories)
-    -   [repositoryBases](#repositorybases)
-    -   [name](#name)
-    -   [instanceIdentifier](#instanceidentifier)
--   [GithubPullRequest](#githubpullrequest)
-    -   [\_merge](#_merge)
-        -   [Parameters](#parameters-9)
-    -   [\_write](#_write)
-    -   [validMergeMethods](#validmergemethods)
-    -   [list](#list)
-        -   [Parameters](#parameters-10)
-    -   [open](#open)
-        -   [Parameters](#parameters-11)
--   [GithubRepository](#githubrepository)
-    -   [initializeBranches](#initializebranches)
-    -   [initializeTags](#initializetags)
-    -   [urls](#urls)
-    -   [issuesURL](#issuesurl)
-    -   [homePageURL](#homepageurl)
-    -   [update](#update)
-    -   [refId](#refid)
-        -   [Parameters](#parameters-12)
-    -   [deletePullRequest](#deletepullrequest)
-        -   [Parameters](#parameters-13)
-    -   [initializeHooks](#initializehooks)
+*   [GithubBranch](#githubbranch)
+    *   [writeEntry](#writeentry)
+        *   [Parameters](#parameters)
+    *   [baseTreeSha](#basetreesha)
+        *   [Parameters](#parameters-1)
+    *   [commit](#commit)
+        *   [Parameters](#parameters-2)
+    *   [entry](#entry)
+        *   [Parameters](#parameters-3)
+    *   [maybeEntry](#maybeentry)
+        *   [Parameters](#parameters-4)
+    *   [tree](#tree)
+        *   [Parameters](#parameters-5)
+    *   [removeEntries](#removeentries)
+        *   [Parameters](#parameters-6)
+*   [GithubOwner](#githubowner)
+    *   [createRepository](#createrepository)
+        *   [Parameters](#parameters-7)
+    *   [deleteRepository](#deleterepository)
+        *   [Parameters](#parameters-8)
+    *   [attributeMapping](#attributemapping)
+*   [GithubProvider](#githubprovider)
+    *   [Examples](#examples)
+    *   [initializeRepositories](#initializerepositories)
+    *   [repositoryBases](#repositorybases)
+    *   [name](#name)
+    *   [instanceIdentifier](#instanceidentifier)
+*   [GithubPullRequest](#githubpullrequest)
+    *   [\_merge](#\_merge)
+        *   [Parameters](#parameters-9)
+    *   [\_write](#\_write)
+    *   [validMergeMethods](#validmergemethods)
+    *   [list](#list)
+        *   [Parameters](#parameters-10)
+    *   [open](#open)
+        *   [Parameters](#parameters-11)
+*   [GithubRepository](#githubrepository)
+    *   [initializeBranches](#initializebranches)
+    *   [initializeTags](#initializetags)
+    *   [urls](#urls)
+    *   [issuesURL](#issuesurl)
+    *   [homePageURL](#homepageurl)
+    *   [update](#update)
+    *   [refId](#refid)
+        *   [Parameters](#parameters-12)
+    *   [deletePullRequest](#deletepullrequest)
+        *   [Parameters](#parameters-13)
+    *   [initializeHooks](#initializehooks)
 
 ## GithubBranch
 
@@ -95,9 +95,9 @@ Writes content into the branch
 
 #### Parameters
 
--   `entry` **ConentEntry** 
+*   `entry` **ConentEntry** 
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;Entry>** written content with sha values set
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<Entry>** written content with sha values set
 
 ### baseTreeSha
 
@@ -105,7 +105,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### Parameters
 
--   `sha` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `sha` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### commit
 
@@ -115,9 +115,9 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### Parameters
 
--   `message` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `entries` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;ContentEntry>** 
--   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{}`)
+*   `message` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `entries` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)\<ContentEntry>** 
+*   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{}`)
 
 ### entry
 
@@ -125,30 +125,29 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### Parameters
 
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### maybeEntry
 
 #### Parameters
 
--   `name`  
+*   `name`  
 
 ### tree
 
--   **See: <https://developer.github.com/v3/git/trees/>
-    **
+*   **See**: https://developer.github.com/v3/git/trees/
 
 #### Parameters
 
--   `tree_sha`  
+*   `tree_sha`  
 
 ### removeEntries
 
-<https://developer.github.com/v3/repos/contents/>
+https://developer.github.com/v3/repos/contents/
 
 #### Parameters
 
--   `entries` **Iterator&lt;ContentEntry>** 
+*   `entries` **Iterator\<ContentEntry>** 
 
 ## GithubOwner
 
@@ -156,8 +155,8 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 Represents github repo owner either
 
--   users
--   organization
+*   users
+*   organization
 
 ### createRepository
 
@@ -165,8 +164,8 @@ Represents github repo owner either
 
 #### Parameters
 
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{}`)
+*   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{}`)
 
 Returns **Repository** newly created repository
 
@@ -176,7 +175,7 @@ Returns **Repository** newly created repository
 
 #### Parameters
 
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### attributeMapping
 
@@ -192,7 +191,7 @@ GitHub provider.
 Lookup a repository.
 known environment variables
 
--   GITHUB_TOKEN or GH_TOKEN api token
+*   GITHUB_TOKEN or GH_TOKEN api token
 
 ### Examples
 
@@ -217,14 +216,14 @@ const r6 = ghp.repository('arlac77/github-repository-provider');
 
 All possible base urls
 
--   github:
--   git@github.com
--   git://github.com
--   git+ssh://github.com
--   <https://github.com>
--   git+<https://github.com>
+*   github:
+*   git@github.com
+*   git://github.com
+*   git+ssh://github.com
+*   https://github.com
+*   git+https://github.com
 
-Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** common base urls of all repositories
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** common base urls of all repositories
 
 ### name
 
@@ -248,7 +247,7 @@ Github pull request.
 
 #### Parameters
 
--   `method`   (optional, default `"MERGE"`)
+*   `method`   (optional, default `"MERGE"`)
 
 ### \_write
 
@@ -256,7 +255,7 @@ Github pull request.
 
 All valid merge methods
 
-Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** valid merge methods
+Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** valid merge methods
 
 ### list
 
@@ -264,8 +263,8 @@ Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Glob
 
 #### Parameters
 
--   `repository` **Repository** 
--   `filter` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{}`)
+*   `repository` **Repository** 
+*   `filter` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{}`)
 
 ### open
 
@@ -273,9 +272,9 @@ Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Glob
 
 #### Parameters
 
--   `source` **Branch** 
--   `destination` **Branch** 
--   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+*   `source` **Branch** 
+*   `destination` **Branch** 
+*   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ## GithubRepository
 
@@ -293,7 +292,7 @@ Repository on GitHub.
 
 ### urls
 
-Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** github https url
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** github https url
 
 ### issuesURL
 
@@ -317,7 +316,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 #### Parameters
 
--   `ref` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `ref` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha of the ref
 
@@ -327,7 +326,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 #### Parameters
 
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### initializeHooks
 
