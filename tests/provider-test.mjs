@@ -41,7 +41,6 @@ test("provider unreachable host", async t => {
     );
     t.is(repository, undefined);
   } catch (e) {
-    console.log(e);
     t.is(true, false);
   }
 });
