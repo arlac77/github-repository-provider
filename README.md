@@ -135,7 +135,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ### tree
 
-*   **See**: https://developer.github.com/v3/git/trees/
+*   **See**: <https://developer.github.com/v3/git/trees/>
 
 #### Parameters
 
@@ -143,7 +143,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ### removeEntries
 
-https://developer.github.com/v3/repos/contents/
+<https://developer.github.com/v3/repos/contents/>
 
 #### Parameters
 
@@ -217,11 +217,11 @@ const r6 = ghp.repository('arlac77/github-repository-provider');
 All possible base urls
 
 *   github:
-*   git@github.com
+*   <git@github.com>
 *   git://github.com
 *   git+ssh://github.com
-*   https://github.com
-*   git+https://github.com
+*   <https://github.com>
+*   git+<https://github.com>
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** common base urls of all repositories
 
