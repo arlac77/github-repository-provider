@@ -46,7 +46,7 @@ export class GithubBranch extends Branch {
       return json.tree.sha;  
     }
 
-    throw new Error(`Unable to decode %{res.url}`);
+    throw new Error(`Unable to decode ${res.url}`);
   }
 
   /**
