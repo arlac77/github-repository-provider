@@ -82,8 +82,6 @@ test("ref failure", async t => {
     await repository.refId("invalid ref id ---:dfddd");
     t.fail("no way");
   } catch (e) {
-    console.log(e);
-    t.log(e);
     t.truthy(e.message.match(/Unable to fetch/));
   }
 });
