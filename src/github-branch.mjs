@@ -19,7 +19,7 @@ export class GithubBranch extends Branch {
    * @return {Promise<Entry>} written content with sha values set
    */
   async writeEntry(entry) {
-    const res = await this.provider.fetch(`/repos/${this.slug}/git/blobs`, {
+    const res = await this.provider.fetch(`repos/${this.slug}/git/blobs`, {
       method: "POST",
       body: JSON.stringify({
         content: await entry.getString(),
@@ -39,7 +39,7 @@ export class GithubBranch extends Branch {
    */
   async baseTreeSha(sha) {
     const res = await this.provider.fetch(
-      `/repos/${this.slug}/git/commits/${sha}`
+      `repos/${this.slug}/git/commits/${sha}`
     );
     if(res.ok) {
       const json = await res.json();
@@ -73,7 +73,7 @@ export class GithubBranch extends Branch {
     const shaLatestCommit = await this.refId();
     const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
 
-    let result = await this.provider.fetch(`/repos/${this.slug}/git/trees`, {
+    let result = await this.provider.fetch(`repos/${this.slug}/git/trees`, {
       method: "POST",
       body: JSON.stringify({
         base_tree: shaBaseTree,
@@ -92,7 +92,7 @@ export class GithubBranch extends Branch {
 
     const shaNewTree = json.sha;
 
-    result = await this.provider.fetch(`/repos/${this.slug}/git/commits`, {
+    result = await this.provider.fetch(`repos/${this.slug}/git/commits`, {
       method: "POST",
       body: JSON.stringify({
         message,
@@ -105,7 +105,7 @@ export class GithubBranch extends Branch {
     const sha = json.sha;
 
     result = await this.provider.fetch(
-      `/repos/${this.slug}/git/refs/heads/${this.name}`,
+      `repos/${this.slug}/git/refs/heads/${this.name}`,
       {
         method: "PATCH",
         body: JSON.stringify({
@@ -124,7 +124,7 @@ export class GithubBranch extends Branch {
    */
   async entry(name) {
     const res = await this.provider.fetch(
-      `/repos/${this.slug}/contents/${name}?ref=${this.ref}`
+      `repos/${this.slug}/contents/${name}?ref=${this.ref}`
     );
 
     if (res.status != 200) {
@@ -138,7 +138,7 @@ export class GithubBranch extends Branch {
   /** @inheritdoc */
   async maybeEntry(name) {
     const res = await this.provider.fetch(
-      `/repos/${this.slug}/contents/${name}?ref=${this.ref}`
+      `repos/${this.slug}/contents/${name}?ref=${this.ref}`
     );
     if (res.status === 404) {
       return undefined;
@@ -154,7 +154,7 @@ export class GithubBranch extends Branch {
    */
   async tree(tree_sha) {
     const res = await this.provider.fetch(
-      `/repos/${this.slug}/git/trees/${tree_sha}?recursive=1`
+      `repos/${this.slug}/git/trees/${tree_sha}?recursive=1`
     );
     const json = await res.json();
     return json.tree;
@@ -178,7 +178,7 @@ export class GithubBranch extends Branch {
    */
   async removeEntries(entries) {
     for await (const entry of entries) {
-      await this.provider.fetch(`/repos/${this.slug}/contents/${entry.name}`, {
+      await this.provider.fetch(`repos/${this.slug}/contents/${entry.name}`, {
         method: "DELETE",
         body: JSON.stringify({ branch: this.name, message: "", sha: "" })
       });
@@ -203,7 +203,7 @@ class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
 
     const branch = this.branch;
     const res = await branch.provider.fetch(
-      `/repos/${branch.slug}/contents/${this.name}?ref=${branch.ref}`
+      `repos/${branch.slug}/contents/${this.name}?ref=${branch.ref}`
     );
 
     const json = await res.json();

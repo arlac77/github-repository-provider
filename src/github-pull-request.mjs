@@ -73,7 +73,7 @@ export class GithubPullRequest extends PullRequest {
     }
 
     const res = await destination.provider.fetch(
-      `/repos/${destination.repository.slug}/pulls`,
+      `repos/${destination.repository.slug}/pulls`,
       {
         method: "POST",
         body: JSON.stringify({
@@ -98,7 +98,7 @@ export class GithubPullRequest extends PullRequest {
    */
   async _merge(method = "MERGE") {
     const res = await this.provider.fetch(
-      `/repos/${this.source.repository.slug}/pulls/${this.number}/merge`,
+      `repos/${this.source.repository.slug}/pulls/${this.number}/merge`,
       {
         method: "PUT",
         body: JSON.stringify({ merge_method: method, sha: "???" })
@@ -111,7 +111,7 @@ export class GithubPullRequest extends PullRequest {
    */
   async _write() {
     const res = await this.provider.fetch(
-      `/repos/${this.source.repository.slug}/pulls/${this.number}`,
+      `repos/${this.source.repository.slug}/pulls/${this.number}`,
       {
         method: "PATCH",
         body: JSON.stringify({

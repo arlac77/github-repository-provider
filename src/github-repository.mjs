@@ -33,7 +33,7 @@ export class GithubRepository extends Repository {
   }
 
   async _initializeSlot(typeName, addMethodName) {
-    let next = `/repos/${this.slug}/${typeName}`;
+    let next = `repos/${this.slug}/${typeName}`;
 
     do {
       const response = await this.provider.fetch(next);
@@ -92,7 +92,7 @@ export class GithubRepository extends Repository {
    * {@link https://developer.github.com/v3/repos/#update-a-repository}
    */
   async update() {
-    return this.provider.fetch(`/repos/${this.slug}`, {
+    return this.provider.fetch(`repos/${this.slug}`, {
       method: "PATCH",
       body: JSON.stringify({ description: this.description })
     });
@@ -106,7 +106,7 @@ export class GithubRepository extends Repository {
   async refId(ref) {
     ref = ref.replace(/^refs\//, "");
 
-    const res = await this.provider.fetch(`/repos/${this.slug}/git/ref/${ref}`);
+    const res = await this.provider.fetch(`repos/${this.slug}/git/ref/${ref}`);
 
     if (!res.ok) {
       throw new Error(`Unable to fetch ${res.url}: ${res.code}`);
@@ -188,7 +188,7 @@ export class GithubRepository extends Repository {
    * @param {string} name
    */
   async deletePullRequest(name) {
-    const res = await this.provider.fetch(`/repos/${this.slug}/pulls/${name}`, {
+    const res = await this.provider.fetch(`repos/${this.slug}/pulls/${name}`, {
       method: "PATCH",
       body: JSON.stringify({ state: "closed" })
     });
@@ -202,7 +202,7 @@ export class GithubRepository extends Repository {
    * {@link https://developer.github.com/v3/repos/hooks/}
    */
   async initializeHooks() {
-    let next = `/repos/${this.slug}/hooks`;
+    let next = `repos/${this.slug}/hooks`;
 
     do {
       const response = await this.provider.fetch(next);

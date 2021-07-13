@@ -24,7 +24,7 @@ export class GithubOwner extends RepositoryGroup {
    */
   async createRepository(name, options = {}) {
     const response = await this.provider.fetch(
-      this.type === "Organization" ? `orgs/${this.name}/repos` : "/user/repos",
+      this.type === "Organization" ? `orgs/${this.name}/repos` : "user/repos",
       {
         method: "POST",
         headers: {
@@ -52,7 +52,7 @@ export class GithubOwner extends RepositoryGroup {
    * @param {string} name
    */
   async deleteRepository(name) {
-    const response = await this.provider.fetch(`/repos/${this.name}/${name}`, {
+    const response = await this.provider.fetch(`repos/${this.name}/${name}`, {
       method: "DELETE"
     });
     return super.deleteRepository(name);
