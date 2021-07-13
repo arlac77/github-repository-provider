@@ -72,7 +72,7 @@ export class GithubProvider extends MultiGroupProvider {
         mandatory: true
       },
       priority: { default: 1000.0 },
-      reateLimitRemaining: { writable: true, default: Number.MAX_VALUE }
+      reateLimitRemaining: { writable: true, default: 5000 }
     };
   }
 
@@ -99,9 +99,8 @@ export class GithubProvider extends MultiGroupProvider {
           }
         }),
       (millisecondsToWait, rateLimitRemaining, nthTry, response) => {
-
         this.rateLimitRemaining = rateLimitRemaining;
-        
+
         const msecs = defaultWaitDecide(
           millisecondsToWait,
           rateLimitRemaining,
