@@ -6,7 +6,7 @@ import { getHeaderLink } from "fetch-link-util";
  */
 export class GithubPullRequest extends PullRequest {
   /**
-   * All valid merge methods
+   * All valid merge methods.
    * @return {Set<string>} valid merge methods
    */
   static get validMergeMethods() {
