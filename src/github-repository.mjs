@@ -108,7 +108,7 @@ export class GithubRepository extends Repository {
 
     const res = await this.provider.fetch(`/repos/${this.slug}/git/ref/${ref}`);
 
-    if (!res) {
+    if (!res.ok) {
       throw new Error(`Unable to fetch ${res.url}: ${res.code}`);
     }
 

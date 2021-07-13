@@ -63,11 +63,27 @@ test("create commit into new directory", async t => {
   const branch = await repository.createBranch(newName);
   try {
     const commit = await branch.commit("message text", [
-      new StringContentEntry(`directory-${n}/a/b/c/README.md`, `file content #${n}`)
+      new StringContentEntry(
+        `directory-${n}/a/b/c/README.md`,
+        `file content #${n}`
+      )
     ]);
 
     t.is(commit.ref, `refs/heads/${newName}`);
   } finally {
     await repository.deleteBranch(newName);
+  }
+});
+
+test("ref failure", async t => {
+  const repository = await provider.repository(REPOSITORY_NAME);
+
+  try {
+    await repository.refId("invalid ref id ---:dfddd");
+    t.fail("no way");
+  } catch (e) {
+    console.log(e);
+    t.log(e);
+    t.truthy(e.message.match(/Unable to fetch/));
   }
 });
