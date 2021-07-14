@@ -253,7 +253,7 @@ Github pull request.
 
 ### validMergeMethods
 
-All valid merge methods
+All valid merge methods.
 
 Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** valid merge methods
 
