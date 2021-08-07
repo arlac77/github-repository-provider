@@ -14,23 +14,17 @@ test("hooks list", async t => {
     hooks.push(hook);
   }
 
-  const hook = hooks.find(h => h.url === "https://notify.travis-ci.org");
+  const hook = hooks.find(h => h.url === "https://deepscan.io/api/webhook/github");
 
   t.deepEqual(
     hook.events,
     new Set([
-      "create",
-      "delete",
-      "issue_comment",
-      "member",
-      "public",
       "pull_request",
-      "push",
-      "repository"
+      "push"
     ])
   );
-  t.is(hook.content_type, "form");
-  t.is(hook.url, "https://notify.travis-ci.org");
+  t.is(hook.content_type, "json");
+  t.is(hook.url, "https://deepscan.io/api/webhook/github");
   t.true(hook.active);
   t.is(hook.name, "web");
 
@@ -38,18 +32,13 @@ test("hooks list", async t => {
     name: "web",
     active: true,
     events: [
-      "create",
-      "delete",
-      "issue_comment",
-      "member",
-      "public",
       "pull_request",
-      "push",
-      "repository"
+      "push"
     ],
-    id: 76646763,
+    id: 234751464,
     insecure_ssl: false,
-    content_type: "form",
-    url: "https://notify.travis-ci.org"
+    secret: "********",
+    content_type: "json",
+    url: "https://deepscan.io/api/webhook/github"
   });
 });
