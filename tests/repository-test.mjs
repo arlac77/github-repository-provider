@@ -1,8 +1,8 @@
 import test from "ava";
+import { REPOSITORY_NAME } from "repository-provider-test-support";
+
 import { StringContentEntry } from "content-entry";
 import GithubProvider from "github-repository-provider";
-
-const REPOSITORY_NAME = "arlac77/sync-test-repository";
 
 const provider = GithubProvider.initialize(undefined, process.env);
 
