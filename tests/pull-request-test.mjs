@@ -1,8 +1,18 @@
 import test from "ava";
-import { pullRequestLivecycle, pullRequestList } from "repository-provider-test-support";
-import GithubProvider from "github-repository-provider";
+import { pullRequestLivecycle, pullRequestList, REPOSITORY_NAME } from "repository-provider-test-support";
+import GithubProvider, { GithubPullRequest } from "github-repository-provider";
 
-const REPOSITORY_NAME = "arlac77/sync-test-repository";
+
+test.only("pr url", async t => {
+  const provider = GithubProvider.initialize(undefined, process.env);
+
+  const repository = await provider.repository(REPOSITORY_NAME);
+
+  const branch = await repository.defaultBranch;
+  const pr = new GithubPullRequest(branch, branch, "4711", {});
+
+  t.is(pr.url, "https://github.com/arlac77/sync-test-repository/pull/4711");
+});
 
 test("pr lifecycle", async t => {
   await pullRequestLivecycle(

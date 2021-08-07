@@ -123,4 +123,10 @@ export class GithubPullRequest extends PullRequest {
     );
     console.log(res);
   }
+
+
+  get url() {
+    return `${this.provider.url}${this.source.repository.slug}/pull/${this.name}`;
+    //https://github.com/arlac77/svelte-guard-history-router/pull/575
+  }
 }
