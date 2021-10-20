@@ -127,12 +127,12 @@ export class GithubBranch extends Branch {
       `repos/${this.slug}/contents/${name}?ref=${this.ref}`
     );
 
-    if (res.status != 200) {
-      throw new Error(res.status);
+    if (res.ok) {
+      const json = await res.json();
+      return new this.entryClass(name, Buffer.from(json.content, "base64"));
     }
-    const json = await res.json();
 
-    return new this.entryClass(name, Buffer.from(json.content, "base64"));
+    throw new Error(res.status);
   }
 
   /** @inheritdoc */
@@ -140,12 +140,10 @@ export class GithubBranch extends Branch {
     const res = await this.provider.fetch(
       `repos/${this.slug}/contents/${name}?ref=${this.ref}`
     );
-    if (res.status === 404) {
-      return undefined;
+    if(res.ok) {
+      const json = await res.json();
+      return new this.entryClass(name, Buffer.from(json.content, "base64"));  
     }
-
-    const json = await res.json();
-    return new this.entryClass(name, Buffer.from(json.content, "base64"));
   }
 
   /**
