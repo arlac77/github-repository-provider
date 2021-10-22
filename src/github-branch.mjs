@@ -151,11 +151,18 @@ export class GithubBranch extends Branch {
    * @param tree_sha
    */
   async tree(tree_sha) {
-    const res = await this.provider.fetch(
-      `repos/${this.slug}/git/trees/${tree_sha}?recursive=1`
-    );
+    const url = `repos/${this.slug}/git/trees/${tree_sha}?recursive=1`;
+    let res;
+
+    for(const i = 0; i < 2; i++) {
+      res = await this.provider.fetch(url);
+      if(res.ok) {
+        break;
+      } 
+    }
+
     const json = await res.json();
-    return json.tree;
+    return json.tree;  
   }
 
   async *entries(patterns) {
