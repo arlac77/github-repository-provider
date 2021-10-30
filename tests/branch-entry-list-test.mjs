@@ -7,8 +7,8 @@ const REPOSITORY_NAME = "arlac77/sync-test-repository";
 const provider = GithubProvider.initialize(undefined, process.env);
 
 test("branch entries list", async t => {
-  const repository = await provider.repository(REPOSITORY_NAME);
-  const branch = await repository.branch("master");
+  const branch = await provider.branch(REPOSITORY_NAME);
+
   await entryListTest(t, branch, undefined, {
     "README.md": { startsWith: "fil" },
     "tests/rollup.config.mjs": { startsWith: "import babel" },
@@ -18,8 +18,7 @@ test("branch entries list", async t => {
 });
 
 test("branch entries list with pattern", async t => {
-  const repository = await provider.repository("arlac77/repository-provider");
-  const branch = await repository.branch("master");
+  const branch = await provider.branch("arlac77/repository-provider");
 
   await entryListTest(t, branch, ["**/*.mjs", "!tests/*.mjs"], {
    // "tests/repository-test.mjs": { notPresent: true },
@@ -28,9 +27,7 @@ test("branch entries list with pattern", async t => {
 });
 
 test("branch entry", async t => {
-  const repository = await provider.repository(REPOSITORY_NAME);
-  const branch = await repository.branch("master");
-
+  const branch = await provider.branch(REPOSITORY_NAME);
   const entry = await branch.entry("README.md");
 
   t.is(entry.name, "README.md");
@@ -39,8 +36,8 @@ test("branch entry", async t => {
 });
 
 test("branch missing entry", async t => {
-  const repository = await provider.repository(REPOSITORY_NAME);
-  const branch = await repository.branch("master");
+  const branch = await provider.branch(REPOSITORY_NAME);
+
   await t.throwsAsync(async () => branch.entry("missing/file"), {
     instanceOf: Error,
     message: "404"
