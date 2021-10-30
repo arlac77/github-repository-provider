@@ -203,6 +203,10 @@ class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
     });
   }
 
+  get buffer() {
+    return this.getBuffer();
+  }
+
   async getBuffer() {
     if(this._buffer) { return this._buffer; }
 
