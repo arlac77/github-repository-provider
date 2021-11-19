@@ -24,6 +24,7 @@ export class GithubRepository extends Repository {
       allow_squash_merge: { type: "boolean" },
       allow_merge_commit: { type: "boolean" },
       allow_rebase_merge: { type: "boolean" },
+      allow_auto_merge: { type: "boolean" },
       delete_branch_on_merge: { type: "boolean" }
     };
   }
