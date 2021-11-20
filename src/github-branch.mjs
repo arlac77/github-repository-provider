@@ -22,7 +22,7 @@ export class GithubBranch extends Branch {
     const res = await this.provider.fetch(`repos/${this.slug}/git/blobs`, {
       method: "POST",
       body: JSON.stringify({
-        content: await entry.getString(),
+        content: await entry.string,
         encoding: "utf8"
       })
     });
@@ -198,9 +198,7 @@ export class GithubBranch extends Branch {
 class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
   constructor(name, branch) {
     super(name);
-    Object.defineProperties(this, {
-      branch: { value: branch }
-    });
+    this.branch = branch;
   }
 
   get buffer() {

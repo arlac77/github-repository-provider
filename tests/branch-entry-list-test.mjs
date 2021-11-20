@@ -1,8 +1,6 @@
 import test from "ava";
 import GithubProvider from "github-repository-provider";
-import { entryListTest } from "repository-provider-test-support";
-
-const REPOSITORY_NAME = "arlac77/sync-test-repository";
+import { entryListTest, REPOSITORY_NAME } from "repository-provider-test-support";
 
 const provider = GithubProvider.initialize(undefined, process.env);
 
@@ -32,7 +30,7 @@ test("branch entry", async t => {
 
   t.is(entry.name, "README.md");
   t.is(entry.buffer.length >= 5, true);
-  t.is((await entry.getString()).substring(0, 3), "fil");
+  t.is((await entry.string).substring(0, 3), "fil");
 });
 
 test("branch missing entry", async t => {
