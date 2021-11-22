@@ -11,7 +11,6 @@ import {
  * Branch on GitHub.
  */
 export class GithubBranch extends Branch {
-
   /**
    * Writes content into the branch
    * {@link https://developer.github.com/v3/git/blobs/#get-a-blob}
@@ -41,9 +40,9 @@ export class GithubBranch extends Branch {
     const res = await this.provider.fetch(
       `repos/${this.slug}/git/commits/${sha}`
     );
-    if(res.ok) {
+    if (res.ok) {
       const json = await res.json();
-      return json.tree.sha;  
+      return json.tree.sha;
     }
 
     throw new Error(`Unable to decode ${res.url}`);
@@ -140,29 +139,30 @@ export class GithubBranch extends Branch {
     const res = await this.provider.fetch(
       `repos/${this.slug}/contents/${name}?ref=${this.ref}`
     );
-    if(res.ok) {
+    if (res.ok) {
       const json = await res.json();
-      return new this.entryClass(name, Buffer.from(json.content, "base64"));  
+      return new this.entryClass(name, Buffer.from(json.content, "base64"));
     }
   }
 
   /**
    * @see https://developer.github.com/v3/git/trees/
    * @param tree_sha
+   * @return {Object[]}
    */
   async tree(tree_sha) {
     const url = `repos/${this.slug}/git/trees/${tree_sha}?recursive=1`;
-    let res;
 
-    for(const i = 0; i < 2; i++) {
+    let res;
+    for (const i = 0; i < 3; i++) {
       res = await this.provider.fetch(url);
-      if(res.ok) {
-        break;
-      } 
+      if (res.ok) {
+        const json = await res.json();
+        return json.tree;
+      }
     }
 
-    const json = await res.json();
-    return json.tree;  
+    throw new Error(res.status);
   }
 
   async *entries(patterns) {
@@ -206,7 +206,9 @@ class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
   }
 
   async getBuffer() {
-    if(this._buffer) { return this._buffer; }
+    if (this._buffer) {
+      return this._buffer;
+    }
 
     const branch = this.branch;
     const res = await branch.provider.fetch(
