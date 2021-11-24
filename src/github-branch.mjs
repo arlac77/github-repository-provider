@@ -130,7 +130,7 @@ export class GithubBranch extends Branch {
       const json = await res.json();
       return new this.entryClass(name, Buffer.from(json.content, "base64"));
     }
-
+  
     throw new Error(res.status);
   }
 
@@ -161,6 +161,9 @@ export class GithubBranch extends Branch {
         return json.tree;
       }
     }
+
+    // errno: 'ERR_STREAM_PREMATURE_CLOSE',
+    // code: 'ERR_STREAM_PREMATURE_CLOSE',
 
     throw new Error(res.status);
   }
