@@ -11,7 +11,7 @@ test(providerTest, provider);
 
 test("provider factory name", t => t.is(GithubProvider.name, "github"));
 
-test.only("provider", async t => {
+test("provider", async t => {
   t.is(provider.priority, 1000.0);
   t.is(provider.name, "github");
   t.true(provider.reateLimitRemaining >= 0 && provider.reateLimitRemaining <= Number.MAX_VALUE, "rate limit remaining is present");
