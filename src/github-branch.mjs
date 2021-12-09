@@ -81,7 +81,7 @@ export class GithubBranch extends Branch {
             path: u.name,
             sha: u.sha,
             type: "blob",
-            mode: "100" + u.unixMode.toString(8)
+            mode: "100" + u.mode.toString(8)
           };
         })
       })
