@@ -20,12 +20,12 @@ export class GithubRepository extends Repository {
   static get attributes() {
     return {
       ...super.attributes,
-      auto_init: { type: "boolean" },
-      allow_squash_merge: { type: "boolean" },
-      allow_merge_commit: { type: "boolean" },
-      allow_rebase_merge: { type: "boolean" },
-      allow_auto_merge: { type: "boolean" },
-      delete_branch_on_merge: { type: "boolean" }
+      auto_init: { type: "boolean", writable: true },
+      allow_squash_merge: { type: "boolean", writable: true },
+      allow_merge_commit: { type: "boolean", writable: true },
+      allow_rebase_merge: { type: "boolean", writable: true },
+      allow_auto_merge: { type: "boolean", writable: true },
+      delete_branch_on_merge: { type: "boolean", writable: true }
     };
   }
 
