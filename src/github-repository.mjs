@@ -95,7 +95,12 @@ export class GithubRepository extends Repository {
   async update() {
     return this.provider.fetch(`repos/${this.slug}`, {
       method: "PATCH",
-      body: JSON.stringify({ description: this.description })
+      body: JSON.stringify(
+        mapAttributesInverse(
+          optionJSON(this, undefined, this.constructor.writableAttributes),
+          this.constructor.attributeMapping
+        )
+      )
     });
   }
 
