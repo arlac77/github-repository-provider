@@ -154,7 +154,7 @@ export class GithubBranch extends Branch {
     const url = `repos/${this.slug}/git/trees/${treeSha}?recursive=1`;
 
     let res;
-    for (const i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i++) {
       try {
         res = await this.provider.fetch(url);
         if (res.ok) {
