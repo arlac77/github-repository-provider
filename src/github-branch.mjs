@@ -155,16 +155,22 @@ export class GithubBranch extends Branch {
 
     let res;
     for (const i = 0; i < 3; i++) {
-      res = await this.provider.fetch(url);
-      if (res.ok) {
-        const json = await res.json();
-        return json.tree;
+      try {
+        res = await this.provider.fetch(url);
+        if (res.ok) {
+          const json = await res.json();
+          return json.tree;
+        }
+      } catch (e) {
+        // errno: 'ERR_STREAM_PREMATURE_CLOSE',
+      // code: 'ERR_STREAM_PREMATURE_CLOSE',
+
+        console.error(e);
+        this.error(e);
       }
     }
 
     console.log(res.errno, res.code);
-    // errno: 'ERR_STREAM_PREMATURE_CLOSE',
-    // code: 'ERR_STREAM_PREMATURE_CLOSE',
 
     throw new Error(res.status);
   }
