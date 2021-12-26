@@ -116,45 +116,60 @@ export class GithubProvider extends MultiGroupProvider {
     );
   }
 
+  async fetchJSON(url, options) {
+    for (let i = 0; i < 3; i++) {
+      try {
+        const response = await this.fetch(url, options);
+        if (!response.ok) {
+          this.error(`Unable to fetch ${response.status} ${response.url}`);
+          throw new Error(`Unable to fetch ${response.status} ${response.url}`);
+          //break;
+        }
+        return await response.json();
+      } catch (e) {
+        this.error(e);
+        throw e;
+      }
+    }
+  }
+
   /**
    * {@link https://developer.github.com/v3/repos/#list-repositories-for-the-authenticated-user}
    */
   async initializeRepositories() {
     for (let page = 1; ; page++) {
-      for (let i = 0; i < 3; i++) {
-        const response = await this.fetch(
-          `user/repos?page=${page}&per_page=100`,
-          {
-            headers: {
-              accept: "application/vnd.github.v3+json"
-            }
+      const response = await this.fetch(
+        `user/repos?page=${page}&per_page=100`,
+        {
+          headers: {
+            accept: "application/vnd.github.v3+json"
           }
+        }
+      );
+
+      if (!response.ok) {
+        this.error(
+          `Unable to fetch repositories ${response.status} ${response.url}`
         );
+        return;
+      }
 
-        if (!response.ok) {
-          this.error(
-            `Unable to fetch repositories ${response.status} ${response.url}`
+      try {
+        const json = await response.json();
+
+        if (json.length === 0 || !Array.isArray(json)) {
+          break;
+        }
+
+        json.forEach(r => {
+          const [groupName, repoName] = r.full_name.split(/\//);
+          this.addRepositoryGroup(groupName, r.owner).addRepository(
+            repoName,
+            r
           );
-          return;
-        }
-
-        try {
-          const json = await response.json();
-
-          if (json.length === 0 || !Array.isArray(json)) {
-            break;
-          }
-
-          json.forEach(r => {
-            const [groupName, repoName] = r.full_name.split(/\//);
-            this.addRepositoryGroup(groupName, r.owner).addRepository(
-              repoName,
-              r
-            );
-          });
-        } catch (e) {
-          this.error(e);
-        }
+        });
+      } catch (e) {
+        this.error(e);
       }
     }
   }
