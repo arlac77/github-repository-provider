@@ -42,7 +42,7 @@ export class GithubProvider extends MultiGroupProvider {
    * @return {string} default instance environment name prefix
    */
   static get instanceIdentifier() {
-    return "GITHUB_"
+    return "GITHUB_";
   }
 
   static get attributes() {
@@ -121,29 +121,41 @@ export class GithubProvider extends MultiGroupProvider {
    */
   async initializeRepositories() {
     for (let page = 1; ; page++) {
-      const response = await this.fetch(`user/repos?page=${page}`, {
-        headers: {
-          accept: "application/vnd.github.baptiste-preview+json"
-        }
-      });
-
-      if (!response.ok) {
-        this.error(
-          `Unable to fetch repositories ${response.status} ${response.url}`
+      for (let i = 0; i < 3; i++) {
+        const response = await this.fetch(
+          `user/repos?page=${page}&per_page=100`,
+          {
+            headers: {
+              accept: "application/vnd.github.v3+json"
+            }
+          }
         );
-        return;
+
+        if (!response.ok) {
+          this.error(
+            `Unable to fetch repositories ${response.status} ${response.url}`
+          );
+          return;
+        }
+
+        try {
+          const json = await response.json();
+
+          if (json.length === 0 || !Array.isArray(json)) {
+            break;
+          }
+
+          json.forEach(r => {
+            const [groupName, repoName] = r.full_name.split(/\//);
+            this.addRepositoryGroup(groupName, r.owner).addRepository(
+              repoName,
+              r
+            );
+          });
+        } catch (e) {
+          this.error(e);
+        }
       }
-
-      const json = await response.json();
-
-      if (json.length === 0 || !Array.isArray(json)) {
-        break;
-      }
-
-      json.forEach(r => {
-        const [groupName, repoName] = r.full_name.split(/\//);
-        this.addRepositoryGroup(groupName, r.owner).addRepository(repoName, r);
-      });
     }
   }
 

@@ -163,9 +163,8 @@ export class GithubBranch extends Branch {
         }
       } catch (e) {
         // errno: 'ERR_STREAM_PREMATURE_CLOSE',
-      // code: 'ERR_STREAM_PREMATURE_CLOSE',
-
-        console.error(e);
+        // code: 'ERR_STREAM_PREMATURE_CLOSE',
+        
         this.error(e);
       }
     }
