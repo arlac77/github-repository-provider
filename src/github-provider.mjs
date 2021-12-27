@@ -139,7 +139,7 @@ export class GithubProvider extends MultiGroupProvider {
   async initializeRepositories() {
     for (let page = 1; ; page++) {
       const response = await this.fetch(
-        `user/repos?page=${page}&per_page=100`,
+        `user/repos?page=${page}&per_page=30`,
         {
           headers: {
             accept: "application/vnd.github.v3+json"
