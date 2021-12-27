@@ -142,7 +142,8 @@ export class GithubProvider extends MultiGroupProvider {
         `user/repos?page=${page}&per_page=30`,
         {
           headers: {
-            accept: "application/vnd.github.v3+json"
+            accept: "application/vnd.github.baptiste-preview+json"
+//            accept: "application/vnd.github.v3+json"
           }
         }
       );
