@@ -123,7 +123,6 @@ export class GithubProvider extends MultiGroupProvider {
         if (!response.ok) {
           this.error(`Unable to fetch ${response.status} ${response.url}`);
           throw new Error(`Unable to fetch ${response.status} ${response.url}`);
-          //break;
         }
         return await response.json();
       } catch (e) {
@@ -138,26 +137,16 @@ export class GithubProvider extends MultiGroupProvider {
    */
   async initializeRepositories() {
     for (let page = 1; ; page++) {
-      const response = await this.fetch(
-        `user/repos?page=${page}&per_page=30`,
-        {
-          headers: {
-            accept: "application/vnd.github.baptiste-preview+json"
-//            accept: "application/vnd.github.v3+json"
-          }
-        }
-      );
-
-      if (!response.ok) {
-        this.error(
-          `Unable to fetch repositories ${response.status} ${response.url}`
-        );
-        return;
-      }
-
       try {
-        const json = await response.json();
-
+        const json = await this.fetchJSON(
+          `user/repos?page=${page}&per_page=100`,
+          {
+            headers: {
+              accept: "application/vnd.github.baptiste-preview+json"
+              //            accept: "application/vnd.github.v3+json"
+            }
+          }
+        );
         if (json.length === 0 || !Array.isArray(json)) {
           break;
         }
@@ -170,7 +159,7 @@ export class GithubProvider extends MultiGroupProvider {
           );
         });
       } catch (e) {
-        this.error(e);
+        return;
       }
     }
   }
