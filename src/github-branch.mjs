@@ -72,7 +72,7 @@ export class GithubBranch extends Branch {
     const shaLatestCommit = await this.refId();
     const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
 
-    let result = await this.provider.fetch(`repos/${this.slug}/git/trees`, {
+    let json = await this.provider.fetchJSON(`repos/${this.slug}/git/trees`, {
       method: "POST",
       body: JSON.stringify({
         base_tree: shaBaseTree,
@@ -87,11 +87,9 @@ export class GithubBranch extends Branch {
       })
     });
 
-    let json = await result.json();
-
     const shaNewTree = json.sha;
 
-    result = await this.provider.fetch(`repos/${this.slug}/git/commits`, {
+    json = await this.provider.fetchJSON(`repos/${this.slug}/git/commits`, {
       method: "POST",
       body: JSON.stringify({
         message,
@@ -99,11 +97,10 @@ export class GithubBranch extends Branch {
         parents: [shaLatestCommit]
       })
     });
-    json = await result.json();
 
     const sha = json.sha;
 
-    result = await this.provider.fetch(
+    return await this.provider.fetchJSON(
       `repos/${this.slug}/git/refs/heads/${this.name}`,
       {
         method: "PATCH",
@@ -113,8 +110,6 @@ export class GithubBranch extends Branch {
         })
       }
     );
-
-    return result.json();
   }
 
   /**
