@@ -112,13 +112,7 @@ export class GithubRepository extends Repository {
   async refId(ref) {
     ref = ref.replace(/^refs\//, "");
 
-    const res = await this.provider.fetch(`repos/${this.slug}/git/ref/${ref}`);
-
-    if (!res.ok) {
-      throw new Error(`Unable to fetch ${res.url}: ${res.code}`);
-    }
-
-    const json = await res.json();
+    const json = await this.provider.fetchJSON(`repos/${this.slug}/git/ref/${ref}`);
 
     // TODO why does this happen ?
     if (!json.object.sha) {
@@ -153,12 +147,11 @@ export class GithubRepository extends Repository {
       console.log(res);
       */
     } else {
-      const res = await this.provider.fetch(
+      const json = await this.provider.fetchJSON(
         `repos/${this.slug}/git/ref/heads/${
           from === undefined ? this.defaultBranchName : from.name
         }`
       );
-      let json = await res.json();
       sha = json.object.sha;
     }
 
