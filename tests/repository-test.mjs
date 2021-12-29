@@ -17,7 +17,8 @@ test.only("repository writableAttributes", async t => {
     ),
     {
       description: "test template-tools",
-      archived: false
+      archived: false,
+      homePageURL: 'https://github.com/arlac77/sync-test-repository#readme'
     }
   );
 });
