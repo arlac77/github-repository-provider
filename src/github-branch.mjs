@@ -204,11 +204,10 @@ class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
     }
 
     const branch = this.branch;
-    const res = await branch.provider.fetch(
+    const json = await branch.provider.fetchJSON(
       `repos/${branch.slug}/contents/${this.name}?ref=${branch.ref}`
     );
 
-    const json = await res.json();
     this._buffer = Buffer.from(json.content, "base64");
     return this._buffer;
   }
