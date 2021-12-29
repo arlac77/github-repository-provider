@@ -36,15 +36,10 @@ export class GithubBranch extends Branch {
    * @param {string} sha
    */
   async baseTreeSha(sha) {
-    const res = await this.provider.fetch(
+    const json = await this.provider.fetchJSON(
       `repos/${this.slug}/git/commits/${sha}`
     );
-    if (res.ok) {
-      const json = await res.json();
-      return json.tree.sha;
-    }
-
-    throw new Error(`Unable to decode ${res.url}`);
+    return json.tree.sha;
   }
 
   /**
@@ -158,7 +153,7 @@ export class GithubBranch extends Branch {
       } catch (e) {
         // errno: 'ERR_STREAM_PREMATURE_CLOSE',
         // code: 'ERR_STREAM_PREMATURE_CLOSE',
-        
+
         this.error(e);
       }
     }
