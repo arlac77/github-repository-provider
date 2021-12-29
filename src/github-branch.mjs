@@ -111,16 +111,11 @@ export class GithubBranch extends Branch {
    * @param {string} name
    */
   async entry(name) {
-    const res = await this.provider.fetch(
+    const json = await this.provider.fetchJSON(
       `repos/${this.slug}/contents/${name}?ref=${this.ref}`
     );
 
-    if (res.ok) {
-      const json = await res.json();
-      return new this.entryClass(name, Buffer.from(json.content, "base64"));
-    }
-
-    throw new Error(res.status);
+    return new this.entryClass(name, Buffer.from(json.content, "base64"));
   }
 
   /** @inheritdoc */
