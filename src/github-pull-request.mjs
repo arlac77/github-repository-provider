@@ -72,7 +72,7 @@ export class GithubPullRequest extends PullRequest {
       return p;
     }
 
-    const res = await destination.provider.fetch(
+    const json = await destination.provider.fetchJSON(
       `repos/${destination.repository.slug}/pulls`,
       {
         method: "POST",
@@ -84,13 +84,7 @@ export class GithubPullRequest extends PullRequest {
       }
     );
 
-    const json = await res.json();
-
-    if (res.ok) {
-      return new this(source, destination, json.number, json);
-    }
-
-    throw new Error(json.errors.map(e => e.message).join(";"));
+    return new this(source, destination, json.number, json);
   }
 
   /**
