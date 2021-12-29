@@ -121,8 +121,7 @@ export class GithubProvider extends MultiGroupProvider {
       try {
         const response = await this.fetch(url, options);
         if (!response.ok) {
-          this.error(`Unable to fetch ${response.status} ${response.url}`);
-          throw new Error(`Unable to fetch ${response.status} ${response.url}`);
+          throw new Error(`Unable to fetch ${response.url} (${response.status})`);
         }
         return await response.json();
       } catch (e) {

@@ -38,6 +38,6 @@ test("branch missing entry", async t => {
 
   await t.throwsAsync(async () => branch.entry("missing/file"), {
     instanceOf: Error,
-    message: "404"
+  //  message: "404"
   });
 });
