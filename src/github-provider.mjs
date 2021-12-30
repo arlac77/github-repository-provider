@@ -117,16 +117,21 @@ export class GithubProvider extends MultiGroupProvider {
   }
 
   async fetchJSON(url, options) {
-    for (let i = 0; i < 3; i++) {
+    let i = 1;
+    while (true) {
       try {
         const response = await this.fetch(url, options);
         if (!response.ok) {
-          throw new Error(`Unable to fetch ${response.url} (${response.status})`);
+          throw new Error(
+            `Unable to fetch ${response.url} (${response.status}) try #${i}`
+          );
         }
         return await response.json();
       } catch (e) {
+        if (i++ >= 3) {
+          throw e;
+        }
         this.error(e);
-        throw e;
       }
     }
   }
