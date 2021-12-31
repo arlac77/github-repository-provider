@@ -39,12 +39,12 @@ export class GithubOwner extends RepositoryGroup {
     );
 
     if (response.ok) {
-      this.provider.info(`Repository ${name} created`);
+      this.info(`Repository ${name} created`);
       options.defaultBranchName = "main";
       return this.addRepository(name, options);
     }
 
-    this.provider.error(`Repository ${name} creation error ${response.status}`);
+    this.error(`Repository ${name} creation error ${response.status}`);
   }
 
   /**
