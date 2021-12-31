@@ -28,11 +28,6 @@ test("provider", async t => {
   t.is(branch.name, "master");
 });
 
-test.skip("provider create repo", async t => {
-  const repository = await provider.createRepository("arlac77/test-repo-1");
-  t.is(repository.name, "arlac77/test-repo-1");
-});
-
 test("provider unreachable host", async t => {
   try {
     const provider = new GithubProvider();
