@@ -64,9 +64,22 @@ export class GithubProvider extends MultiGroupProvider {
         set: value => value.replace(/\/$/, ""),
         default: `https://api.${domain}`
       },
+      /*
+      domain : {
+        type: "string",
+        env: ["GH_HOST"],
+        default: "github.com"
+      },
+      */
       "authentication.token": {
         type: "string",
-        env: ["{{instanceIdentifier}}TOKEN", "GH_TOKEN"],
+        // @see https://cli.github.com/manual/gh_help_environment
+        env: [
+          "{{instanceIdentifier}}TOKEN",
+          "GH_TOKEN",
+          "GITHUB_ENTERPRISE_TOKEN",
+          "GH_ENTERPRISE_TOKEN"
+        ],
         additionalAttributes: { "authentication.type": "token" },
         private: true,
         mandatory: true
