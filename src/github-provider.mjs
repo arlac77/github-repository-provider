@@ -101,14 +101,15 @@ export class GithubProvider extends MultiGroupProvider {
 
   fetch(url, options = {}) {
     return rateLimitHandler(
-      () =>
-        fetch(new URL(url, this.api), {
-          ...options,
-          headers: {
-            authorization: `token ${this.authentication.token}`,
-            ...options.headers
-          }
-        }),
+      fetch,
+      new URL(url, this.api),
+      {
+        ...options,
+        headers: {
+          authorization: `token ${this.authentication.token}`,
+          ...options.headers
+        }
+      },
       (millisecondsToWait, rateLimitRemaining, nthTry, response) => {
         this.rateLimitRemaining = rateLimitRemaining;
 
@@ -222,11 +223,3 @@ replaceWithOneTimeExecutionMethod(
 );
 
 export default GithubProvider;
-
-/*
-{
-  "400" : { repeat: 3, timeout: 100 }
-  "401" : { repeat: 0 }
-  "500" : { repeat: 3, timeout: 100 }
-}
-*/
