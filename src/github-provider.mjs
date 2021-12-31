@@ -211,3 +211,11 @@ replaceWithOneTimeExecutionMethod(
 );
 
 export default GithubProvider;
+
+/*
+{
+  "400" : { repeat: 3, timeout: 100 }
+  "401" : { repeat: 0 }
+  "500" : { repeat: 3, timeout: 100 }
+}
+*/
