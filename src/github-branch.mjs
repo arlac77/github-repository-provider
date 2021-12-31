@@ -135,27 +135,10 @@ export class GithubBranch extends Branch {
    * @return {Object[]}
    */
   async tree(treeSha) {
-    const url = `repos/${this.slug}/git/trees/${treeSha}?recursive=1`;
-
-    let res;
-    for (let i = 0; i < 3; i++) {
-      try {
-        res = await this.provider.fetch(url);
-        if (res.ok) {
-          const json = await res.json();
-          return json.tree;
-        }
-      } catch (e) {
-        // errno: 'ERR_STREAM_PREMATURE_CLOSE',
-        // code: 'ERR_STREAM_PREMATURE_CLOSE',
-
-        this.error(e);
-      }
-    }
-
-    console.log(res.errno, res.code);
-
-    throw new Error(res.status);
+    const json = await this.provider.fetchJSON(
+      `repos/${this.slug}/git/trees/${treeSha}?recursive=1`
+    );
+    return json.tree;
   }
 
   async *entries(patterns) {
