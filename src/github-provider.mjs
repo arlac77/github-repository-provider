@@ -42,7 +42,7 @@ export class GithubProvider extends MultiGroupProvider {
    * @return {string} default instance environment name prefix
    */
   static get instanceIdentifier() {
-    return "GITHUB_";
+    return "GITHUB_"; // "GH_" "GH_ENTERPRISE_"
   }
 
   static get attributes() {
@@ -74,9 +74,7 @@ export class GithubProvider extends MultiGroupProvider {
         // @see https://cli.github.com/manual/gh_help_environment
         env: [
           "{{instanceIdentifier}}TOKEN",
-          "GH_TOKEN",
-          "GITHUB_ENTERPRISE_TOKEN",
-          "GH_ENTERPRISE_TOKEN"
+          "GH_TOKEN" // declare GH_ as identifier
         ],
         additionalAttributes: { "authentication.type": "token" },
         private: true,
