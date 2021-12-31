@@ -9,7 +9,7 @@ import { GithubOwner } from "./github-owner.mjs";
 import { GithubPullRequest } from "./github-pull-request.mjs";
 export { GithubRepository, GithubBranch, GithubOwner, GithubPullRequest };
 
-const domain = "github.com";
+const host = "github.com";
 
 /**
  * <!-- skip-example -->
@@ -48,29 +48,27 @@ export class GithubProvider extends MultiGroupProvider {
   static get attributes() {
     return {
       ...super.attributes,
+      host: {
+        type: "string",
+        env: ["{{instanceIdentifier}}HOST", "GH_HOST"],
+        default: "github.com"
+      },
       ssh: {
         type: "url",
-        default: `git@${domain}:`
+        default: `git@${host}:`
       },
       url: {
         type: "url",
         env: ["{{instanceIdentifier}}SERVER_URL"],
         set: value => (value.endsWith("/") ? value : value + "/"),
-        default: `https://${domain}/`
+        default: `https://${host}/`
       },
       api: {
         type: "url",
         env: ["{{instanceIdentifier}}API_URL"],
         set: value => value.replace(/\/$/, ""),
-        default: `https://api.${domain}`
+        default: `https://api.${host}`
       },
-      /*
-      domain : {
-        type: "string",
-        env: ["GH_HOST"],
-        default: "github.com"
-      },
-      */
       "authentication.token": {
         type: "string",
         // @see https://cli.github.com/manual/gh_help_environment
@@ -199,9 +197,9 @@ export class GithubProvider extends MultiGroupProvider {
     return super.repositoryBases.concat([
       this.url,
       "git+" + this.url,
-      `git+ssh://${domain}`,
-      `git://${domain}/`,
-      `git@${domain}:`
+      `git+ssh://${host}`,
+      `git://${host}/`,
+      `git@${host}:`
     ]);
   }
 
