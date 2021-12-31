@@ -35,17 +35,6 @@ export class GithubBranch extends Branch {
   }
 
   /**
-   * {@link https://developer.github.com/v3/git/commits/#get-a-commit}
-   * @param {string} sha
-   */
-  async baseTreeSha(sha) {
-    const { json } = await this.provider.fetchJSON(
-      `repos/${this.slug}/git/commits/${sha}`
-    );
-    return json.tree.sha;
-  }
-
-  /**
    * {@link https://developer.github.com/v3/git/trees/#create-a-tree}
    * {@link https://developer.github.com/v3/git/commits/#create-a-commit}
    * {@link https://developer.github.com/v3/git/refs/#update-a-reference}
@@ -133,6 +122,17 @@ export class GithubBranch extends Branch {
       const json = await res.json();
       return new this.entryClass(name, Buffer.from(json.content, "base64"));
     }
+  }
+
+  /**
+   * {@link https://developer.github.com/v3/git/commits/#get-a-commit}
+   * @param {string} sha
+   */
+  async baseTreeSha(sha) {
+    const { json } = await this.provider.fetchJSON(
+      `repos/${this.slug}/git/commits/${sha}`
+    );
+    return json.tree.sha;
   }
 
   /**
