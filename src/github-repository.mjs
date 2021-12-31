@@ -37,16 +37,7 @@ export class GithubRepository extends Repository {
     let next = `repos/${this.slug}/${typeName}`;
 
     do {
-      const response = await this.provider.fetch(next);
-
-      if (!response.ok) {
-        this.error(
-          `Unable to fetch ${typeName} ${response.status} ${response.url}`
-        );
-        return;
-      }
-
-      const json = await response.json();
+      const { response, json } = await this.provider.fetchJSON(next);
       json.forEach(b => this[addMethodName](b.name, b));
       next = getHeaderLink(response.headers);
     } while (next);
@@ -112,7 +103,9 @@ export class GithubRepository extends Repository {
   async refId(ref) {
     ref = ref.replace(/^refs\//, "");
 
-    const json = await this.provider.fetchJSON(`repos/${this.slug}/git/ref/${ref}`);
+    const { json } = await this.provider.fetchJSON(
+      `repos/${this.slug}/git/ref/${ref}`
+    );
 
     // TODO why does this happen ?
     if (!json.object.sha) {
@@ -147,7 +140,7 @@ export class GithubRepository extends Repository {
       console.log(res);
       */
     } else {
-      const json = await this.provider.fetchJSON(
+      const { json } = await this.provider.fetchJSON(
         `repos/${this.slug}/git/ref/heads/${
           from === undefined ? this.defaultBranchName : from.name
         }`
@@ -204,9 +197,9 @@ export class GithubRepository extends Repository {
     let next = `repos/${this.slug}/hooks`;
 
     do {
-      const response = await this.provider.fetch(next);
+      const { response, json } = await this.provider.fetchJSON(next);
 
-      for (const h of await response.json()) {
+      for (const h of json) {
         const id = h.id;
         delete h.id;
         new this.hookClass(this, id, new Set(h.events), {

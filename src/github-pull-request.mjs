@@ -43,8 +43,8 @@ export class GithubPullRequest extends PullRequest {
 
       do {
         const provider = repository.provider;
-        const response = await provider.fetch(next);
-        for (const node of await response.json()) {
+        const { response, json } = await provider.fetchJSON(next);
+        for (const node of json) {
           const [source, dest] = await Promise.all(
             [node.head, node.base].map(r =>
               provider.branch([r.repo.full_name, r.ref].join("#"))
@@ -72,7 +72,7 @@ export class GithubPullRequest extends PullRequest {
       return p;
     }
 
-    const json = await destination.provider.fetchJSON(
+    const { json } = await destination.provider.fetchJSON(
       `repos/${destination.repository.slug}/pulls`,
       {
         method: "POST",

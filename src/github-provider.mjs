@@ -117,18 +117,24 @@ export class GithubProvider extends MultiGroupProvider {
   }
 
   async fetchJSON(url, options) {
-    let i = 1;
-    while (true) {
+    for (let i = 1; ; i++) {
       try {
         const response = await this.fetch(url, options);
-        if (!response.ok) {
+        if (response.ok) {
+          return { response, json: await response.json() };
+        }
+
+        if (i >= 3 || response.status == 401) {
+          // none repeatable
           throw new Error(
-            `Unable to fetch ${response.url} (${response.status}) try #${i}`
+            `Unable to fetch ${response.url} (${response.status})`
           );
         }
-        return await response.json();
+        this.info(
+          `Unable to fetch ${response.url} (${response.status}) try #${i}`
+        );
       } catch (e) {
-        if (i++ >= 3) {
+        if (i >= 3) {
           throw e;
         }
         this.error(e);
@@ -140,9 +146,9 @@ export class GithubProvider extends MultiGroupProvider {
    * {@link https://developer.github.com/v3/repos/#list-repositories-for-the-authenticated-user}
    */
   async initializeRepositories() {
-    for (let page = 1; ; page++) {
-      try {
-        const json = await this.fetchJSON(
+    try {
+      for (let page = 1; ; page++) {
+        const { json } = await this.fetchJSON(
           `user/repos?page=${page}&per_page=100`,
           {
             headers: {
@@ -162,10 +168,8 @@ export class GithubProvider extends MultiGroupProvider {
             r
           );
         });
-      } catch (e) {
-        return;
       }
-    }
+    } catch {}
   }
 
   /**

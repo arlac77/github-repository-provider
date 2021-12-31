@@ -18,13 +18,16 @@ export class GithubBranch extends Branch {
    * @return {Promise<ConentEntry>} written content with sha values set
    */
   async writeEntry(entry) {
-    const json = await this.provider.fetchJSON(`repos/${this.slug}/git/blobs`, {
-      method: "POST",
-      body: JSON.stringify({
-        content: await entry.string,
-        encoding: "utf8"
-      })
-    });
+    const { json } = await this.provider.fetchJSON(
+      `repos/${this.slug}/git/blobs`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          content: await entry.string,
+          encoding: "utf8"
+        })
+      }
+    );
 
     entry.sha = json.sha;
 
@@ -36,7 +39,7 @@ export class GithubBranch extends Branch {
    * @param {string} sha
    */
   async baseTreeSha(sha) {
-    const json = await this.provider.fetchJSON(
+    const { json } = await this.provider.fetchJSON(
       `repos/${this.slug}/git/commits/${sha}`
     );
     return json.tree.sha;
@@ -66,24 +69,27 @@ export class GithubBranch extends Branch {
     const shaLatestCommit = await this.refId();
     const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
 
-    let json = await this.provider.fetchJSON(`repos/${this.slug}/git/trees`, {
-      method: "POST",
-      body: JSON.stringify({
-        base_tree: shaBaseTree,
-        tree: updates.map(u => {
-          return {
-            path: u.name,
-            sha: u.sha,
-            type: "blob",
-            mode: "100" + u.mode.toString(8)
-          };
+    let { json } = await this.provider.fetchJSON(
+      `repos/${this.slug}/git/trees`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          base_tree: shaBaseTree,
+          tree: updates.map(u => {
+            return {
+              path: u.name,
+              sha: u.sha,
+              type: "blob",
+              mode: "100" + u.mode.toString(8)
+            };
+          })
         })
-      })
-    });
+      }
+    );
 
     const shaNewTree = json.sha;
 
-    json = await this.provider.fetchJSON(`repos/${this.slug}/git/commits`, {
+    const r = await this.provider.fetchJSON(`repos/${this.slug}/git/commits`, {
       method: "POST",
       body: JSON.stringify({
         message,
@@ -92,7 +98,7 @@ export class GithubBranch extends Branch {
       })
     });
 
-    const sha = json.sha;
+    const sha = r.json.sha;
 
     return await this.provider.fetchJSON(
       `repos/${this.slug}/git/refs/heads/${this.name}`,
@@ -111,7 +117,7 @@ export class GithubBranch extends Branch {
    * @param {string} name
    */
   async entry(name) {
-    const json = await this.provider.fetchJSON(
+    const { json } = await this.provider.fetchJSON(
       `repos/${this.slug}/contents/${name}?ref=${this.ref}`
     );
 
@@ -135,7 +141,7 @@ export class GithubBranch extends Branch {
    * @return {Object[]}
    */
   async tree(treeSha) {
-    const json = await this.provider.fetchJSON(
+    const { json } = await this.provider.fetchJSON(
       `repos/${this.slug}/git/trees/${treeSha}?recursive=1`
     );
     return json.tree;
@@ -187,7 +193,7 @@ class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
     }
 
     const branch = this.branch;
-    const json = await branch.provider.fetchJSON(
+    const { json } = await branch.provider.fetchJSON(
       `repos/${branch.slug}/contents/${this.name}?ref=${branch.ref}`
     );
 
