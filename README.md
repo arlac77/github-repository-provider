@@ -36,13 +36,13 @@ console.log(entry.name);
 *   [GithubBranch](#githubbranch)
     *   [writeEntry](#writeentry)
         *   [Parameters](#parameters)
-    *   [baseTreeSha](#basetreesha)
-        *   [Parameters](#parameters-1)
     *   [commit](#commit)
-        *   [Parameters](#parameters-2)
+        *   [Parameters](#parameters-1)
     *   [entry](#entry)
-        *   [Parameters](#parameters-3)
+        *   [Parameters](#parameters-2)
     *   [maybeEntry](#maybeentry)
+        *   [Parameters](#parameters-3)
+    *   [baseTreeSha](#basetreesha)
         *   [Parameters](#parameters-4)
     *   [tree](#tree)
         *   [Parameters](#parameters-5)
@@ -99,14 +99,6 @@ Writes content into the branch
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<ConentEntry>** written content with sha values set
 
-### baseTreeSha
-
-<https://developer.github.com/v3/git/commits/#get-a-commit>
-
-#### Parameters
-
-*   `sha` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
 ### commit
 
 <https://developer.github.com/v3/git/trees/#create-a-tree>
@@ -132,6 +124,14 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 #### Parameters
 
 *   `name`  
+
+### baseTreeSha
+
+<https://developer.github.com/v3/git/commits/#get-a-commit>
+
+#### Parameters
+
+*   `sha` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### tree
 
