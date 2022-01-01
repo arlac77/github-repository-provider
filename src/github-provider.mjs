@@ -107,30 +107,21 @@ export class GithubProvider extends MultiGroupProvider {
     });
   }
 
-  async fetchJSON(url, options) {
-    for (let i = 1; ; i++) {
-      try {
-        const response = await this.fetch(url, options);
-        if (response.ok) {
-          return { response, json: await response.json() };
+  fetchJSON(url, options = {}) {
+    return stateActionHandler(
+      fetch,
+      new URL(url, this.api),
+      {
+        ...options,
+        headers: {
+          authorization: `token ${this.authentication.token}`,
+          ...options.headers
         }
-
-        if (i >= 3 || response.status == 401) {
-          // none repeatable
-          throw new Error(
-            `Unable to fetch ${response.url} (${response.status})`
-          );
-        }
-        this.info(
-          `Unable to fetch ${response.url} (${response.status}) try #${i}`
-        );
-      } catch (e) {
-        if (i >= 3) {
-          throw e;
-        }
-        this.error(e);
+      },
+      async response => {
+        return { response, json: await response.json() };
       }
-    }
+    );
   }
 
   /**
