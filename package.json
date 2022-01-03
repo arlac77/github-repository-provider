@@ -39,7 +39,7 @@
     "repository-provider": "^26.1.2"
   },
   "devDependencies": {
-    "ava": "^3.15.0",
+    "ava": "^4.0.0",
     "c8": "^7.11.0",
     "documentation": "^13.2.5",
     "repository-provider-test-support": "^1.9.2",
