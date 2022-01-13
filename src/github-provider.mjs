@@ -51,7 +51,7 @@ export class GithubProvider extends MultiGroupProvider {
       host: {
         type: "string",
         env: ["{{instanceIdentifier}}HOST", "GH_HOST"],
-        default: "github.com"
+        default: host
       },
       ssh: {
         type: "url",
