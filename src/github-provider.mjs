@@ -97,17 +97,7 @@ export class GithubProvider extends MultiGroupProvider {
     return GithubOwner;
   }
 
-  fetch(url, options = {}) {
-    return stateActionHandler(fetch, new URL(url, this.api), {
-      ...options,
-      headers: {
-        authorization: `token ${this.authentication.token}`,
-        ...options.headers
-      }
-    });
-  }
-
-  fetchJSON(url, options = {}) {
+  fetch(url, options = {}, responseHandler) {
     return stateActionHandler(
       fetch,
       new URL(url, this.api),
@@ -118,10 +108,14 @@ export class GithubProvider extends MultiGroupProvider {
           ...options.headers
         }
       },
-      async response => {
-        return { response, json: await response.json() };
-      }
+      responseHandler
     );
+  }
+
+  fetchJSON(url, options) {
+    return this.fetch(url, options, async response => {
+      return { response, json: await response.json() };
+    });
   }
 
   /**
