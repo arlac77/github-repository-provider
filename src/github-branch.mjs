@@ -15,7 +15,7 @@ export class GithubBranch extends Branch {
    * Writes content into the branch
    * {@link https://developer.github.com/v3/git/blobs/#get-a-blob}
    * @param {ConentEntry} entry
-   * @return {Promise<ConentEntry>} written content with sha values set
+   * @return {Promise<ContentEntry>} written content with sha values set
    */
   async writeEntry(entry) {
     const { json } = await this.provider.fetchJSON(
