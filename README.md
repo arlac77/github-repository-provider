@@ -97,7 +97,7 @@ Writes content into the branch
 
 *   `entry` **ConentEntry** 
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<ConentEntry>** written content with sha values set
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<ContentEntry>** written content with sha values set
 
 ### commit
 
