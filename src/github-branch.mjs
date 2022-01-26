@@ -180,7 +180,7 @@ export class GithubBranch extends Branch {
 class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
   constructor(name, mode, branch) {
     super(name);
-    this.mode = mode;
+    Object.defineProperty(this,'mode',{ value: mode});
     this.branch = branch;
   }
 
