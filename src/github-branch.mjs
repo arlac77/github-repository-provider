@@ -137,12 +137,12 @@ export class GithubBranch extends Branch {
 
   /**
    * @see https://developer.github.com/v3/git/trees/
-   * @param {string } treeSha
+   * @param {string} sha
    * @return {Object[]}
    */
-  async tree(treeSha) {
+  async tree(sha) {
     const { json } = await this.provider.fetchJSON(
-      `repos/${this.slug}/git/trees/${treeSha}?recursive=1`
+      `repos/${this.slug}/git/trees/${sha}?recursive=1`
     );
     return json.tree;
   }
