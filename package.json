@@ -33,9 +33,9 @@
     "content-entry": "^4.1.2",
     "fetch-link-util": "^1.0.4",
     "fetch-rate-limit-util": "^2.4.7",
-    "matching-iterator": "^2.0.1",
+    "matching-iterator": "^2.0.2",
     "node-fetch": "3.2.0",
-    "one-time-execution-method": "^2.0.9",
+    "one-time-execution-method": "^2.0.10",
     "repository-provider": "^26.4.2"
   },
   "devDependencies": {
