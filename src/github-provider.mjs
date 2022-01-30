@@ -1,6 +1,9 @@
 import fetch from "node-fetch";
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import { stateActionHandler } from "fetch-rate-limit-util";
+import {
+  BufferContentEntry,
+} from "content-entry";
 
 import { MultiGroupProvider } from "repository-provider";
 import { GithubRepository } from "./github-repository.mjs";
@@ -85,18 +88,6 @@ export class GithubProvider extends MultiGroupProvider {
     };
   }
 
-  get repositoryClass() {
-    return GithubRepository;
-  }
-
-  get branchClass() {
-    return GithubBranch;
-  }
-
-  get repositoryGroupClass() {
-    return GithubOwner;
-  }
-
   fetch(url, options = {}, responseHandler) {
     return stateActionHandler(
       fetch,
@@ -179,6 +170,23 @@ export class GithubProvider extends MultiGroupProvider {
   get pullRequestClass() {
     return GithubPullRequest;
   }
+
+  get repositoryClass() {
+    return GithubRepository;
+  }
+
+  get branchClass() {
+    return GithubBranch;
+  }
+
+  get repositoryGroupClass() {
+    return GithubOwner;
+  }
+
+  get entryClass() {
+    return BufferContentEntry;
+  }
+
 }
 
 replaceWithOneTimeExecutionMethod(

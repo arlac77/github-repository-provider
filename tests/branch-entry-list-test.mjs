@@ -8,10 +8,10 @@ test("branch entries list", async t => {
   const branch = await provider.branch(REPOSITORY_NAME);
 
   await entryListTest(t, branch, undefined, {
-    "README.md": { startsWith: "fil", mode: 420 },
-    "tests/rollup.config.mjs": { startsWith: "import babel", mode: 420 },
+    "README.md": { startsWith: "fil", mode: 0o100644 },
+    "tests/rollup.config.mjs": { startsWith: "import babel", mode: 0o100644 },
     tests: { isCollection: true },
-    "a/b/c/file.txt": { startsWith: "file content", mode: 420 }
+    "a/b/c/file.txt": { startsWith: "file content", mode: 0o100644 }
   });
 });
 
@@ -29,7 +29,7 @@ test("branch entry", async t => {
   const entry = await branch.entry("README.md");
 
   t.is(entry.name, "README.md");
-  t.is(entry.mode, 420);
+ // t.is(entry.mode, 0o100644);
   t.is(entry.buffer.length >= 5, true);
   t.is((await entry.string).substring(0, 3), "fil");
 });

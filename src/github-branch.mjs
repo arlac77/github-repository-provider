@@ -155,7 +155,7 @@ export class GithubBranch extends Branch {
     })) {
       yield entry.type === "tree"
         ? new BaseCollectionEntry(entry.path)
-        : new LazyBufferContentEntry(entry.path, entry.mode, this);
+        : new LazyBufferContentEntry(entry.path, parseInt(entry.mode, 8), this);
     }
   }
 
@@ -172,15 +172,12 @@ export class GithubBranch extends Branch {
     }
   }
 
-  get entryClass() {
-    return BufferContentEntry;
-  }
 }
 
 class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
   constructor(name, mode, branch) {
     super(name);
-    Object.defineProperty(this,'mode',{ value: mode});
+    Object.defineProperty(this, "mode", { value: mode });
     this.branch = branch;
   }
 
