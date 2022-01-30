@@ -10,11 +10,11 @@ test("create & delete repo", async t =>
     "arlac77",
     { description: "a description", delete_branch_on_merge: true },
     async (t, repository) => {
-      t.is(repository.defaultBranchName, "main");
-      const db = await repository.defaultBranch;
-
-      t.is(db.name, repository.defaultBranchName, "default branch name");
       t.is(repository.description, "a description", "description");
       t.is(repository.delete_branch_on_merge, true);
+
+      t.is(repository.defaultBranchName, "main");
+      const defaultBranch = await repository.defaultBranch;
+      t.is(defaultBranch.name, repository.defaultBranchName, "default branch name");
     }
   ));
