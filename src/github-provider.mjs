@@ -42,7 +42,7 @@ export class GithubProvider extends MultiGroupProvider {
   }
 
   /**
-   * @return {string} default instance environment name prefix
+   * @return {string} default environment name prefix for the provider instance
    */
   static get instanceIdentifier() {
     return "GITHUB_"; // "GH_" "GH_ENTERPRISE_"
