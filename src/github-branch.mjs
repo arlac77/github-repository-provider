@@ -2,7 +2,6 @@ import { matcher } from "matching-iterator";
 import { Branch } from "repository-provider";
 import {
   BaseCollectionEntry,
-  BufferContentEntry,
   BufferContentEntryMixin,
   ContentEntry
 } from "content-entry";
@@ -76,18 +75,14 @@ export class GithubBranch extends Branch {
       }
     );
 
-    const shaNewTree = json.sha;
-
     const r = await this.provider.fetchJSON(`repos/${this.slug}/git/commits`, {
       method: "POST",
       body: JSON.stringify({
         message,
-        tree: shaNewTree,
+        tree: json.sha,
         parents: [shaLatestCommit]
       })
     });
-
-    const sha = r.json.sha;
 
     return await this.provider.fetchJSON(
       `repos/${this.slug}/git/refs/heads/${this.name}`,
@@ -95,7 +90,7 @@ export class GithubBranch extends Branch {
         method: "PATCH",
         body: JSON.stringify({
           ...options,
-          sha
+          sha : r.json.sha
         })
       }
     );

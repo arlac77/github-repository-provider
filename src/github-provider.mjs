@@ -186,7 +186,6 @@ export class GithubProvider extends MultiGroupProvider {
   get entryClass() {
     return BufferContentEntry;
   }
-
 }
 
 replaceWithOneTimeExecutionMethod(
