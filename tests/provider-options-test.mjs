@@ -9,6 +9,17 @@ const ENV = {
   GITHUB_API_URL: "https://mygithub.com/api/v3/"
 };
 
+test.skip("provider from env HOST", async t => {
+  const provider = GithubProvider.initialize(undefined, {
+    GH_TOKEN: "abc",
+    GITHUB_HOST: "myserver"
+  });
+
+  t.is(provider.host, "myserver");
+  t.is(provider.api, "https://api.myserver");
+  t.is(provider.url, "https://myserver/");
+});
+
 test("provider properties from env options", async t => {
   const provider = GithubProvider.initialize(undefined, ENV);
 
