@@ -107,12 +107,12 @@ export class GithubRepository extends Repository {
   async refId(ref) {
     ref = ref.replace(/^refs\//, "");
 
-    const { json } = await this.provider.fetchJSON(
+    const { response, json } = await this.provider.fetchJSON(
       `repos/${this.slug}/git/ref/${ref}`
     );
 
     // TODO why does this happen ?
-    if (!json.object.sha) {
+    if (!response.ok || !json.object.sha) {
       throw new Error(`No refId for '${this.name}' '${ref}'`);
     }
 

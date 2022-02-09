@@ -7,7 +7,7 @@ import GithubProvider from "github-repository-provider";
 
 const provider = GithubProvider.initialize(undefined, process.env);
 
-test.only("repository writableAttributes", async t => {
+test("repository writableAttributes", async t => {
   const repository = await provider.repository(REPOSITORY_NAME);
 
   t.deepEqual(
@@ -90,7 +90,6 @@ test("create commit into new directory", async t => {
         `file content #${n}`
       )
     ]);
-
     t.is(commit.ref, `refs/heads/${newName}`);
   } finally {
     await repository.deleteBranch(newName);
@@ -104,6 +103,6 @@ test("ref failure", async t => {
     await repository.refId("invalid ref id ---:dfddd");
     t.fail("no way");
   } catch (e) {
-    t.truthy(e.message.match(/Unable to fetch/));
+    t.truthy(e.message.match(/No refId for/));
   }
 });
