@@ -1,9 +1,7 @@
 import fetch from "node-fetch";
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import { stateActionHandler } from "fetch-rate-limit-util";
-import {
-  BufferContentEntry,
-} from "content-entry";
+import { BufferContentEntry } from "content-entry";
 
 import { MultiGroupProvider } from "repository-provider";
 import { GithubRepository } from "./github-repository.mjs";
@@ -64,13 +62,17 @@ export class GithubProvider extends MultiGroupProvider {
         type: "url",
         env: ["{{instanceIdentifier}}SERVER_URL"],
         set: value => (value.endsWith("/") ? value : value + "/"),
-        default: `https://${host}/`
+         default: `https://${host}/`,
+        /*getDefault: (attribute, object, properties) =>
+          `https://${object.host || properties.host && properties.host.value}`*/
       },
       api: {
         type: "url",
         env: ["{{instanceIdentifier}}API_URL"],
         set: value => value.replace(/\/$/, ""),
-        default: `https://api.${host}`
+        default: `https://api.${host}`,
+/*        getDefault: (attribute, object, properties) =>
+          `https://api.${object.host || properties.host.value}`*/
       },
       "authentication.token": {
         type: "string",
@@ -153,9 +155,9 @@ export class GithubProvider extends MultiGroupProvider {
     return super.repositoryBases.concat([
       this.url,
       "git+" + this.url,
-      `git+ssh://${host}`,
-      `git://${host}/`,
-      `git@${host}:`
+      `git+ssh://${this.host}`,
+      `git://${this.host}/`,
+      `git@${this.host}:`
     ]);
   }
 
