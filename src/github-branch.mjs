@@ -75,7 +75,7 @@ export class GithubBranch extends Branch {
       }
     );
 
-    const r = await this.provider.fetchJSON(`repos/${this.slug}/git/commits`, {
+    let r = await this.provider.fetchJSON(`repos/${this.slug}/git/commits`, {
       method: "POST",
       body: JSON.stringify({
         message,
@@ -84,16 +84,18 @@ export class GithubBranch extends Branch {
       })
     });
 
-    return await this.provider.fetchJSON(
+    r = await this.provider.fetchJSON(
       `repos/${this.slug}/git/refs/heads/${this.name}`,
       {
         method: "PATCH",
         body: JSON.stringify({
           ...options,
-          sha : r.json.sha
+          sha: r.json.sha
         })
       }
     );
+
+    return r.json;
   }
 
   /**
@@ -166,7 +168,6 @@ export class GithubBranch extends Branch {
       });
     }
   }
-
 }
 
 class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
