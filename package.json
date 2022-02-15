@@ -33,7 +33,7 @@
     "content-entry": "^4.1.4",
     "fetch-link-util": "^1.0.5",
     "fetch-rate-limit-util": "^2.4.9",
-    "matching-iterator": "^2.0.2",
+    "matching-iterator": "^2.0.3",
     "node-fetch": "3.2.0",
     "one-time-execution-method": "^2.0.11",
     "repository-provider": "^27.0.0"
