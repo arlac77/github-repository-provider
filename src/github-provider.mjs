@@ -103,7 +103,9 @@ export class GithubProvider extends MultiGroupProvider {
           ...options.headers
         }
       },
-      responseHandler
+      responseHandler,
+      undefined,
+      (url, ...args) => this.info(url.toString(), ...args)
     );
   }
 
