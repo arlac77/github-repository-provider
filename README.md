@@ -40,19 +40,17 @@ console.log(entry.name);
         *   [Parameters](#parameters-1)
     *   [entry](#entry)
         *   [Parameters](#parameters-2)
-    *   [maybeEntry](#maybeentry)
-        *   [Parameters](#parameters-3)
     *   [baseTreeSha](#basetreesha)
-        *   [Parameters](#parameters-4)
+        *   [Parameters](#parameters-3)
     *   [tree](#tree)
-        *   [Parameters](#parameters-5)
+        *   [Parameters](#parameters-4)
     *   [removeEntries](#removeentries)
-        *   [Parameters](#parameters-6)
+        *   [Parameters](#parameters-5)
 *   [GithubOwner](#githubowner)
     *   [createRepository](#createrepository)
-        *   [Parameters](#parameters-7)
+        *   [Parameters](#parameters-6)
     *   [deleteRepository](#deleterepository)
-        *   [Parameters](#parameters-8)
+        *   [Parameters](#parameters-7)
     *   [attributeMapping](#attributemapping)
 *   [GithubProvider](#githubprovider)
     *   [Examples](#examples)
@@ -62,13 +60,13 @@ console.log(entry.name);
     *   [instanceIdentifier](#instanceidentifier)
 *   [GithubPullRequest](#githubpullrequest)
     *   [\_merge](#\_merge)
-        *   [Parameters](#parameters-9)
+        *   [Parameters](#parameters-8)
     *   [\_write](#\_write)
     *   [validMergeMethods](#validmergemethods)
     *   [list](#list)
-        *   [Parameters](#parameters-10)
+        *   [Parameters](#parameters-9)
     *   [open](#open)
-        *   [Parameters](#parameters-11)
+        *   [Parameters](#parameters-10)
 *   [GithubRepository](#githubrepository)
     *   [initializeBranches](#initializebranches)
     *   [initializeTags](#initializetags)
@@ -77,9 +75,9 @@ console.log(entry.name);
     *   [homePageURL](#homepageurl)
     *   [update](#update)
     *   [refId](#refid)
-        *   [Parameters](#parameters-12)
+        *   [Parameters](#parameters-11)
     *   [deletePullRequest](#deletepullrequest)
-        *   [Parameters](#parameters-13)
+        *   [Parameters](#parameters-12)
     *   [initializeHooks](#initializehooks)
 
 ## GithubBranch
@@ -118,12 +116,6 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 #### Parameters
 
 *   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-### maybeEntry
-
-#### Parameters
-
-*   `name`  
 
 ### baseTreeSha
 
