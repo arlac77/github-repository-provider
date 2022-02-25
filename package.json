@@ -30,13 +30,13 @@
     "lint:docs": "documentation lint ./src/**/*.mjs"
   },
   "dependencies": {
-    "content-entry": "^4.1.4",
+    "content-entry": "^4.1.7",
     "fetch-link-util": "^1.0.6",
     "fetch-rate-limit-util": "^2.4.10",
     "matching-iterator": "^2.0.3",
     "node-fetch": "3.2.0",
     "one-time-execution-method": "^2.0.11",
-    "repository-provider": "^27.0.1"
+    "repository-provider": "^27.0.2"
   },
   "devDependencies": {
     "ava": "^4.0.1",
