@@ -139,9 +139,20 @@ export class GithubBranch extends Branch {
     for (const entry of matcher(await this.tree(shaBaseTree), patterns, {
       name: "path"
     })) {
-      yield entry.type === "tree"
-        ? new BaseCollectionEntry(entry.path)
-        : new LazyBufferContentEntry(entry.path, parseInt(entry.mode, 8), this);
+      switch (entry.type) {
+        case "tree":
+          yield new BaseCollectionEntry(entry.path);
+          break;
+        case "blob":
+          yield new LazyBufferContentEntry(
+            entry.path,
+            parseInt(entry.mode, 8),
+            this
+          );
+          break;
+        /*    case "commit":
+          break;*/
+      }
     }
   }
 
