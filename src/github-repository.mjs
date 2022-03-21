@@ -113,7 +113,7 @@ export class GithubRepository extends Repository {
 
     // TODO why does this happen ?
     if (!response.ok || !json.object.sha) {
-      throw new Error(`No refId for '${this.name}' '${ref}'`);
+      throw new Error(`No refId for '${this.fullName}' '${ref}'`);
     }
 
     return json.object.sha;
