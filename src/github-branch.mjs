@@ -85,7 +85,7 @@ export class GithubBranch extends Branch {
     });
 
     r = await this.provider.fetchJSON(
-      `repos/${this.slug}/git/refs/heads/${this.name}`,
+      `repos/${this.slug}/git/${this.ref}`,
       {
         method: "PATCH",
         body: JSON.stringify({
@@ -115,10 +115,24 @@ export class GithubBranch extends Branch {
    * @param {string} sha
    */
   async baseTreeSha(sha) {
+    if (this._baseTreeSha) {
+      const r = this._baseTreeSha.get(sha);
+      if (r) {
+        console.log("HIT", sha, r);
+        return r;
+      }
+    } else {
+      this._baseTreeSha = new Map();
+    }
+
     const { json } = await this.provider.fetchJSON(
       `repos/${this.slug}/git/commits/${sha}`
     );
-    return json.tree.sha;
+
+    const r = json.tree.sha;
+    this._baseTreeSha.set(sha, r);
+
+    return r;
   }
 
   /**
