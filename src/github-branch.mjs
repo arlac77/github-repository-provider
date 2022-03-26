@@ -113,12 +113,12 @@ export class GithubBranch extends Branch {
   /**
    * {@link https://developer.github.com/v3/git/commits/#get-a-commit}
    * @param {string} sha
+   * @return {string} sha
    */
   async baseTreeSha(sha) {
     if (this._baseTreeSha) {
       const r = this._baseTreeSha.get(sha);
       if (r) {
-        console.log("HIT", sha, r);
         return r;
       }
     } else {
