@@ -55,14 +55,14 @@ export class GithubBranch extends Branch {
      */
 
     const shaLatestCommit = await this.refId();
-    const shaBaseTree = await this.baseTreeSha(shaLatestCommit);
+    const commit = await this.commitForSha(shaLatestCommit);
 
     let { json } = await this.provider.fetchJSON(
       `repos/${this.slug}/git/trees`,
       {
         method: "POST",
         body: JSON.stringify({
-          base_tree: shaBaseTree,
+          base_tree: commit.tree.sha,
           tree: updates.map(u => {
             return {
               path: u.name,
@@ -113,26 +113,25 @@ export class GithubBranch extends Branch {
   /**
    * {@link https://developer.github.com/v3/git/commits/#get-a-commit}
    * @param {string} sha
-   * @return {string} sha
+   * @return {Object} response
    */
-  async baseTreeSha(sha) {
-    if (this._baseTreeSha) {
-      const r = this._baseTreeSha.get(sha);
-      if (r) {
-        return r;
+  async commitForSha(sha) {
+    if (this._commitForSha) {
+      const json = this._commitForSha.get(sha);
+      if (json) {
+        return json;
       }
     } else {
-      this._baseTreeSha = new Map();
+      this._commitForSha = new Map();
     }
 
     const { json } = await this.provider.fetchJSON(
       `repos/${this.slug}/git/commits/${sha}`
     );
 
-    const r = json.tree.sha;
-    this._baseTreeSha.set(sha, r);
-
-    return r;
+    this._commitForSha.set(sha, json);
+    
+    return json;
   }
 
   /**
@@ -148,9 +147,9 @@ export class GithubBranch extends Branch {
   }
 
   async *entries(patterns) {
-    const shaBaseTree = await this.baseTreeSha(await this.refId());
+    const commit = await this.commitForSha(await this.refId());
 
-    for (const entry of matcher(await this.tree(shaBaseTree), patterns, {
+    for (const entry of matcher(await this.tree(commit.tree.sha), patterns, {
       name: "path"
     })) {
       switch (entry.type) {
