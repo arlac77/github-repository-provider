@@ -40,7 +40,7 @@ console.log(entry.name);
         *   [Parameters](#parameters-1)
     *   [entry](#entry)
         *   [Parameters](#parameters-2)
-    *   [baseTreeSha](#basetreesha)
+    *   [commitForSha](#commitforsha)
         *   [Parameters](#parameters-3)
     *   [tree](#tree)
         *   [Parameters](#parameters-4)
@@ -117,7 +117,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 *   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
-### baseTreeSha
+### commitForSha
 
 <https://developer.github.com/v3/git/commits/#get-a-commit>
 
@@ -125,7 +125,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 *   `sha` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** sha
+Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** response
 
 ### tree
 
