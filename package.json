@@ -32,7 +32,7 @@
   "dependencies": {
     "content-entry": "^4.1.9",
     "fetch-link-util": "^1.0.7",
-    "fetch-rate-limit-util": "^2.4.10",
+    "fetch-rate-limit-util": "^2.4.11",
     "matching-iterator": "^2.0.3",
     "node-fetch": "^3.2.3",
     "one-time-execution-method": "^2.0.13",
