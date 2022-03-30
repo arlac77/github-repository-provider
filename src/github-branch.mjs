@@ -140,10 +140,24 @@ export class GithubBranch extends Branch {
    * @return {Object[]}
    */
   async tree(sha) {
+    if (this._tree) {
+      const tree = this._tree.get(sha);
+      if (tree) {
+        return tree;
+      }
+    } else {
+      this._tree = new Map();
+    }
+
     const { json } = await this.provider.fetchJSON(
       `repos/${this.slug}/git/trees/${sha}?recursive=1`
     );
-    return json.tree;
+
+    const tree = json.tree;
+
+    this._tree.set(sha, tree);
+
+    return tree;
   }
 
   async *entries(patterns) {
