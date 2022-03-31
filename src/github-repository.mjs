@@ -100,12 +100,22 @@ export class GithubRepository extends Repository {
   }
 
   /**
+   * Get sha of a ref.
    * {@link https://developer.github.com/v3/git/refs/}
    * @param {string} ref
-   * @return {string} sha of the ref
+   * @return {Promise<string>} sha of the ref
    */
   async refId(ref) {
     ref = ref.replace(/^refs\//, "");
+
+    if (this._ref) {
+      const sha = this._ref.get(ref);
+      if (sha) {
+        return sha;
+      }
+    } else {
+      this._ref = new Map();
+    }
 
     const { response, json } = await this.provider.fetchJSON(
       `repos/${this.slug}/git/ref/${ref}`
@@ -116,7 +126,11 @@ export class GithubRepository extends Repository {
       throw new Error(`No refId for '${this.fullName}' '${ref}'`);
     }
 
-    return json.object.sha;
+    const sha = json.object.sha;
+
+    this._ref.set(ref, sha);
+
+    return sha;
   }
 
   async createBranch(name, from, options) {
