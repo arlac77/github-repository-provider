@@ -84,16 +84,13 @@ export class GithubBranch extends Branch {
       })
     });
 
-    r = await this.provider.fetchJSON(
-      `repos/${this.slug}/git/${this.ref}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify({
-          ...options,
-          sha: r.json.sha
-        })
-      }
-    );
+    r = await this.provider.fetchJSON(`repos/${this.slug}/git/${this.ref}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        ...options,
+        sha: r.json.sha
+      })
+    });
 
     return r.json;
   }
@@ -103,11 +100,26 @@ export class GithubBranch extends Branch {
    * @param {string} name
    */
   async entry(name) {
+    if (this._entries) {
+      const entry = this._entries.get(name);
+      if (entry) {
+        return entry;
+      }
+    } else {
+      this._entries = new Map();
+    }
+
     const { json } = await this.provider.fetchJSON(
       `repos/${this.slug}/contents/${name}?ref=${this.ref}`
     );
 
-    return new this.entryClass(name, Buffer.from(json.content, "base64"));
+    const entry = new this.entryClass(
+      name,
+      Buffer.from(json.content, "base64")
+    );
+
+    this._entries.set(name, entry);
+    return entry;
   }
 
   /**
@@ -130,7 +142,7 @@ export class GithubBranch extends Branch {
     );
 
     this._commitForSha.set(sha, json);
-    
+
     return json;
   }
 
@@ -163,6 +175,10 @@ export class GithubBranch extends Branch {
   async *entries(patterns) {
     const commit = await this.commitForSha(await this.refId());
 
+    if (!this._entries) {
+      this._entries = new Map();
+    }
+
     for (const entry of matcher(await this.tree(commit.tree.sha), patterns, {
       name: "path"
     })) {
@@ -171,11 +187,13 @@ export class GithubBranch extends Branch {
           yield new BaseCollectionEntry(entry.path);
           break;
         case "blob":
-          yield new LazyBufferContentEntry(
+          const e = new LazyBufferContentEntry(
             entry.path,
             parseInt(entry.mode, 8),
             this
           );
+          this._entries.set(e.path, e);
+          yield e;
           break;
         /*    case "commit":
           break;*/
