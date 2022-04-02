@@ -158,12 +158,7 @@ export class GithubRepository extends Repository {
       console.log(res);
       */
     } else {
-      const { json } = await this.provider.fetchJSON(
-        `repos/${this.slug}/git/ref/heads/${
-          from === undefined ? this.defaultBranchName : from.name
-        }`
-      );
-      sha = json.object.sha;
+      sha = await this.refId(`heads/${from ? from.name : this.defaultBranchName}` );
     }
 
     const res = await this.provider.fetch(`repos/${this.slug}/git/refs`, {
