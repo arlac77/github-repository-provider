@@ -36,7 +36,7 @@
     "matching-iterator": "^2.0.4",
     "node-fetch": "^3.2.3",
     "one-time-execution-method": "^2.0.13",
-    "repository-provider": "^27.0.6"
+    "repository-provider": "^28.0.0"
   },
   "devDependencies": {
     "ava": "^4.1.0",
@@ -46,7 +46,7 @@
     "semantic-release": "^19.0.2"
   },
   "engines": {
-    "node": ">=14.19.0"
+    "node": ">=16.14.2"
   },
   "repository": {
     "type": "git",

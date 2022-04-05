@@ -37,6 +37,29 @@ export class GithubRepository extends Repository {
     return "main";
   }
 
+  /**
+   * {@link https://docs.github.com/en/rest/reference/commits#list-commits}
+   * @param {Object} options 
+   * @returns {AsyncIterator<Commit>}
+   */
+  async *commits(options) {
+    let next = `repos/${this.slug}/commits`;
+
+    do {
+      const { response, json } = await this.provider.fetchJSON(next);
+
+      for(const c of json) {
+        yield {
+          sha: c.sha,
+          message: c.message,
+          author: c.author,
+          committer: c.committer,
+        };
+      }
+      next = getHeaderLink(response.headers);
+    } while (next);
+  }
+
   async _initializeSlot(typeName, addMethodName) {
     let next = `repos/${this.slug}/${typeName}`;
 
