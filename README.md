@@ -68,6 +68,8 @@ console.log(entry.name);
     *   [open](#open)
         *   [Parameters](#parameters-10)
 *   [GithubRepository](#githubrepository)
+    *   [commits](#commits)
+        *   [Parameters](#parameters-11)
     *   [initializeBranches](#initializebranches)
     *   [initializeTags](#initializetags)
     *   [urls](#urls)
@@ -75,9 +77,9 @@ console.log(entry.name);
     *   [homePageURL](#homepageurl)
     *   [update](#update)
     *   [refId](#refid)
-        *   [Parameters](#parameters-11)
-    *   [deletePullRequest](#deletepullrequest)
         *   [Parameters](#parameters-12)
+    *   [deletePullRequest](#deletepullrequest)
+        *   [Parameters](#parameters-13)
     *   [initializeHooks](#initializehooks)
 
 ## GithubBranch
@@ -277,6 +279,16 @@ Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Glob
 **Extends Repository**
 
 Repository on GitHub.
+
+### commits
+
+<https://docs.github.com/en/rest/reference/commits#list-commits>
+
+#### Parameters
+
+*   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+Returns **AsyncIterator\<Commit>** 
 
 ### initializeBranches
 
