@@ -113,7 +113,7 @@ export class GithubBranch extends Branch {
       const { json } = await this.provider.fetchJSON(
         `repos/${this.slug}/contents/${name}?ref=${this.ref}`
       );
-  
+
       const entry = new this.entryClass(
         name,
         Buffer.from(json.content, "base64")
@@ -240,11 +240,17 @@ class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
     }
 
     const branch = this.branch;
-    const { json } = await branch.provider.fetchJSON(
-      `repos/${branch.slug}/contents/${this.name}?ref=${branch.ref}`
-    );
 
-    this._buffer = Buffer.from(json.content, "base64");
+    const f = async () => {
+      const { json } = await branch.provider.fetchJSON(
+        `repos/${branch.slug}/contents/${this.name}?ref=${branch.ref}`
+      );
+
+      this._buffer = Buffer.from(json.content, "base64");
+      return this._buffer;
+    };
+
+    this._buffer = f();
     return this._buffer;
   }
 }
