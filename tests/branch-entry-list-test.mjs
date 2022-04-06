@@ -29,12 +29,20 @@ test("branch entries list with pattern", async t => {
 
 test("branch entry", async t => {
   const branch = await provider.branch(REPOSITORY_NAME);
-  const entry = await branch.entry("README.md");
 
-  t.is(entry.name, "README.md");
-  // t.is(entry.mode, 0o100644);
-  t.is(entry.buffer.length >= 5, true);
-  t.is((await entry.string).substring(0, 3), "fil");
+  async function read() {
+    return branch.entry("README.md");
+  }
+
+  let i = 0;
+
+  for (const entry of await Promise.all([read(), read(), read()])) {
+    t.is(entry.name, "README.md", `name #${i}`);
+   //  t.is(entry.mode, 0o100644, `mode #${i}`);
+    t.is(entry.buffer.length >= 5, true, `length #${i}`);
+    t.is((await entry.string).substring(0, 3), "fil", `content #${i}`);
+    i++;
+  }
 });
 
 test("branch missing entry", async t => {

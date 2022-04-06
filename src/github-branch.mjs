@@ -109,17 +109,25 @@ export class GithubBranch extends Branch {
       this._entries = new Map();
     }
 
-    const { json } = await this.provider.fetchJSON(
-      `repos/${this.slug}/contents/${name}?ref=${this.ref}`
-    );
+    const f = async () => {
+      const { json } = await this.provider.fetchJSON(
+        `repos/${this.slug}/contents/${name}?ref=${this.ref}`
+      );
+  
+      const entry = new this.entryClass(
+        name,
+        Buffer.from(json.content, "base64")
+      );
 
-    const entry = new this.entryClass(
-      name,
-      Buffer.from(json.content, "base64")
-    );
+      this._entries.set(name, entry);
+      return entry;
+    };
 
-    this._entries.set(name, entry);
-    return entry;
+    const p = f();
+
+    this._entries.set(name, p);
+
+    return p;
   }
 
   /**
