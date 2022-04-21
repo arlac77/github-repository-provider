@@ -30,7 +30,7 @@
     "lint:docs": "documentation lint ./src/**/*.mjs"
   },
   "dependencies": {
-    "content-entry": "^4.1.9",
+    "content-entry": "^5.0.0",
     "fetch-link-util": "^1.0.8",
     "fetch-rate-limit-util": "^2.6.4",
     "matching-iterator": "^2.0.4",
@@ -42,7 +42,7 @@
     "ava": "^4.2.0",
     "c8": "^7.11.2",
     "documentation": "^13.2.5",
-    "repository-provider-test-support": "^2.0.2",
+    "repository-provider-test-support": "^2.0.3",
     "semantic-release": "^19.0.2"
   },
   "engines": {
