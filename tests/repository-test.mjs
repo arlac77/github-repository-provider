@@ -1,11 +1,13 @@
 import test from "ava";
 import { optionJSON, mapAttributesInverse } from "repository-provider";
-import { REPOSITORY_NAME } from "repository-provider-test-support";
+import { REPOSITORY_NAME, createMessageDestination } from "repository-provider-test-support";
 
 import { StringContentEntry } from "content-entry";
 import GithubProvider from "github-repository-provider";
 
-const provider = GithubProvider.initialize(undefined, process.env);
+const messageDestination = createMessageDestination().messageDestination;
+const provider = GithubProvider.initialize({ messageDestination }, process.env);
+
 
 test("repository writableAttributes", async t => {
   const repository = await provider.repository(REPOSITORY_NAME);

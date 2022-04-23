@@ -1,11 +1,13 @@
 import test from "ava";
-import { repositoryLivecycleTest } from "repository-provider-test-support";
+import { repositoryLivecycleTest, createMessageDestination } from "repository-provider-test-support";
 import GithubProvider from "github-repository-provider";
+
+const messageDestination = createMessageDestination().messageDestination;
 
 test("create & delete repo", async t =>
   repositoryLivecycleTest(
     t,
-    GithubProvider.initialize(undefined, process.env),
+    GithubProvider.initialize({ messageDestination}, process.env),
     "test-repo-1",
     "arlac77",
     { description: "a description", delete_branch_on_merge: true },

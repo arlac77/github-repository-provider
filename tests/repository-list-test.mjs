@@ -1,8 +1,9 @@
 import test from "ava";
-import { repositoryListTest } from "repository-provider-test-support";
+import { repositoryListTest, createMessageDestination } from "repository-provider-test-support";
 import GithubProvider from "github-repository-provider";
 
-const provider = GithubProvider.initialize(undefined, process.env);
+const messageDestination = createMessageDestination().messageDestination;
+const provider = GithubProvider.initialize({ messageDestination }, process.env);
 
 test(repositoryListTest, provider, "arlac77/Repository-*", {
   "arlac77/repository-provider": { name: "repository-provider" }

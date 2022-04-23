@@ -1,11 +1,12 @@
 import test from "ava";
-import { assertRepo, providerTest } from "repository-provider-test-support";
+import { assertRepo, providerTest, createMessageDestination } from "repository-provider-test-support";
 import GithubProvider from "github-repository-provider";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
 const REPOSITORY_OWNER = "arlac77";
 
-const provider = GithubProvider.initialize(undefined, process.env);
+const messageDestination = createMessageDestination().messageDestination;
+const provider = GithubProvider.initialize({ messageDestination }, process.env);
 
 test(providerTest, provider);
 

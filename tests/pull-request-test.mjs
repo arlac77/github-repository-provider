@@ -1,10 +1,11 @@
 import test from "ava";
-import { pullRequestLivecycle, pullRequestList, REPOSITORY_NAME } from "repository-provider-test-support";
-import GithubProvider, { GithubPullRequest } from "github-repository-provider";
+import { pullRequestLivecycle, pullRequestList, REPOSITORY_NAME, createMessageDestination } from "repository-provider-test-support";
+import { GithubProvider, GithubPullRequest } from "github-repository-provider";
 
+const messageDestination = createMessageDestination().messageDestination;
 
 test.only("pr url", async t => {
-  const provider = GithubProvider.initialize(undefined, process.env);
+  const provider = GithubProvider.initialize({ messageDestination }, process.env);
 
   const repository = await provider.repository(REPOSITORY_NAME);
 

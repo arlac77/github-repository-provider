@@ -1,11 +1,13 @@
 import test from "ava";
-import GithubProvider from "github-repository-provider";
 import {
   entryListTest,
-  REPOSITORY_NAME
+  REPOSITORY_NAME,
+  createMessageDestination
 } from "repository-provider-test-support";
+import GithubProvider from "github-repository-provider";
 
-const provider = GithubProvider.initialize(undefined, process.env);
+const messageDestination = createMessageDestination().messageDestination;
+const provider = GithubProvider.initialize({ messageDestination }, process.env);
 
 test("branch entries list", async t => {
   const branch = await provider.branch(REPOSITORY_NAME);
@@ -38,7 +40,7 @@ test("branch entry", async t => {
 
   for (const entry of await Promise.all([read(), read(), read()])) {
     t.is(entry.name, "README.md", `name #${i}`);
-   //  t.is(entry.mode, 0o100644, `mode #${i}`);
+    //  t.is(entry.mode, 0o100644, `mode #${i}`);
     t.is(entry.buffer.length >= 5, true, `length #${i}`);
     t.is((await entry.string).substring(0, 3), "fil", `content #${i}`);
     i++;

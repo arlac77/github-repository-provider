@@ -1,11 +1,12 @@
 import test from "ava";
+import { createMessageDestination } from "repository-provider-test-support";
 import GithubProvider from "github-repository-provider";
 import { Hook } from "repository-provider";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
 
-const provider = GithubProvider.initialize(undefined, process.env);
-
+const messageDestination = createMessageDestination().messageDestination;
+const provider = GithubProvider.initialize({ messageDestination }, process.env);
 
 test("add hook", async t => {
     const repository = await provider.repository(REPOSITORY_NAME);

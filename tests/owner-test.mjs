@@ -1,9 +1,11 @@
 import test from "ava";
+import { createMessageDestination } from "repository-provider-test-support";
 import GithubProvider from "github-repository-provider";
 
 const REPOSITORY_OWNER = "arlac77";
 
-const provider = GithubProvider.initialize(undefined, process.env);
+const messageDestination = createMessageDestination().messageDestination;
+const provider = GithubProvider.initialize({ messageDestination }, process.env);
 
 test("owner with auth", async t => {
   const owner = await provider.repositoryGroup(REPOSITORY_OWNER);
@@ -41,7 +43,7 @@ test("list branches", async t => {
 
 
 test("owner without auth", async t => {
-  const provider = new GithubProvider();
+  const provider = new GithubProvider({ messageDestination });
   const owner = await provider.repositoryGroup(REPOSITORY_OWNER);
   t.is(owner, undefined);
   //t.is(owner.name, 'arlac77');

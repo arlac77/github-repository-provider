@@ -1,8 +1,9 @@
 import test from "ava";
-import { groupListTest, groupTest } from "repository-provider-test-support";
+import { groupListTest, groupTest, createMessageDestination } from "repository-provider-test-support";
 import GithubProvider from "github-repository-provider";
 
-const provider = GithubProvider.initialize(undefined, process.env);
+const messageDestination = createMessageDestination().messageDestination;
+const provider = GithubProvider.initialize({ messageDestination }, process.env);
 
 const groupArlac77 = {
   arlac77: { id: 158862, type: "User", isAdmin: false }
