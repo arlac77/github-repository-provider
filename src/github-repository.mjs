@@ -156,6 +156,20 @@ export class GithubRepository extends Repository {
     return sha;
   }
 
+  async branch(name) {
+    // TODO maybe default ?
+    if(name === this.defaultBranchName) {
+      const branch = this._branches.get(name);
+      if(branch) {
+        return branch;
+      }
+      
+      return this.addBranch(name);
+    }
+
+    return super.branch(name);
+  }
+
   async createBranch(name, from, options) {
     const branch = this._branches.get(name);
     if (branch) {
