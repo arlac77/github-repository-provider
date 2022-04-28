@@ -237,9 +237,7 @@ export class GithubRepository extends Repository {
       const { response, json } = await this.provider.fetchJSON(next);
 
       for (const h of json) {
-        const id = h.id;
-        delete h.id;
-        new this.hookClass(this, id, new Set(h.events), {
+        new this.hookClass(this, h.name, new Set(h.events), {
           ...h,
           ...h.config
         });
