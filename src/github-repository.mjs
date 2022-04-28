@@ -140,6 +140,7 @@ export class GithubRepository extends Repository {
       this._ref = new Map();
     }
 
+    // TODO: 409 -> none repeatable
     const { response, json } = await this.provider.fetchJSON(
       `repos/${this.slug}/git/ref/${ref}`
     );
