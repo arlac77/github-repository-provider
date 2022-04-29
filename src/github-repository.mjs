@@ -1,6 +1,12 @@
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import { Repository } from "repository-provider";
 import { getHeaderLink } from "fetch-link-util";
+import { defaultStateActions, errorHandler } from "fetch-rate-limit-util";
+
+const confictErrorActions = {
+  ...defaultStateActions,
+  409: errorHandler
+};
 
 /**
  * Repository on GitHub.
@@ -39,7 +45,7 @@ export class GithubRepository extends Repository {
 
   /**
    * {@link https://docs.github.com/en/rest/reference/commits#list-commits}
-   * @param {Object} options 
+   * @param {Object} options
    * @returns {AsyncIterator<Commit>}
    */
   async *commits(options) {
@@ -48,12 +54,12 @@ export class GithubRepository extends Repository {
     do {
       const { response, json } = await this.provider.fetchJSON(next);
 
-      for(const c of json) {
+      for (const c of json) {
         yield {
           sha: c.sha,
           message: c.message,
           author: c.author,
-          committer: c.committer,
+          committer: c.committer
         };
       }
       next = getHeaderLink(response.headers);
@@ -142,7 +148,9 @@ export class GithubRepository extends Repository {
 
     // TODO: 409 -> none repeatable
     const { response, json } = await this.provider.fetchJSON(
-      `repos/${this.slug}/git/ref/${ref}`
+      `repos/${this.slug}/git/ref/${ref}`,
+      undefined,
+      confictErrorActions
     );
 
     // TODO why does this happen ?
@@ -182,7 +190,9 @@ export class GithubRepository extends Repository {
       console.log(res);
       */
     } else {
-      sha = await this.refId(`heads/${from ? from.name : this.defaultBranchName}` );
+      sha = await this.refId(
+        `heads/${from ? from.name : this.defaultBranchName}`
+      );
     }
 
     const res = await this.provider.fetch(`repos/${this.slug}/git/refs`, {

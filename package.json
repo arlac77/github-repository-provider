@@ -32,11 +32,11 @@
   "dependencies": {
     "content-entry": "^5.0.0",
     "fetch-link-util": "^1.0.8",
-    "fetch-rate-limit-util": "^2.9.5",
+    "fetch-rate-limit-util": "^2.10.0",
     "matching-iterator": "^2.0.4",
     "node-fetch": "^3.2.4",
     "one-time-execution-method": "^2.0.13",
-    "repository-provider": "^28.3.4"
+    "repository-provider": "^28.3.5"
   },
   "devDependencies": {
     "ava": "^4.2.0",

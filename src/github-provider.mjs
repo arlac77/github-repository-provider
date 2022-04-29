@@ -92,7 +92,7 @@ export class GithubProvider extends MultiGroupProvider {
     };
   }
 
-  fetch(url, options = {}, responseHandler) {
+  fetch(url, options = {}, responseHandler, actions) {
     return stateActionHandler(
       fetch,
       new URL(url, this.api),
@@ -104,15 +104,20 @@ export class GithubProvider extends MultiGroupProvider {
         }
       },
       responseHandler,
-      undefined,
+      actions,
       (url, ...args) => this.trace(url.toString(), ...args)
     );
   }
 
-  fetchJSON(url, options) {
-    return this.fetch(url, options, async response => {
-      return { response, json: await response.json() };
-    });
+  fetchJSON(url, options, actions) {
+    return this.fetch(
+      url,
+      options,
+      async response => {
+        return { response, json: await response.json() };
+      },
+      actions
+    );
   }
 
   /**
