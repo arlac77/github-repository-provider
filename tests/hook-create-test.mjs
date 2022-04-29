@@ -15,7 +15,7 @@ test("add hook", async t => {
         url: "http://somewere.com/path"
     });
 
-    t.is(hook.repository, repository);
+    t.is(hook.owner, repository);
     t.is(hook.active, true);
     t.deepEqual(hook.events, new Set(["a"]));
 });
