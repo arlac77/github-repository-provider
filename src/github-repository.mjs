@@ -146,7 +146,6 @@ export class GithubRepository extends Repository {
       this._ref = new Map();
     }
 
-    // TODO: 409 -> none repeatable
     const { response, json } = await this.provider.fetchJSON(
       `repos/${this.slug}/git/ref/${ref}`,
       undefined,
@@ -166,6 +165,8 @@ export class GithubRepository extends Repository {
   }
 
   async createBranch(name, from, options) {
+    await this.initializeBranches();
+    
     const branch = this._branches.get(name);
     if (branch) {
       return branch;
@@ -206,6 +207,8 @@ export class GithubRepository extends Repository {
     if (res.ok) {
       return this.addBranch(name, options);
     }
+
+    throw new Error(`Unable to create branch '${name}'`);
   }
 
   async deleteBranch(name) {
