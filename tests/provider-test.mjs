@@ -25,7 +25,7 @@ test("provider", async t => {
 
   const branch = await repository.branch("master");
 
-  t.is(branch.owner.name, "arlac77");
+  t.is(branch.repository.owner.name, "arlac77");
   t.is(branch.name, "master");
 });
 
@@ -148,7 +148,7 @@ test("provider repo with full url .git#branch git+https", async t => {
 
   t.is(branch.name, "master");
   t.is(branch.url, "https://github.com/arlac77/github-repository-provider.git");
-  t.is(branch.owner.name, REPOSITORY_OWNER);
+  t.is(branch.repository.owner.name, REPOSITORY_OWNER);
   t.is(branch.fullCondensedName, "arlac77/github-repository-provider");
 });
 
