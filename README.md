@@ -2,12 +2,12 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![minified size](https://badgen.net/bundlephobia/min/github-repository-provider)](https://bundlephobia.com/result?p=github-repository-provider)
 [![downloads](http://img.shields.io/npm/dm/github-repository-provider.svg?style=flat-square)](https://npmjs.org/package/github-repository-provider)
-[![GitHub Issues](https://img.shields.io/github/issues/arlac77/github-repository-provider.svg?style=flat-square)](https://github.com/arlac77/github-repository-provider/issues)
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Farlac77%2Fgithub-repository-provider%2Fbadge\&style=flat)](https://actions-badge.atrox.dev/arlac77/github-repository-provider/goto)
+[![GitHub Issues](https://img.shields.io/github/issues/github-repository-provider/github-repository-provider.svg?style=flat-square)](https://github.com/github-repository-provider/github-repository-provider/issues)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fgithub-repository-provider%2Fgithub-repository-provider%2Fbadge\&style=flat)](https://actions-badge.atrox.dev/github-repository-provider/github-repository-provider/goto)
 [![Styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-[![Known Vulnerabilities](https://snyk.io/test/github/arlac77/github-repository-provider/badge.svg)](https://snyk.io/test/github/arlac77/github-repository-provider)
-[![Coverage Status](https://coveralls.io/repos/arlac77/github-repository-provider/badge.svg)](https://coveralls.io/github/arlac77/github-repository-provider)
+[![Known Vulnerabilities](https://snyk.io/test/github/github-repository-provider/github-repository-provider/badge.svg)](https://snyk.io/test/github/github-repository-provider/github-repository-provider)
+[![Coverage Status](https://coveralls.io/repos/github-repository-provider/github-repository-provider/badge.svg)](https://coveralls.io/github/github-repository-provider/github-repository-provider)
 
 # github-repository-provider
 
