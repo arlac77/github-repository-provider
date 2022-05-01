@@ -3,7 +3,7 @@ import { Repository } from "repository-provider";
 import { getHeaderLink } from "fetch-link-util";
 import { defaultStateActions, errorHandler } from "fetch-rate-limit-util";
 
-const confictErrorActions = {
+const conflictErrorActions = {
   ...defaultStateActions,
   409: errorHandler
 };
@@ -149,9 +149,8 @@ export class GithubRepository extends Repository {
     const { response, json } = await this.provider.fetchJSON(
       `repos/${this.slug}/git/ref/${ref}`,
       undefined,
-      confictErrorActions
+      conflictErrorActions
     );
-
     // TODO why does this happen ?
     if (!response.ok || !json.object.sha) {
       throw new Error(`No refId for '${this.fullName}' '${ref}'`);
