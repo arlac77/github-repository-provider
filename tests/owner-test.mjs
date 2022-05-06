@@ -14,7 +14,13 @@ test("owner with auth", async t => {
   const repo = await owner.repository("github-repository-provider");
   t.is(repo.name, "github-repository-provider");
   t.is(repo.fullName, "arlac77/github-repository-provider");
-  t.true(owner._repositories.size > 25);
+
+  let n = 0;
+  for await (const r of owner.repositories()) {
+    n++;
+  }
+
+  t.true(n > 25);
 });
 
 test("list repositories", async t => {
