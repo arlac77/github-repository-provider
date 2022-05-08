@@ -103,7 +103,7 @@ export class GithubPullRequest extends PullRequest {
   /**
    *
    */
-  async _write() {
+  async update() {
     const res = await this.provider.fetch(
       `repos/${this.source.repository.slug}/pulls/${this.number}`,
       {
