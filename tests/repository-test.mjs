@@ -20,7 +20,7 @@ test("repository writableAttributes", async t => {
     {
       description: "test template-tools",
       archived: false,
-      homePageURL: "https://github.com/arlac77/sync-test-repository#readme",
+      homePageURL: REPOSITORY_NAME + "#readme",
       allow_auto_merge: false,
       allow_merge_commit: false,
       allow_rebase_merge: false,
