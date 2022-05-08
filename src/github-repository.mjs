@@ -166,14 +166,19 @@ export class GithubRepository extends Repository {
   async createBranch(name, from, options) {
     await this.initializeBranches();
     
-    const branch = this._branches.get(name);
+    const branch = await this.branch(name);
     if (branch) {
       return branch;
     }
 
     let sha;
 
-    if (this._branches.size === 0) {
+    if (this.hasBranches) {
+      sha = await this.refId(
+        `heads/${from ? from.name : this.defaultBranchName}`
+      );
+    }
+        else {
       /*
        * https://stackoverflow.com/questions/9765453/is-gits-semi-secret-empty-tree-object-reliable-and-why-is-there-not-a-symbolic/9766506#9766506
        * sha1:4b825dc642cb6eb9a060e54bf8d69288fbee4904
@@ -189,10 +194,6 @@ export class GithubRepository extends Repository {
       });
       console.log(res);
       */
-    } else {
-      sha = await this.refId(
-        `heads/${from ? from.name : this.defaultBranchName}`
-      );
     }
 
     const res = await this.provider.fetch(`repos/${this.slug}/git/refs`, {
