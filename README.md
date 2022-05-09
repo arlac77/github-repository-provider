@@ -61,7 +61,7 @@ console.log(entry.name);
 *   [GithubPullRequest](#githubpullrequest)
     *   [\_merge](#\_merge)
         *   [Parameters](#parameters-8)
-    *   [\_write](#\_write)
+    *   [update](#update)
     *   [validMergeMethods](#validmergemethods)
     *   [list](#list)
         *   [Parameters](#parameters-9)
@@ -75,7 +75,7 @@ console.log(entry.name);
     *   [urls](#urls)
     *   [issuesURL](#issuesurl)
     *   [homePageURL](#homepageurl)
-    *   [update](#update)
+    *   [update](#update-1)
     *   [refId](#refid)
         *   [Parameters](#parameters-12)
     *   [deletePullRequest](#deletepullrequest)
@@ -247,7 +247,7 @@ Github pull request.
 
 *   `method`   (optional, default `"MERGE"`)
 
-### \_write
+### update
 
 ### validMergeMethods
 
