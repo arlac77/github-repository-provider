@@ -128,6 +128,9 @@ export class GithubRepository extends Repository {
     });
   }
 
+
+  #ref;
+
   /**
    * Get sha of a ref.
    * {@link https://developer.github.com/v3/git/refs/}
@@ -137,13 +140,13 @@ export class GithubRepository extends Repository {
   async refId(ref) {
     ref = ref.replace(/^refs\//, "");
 
-    if (this._ref) {
-      const sha = this._ref.get(ref);
+    if (this.#ref) {
+      const sha = this.#ref.get(ref);
       if (sha) {
         return sha;
       }
     } else {
-      this._ref = new Map();
+      this.#ref = new Map();
     }
 
     const { response, json } = await this.provider.fetchJSON(
@@ -158,7 +161,7 @@ export class GithubRepository extends Repository {
 
     const sha = json.object.sha;
 
-    this._ref.set(ref, sha);
+    this.#ref.set(ref, sha);
 
     return sha;
   }
@@ -236,7 +239,7 @@ export class GithubRepository extends Repository {
     });
 
     if (res.ok) {
-      this._pullRequests.delete(name);
+      super.deletePullRequest(name);
     }
   }
 
