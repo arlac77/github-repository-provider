@@ -234,9 +234,11 @@ class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
     return this.getBuffer();
   }
 
+  #buffer;
+  
   async getBuffer() {
-    if (this._buffer) {
-      return this._buffer;
+    if (this.#buffer) {
+      return this.#buffer;
     }
 
     const branch = this.branch;
@@ -246,11 +248,11 @@ class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
         `repos/${branch.slug}/contents/${this.name}?ref=${branch.ref}`
       );
 
-      this._buffer = Buffer.from(json.content, "base64");
-      return this._buffer;
+      this.#buffer = Buffer.from(json.content, "base64");
+      return this.#buffer;
     };
 
-    this._buffer = f();
-    return this._buffer;
+    this.#buffer = f();
+    return this.#buffer;
   }
 }
