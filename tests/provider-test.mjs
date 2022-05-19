@@ -1,5 +1,10 @@
 import test from "ava";
-import { assertRepo, providerTest, createMessageDestination } from "repository-provider-test-support";
+import {
+  assertRepo,
+  providerTest,
+  createMessageDestination
+} from "repository-provider-test-support";
+import { ETagFileCache } from "../src/etag-file-cache.mjs";
 import GithubProvider from "github-repository-provider";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
@@ -8,6 +13,8 @@ const REPOSITORY_OWNER = "arlac77";
 const messageDestination = createMessageDestination().messageDestination;
 const provider = GithubProvider.initialize({ messageDestination }, process.env);
 
+//provider.cache = new ETagFileCache(new URL("cache.json", import.meta.url));
+
 test(providerTest, provider);
 
 test("provider factory name", t => t.is(GithubProvider.name, "github"));
@@ -15,7 +22,11 @@ test("provider factory name", t => t.is(GithubProvider.name, "github"));
 test("provider", async t => {
   t.is(provider.priority, 1000.0);
   t.is(provider.name, "github");
-  t.true(provider.reateLimitRemaining >= 0 && provider.reateLimitRemaining <= Number.MAX_VALUE, "rate limit remaining is present");
+  t.true(
+    provider.reateLimitRemaining >= 0 &&
+      provider.reateLimitRemaining <= Number.MAX_VALUE,
+    "rate limit remaining is present"
+  );
 
   const repository = await provider.repository(REPOSITORY_NAME);
 

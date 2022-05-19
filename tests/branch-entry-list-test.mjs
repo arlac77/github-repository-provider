@@ -1,4 +1,5 @@
 import test from "ava";
+import { ETagFileCache } from "../src/etag-file-cache.mjs";
 import {
   entryListTest,
   REPOSITORY_NAME,
@@ -8,6 +9,7 @@ import GithubProvider from "github-repository-provider";
 
 const messageDestination = createMessageDestination().messageDestination;
 const provider = GithubProvider.initialize({ messageDestination }, process.env);
+//provider.cache = new ETagFileCache(new URL("cache.json", import.meta.url));
 
 test("branch entries list", async t => {
   const branch = await provider.branch(REPOSITORY_NAME);
