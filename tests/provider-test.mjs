@@ -4,7 +4,6 @@ import {
   providerTest,
   createMessageDestination
 } from "repository-provider-test-support";
-import { ETagFileCache } from "../src/etag-file-cache.mjs";
 import GithubProvider from "github-repository-provider";
 
 const REPOSITORY_NAME = "arlac77/sync-test-repository";
@@ -12,8 +11,6 @@ const REPOSITORY_OWNER = "arlac77";
 
 const messageDestination = createMessageDestination().messageDestination;
 const provider = GithubProvider.initialize({ messageDestination }, process.env);
-
-//provider.cache = new ETagFileCache(new URL("cache.json", import.meta.url));
 
 test(providerTest, provider);
 
