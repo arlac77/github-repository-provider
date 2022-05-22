@@ -8,7 +8,6 @@ import { GithubRepository } from "./github-repository.mjs";
 import { GithubBranch } from "./github-branch.mjs";
 import { GithubOwner } from "./github-owner.mjs";
 import { GithubPullRequest } from "./github-pull-request.mjs";
-import { ETagDummyCache } from "./etag-dummy-cache.mjs";
 export { GithubRepository, GithubBranch, GithubOwner, GithubPullRequest };
 
 const host = "github.com";
@@ -93,8 +92,6 @@ export class GithubProvider extends MultiGroupProvider {
     };
   }
 
-  cache = new ETagDummyCache();
-
   fetch(url, options = {}, responseHandler, actions) {
     return stateActionHandler(
       fetch,
@@ -132,19 +129,10 @@ export class GithubProvider extends MultiGroupProvider {
         const url = `user/repos?page=${page}&per_page=100`;
         const { response, json } = await this.fetchJSON(url, {
           headers: {
-            ...this.cache.header(url),
             accept: "application/vnd.github.baptiste-preview+json"
             //            accept: "application/vnd.github.v3+json"
           }
         });
-
-        if(response.code === 304 ) {
-          json = this.cache.data(url);
-        }
-
-        if (response.headers.get('etag')) {
-          this.cache.store(url, response.headers.get('etag'), json);
-        }
 
         if (json.length === 0 || !Array.isArray(json)) {
           break;
