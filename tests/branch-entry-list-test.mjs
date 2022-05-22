@@ -1,5 +1,4 @@
 import test from "ava";
-import { ETagFileCache } from "../src/etag-file-cache.mjs";
 import {
   entryListTest,
   REPOSITORY_NAME,
