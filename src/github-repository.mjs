@@ -39,6 +39,9 @@ export class GithubRepository extends Repository {
     };
   }
 
+  /**
+   * @return {string} "main"
+   */
   get defaultBranchName() {
     return "main";
   }
@@ -117,11 +120,10 @@ export class GithubRepository extends Repository {
    * API endpoint for ourselfs.
    * @return {string}
    */
-  get api()
-  {
-    return `repos/${this.slug}`;	
+  get api() {
+    return `repos/${this.slug}`;
   }
-  
+
   /**
    * {@link https://developer.github.com/v3/repos/#update-a-repository}
    */
@@ -136,7 +138,6 @@ export class GithubRepository extends Repository {
       )
     });
   }
-
 
   #ref;
 
@@ -177,7 +178,7 @@ export class GithubRepository extends Repository {
 
   async createBranch(name, from, options) {
     await this.initializeBranches();
-    
+
     const branch = await this.branch(name);
     if (branch) {
       return branch;
@@ -189,8 +190,7 @@ export class GithubRepository extends Repository {
       sha = await this.refId(
         `heads/${from ? from.name : this.defaultBranchName}`
       );
-    }
-        else {
+    } else {
       /*
        * https://stackoverflow.com/questions/9765453/is-gits-semi-secret-empty-tree-object-reliable-and-why-is-there-not-a-symbolic/9766506#9766506
        * sha1:4b825dc642cb6eb9a060e54bf8d69288fbee4904
@@ -270,6 +270,7 @@ export class GithubRepository extends Repository {
       next = getHeaderLink(response.headers);
     } while (next);
   }
+  
 }
 
 replaceWithOneTimeExecutionMethod(
