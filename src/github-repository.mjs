@@ -114,10 +114,19 @@ export class GithubRepository extends Repository {
   }
 
   /**
+   * API endpoint for ourselfs.
+   * @return {string}
+   */
+  get api()
+  {
+    return `repos/${this.slug}`;	
+  }
+  
+  /**
    * {@link https://developer.github.com/v3/repos/#update-a-repository}
    */
   async update() {
-    return this.provider.fetch(`repos/${this.slug}`, {
+    return this.provider.fetch(this.api, {
       method: "PATCH",
       body: JSON.stringify(
         mapAttributesInverse(
@@ -150,7 +159,7 @@ export class GithubRepository extends Repository {
     }
 
     const { response, json } = await this.provider.fetchJSON(
-      `repos/${this.slug}/git/ref/${ref}`,
+      `${this.api}/git/ref/${ref}`,
       undefined,
       conflictErrorActions
     );
@@ -199,7 +208,7 @@ export class GithubRepository extends Repository {
       */
     }
 
-    const res = await this.provider.fetch(`repos/${this.slug}/git/refs`, {
+    const res = await this.provider.fetch(`${this.api}/git/refs`, {
       method: "POST",
       body: JSON.stringify({
         ref: `refs/heads/${name}`,
@@ -216,7 +225,7 @@ export class GithubRepository extends Repository {
 
   async deleteBranch(name) {
     const res = await this.provider.fetch(
-      `repos/${this.slug}/git/refs/heads/${name}`,
+      `${this.api}/git/refs/heads/${name}`,
       {
         method: "DELETE"
       }
@@ -233,7 +242,7 @@ export class GithubRepository extends Repository {
    * @param {string} name
    */
   async deletePullRequest(name) {
-    const res = await this.provider.fetch(`repos/${this.slug}/pulls/${name}`, {
+    const res = await this.provider.fetch(`${this.api}/pulls/${name}`, {
       method: "PATCH",
       body: JSON.stringify({ state: "closed" })
     });
@@ -247,7 +256,7 @@ export class GithubRepository extends Repository {
    * {@link https://developer.github.com/v3/repos/hooks/}
    */
   async initializeHooks() {
-    let next = `repos/${this.slug}/hooks`;
+    let next = `${this.api}/hooks`;
 
     do {
       const { response, json } = await this.provider.fetchJSON(next);
