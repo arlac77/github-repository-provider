@@ -68,6 +68,7 @@ console.log(entry.name);
     *   [open](#open)
         *   [Parameters](#parameters-10)
 *   [GithubRepository](#githubrepository)
+    *   [defaultBranchName](#defaultbranchname)
     *   [commits](#commits)
         *   [Parameters](#parameters-11)
     *   [initializeBranches](#initializebranches)
@@ -75,6 +76,7 @@ console.log(entry.name);
     *   [urls](#urls)
     *   [issuesURL](#issuesurl)
     *   [homePageURL](#homepageurl)
+    *   [api](#api)
     *   [update](#update-1)
     *   [refId](#refid)
         *   [Parameters](#parameters-12)
@@ -280,6 +282,10 @@ Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Glob
 
 Repository on GitHub.
 
+### defaultBranchName
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** "main"
+
 ### commits
 
 <https://docs.github.com/en/rest/reference/commits#list-commits>
@@ -311,6 +317,12 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 ### homePageURL
 
 Deliver the url of the repositories home page.
+
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+### api
+
+API endpoint for ourselfs.
 
 Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
