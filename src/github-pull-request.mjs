@@ -39,7 +39,7 @@ export class GithubPullRequest extends PullRequest {
     for (const state of [
       ...(filter.states ? filter.states : this.defaultListStates)
     ]) {
-      let next = `/repos/${repository.slug}/pulls?state=${state}${head}${base}`;
+      let next = `${repository.api}/pulls?state=${state}${head}${base}`;
 
       do {
         const provider = repository.provider;
@@ -73,7 +73,7 @@ export class GithubPullRequest extends PullRequest {
     }
 
     const { json } = await destination.provider.fetchJSON(
-      `repos/${destination.repository.slug}/pulls`,
+      `${destination.repository.api}/pulls`,
       {
         method: "POST",
         body: JSON.stringify({
@@ -92,7 +92,7 @@ export class GithubPullRequest extends PullRequest {
    */
   async _merge(method = "MERGE") {
     const res = await this.provider.fetch(
-      `repos/${this.source.repository.slug}/pulls/${this.number}/merge`,
+      `${this.source.repository.api}/pulls/${this.number}/merge`,
       {
         method: "PUT",
         body: JSON.stringify({ merge_method: method, sha: "???" })
@@ -105,7 +105,7 @@ export class GithubPullRequest extends PullRequest {
    */
   async update() {
     const res = await this.provider.fetch(
-      `repos/${this.source.repository.slug}/pulls/${this.number}`,
+      `${this.source.repository.api}/pulls/${this.number}`,
       {
         method: "PATCH",
         body: JSON.stringify({
