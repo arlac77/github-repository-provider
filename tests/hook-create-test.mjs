@@ -11,7 +11,8 @@ const provider = GithubProvider.initialize({ messageDestination }, process.env);
 test("add hook", async t => {
     const repository = await provider.repository(REPOSITORY_NAME);
 
-    const hook = new Hook(repository, "test-hook1", new Set(["a"]), {
+    const hook = new Hook(repository, "test-hook1", {
+        events: new Set(["a"]),
         url: "http://somewere.com/path"
     });
 

@@ -262,7 +262,7 @@ export class GithubRepository extends Repository {
       const { response, json } = await this.provider.fetchJSON(next);
 
       for (const h of json) {
-        new this.hookClass(this, h.name, new Set(h.events), {
+        this.addHook(h.name, {
           ...h,
           ...h.config
         });
@@ -270,7 +270,6 @@ export class GithubRepository extends Repository {
       next = getHeaderLink(response.headers);
     } while (next);
   }
-  
 }
 
 replaceWithOneTimeExecutionMethod(

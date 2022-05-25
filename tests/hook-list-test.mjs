@@ -16,17 +16,21 @@ test("hooks list", async t => {
     hooks.push(hook);
   }
 
-  const hook = hooks.find(h => h.url === "https://deepscan.io/api/webhook/github");
+  const hook = hooks.find(h => h.url === "https://codecov.io/webhooks/github");
 
   t.deepEqual(
     hook.events,
     new Set([
+      "delete",
+      "public",
       "pull_request",
-      "push"
+      "push",
+      "repository",
+      "status"
     ])
   );
   t.is(hook.content_type, "json");
-  t.is(hook.url, "https://deepscan.io/api/webhook/github");
+  t.is(hook.url, "https://codecov.io/webhooks/github");
   t.true(hook.active);
   t.is(hook.name, "web");
 
@@ -34,13 +38,17 @@ test("hooks list", async t => {
     name: "web",
     active: true,
     events: [
+      "delete",
+      "public",
       "pull_request",
-      "push"
+      "push",
+      "repository",
+      "status"
     ],
-    id: 234751464,
+    id: 18049825,
     insecure_ssl: false,
     secret: "********",
     content_type: "json",
-    url: "https://deepscan.io/api/webhook/github"
+    url: "https://codecov.io/webhooks/github"
   });
 });
