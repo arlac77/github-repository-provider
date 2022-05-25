@@ -49,7 +49,7 @@ export class GithubRepository extends Repository {
    * @returns {AsyncIterator<Commit>}
    */
   async *commits(options) {
-    let next = `repos/${this.slug}/commits`;
+    let next = `${this.api}/commits`;
 
     do {
       const { response, json } = await this.provider.fetchJSON(next);
@@ -67,7 +67,7 @@ export class GithubRepository extends Repository {
   }
 
   async #initializeSlot(typeName, addMethodName) {
-    let next = `repos/${this.slug}/${typeName}`;
+    let next = `${this.api}/${typeName}`;
 
     do {
       const { response, json } = await this.provider.fetchJSON(next);
