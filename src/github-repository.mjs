@@ -66,7 +66,7 @@ export class GithubRepository extends Repository {
     } while (next);
   }
 
-  async _initializeSlot(typeName, addMethodName) {
+  async #initializeSlot(typeName, addMethodName) {
     let next = `repos/${this.slug}/${typeName}`;
 
     do {
@@ -80,14 +80,14 @@ export class GithubRepository extends Repository {
    * {@link https://developer.github.com/v3/repos/branches/#list-branches}
    */
   async initializeBranches() {
-    return this._initializeSlot("branches", "addBranch");
+    return this.#initializeSlot("branches", "addBranch");
   }
 
   /**
    * {@link https://docs.github.com/en/rest/reference/repos#list-repository-tags}
    */
   async initializeTags() {
-    return this._initializeSlot("tags", "addTag");
+    return this.#initializeSlot("tags", "addTag");
   }
 
   /**
