@@ -10,11 +10,6 @@ import {
  * Branch on GitHub.
  */
 export class GithubBranch extends Branch {
-
-  get api()
-  {
-  	return this.repository.api;
-  }
   
   /**
    * Writes content into the branch
