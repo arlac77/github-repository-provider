@@ -13,6 +13,13 @@ export class GithubPullRequest extends PullRequest {
     return new Set(["MERGE", "SQUASH", "REBASE"]);
   }
 
+  static get attributeMapping() {
+    return {
+      ...super.attributeMapping,
+      url: "api"
+    };
+  }
+  
   static get attributes() {
     return {
       ...super.attributes,
