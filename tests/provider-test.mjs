@@ -111,10 +111,6 @@ test("provider repo with full https url", async t => {
   );
 
   t.is(repository.fullName, REPOSITORY_NAME);
-  t.is(
-    repository.urls.find(u => u.startsWith("http")),
-    "https://github.com/" + REPOSITORY_NAME + ".git"
-  );
 
   t.is(repository.url, "https://github.com/" + REPOSITORY_NAME + ".git");
   t.is(
@@ -139,10 +135,7 @@ test("provider repo with git@ url", async t => {
 
   t.is(repository.fullName, REPOSITORY_NAME);
   t.is(repository.owner.name, REPOSITORY_OWNER);
-  t.is(
-    repository.urls.find(u => u.startsWith("http")),
-    "https://github.com/" + REPOSITORY_NAME + ".git"
-  );
+  t.is(repository.url,"https://github.com/" + REPOSITORY_NAME + ".git");
 });
 
 test("provider repo with undefined", async t => {

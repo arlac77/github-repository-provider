@@ -19,7 +19,8 @@ export class GithubRepository extends Repository {
       is_template: "isTemplate",
       private: "isPrivate",
       fork: "isFork",
-      default_branch: "defaultBranchName"
+      default_branch: "defaultBranchName",
+      url: "api"
     };
   }
 
@@ -94,10 +95,10 @@ export class GithubRepository extends Repository {
   }
 
   /**
-   * @return {string[]} github https url
+   * @return {string} github https url
    */
-  get urls() {
-    return [`${this.provider.url}${this.fullName}.git`];
+  get url() {
+    return `${this.provider.url}${this.fullName}.git`;
   }
 
   /**
