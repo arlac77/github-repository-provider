@@ -73,7 +73,7 @@ console.log(entry.name);
         *   [Parameters](#parameters-11)
     *   [initializeBranches](#initializebranches)
     *   [initializeTags](#initializetags)
-    *   [urls](#urls)
+    *   [url](#url)
     *   [issuesURL](#issuesurl)
     *   [homePageURL](#homepageurl)
     *   [api](#api)
@@ -304,9 +304,9 @@ Returns **AsyncIterator\<Commit>**
 
 <https://docs.github.com/en/rest/reference/repos#list-repository-tags>
 
-### urls
+### url
 
-Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** github https url
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** github https url
 
 ### issuesURL
 
