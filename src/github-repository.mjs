@@ -162,8 +162,7 @@ export class GithubRepository extends Repository {
 
     const { response, json } = await this.provider.fetchJSON(
       `${this.api}/git/ref/${ref}`,
-      undefined,
-      conflictErrorActions
+      { stateActions: conflictErrorActions }
     );
     // TODO why does this happen ?
     if (!response.ok || !json.object.sha) {

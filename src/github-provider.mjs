@@ -92,32 +92,25 @@ export class GithubProvider extends MultiGroupProvider {
     };
   }
 
-  fetch(url, options = {}, responseHandler, actions) {
-    return stateActionHandler(
-      fetch,
-      new URL(url, this.api),
-      {
-        ...options,
-        headers: {
-          authorization: `token ${this.authentication.token}`,
-          ...options.headers
-        }
-      },
-      responseHandler,
-      actions,
-      (url, ...args) => this.trace(url.toString(), ...args)
-    );
+  fetch(url, options = {}) {
+    options.reporter = (url, ...args) => this.trace(url.toString(), ...args);
+    options.cache = this.cache;
+    
+    return stateActionHandler(fetch, new URL(url, this.api), {
+      ...options,
+      headers: {
+        authorization: `token ${this.authentication.token}`,
+        ...options.headers
+      }
+    });
   }
 
-  fetchJSON(url, options, actions) {
-    return this.fetch(
-      url,
-      options,
-      async response => {
-        return { response, json: await response.json() };
-      },
-      actions
-    );
+  fetchJSON(url, options={}) {
+    options.postprocess = async response => {
+      return { response, json: await response.json() };
+    };
+
+    return this.fetch(url, options);
   }
 
   /**
