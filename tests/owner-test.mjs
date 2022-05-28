@@ -1,8 +1,6 @@
 import test from "ava";
-import { createMessageDestination } from "repository-provider-test-support";
+import { createMessageDestination, REPOSITORY_OWNER } from "repository-provider-test-support";
 import GithubProvider from "github-repository-provider";
-
-const REPOSITORY_OWNER = "arlac77";
 
 const messageDestination = createMessageDestination().messageDestination;
 const provider = GithubProvider.initialize({ messageDestination }, process.env);

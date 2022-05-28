@@ -2,12 +2,11 @@ import test from "ava";
 import {
   assertRepo,
   providerTest,
-  createMessageDestination
+  createMessageDestination,
+  REPOSITORY_NAME,
+  REPOSITORY_OWNER
 } from "repository-provider-test-support";
 import GithubProvider from "github-repository-provider";
-
-const REPOSITORY_NAME = "arlac77/sync-test-repository";
-const REPOSITORY_OWNER = "arlac77";
 
 const messageDestination = createMessageDestination().messageDestination;
 const provider = GithubProvider.initialize({ messageDestination }, process.env);

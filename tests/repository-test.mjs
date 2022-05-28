@@ -8,7 +8,6 @@ import GithubProvider from "github-repository-provider";
 const messageDestination = createMessageDestination().messageDestination;
 const provider = GithubProvider.initialize({ messageDestination }, process.env);
 
-
 test("repository writableAttributes", async t => {
   const repository = await provider.repository(REPOSITORY_NAME);
 
