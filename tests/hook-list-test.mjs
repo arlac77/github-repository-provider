@@ -1,12 +1,12 @@
 import test from "ava";
-import { createMessageDestination, REPOSITORY_NAME } from "repository-provider-test-support";
+import { createMessageDestination } from "repository-provider-test-support";
 import GithubProvider from "github-repository-provider";
 
 const messageDestination = createMessageDestination().messageDestination;
 const provider = GithubProvider.initialize({ messageDestination }, process.env);
 
 test("hooks list", async t => {
-  const repository = await provider.repository(REPOSITORY_NAME);
+  const repository = await provider.repository("arlac77/github-repository-provider");
 
   const hooks = [];
 
