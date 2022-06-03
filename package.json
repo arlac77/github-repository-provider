@@ -30,22 +30,22 @@
     "lint:docs": "documentation lint ./src/**/*.mjs"
   },
   "dependencies": {
-    "content-entry": "^5.0.2",
+    "content-entry": "^5.0.3",
     "fetch-link-util": "^1.0.8",
     "fetch-rate-limit-util": "^3.0.4",
     "matching-iterator": "^2.0.4",
     "node-fetch": "^3.2.5",
-    "one-time-execution-method": "^3.0.1",
-    "repository-provider": "^31.2.2"
+    "one-time-execution-method": "^3.0.2",
+    "repository-provider": "^31.2.3"
   },
   "devDependencies": {
     "ava": "^4.3.0",
     "c8": "^7.11.3",
     "documentation": "^13.2.5",
-    "etag-cache-leveldb": "^1.0.4",
+    "etag-cache-leveldb": "^1.0.5",
     "leveldown": "^6.1.1",
     "levelup": "^5.1.1",
-    "repository-provider-test-support": "^2.2.0",
+    "repository-provider-test-support": "^2.2.1",
     "semantic-release": "^19.0.2"
   },
   "engines": {
