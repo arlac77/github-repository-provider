@@ -31,11 +31,11 @@
   },
   "dependencies": {
     "content-entry": "^5.0.3",
-    "fetch-link-util": "^1.0.9",
+    "fetch-link-util": "^1.0.10",
     "fetch-rate-limit-util": "^3.0.4",
-    "matching-iterator": "^2.0.4",
+    "matching-iterator": "^2.0.6",
     "node-fetch": "^3.2.5",
-    "one-time-execution-method": "^3.0.2",
+    "one-time-execution-method": "^3.0.3",
     "repository-provider": "^31.2.5"
   },
   "devDependencies": {
