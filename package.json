@@ -30,7 +30,7 @@
     "lint:docs": "documentation lint ./src/**/*.mjs"
   },
   "dependencies": {
-    "content-entry": "^5.0.5",
+    "content-entry": "^5.0.4",
     "fetch-link-util": "^1.0.10",
     "fetch-rate-limit-util": "^3.0.5",
     "matching-iterator": "^2.0.6",
