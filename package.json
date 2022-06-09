@@ -30,7 +30,7 @@
     "lint:docs": "documentation lint ./src/**/*.mjs"
   },
   "dependencies": {
-    "content-entry": "^5.0.5",
+    "content-entry": "^5.0.6",
     "fetch-link-util": "^1.0.10",
     "fetch-rate-limit-util": "^3.0.9",
     "matching-iterator": "^2.0.6",
@@ -45,7 +45,7 @@
     "etag-cache-leveldb": "^1.0.8",
     "leveldown": "^6.1.1",
     "levelup": "^5.1.1",
-    "repository-provider-test-support": "^2.2.3",
+    "repository-provider-test-support": "^2.2.4",
     "semantic-release": "^19.0.3"
   },
   "engines": {
