@@ -176,6 +176,27 @@ export class GithubRepository extends Repository {
     return sha;
   }
 
+  // TODO belongs into Ref ?
+  async setRefId(ref, sha, options) {
+    //console.log("NEW HEAD", sha, ref);
+
+    const r = await this.provider.fetchJSON(`${this.api}/git/${ref}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        ...options,
+        sha
+      })
+    });
+
+    if (r.response.ok && this.#ref) {
+      this.#ref.set(ref, sha);
+    }
+
+    //console.log(r.response.ok, r.response.status, r.json);
+
+    return r.json;
+  }
+
   async createBranch(name, from, options) {
     await this.initializeBranches();
 

@@ -19,7 +19,7 @@ export class GithubPullRequest extends PullRequest {
       url: "api"
     };
   }
-  
+
   static get attributes() {
     return {
       ...super.attributes,
@@ -79,6 +79,7 @@ export class GithubPullRequest extends PullRequest {
       return p;
     }
 
+    
     const { response, json } = await destination.provider.fetchJSON(
       `${destination.repository.api}/pulls`,
       {
@@ -90,10 +91,11 @@ export class GithubPullRequest extends PullRequest {
         })
       }
     );
-	if(!response.ok) {
-		throw new Error(response.statusText);	
-	}
-	
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
     return new this(source, destination, json.number, json);
   }
 

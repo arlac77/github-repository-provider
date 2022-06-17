@@ -10,6 +10,10 @@ import {
  * Branch on GitHub.
  */
 export class GithubBranch extends Branch {
+  #entries;
+  #tree;
+  #commitForSha;
+
   /**
    * Writes content into the branch
    * {@link https://developer.github.com/v3/git/blobs/#get-a-blob}
@@ -42,7 +46,7 @@ export class GithubBranch extends Branch {
    * @param {ContentEntry[]} entries
    * @param {Object} options
    */
-  async commit(message, entries, options = {}) {
+  async commit(message, entries, options) {
     const updates = await Promise.all(
       entries.map(entry => this.writeEntry(entry))
     );
@@ -73,6 +77,8 @@ export class GithubBranch extends Branch {
       })
     });
 
+    //console.log("TREE", json.sha, shaLatestCommit);
+
     let r = await this.provider.fetchJSON(`${this.api}/git/commits`, {
       method: "POST",
       body: JSON.stringify({
@@ -82,20 +88,8 @@ export class GithubBranch extends Branch {
       })
     });
 
-    r = await this.provider.fetchJSON(`${this.api}/git/${this.ref}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        ...options,
-        sha: r.json.sha
-      })
-    });
-
-    return r.json;
+    return this.owner.setRefId(this.ref, r.json.sha, options);
   }
-
-  #entries;
-  #tree;
-  #commitForSha;
 
   /**
    * {@link https://developer.github.com/v3/repos/contents/#get-repository-content}
