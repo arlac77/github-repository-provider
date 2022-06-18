@@ -10,9 +10,9 @@ import {
  * Branch on GitHub.
  */
 export class GithubBranch extends Branch {
-  #entries;
-  #tree;
-  #commitForSha;
+  #entries = new Map();
+  #trees = new Map();
+  #commits = new Map();
 
   /**
    * Writes content into the branch
@@ -29,9 +29,7 @@ export class GithubBranch extends Branch {
       })
     });
 
-    if (this.#entries) {
-      this.#entries.set(entry.name, entry);
-    }
+    this.#entries.set(entry.name, entry);
 
     entry.sha = json.sha;
 
@@ -77,18 +75,63 @@ export class GithubBranch extends Branch {
       })
     });
 
-    //console.log("TREE", json.sha, shaLatestCommit);
+    const treeSHA = json.sha;
+    this.#trees.set(treeSHA, json);
 
     let r = await this.provider.fetchJSON(`${this.api}/git/commits`, {
       method: "POST",
       body: JSON.stringify({
         message,
-        tree: json.sha,
+        tree: treeSHA,
         parents: [shaLatestCommit]
       })
     });
 
+    this.#commits.set(r.json.sha, r.json);
+
     return this.owner.setRefId(this.ref, r.json.sha, options);
+  }
+
+  /**
+   * {@link https://developer.github.com/v3/git/commits/#get-a-commit}
+   * @param {string} sha
+   * @return {Object} response
+   */
+  async commitForSha(sha) {
+    const commit = this.#commits.get(sha);
+    if (commit) {
+      return commit;
+    }
+
+    const { json } = await this.provider.fetchJSON(
+      `${this.api}/git/commits/${sha}`
+    );
+
+    this.#commits.set(sha, json);
+
+    return json;
+  }
+
+  /**
+   * @see https://developer.github.com/v3/git/trees/
+   * @param {string} sha
+   * @return {Object[]}
+   */
+  async tree(sha) {
+    let tree = this.#trees.get(sha);
+    if (tree) {
+      return tree;
+    }
+
+    const { json } = await this.provider.fetchJSON(
+      `${this.api}/git/trees/${sha}?recursive=1`
+    );
+
+    tree = json.tree;
+
+    this.#trees.set(sha, tree);
+
+    return tree;
   }
 
   /**
@@ -96,13 +139,9 @@ export class GithubBranch extends Branch {
    * @param {string} name
    */
   async entry(name) {
-    if (this.#entries) {
-      const entry = this.#entries.get(name);
-      if (entry) {
-        return entry;
-      }
-    } else {
-      this.#entries = new Map();
+    const entry = this.#entries.get(name);
+    if (entry) {
+      return entry;
     }
 
     const f = async () => {
@@ -126,62 +165,8 @@ export class GithubBranch extends Branch {
     return p;
   }
 
-  /**
-   * {@link https://developer.github.com/v3/git/commits/#get-a-commit}
-   * @param {string} sha
-   * @return {Object} response
-   */
-  async commitForSha(sha) {
-    if (this.#commitForSha) {
-      const json = this.#commitForSha.get(sha);
-      if (json) {
-        return json;
-      }
-    } else {
-      this.#commitForSha = new Map();
-    }
-
-    const { json } = await this.provider.fetchJSON(
-      `${this.api}/git/commits/${sha}`
-    );
-
-    this.#commitForSha.set(sha, json);
-
-    return json;
-  }
-
-  /**
-   * @see https://developer.github.com/v3/git/trees/
-   * @param {string} sha
-   * @return {Object[]}
-   */
-  async tree(sha) {
-    if (this.#tree) {
-      const tree = this.#tree.get(sha);
-      if (tree) {
-        return tree;
-      }
-    } else {
-      this.#tree = new Map();
-    }
-
-    const { json } = await this.provider.fetchJSON(
-      `${this.api}/git/trees/${sha}?recursive=1`
-    );
-
-    const tree = json.tree;
-
-    this.#tree.set(sha, tree);
-
-    return tree;
-  }
-
   async *entries(patterns) {
     const commit = await this.commitForSha(await this.refId());
-
-    if (!this.#entries) {
-      this.#entries = new Map();
-    }
 
     for (const entry of matcher(await this.tree(commit.tree.sha), patterns, {
       name: "path"
