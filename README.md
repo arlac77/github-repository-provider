@@ -38,11 +38,11 @@ console.log(entry.name);
         *   [Parameters](#parameters)
     *   [commit](#commit)
         *   [Parameters](#parameters-1)
-    *   [entry](#entry)
-        *   [Parameters](#parameters-2)
     *   [commitForSha](#commitforsha)
-        *   [Parameters](#parameters-3)
+        *   [Parameters](#parameters-2)
     *   [tree](#tree)
+        *   [Parameters](#parameters-3)
+    *   [entry](#entry)
         *   [Parameters](#parameters-4)
     *   [removeEntries](#removeentries)
         *   [Parameters](#parameters-5)
@@ -113,14 +113,6 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 *   `entries` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)\<ContentEntry>** 
 *   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
-### entry
-
-<https://developer.github.com/v3/repos/contents/#get-repository-content>
-
-#### Parameters
-
-*   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
 ### commitForSha
 
 <https://developer.github.com/v3/git/commits/#get-a-commit>
@@ -140,6 +132,14 @@ Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 *   `sha` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)>** 
+
+### entry
+
+<https://developer.github.com/v3/repos/contents/#get-repository-content>
+
+#### Parameters
+
+*   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### removeEntries
 
