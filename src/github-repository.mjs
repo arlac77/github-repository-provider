@@ -12,6 +12,8 @@ const conflictErrorActions = {
  * Repository on GitHub.
  */
 export class GithubRepository extends Repository {
+  #ref = new Map();
+
   static get attributeMapping() {
     return {
       ...super.attributeMapping,
@@ -140,8 +142,6 @@ export class GithubRepository extends Repository {
     });
   }
 
-  #ref;
-
   /**
    * Get sha of a ref.
    * {@link https://developer.github.com/v3/git/refs/}
@@ -151,13 +151,9 @@ export class GithubRepository extends Repository {
   async refId(ref) {
     ref = ref.replace(/^refs\//, "");
 
-    if (this.#ref) {
-      const sha = this.#ref.get(ref);
-      if (sha) {
-        return sha;
-      }
-    } else {
-      this.#ref = new Map();
+    let sha = this.#ref.get(ref);
+    if (sha) {
+      return sha;
     }
 
     const { response, json } = await this.provider.fetchJSON(
@@ -169,7 +165,7 @@ export class GithubRepository extends Repository {
       throw new Error(`No refId for '${this.fullName}' '${ref}'`);
     }
 
-    const sha = json.object.sha;
+    sha = json.object.sha;
 
     this.#ref.set(ref, sha);
 
@@ -192,7 +188,7 @@ export class GithubRepository extends Repository {
       this.#ref.set(ref, sha);
     }
 
-    //console.log(r.response.ok, r.response.status, r.json);
+    //console.log(ref, sha, r.response.ok, r.response.status, r.json);
 
     return r.json;
   }
