@@ -12,7 +12,7 @@ const conflictErrorActions = {
  * Repository on GitHub.
  */
 export class GithubRepository extends Repository {
-  #ref = new Map();
+  #refs = new Map();
 
   static get attributeMapping() {
     return {
@@ -151,7 +151,7 @@ export class GithubRepository extends Repository {
   async refId(ref) {
     ref = ref.replace(/^refs\//, "");
 
-    let sha = this.#ref.get(ref);
+    let sha = this.#refs.get(ref);
     if (sha) {
       return sha;
     }
@@ -167,7 +167,7 @@ export class GithubRepository extends Repository {
 
     sha = json.object.sha;
 
-    this.#ref.set(ref, sha);
+    this.#refs.set(ref, sha);
 
     return sha;
   }
@@ -184,13 +184,12 @@ export class GithubRepository extends Repository {
       })
     });
 
-    if (r.response.ok && this.#ref) {
-      this.#ref.set(ref, sha);
-    }
-
     //console.log(ref, sha, r.response.ok, r.response.status, r.json);
 
-    return r.json;
+    if (r.response.ok) {
+      this.#refs.set(ref, sha);
+      return r.json;
+    }
   }
 
   async createBranch(name, from, options) {
