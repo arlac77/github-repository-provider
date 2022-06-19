@@ -11,7 +11,6 @@ import {
  */
 export class GithubBranch extends Branch {
   #entries = new Map();
-  #trees = new Map();
   #commits = new Map();
 
   /**
@@ -59,30 +58,13 @@ export class GithubBranch extends Branch {
 
     const shaLatestCommit = await this.refId();
     const commit = await this.commitForSha(shaLatestCommit);
-
-    let { json } = await this.provider.fetchJSON(`${this.api}/git/trees`, {
-      method: "POST",
-      body: JSON.stringify({
-        base_tree: commit.tree.sha,
-        tree: updates.map(u => {
-          return {
-            path: u.name,
-            sha: u.sha,
-            type: "blob",
-            mode: "100" + u.mode.toString(8)
-          };
-        })
-      })
-    });
-
-    const treeSHA = json.sha;
-    this.#trees.set(treeSHA, json);
+    const tree = await this.owner.addTree(updates, commit.tree.sha);
 
     let r = await this.provider.fetchJSON(`${this.api}/git/commits`, {
       method: "POST",
       body: JSON.stringify({
         message,
-        tree: treeSHA,
+        tree: tree.sha,
         parents: [shaLatestCommit]
       })
     });
@@ -110,28 +92,6 @@ export class GithubBranch extends Branch {
     this.#commits.set(sha, json);
 
     return json;
-  }
-
-  /**
-   * @see https://developer.github.com/v3/git/trees/
-   * @param {string} sha
-   * @return {Object[]}
-   */
-  async tree(sha) {
-    let tree = this.#trees.get(sha);
-    if (tree) {
-      return tree;
-    }
-
-    const { json } = await this.provider.fetchJSON(
-      `${this.api}/git/trees/${sha}?recursive=1`
-    );
-
-    tree = json.tree;
-
-    this.#trees.set(sha, tree);
-
-    return tree;
   }
 
   /**
@@ -168,9 +128,13 @@ export class GithubBranch extends Branch {
   async *entries(patterns) {
     const commit = await this.commitForSha(await this.refId());
 
-    for (const entry of matcher(await this.tree(commit.tree.sha), patterns, {
-      name: "path"
-    })) {
+    for (const entry of matcher(
+      await this.owner.tree(commit.tree.sha),
+      patterns,
+      {
+        name: "path"
+      }
+    )) {
       switch (entry.type) {
         case "tree":
           yield new BaseCollectionEntry(entry.path);

@@ -13,6 +13,7 @@ const conflictErrorActions = {
  */
 export class GithubRepository extends Repository {
   #refs = new Map();
+  #trees = new Map();
 
   static get attributeMapping() {
     return {
@@ -70,6 +71,55 @@ export class GithubRepository extends Repository {
       }
       next = getHeaderLink(response.headers);
     } while (next);
+  }
+
+  /**
+   * @see https://developer.github.com/v3/git/trees/
+   * @param {string} sha
+   * @return {Object[]}
+   */
+  async tree(sha) {
+    let tree = this.#trees.get(sha);
+    if (tree) {
+      return tree;
+    }
+
+    const { json } = await this.provider.fetchJSON(
+      `${this.api}/git/trees/${sha}?recursive=1`
+    );
+
+    tree = json.tree;
+
+    this.#trees.set(sha, tree);
+
+    return tree;
+  }
+
+  /**
+   * @see https://developer.github.com/v3/git/trees/
+   * @param {Object[]} updates 
+   * @param {string} base base tree sha
+   * @returns {Object} newly created tree
+   */
+  async addTree(updates, base) {
+    let { json } = await this.provider.fetchJSON(`${this.api}/git/trees`, {
+      method: "POST",
+      body: JSON.stringify({
+        base_tree: base,
+        tree: updates.map(u => {
+          return {
+            path: u.name,
+            sha: u.sha,
+            type: "blob",
+            mode: "100" + u.mode.toString(8)
+          };
+        })
+      })
+    });
+
+    this.#trees.set(json.sha, json);
+
+    return json;
   }
 
   async #initializeSlot(typeName, addMethodName) {
@@ -184,7 +234,7 @@ export class GithubRepository extends Repository {
       })
     });
 
-    //console.log(ref, sha, r.response.ok, r.response.status, r.json);
+    console.log(ref, sha, r.response.ok, r.response.status, r.json);
 
     if (r.response.ok) {
       this.#refs.set(ref, sha);
