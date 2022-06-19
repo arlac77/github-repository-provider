@@ -14,6 +14,7 @@ const conflictErrorActions = {
 export class GithubRepository extends Repository {
   #refs = new Map();
   #trees = new Map();
+  #commits = new Map();
 
   static get attributeMapping() {
     return {
@@ -62,6 +63,8 @@ export class GithubRepository extends Repository {
       const { response, json } = await this.provider.fetchJSON(next);
 
       for (const c of json) {
+        this.#commits.set(c.sha, json);
+
         yield {
           sha: c.sha,
           message: c.message,
@@ -71,6 +74,40 @@ export class GithubRepository extends Repository {
       }
       next = getHeaderLink(response.headers);
     } while (next);
+  }
+
+  async addCommit(tree, parents, message) {
+    let r = await this.provider.fetchJSON(`${this.api}/git/commits`, {
+      method: "POST",
+      body: JSON.stringify({
+        tree,
+        parents,
+        message
+      })
+    });
+
+    this.#commits.set(r.json.sha, r.json);
+    return r.json;
+  }
+
+  /**
+   * {@link https://developer.github.com/v3/git/commits/#get-a-commit}
+   * @param {string} sha
+   * @return {Object} response
+   */
+  async commitForSha(sha) {
+    const commit = this.#commits.get(sha);
+    if (commit) {
+      return commit;
+    }
+
+    const { json } = await this.provider.fetchJSON(
+      `${this.api}/git/commits/${sha}`
+    );
+
+    this.#commits.set(sha, json);
+
+    return json;
   }
 
   /**

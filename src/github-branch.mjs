@@ -11,7 +11,6 @@ import {
  */
 export class GithubBranch extends Branch {
   #entries = new Map();
-  #commits = new Map();
 
   /**
    * Writes content into the branch
@@ -44,10 +43,6 @@ export class GithubBranch extends Branch {
    * @param {Object} options
    */
   async commit(message, entries, options) {
-    const updates = await Promise.all(
-      entries.map(entry => this.writeEntry(entry))
-    );
-
     /*
      * 1st. commit on empty tree
      * https://stackoverflow.com/questions/9765453/is-gits-semi-secret-empty-tree-object-reliable-and-why-is-there-not-a-symbolic/9766506#9766506
@@ -56,42 +51,20 @@ export class GithubBranch extends Branch {
      * sha256:6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321
      */
 
-    const shaLatestCommit = await this.refId();
-    const commit = await this.commitForSha(shaLatestCommit);
-    const tree = await this.owner.addTree(updates, commit.tree.sha);
-
-    let r = await this.provider.fetchJSON(`${this.api}/git/commits`, {
-      method: "POST",
-      body: JSON.stringify({
-        message,
-        tree: tree.sha,
-        parents: [shaLatestCommit]
-      })
-    });
-
-    this.#commits.set(r.json.sha, r.json);
-
-    return this.owner.setRefId(this.ref, r.json.sha, options);
-  }
-
-  /**
-   * {@link https://developer.github.com/v3/git/commits/#get-a-commit}
-   * @param {string} sha
-   * @return {Object} response
-   */
-  async commitForSha(sha) {
-    const commit = this.#commits.get(sha);
-    if (commit) {
-      return commit;
-    }
-
-    const { json } = await this.provider.fetchJSON(
-      `${this.api}/git/commits/${sha}`
+    const updates = await Promise.all(
+      entries.map(entry => this.writeEntry(entry))
     );
 
-    this.#commits.set(sha, json);
+    const shaLatestCommit = await this.refId();
+    const latestCommit = await this.owner.commitForSha(shaLatestCommit);
+    const tree = await this.owner.addTree(updates, latestCommit.tree.sha);
+    const commit = await this.owner.addCommit(
+      tree.sha,
+      [shaLatestCommit],
+      message
+    );
 
-    return json;
+    return this.owner.setRefId(this.ref, commit.sha, options);
   }
 
   /**
@@ -126,7 +99,7 @@ export class GithubBranch extends Branch {
   }
 
   async *entries(patterns) {
-    const commit = await this.commitForSha(await this.refId());
+    const commit = await this.owner.commitForSha(await this.refId());
 
     for (const entry of matcher(
       await this.owner.tree(commit.tree.sha),
