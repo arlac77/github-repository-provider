@@ -40,17 +40,15 @@ console.log(entry.name);
         *   [Parameters](#parameters-1)
     *   [commitForSha](#commitforsha)
         *   [Parameters](#parameters-2)
-    *   [tree](#tree)
-        *   [Parameters](#parameters-3)
     *   [entry](#entry)
-        *   [Parameters](#parameters-4)
+        *   [Parameters](#parameters-3)
     *   [removeEntries](#removeentries)
-        *   [Parameters](#parameters-5)
+        *   [Parameters](#parameters-4)
 *   [GithubOwner](#githubowner)
     *   [createRepository](#createrepository)
-        *   [Parameters](#parameters-6)
+        *   [Parameters](#parameters-5)
     *   [deleteRepository](#deleterepository)
-        *   [Parameters](#parameters-7)
+        *   [Parameters](#parameters-6)
     *   [attributeMapping](#attributemapping)
 *   [GithubProvider](#githubprovider)
     *   [Examples](#examples)
@@ -60,17 +58,21 @@ console.log(entry.name);
     *   [instanceIdentifier](#instanceidentifier)
 *   [GithubPullRequest](#githubpullrequest)
     *   [\_merge](#\_merge)
-        *   [Parameters](#parameters-8)
+        *   [Parameters](#parameters-7)
     *   [update](#update)
     *   [validMergeMethods](#validmergemethods)
     *   [list](#list)
-        *   [Parameters](#parameters-9)
+        *   [Parameters](#parameters-8)
     *   [open](#open)
-        *   [Parameters](#parameters-10)
+        *   [Parameters](#parameters-9)
 *   [GithubRepository](#githubrepository)
     *   [defaultBranchName](#defaultbranchname)
     *   [commits](#commits)
+        *   [Parameters](#parameters-10)
+    *   [tree](#tree)
         *   [Parameters](#parameters-11)
+    *   [addTree](#addtree)
+        *   [Parameters](#parameters-12)
     *   [initializeBranches](#initializebranches)
     *   [initializeTags](#initializetags)
     *   [url](#url)
@@ -79,9 +81,9 @@ console.log(entry.name);
     *   [api](#api)
     *   [update](#update-1)
     *   [refId](#refid)
-        *   [Parameters](#parameters-12)
-    *   [deletePullRequest](#deletepullrequest)
         *   [Parameters](#parameters-13)
+    *   [deletePullRequest](#deletepullrequest)
+        *   [Parameters](#parameters-14)
     *   [initializeHooks](#initializehooks)
 
 ## GithubBranch
@@ -122,16 +124,6 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 *   `sha` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** response
-
-### tree
-
-*   **See**: <https://developer.github.com/v3/git/trees/>
-
-#### Parameters
-
-*   `sha` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)>** 
 
 ### entry
 
@@ -295,6 +287,27 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 *   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 Returns **AsyncIterator\<Commit>** 
+
+### tree
+
+*   **See**: <https://developer.github.com/v3/git/trees/>
+
+#### Parameters
+
+*   `sha` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)>** 
+
+### addTree
+
+*   **See**: <https://developer.github.com/v3/git/trees/>
+
+#### Parameters
+
+*   `updates` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)>** 
+*   `base` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** base tree sha
+
+Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** newly created tree
 
 ### initializeBranches
 
