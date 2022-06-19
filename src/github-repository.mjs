@@ -97,7 +97,7 @@ export class GithubRepository extends Repository {
 
   /**
    * @see https://developer.github.com/v3/git/trees/
-   * @param {Object[]} updates 
+   * @param {Object[]} updates
    * @param {string} base base tree sha
    * @returns {Object} newly created tree
    */
@@ -222,19 +222,25 @@ export class GithubRepository extends Repository {
     return sha;
   }
 
-  // TODO belongs into Ref ?
+  /**
+   * {@link https://docs.github.com/en/github-ae@latest/rest/git/refs#update-a-reference}
+   * @param {string} ref
+   * @param {string} sha
+   * @param {Object} options
+   * @returns
+   *
+   * @TODO: belongs into Ref ?
+   */
   async setRefId(ref, sha, options) {
-    //console.log("NEW HEAD", sha, ref);
+    ref = ref.replace(/^refs\//, "");
 
-    const r = await this.provider.fetchJSON(`${this.api}/git/${ref}`, {
+    const r = await this.provider.fetchJSON(`${this.api}/git/refs/${ref}`, {
       method: "PATCH",
       body: JSON.stringify({
         ...options,
         sha
       })
     });
-
-    console.log(ref, sha, r.response.ok, r.response.status, r.json);
 
     if (r.response.ok) {
       this.#refs.set(ref, sha);
@@ -270,7 +276,6 @@ export class GithubRepository extends Repository {
           tree: sha
         })
       });
-      console.log(res);
       */
     }
 
