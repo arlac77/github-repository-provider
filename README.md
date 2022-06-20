@@ -38,17 +38,15 @@ console.log(entry.name);
         *   [Parameters](#parameters)
     *   [commit](#commit)
         *   [Parameters](#parameters-1)
-    *   [commitForSha](#commitforsha)
-        *   [Parameters](#parameters-2)
     *   [entry](#entry)
-        *   [Parameters](#parameters-3)
+        *   [Parameters](#parameters-2)
     *   [removeEntries](#removeentries)
-        *   [Parameters](#parameters-4)
+        *   [Parameters](#parameters-3)
 *   [GithubOwner](#githubowner)
     *   [createRepository](#createrepository)
-        *   [Parameters](#parameters-5)
+        *   [Parameters](#parameters-4)
     *   [deleteRepository](#deleterepository)
-        *   [Parameters](#parameters-6)
+        *   [Parameters](#parameters-5)
     *   [attributeMapping](#attributemapping)
 *   [GithubProvider](#githubprovider)
     *   [Examples](#examples)
@@ -58,16 +56,18 @@ console.log(entry.name);
     *   [instanceIdentifier](#instanceidentifier)
 *   [GithubPullRequest](#githubpullrequest)
     *   [\_merge](#\_merge)
-        *   [Parameters](#parameters-7)
+        *   [Parameters](#parameters-6)
     *   [update](#update)
     *   [validMergeMethods](#validmergemethods)
     *   [list](#list)
-        *   [Parameters](#parameters-8)
+        *   [Parameters](#parameters-7)
     *   [open](#open)
-        *   [Parameters](#parameters-9)
+        *   [Parameters](#parameters-8)
 *   [GithubRepository](#githubrepository)
     *   [defaultBranchName](#defaultbranchname)
     *   [commits](#commits)
+        *   [Parameters](#parameters-9)
+    *   [commitForSha](#commitforsha)
         *   [Parameters](#parameters-10)
     *   [tree](#tree)
         *   [Parameters](#parameters-11)
@@ -82,8 +82,10 @@ console.log(entry.name);
     *   [update](#update-1)
     *   [refId](#refid)
         *   [Parameters](#parameters-13)
-    *   [deletePullRequest](#deletepullrequest)
+    *   [setRefId](#setrefid)
         *   [Parameters](#parameters-14)
+    *   [deletePullRequest](#deletepullrequest)
+        *   [Parameters](#parameters-15)
     *   [initializeHooks](#initializehooks)
 
 ## GithubBranch
@@ -114,16 +116,6 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 *   `message` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 *   `entries` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)\<ContentEntry>** 
 *   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-### commitForSha
-
-<https://developer.github.com/v3/git/commits/#get-a-commit>
-
-#### Parameters
-
-*   `sha` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** response
 
 ### entry
 
@@ -288,6 +280,16 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 Returns **AsyncIterator\<Commit>** 
 
+### commitForSha
+
+<https://developer.github.com/v3/git/commits/#get-a-commit>
+
+#### Parameters
+
+*   `sha` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+Returns **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** response
+
 ### tree
 
 *   **See**: <https://developer.github.com/v3/git/trees/>
@@ -353,6 +355,18 @@ Get sha of a ref.
 *   `ref` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** sha of the ref
+
+### setRefId
+
+<https://docs.github.com/en/github-ae@latest/rest/git/refs#update-a-reference>
+
+#### Parameters
+
+*   `ref` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `sha` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+Returns **any** 
 
 ### deletePullRequest
 
