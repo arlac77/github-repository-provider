@@ -55,7 +55,7 @@ export class GithubBranch extends Branch {
       entries.map(entry => this.writeEntry(entry))
     );
 
-    const shaLatestCommit = await this.refId();
+    const shaLatestCommit = await this.refId;
     const latestCommit = await this.owner.commitForSha(shaLatestCommit);
     const tree = await this.owner.addTree(updates, latestCommit.tree.sha);
     const commit = await this.owner.addCommit(
@@ -99,7 +99,7 @@ export class GithubBranch extends Branch {
   }
 
   async *entries(patterns) {
-    const commit = await this.owner.commitForSha(await this.refId());
+    const commit = await this.owner.commitForSha(await this.refId);
 
     for (const entry of matcher(
       await this.owner.tree(commit.tree.sha),
