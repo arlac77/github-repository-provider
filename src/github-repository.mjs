@@ -260,13 +260,23 @@ export class GithubRepository extends Repository {
   }
 
   /**
+   * @TODO generalize for all repos ? 
+   * @param {string} ref 
+   * @param {string} sha 
+   */
+  _setRefId(ref, sha) {
+    ref = ref.replace(/^refs\//, "");
+    this.#refs.set(ref, sha);
+  }
+
+  /**
    * {@link https://docs.github.com/en/github-ae@latest/rest/git/refs#update-a-reference}
    * @param {string} ref
    * @param {string} sha
    * @param {Object} options
    * @returns
    *
-   * @TODO: belongs into Ref ?
+   * @TODO belongs into Ref ?
    */
   async setRefId(ref, sha, options) {
     ref = ref.replace(/^refs\//, "");

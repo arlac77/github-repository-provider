@@ -12,6 +12,14 @@ import {
 export class GithubBranch extends Branch {
   #entries = new Map();
 
+  constructor(owner, name, options) {
+    super(owner, name, options);
+
+    if (options && options.commit) {
+      owner._setRefId(this.ref, options.commit.sha);
+    }
+  }
+
   /**
    * Writes content into the branch
    * {@link https://developer.github.com/v3/git/blobs/#get-a-blob}
@@ -55,14 +63,10 @@ export class GithubBranch extends Branch {
       entries.map(entry => this.writeEntry(entry))
     );
 
-    const shaLatestCommit = await this.refId;
-    const latestCommit = await this.owner.commitForSha(shaLatestCommit);
+    const sha = await this.refId;
+    const latestCommit = await this.owner.commitForSha(sha);
     const tree = await this.owner.addTree(updates, latestCommit.tree.sha);
-    const commit = await this.owner.addCommit(
-      tree.sha,
-      [shaLatestCommit],
-      message
-    );
+    const commit = await this.owner.addCommit(tree.sha, [sha], message);
 
     return this.owner.setRefId(this.ref, commit.sha, options);
   }
