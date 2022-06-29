@@ -34,19 +34,20 @@ console.log(entry.name);
 ### Table of Contents
 
 *   [GithubBranch](#githubbranch)
+    *   [Parameters](#parameters)
     *   [writeEntry](#writeentry)
-        *   [Parameters](#parameters)
-    *   [commit](#commit)
         *   [Parameters](#parameters-1)
-    *   [entry](#entry)
+    *   [commit](#commit)
         *   [Parameters](#parameters-2)
-    *   [removeEntries](#removeentries)
+    *   [entry](#entry)
         *   [Parameters](#parameters-3)
+    *   [removeEntries](#removeentries)
+        *   [Parameters](#parameters-4)
 *   [GithubOwner](#githubowner)
     *   [createRepository](#createrepository)
-        *   [Parameters](#parameters-4)
-    *   [deleteRepository](#deleterepository)
         *   [Parameters](#parameters-5)
+    *   [deleteRepository](#deleterepository)
+        *   [Parameters](#parameters-6)
     *   [attributeMapping](#attributemapping)
 *   [GithubProvider](#githubprovider)
     *   [Examples](#examples)
@@ -56,23 +57,23 @@ console.log(entry.name);
     *   [instanceIdentifier](#instanceidentifier)
 *   [GithubPullRequest](#githubpullrequest)
     *   [\_merge](#\_merge)
-        *   [Parameters](#parameters-6)
+        *   [Parameters](#parameters-7)
     *   [update](#update)
     *   [validMergeMethods](#validmergemethods)
     *   [list](#list)
-        *   [Parameters](#parameters-7)
-    *   [open](#open)
         *   [Parameters](#parameters-8)
+    *   [open](#open)
+        *   [Parameters](#parameters-9)
 *   [GithubRepository](#githubrepository)
     *   [defaultBranchName](#defaultbranchname)
     *   [commits](#commits)
-        *   [Parameters](#parameters-9)
-    *   [commitForSha](#commitforsha)
         *   [Parameters](#parameters-10)
-    *   [tree](#tree)
+    *   [commitForSha](#commitforsha)
         *   [Parameters](#parameters-11)
-    *   [addTree](#addtree)
+    *   [tree](#tree)
         *   [Parameters](#parameters-12)
+    *   [addTree](#addtree)
+        *   [Parameters](#parameters-13)
     *   [initializeBranches](#initializebranches)
     *   [initializeTags](#initializetags)
     *   [url](#url)
@@ -81,11 +82,13 @@ console.log(entry.name);
     *   [api](#api)
     *   [update](#update-1)
     *   [refId](#refid)
-        *   [Parameters](#parameters-13)
-    *   [setRefId](#setrefid)
         *   [Parameters](#parameters-14)
-    *   [deletePullRequest](#deletepullrequest)
+    *   [\_setRefId](#\_setrefid)
         *   [Parameters](#parameters-15)
+    *   [setRefId](#setrefid)
+        *   [Parameters](#parameters-16)
+    *   [deletePullRequest](#deletepullrequest)
+        *   [Parameters](#parameters-17)
     *   [initializeHooks](#initializehooks)
 
 ## GithubBranch
@@ -93,6 +96,12 @@ console.log(entry.name);
 **Extends Branch**
 
 Branch on GitHub.
+
+### Parameters
+
+*   `owner`  
+*   `name`  
+*   `options`  
 
 ### writeEntry
 
@@ -355,6 +364,13 @@ Get sha of a ref.
 *   `ref` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** sha of the ref
+
+### \_setRefId
+
+#### Parameters
+
+*   `ref` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `sha` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### setRefId
 
