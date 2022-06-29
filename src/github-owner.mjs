@@ -16,6 +16,12 @@ export class GithubOwner extends RepositoryGroup {
     };
   }
 
+  get reposApi() {
+    return this.type === "Organization"
+      ? `orgs/${this.name}/repos`
+      : "user/repos";
+  }
+
   /**
    * {@link https://developer.github.com/v3/repos/#create-a-repository-for-the-authenticated-user}
    * @param {string} name
@@ -23,20 +29,17 @@ export class GithubOwner extends RepositoryGroup {
    * @return {Repository} newly created repository
    */
   async createRepository(name, options = {}) {
-    const response = await this.provider.fetch(
-      this.type === "Organization" ? `orgs/${this.name}/repos` : "user/repos",
-      {
-        method: "POST",
-        headers: {
-          accept: "application/vnd.github.nebula-preview+json"
-        },
-        body: JSON.stringify({
-          name,
-          auto_init: true,
-          ...options
-        })
-      }
-    );
+    const response = await this.provider.fetch(this.reposApi, {
+      method: "POST",
+      headers: {
+        accept: "application/vnd.github.nebula-preview+json"
+      },
+      body: JSON.stringify({
+        name,
+        auto_init: true,
+        ...options
+      })
+    });
 
     if (response.ok) {
       this.info(`Repository ${name} created`);
