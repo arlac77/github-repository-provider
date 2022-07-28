@@ -114,16 +114,22 @@ export class GithubBranch extends Branch {
     )) {
       switch (entry.type) {
         case "tree":
-          yield new BaseCollectionEntry(entry.path);
+          {
+            const e = new BaseCollectionEntry(entry.path);
+            this.#entries.set(e.path, e);
+            yield e;
+          }
           break;
         case "blob":
-          const e = new LazyBufferContentEntry(
-            entry.path,
-            parseInt(entry.mode, 8),
-            this
-          );
-          this.#entries.set(e.path, e);
-          yield e;
+          {
+            const e = new LazyBufferContentEntry(
+              entry.path,
+              parseInt(entry.mode, 8),
+              this
+            );
+            this.#entries.set(e.path, e);
+            yield e;
+          }
           break;
         /*    case "commit":
           break;*/
@@ -141,6 +147,8 @@ export class GithubBranch extends Branch {
         method: "DELETE",
         body: JSON.stringify({ branch: this.name, message: "", sha: "" })
       });
+
+      this.#entries.delete(entry.path);
     }
   }
 }
