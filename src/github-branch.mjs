@@ -15,7 +15,7 @@ export class GithubBranch extends Branch {
   constructor(owner, name, options) {
     super(owner, name, options);
 
-    if (options && options.commit) {
+    if (options?.commit) {
       owner._setRefId(this.ref, options.commit.sha);
     }
   }

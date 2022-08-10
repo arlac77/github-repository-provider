@@ -65,7 +65,7 @@ export class GithubProvider extends MultiGroupProvider {
         default: `https://${host}/`,
         depends: "host"
         /*get: (attribute, object, properties) =>
-          `https://${object.host || properties.host && properties.host.value}`*/
+          `https://${object.host || properties?.host.value}`*/
       },
       api: {
         type: "url",
