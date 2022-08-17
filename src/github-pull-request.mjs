@@ -78,7 +78,6 @@ export class GithubPullRequest extends PullRequest {
     })) {
       return p;
     }
-
     
     const { response, json } = await destination.provider.fetchJSON(
       `${destination.repository.api}/pulls`,
