@@ -7,7 +7,7 @@ jobs:
       max-parallel: 1
       matrix:
         node-version:
-          - 16.16.0
+          - 16.17.0
           - 18.7.0
     steps:
       - uses: actions/checkout@v3
