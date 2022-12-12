@@ -99,6 +99,7 @@ export class GithubProvider extends MultiGroupProvider {
     return stateActionHandler(fetch, new URL(url, this.api), {
       ...options,
       headers: {
+        accept: "application/vnd.github+json",
         authorization: `token ${this.authentication.token}`,
         ...options.headers
       }
@@ -120,12 +121,12 @@ export class GithubProvider extends MultiGroupProvider {
     try {
       for (let page = 1; ; page++) {
         const url = `user/repos?page=${page}&per_page=100`;
-        const { response, json } = await this.fetchJSON(url, {
+        const { json } = await this.fetchJSON(url, /*{
           headers: {
-            accept: "application/vnd.github.baptiste-preview+json"
-            //            accept: "application/vnd.github.v3+json"
+            //accept: "application/vnd.github.baptiste-preview+json"
+              accept: "application/vnd.github+json"
           }
-        });
+        }*/);
 
         if (json.length === 0 || !Array.isArray(json)) {
           break;
