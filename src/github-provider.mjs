@@ -121,12 +121,7 @@ export class GithubProvider extends MultiGroupProvider {
     try {
       for (let page = 1; ; page++) {
         const url = `user/repos?page=${page}&per_page=100`;
-        const { json } = await this.fetchJSON(url, /*{
-          headers: {
-            //accept: "application/vnd.github.baptiste-preview+json"
-              accept: "application/vnd.github+json"
-          }
-        }*/);
+        const { json } = await this.fetchJSON(url);
 
         if (json.length === 0 || !Array.isArray(json)) {
           break;
