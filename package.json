@@ -36,7 +36,7 @@
     "matching-iterator": "^2.0.10",
     "node-fetch": "^3.3.0",
     "one-time-execution-method": "^3.0.5",
-    "repository-provider": "^32.3.2"
+    "repository-provider": "^32.3.3"
   },
   "devDependencies": {
     "ava": "^5.1.0",
@@ -45,7 +45,7 @@
     "etag-cache-leveldb": "^1.4.0",
     "leveldown": "^6.1.1",
     "levelup": "^5.1.1",
-    "repository-provider-test-support": "^2.2.21",
+    "repository-provider-test-support": "^2.2.22",
     "semantic-release": "^19.0.5"
   },
   "engines": {
