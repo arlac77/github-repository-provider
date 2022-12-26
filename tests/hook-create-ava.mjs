@@ -19,4 +19,3 @@ test("add hook", async t => {
     t.deepEqual(hook.events, new Set(["a"]));
 });
 
-
