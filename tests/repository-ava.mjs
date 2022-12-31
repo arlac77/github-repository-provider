@@ -24,7 +24,10 @@ test("repository writableAttributes", async t => {
       allow_merge_commit: false,
       allow_rebase_merge: false,
       allow_squash_merge: false,
-      delete_branch_on_merge: false
+      delete_branch_on_merge: false,
+      is_template: false,
+      disabled: false,
+      archived: false,
     }
   );
 });

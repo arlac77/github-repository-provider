@@ -19,7 +19,9 @@ export class GithubRepository extends Repository {
   static get attributeMapping() {
     return {
       ...super.attributeMapping,
+      disabled: "isDisabled",
       archived: "isArchived",
+
       is_template: "isTemplate",
       private: "isPrivate",
       fork: "isFork",
@@ -31,6 +33,7 @@ export class GithubRepository extends Repository {
   static get attributes() {
     return {
       ...super.attributes,
+      isLocked: { type: "boolean", writable: false },
       auto_init: { type: "boolean", writable: true },
       allow_squash_merge: { type: "boolean", writable: true, default: false },
       allow_merge_commit: { type: "boolean", writable: true, default: false },
