@@ -92,7 +92,7 @@ export class GithubPullRequest extends PullRequest {
     );
 
     if (!response.ok) {
-      throw new Error(response.statusText + ' (' + esponse.status ')');
+      throw new Error(response.statusText + ' (' + esponse.status + ')');
     }
 
     return new this(source, destination, json.number, json);
