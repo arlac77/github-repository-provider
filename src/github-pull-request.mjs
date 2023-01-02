@@ -1,4 +1,4 @@
-import { PullRequest } from "repository-provider";
+import { PullRequest, boolean_attribute } from "repository-provider";
 import { getHeaderLink } from "fetch-link-util";
 
 /**
@@ -23,9 +23,7 @@ export class GithubPullRequest extends PullRequest {
   static get attributes() {
     return {
       ...super.attributes,
-      maintainer_can_modify: {
-        type: "boolean"
-      }
+      maintainer_can_modify: boolean_attribute
     };
   }
 

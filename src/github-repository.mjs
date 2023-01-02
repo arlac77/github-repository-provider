@@ -1,5 +1,5 @@
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
-import { Repository } from "repository-provider";
+import { Repository, boolean_attribute } from "repository-provider";
 import { getHeaderLink } from "fetch-link-util";
 import { defaultStateActions, errorHandler } from "fetch-rate-limit-util";
 
@@ -35,15 +35,11 @@ export class GithubRepository extends Repository {
       ...super.attributes,
       isLocked: { type: "boolean", writable: false },
       auto_init: { type: "boolean", writable: true },
-      allow_squash_merge: { type: "boolean", writable: true, default: false },
-      allow_merge_commit: { type: "boolean", writable: true, default: false },
-      allow_rebase_merge: { type: "boolean", writable: true, default: false },
-      allow_auto_merge: { type: "boolean", writable: true, default: false },
-      delete_branch_on_merge: {
-        type: "boolean",
-        writable: true,
-        default: false
-      }
+      allow_squash_merge: boolean_attribute, 
+      allow_merge_commit: boolean_attribute,
+      allow_rebase_merge: boolean_attribute,
+      allow_auto_merge: boolean_attribute,
+      delete_branch_on_merge: boolean_attribute
     };
   }
 
