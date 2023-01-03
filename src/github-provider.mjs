@@ -3,7 +3,7 @@ import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import { stateActionHandler } from "fetch-rate-limit-util";
 import { BufferContentEntry } from "content-entry";
 
-import { MultiGroupProvider } from "repository-provider";
+import { MultiGroupProvider, url_attribute } from "repository-provider";
 import { GithubRepository } from "./github-repository.mjs";
 import { GithubBranch } from "./github-branch.mjs";
 import { GithubOwner } from "./github-owner.mjs";
@@ -55,11 +55,11 @@ export class GithubProvider extends MultiGroupProvider {
         default: host
       },
       ssh: {
-        type: "url",
+        ...url_attribute,
         default: `git@${host}:`
       },
       url: {
-        type: "url",
+        ...url_attribute,
         env: ["{{instanceIdentifier}}SERVER_URL"],
         set: value => (value.endsWith("/") ? value : value + "/"),
         default: `https://${host}/`,
@@ -68,7 +68,7 @@ export class GithubProvider extends MultiGroupProvider {
           `https://${object.host || properties?.host.value}`*/
       },
       api: {
-        type: "url",
+        ...url_attribute,
         env: ["{{instanceIdentifier}}API_URL"],
         set: value => value.replace(/\/$/, ""),
         depends: "host",
