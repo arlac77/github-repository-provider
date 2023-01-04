@@ -27,7 +27,6 @@ test("repository writableAttributes", async t => {
       delete_branch_on_merge: false,
       is_template: false,
       disabled: false,
-      archived: false,
     }
   );
 });
