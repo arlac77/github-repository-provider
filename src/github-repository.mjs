@@ -1,5 +1,10 @@
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
-import { Repository, boolean_attribute } from "repository-provider";
+import {
+  Repository,
+  boolean_attribute,
+  mapAttributesInverse,
+  optionJSON
+} from "repository-provider";
 import { getHeaderLink } from "fetch-link-util";
 import { defaultStateActions, errorHandler } from "fetch-rate-limit-util";
 
@@ -35,7 +40,7 @@ export class GithubRepository extends Repository {
       ...super.attributes,
       isLocked: { type: "boolean", writable: false },
       auto_init: { type: "boolean", writable: true },
-      allow_squash_merge: boolean_attribute, 
+      allow_squash_merge: boolean_attribute,
       allow_merge_commit: boolean_attribute,
       allow_rebase_merge: boolean_attribute,
       allow_auto_merge: boolean_attribute,
@@ -259,9 +264,9 @@ export class GithubRepository extends Repository {
   }
 
   /**
-   * @TODO generalize for all repos ? 
-   * @param {string} ref 
-   * @param {string} sha 
+   * @TODO generalize for all repos ?
+   * @param {string} ref
+   * @param {string} sha
    */
   _setRefId(ref, sha) {
     ref = ref.replace(/^refs\//, "");
