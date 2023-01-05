@@ -58,6 +58,9 @@ export class GithubOwner extends RepositoryGroup {
     const response = await this.provider.fetch(`repos/${this.name}/${name}`, {
       method: "DELETE"
     });
-    return super.deleteRepository(name);
+    if (response.ok) {
+      return super.deleteRepository(name);
+    }
+    throw new Error(`Unable to delete repo: ${response.statusText}`);
   }
 }
