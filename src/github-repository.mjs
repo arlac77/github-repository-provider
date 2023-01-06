@@ -2,6 +2,7 @@ import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import {
   Repository,
   boolean_attribute,
+  url_attribute,
   mapAttributesInverse,
   optionJSON
 } from "repository-provider";
@@ -44,7 +45,8 @@ export class GithubRepository extends Repository {
       allow_merge_commit: boolean_attribute,
       allow_rebase_merge: boolean_attribute,
       allow_auto_merge: boolean_attribute,
-      delete_branch_on_merge: boolean_attribute
+      delete_branch_on_merge: boolean_attribute,
+      issuesURL: url_attribute
     };
   }
 
