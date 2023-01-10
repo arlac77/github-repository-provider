@@ -111,7 +111,7 @@ test("provider repo with full https url", async t => {
 
   t.is(repository.fullName, REPOSITORY_NAME);
 
-  t.is(repository.url, "https://github.com/" + REPOSITORY_NAME + ".git");
+  t.is(repository.url, "https://github.com/" + REPOSITORY_NAME);
   t.is(
     repository.issuesURL,
     "https://github.com/" + REPOSITORY_NAME + "/issues"
@@ -134,7 +134,7 @@ test("provider repo with git@ url", async t => {
 
   t.is(repository.fullName, REPOSITORY_NAME);
   t.is(repository.owner.name, REPOSITORY_OWNER);
-  t.is(repository.url,"https://github.com/" + REPOSITORY_NAME + ".git");
+  t.is(repository.url,"https://github.com/" + REPOSITORY_NAME);
 });
 
 test("provider repo with undefined", async t => {
@@ -147,7 +147,7 @@ test("provider repo with full url .git#branch git+https", async t => {
   );
 
   t.is(branch.name, "master");
-  t.is(branch.url, "https://github.com/arlac77/github-repository-provider.git");
+  t.is(branch.url, "https://github.com/arlac77/github-repository-provider");
   t.is(branch.repository.owner.name, REPOSITORY_OWNER);
   t.is(branch.fullCondensedName, "arlac77/github-repository-provider");
 });
@@ -158,7 +158,7 @@ test("provider branch with full url .git#branch", async t => {
   );
 
   t.is(branch.name, "master");
-  t.is(branch.url, "https://github.com/arlac77/github-repository-provider.git");
+  t.is(branch.url, "https://github.com/arlac77/github-repository-provider");
 });
 
 test("provider repo with branch name", async t => {

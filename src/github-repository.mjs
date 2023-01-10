@@ -193,7 +193,7 @@ export class GithubRepository extends Repository {
    * @return {string} github https url
    */
   get url() {
-    return `${this.provider.url}${this.fullName}.git`;
+    return `${this.provider.url}${this.fullName}`;
   }
 
   /**
@@ -217,7 +217,7 @@ export class GithubRepository extends Repository {
    * @return {string}
    */
   get api() {
-    return `repos/${this.slug}`;
+    return `${this.provider.api}/repos/${this.slug}`;
   }
 
   /**
