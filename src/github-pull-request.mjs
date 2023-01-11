@@ -13,6 +13,13 @@ export class GithubPullRequest extends PullRequest {
     return new Set(["MERGE", "SQUASH", "REBASE"]);
   }
 
+  static get attributeMapping() {
+    return {
+      ...super.attributeMapping,
+      url: "api" // TODO undefined ?
+    };
+  }
+
   static get attributes() {
     return {
       ...super.attributes,
@@ -29,7 +36,7 @@ export class GithubPullRequest extends PullRequest {
     const query = {};
 
     if (filter.source) {
-      query.head = `${filter.source.owner.owner.name}:${filter.source.name}`
+      query.head = `${filter.source.owner.owner.name}:${filter.source.name}`;
     }
 
     if (filter.destination) {
@@ -39,9 +46,7 @@ export class GithubPullRequest extends PullRequest {
     for (const state of filter.states || this.defaultListStates) {
       query.state = state;
 
-      let next = `${repository.api}/pulls?${new URLSearchParams(
-        query
-      ).toString()}`;
+      let next = `${repository.api}/pulls?${new URLSearchParams(query)}`;
 
       do {
         const provider = repository.provider;
