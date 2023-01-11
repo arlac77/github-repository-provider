@@ -45,7 +45,7 @@
     "etag-cache-leveldb": "^1.4.1",
     "leveldown": "^6.1.1",
     "levelup": "^5.1.1",
-    "repository-provider-test-support": "^2.2.32",
+    "repository-provider-test-support": "^2.2.35",
     "semantic-release": "^20.0.2"
   },
   "engines": {
