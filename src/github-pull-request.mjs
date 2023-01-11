@@ -13,13 +13,6 @@ export class GithubPullRequest extends PullRequest {
     return new Set(["MERGE", "SQUASH", "REBASE"]);
   }
 
-  static get attributeMapping() {
-    return {
-      ...super.attributeMapping,
-      url: "api"
-    };
-  }
-
   static get attributes() {
     return {
       ...super.attributes,
@@ -33,22 +26,27 @@ export class GithubPullRequest extends PullRequest {
    * @param {Object} filter
    */
   static async *list(repository, filter = {}) {
-    const branchName = (name, branch) =>
-      branch === undefined
-        ? ""
-        : `&${name}=${branch.owner.name}:${branch.name}`;
+    const query = {};
 
-    const head = branchName("head", filter.source);
-    const base = branchName("base", undefined /*filter.destination*/); // TODO
+    if (filter.source) {
+      query.head = `${filter.source.owner.owner.name}:${filter.source.name}`
+    }
 
-    for (const state of [
-      ...(filter.states ? filter.states : this.defaultListStates)
-    ]) {
-      let next = `${repository.api}/pulls?state=${state}${head}${base}`;
+    if (filter.destination) {
+      query.base = filter.destination.name;
+    }
+
+    for (const state of filter.states || this.defaultListStates) {
+      query.state = state;
+
+      let next = `${repository.api}/pulls?${new URLSearchParams(
+        query
+      ).toString()}`;
 
       do {
         const provider = repository.provider;
         const { response, json } = await provider.fetchJSON(next);
+
         for (const node of json) {
           const [source, dest] = await Promise.all(
             [node.head, node.base].map(r =>
@@ -76,7 +74,7 @@ export class GithubPullRequest extends PullRequest {
     })) {
       return p;
     }
-    
+
     const { response, json } = await destination.provider.fetchJSON(
       `${destination.repository.api}/pulls`,
       {
@@ -90,40 +88,38 @@ export class GithubPullRequest extends PullRequest {
     );
 
     if (!response.ok) {
-      throw new Error(response.statusText + ' (' + response.status + ')');
+      throw new Error(response.statusText + " (" + response.status + ")");
     }
 
     return new this(source, destination, json.number, json);
+  }
+
+  get api() {
+    return `${this.destination.repository.api}/pulls/${this.number}`;
   }
 
   /**
    * {@link https://developer.github.com/v3/pulls/#merge-a-pull-request}
    */
   async _merge(method = "MERGE") {
-    const res = await this.provider.fetch(
-      `${this.source.repository.api}/pulls/${this.number}/merge`,
-      {
-        method: "PUT",
-        body: JSON.stringify({ merge_method: method, sha: "???" })
-      }
-    );
+    const res = await this.provider.fetch(`${this.api}/merge`, {
+      method: "PUT",
+      body: JSON.stringify({ merge_method: method, sha: "???" })
+    });
   }
 
   /**
    *
    */
   async update() {
-    const res = await this.provider.fetch(
-      `${this.source.repository.api}/pulls/${this.number}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify({
-          title: this.title,
-          body: this.body,
-          state: this.state
-        })
-      }
-    );
+    const res = await this.provider.fetch(this.api, {
+      method: "PATCH",
+      body: JSON.stringify({
+        title: this.title,
+        body: this.body,
+        state: this.state
+      })
+    });
     console.log(res);
   }
 }
