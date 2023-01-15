@@ -39,7 +39,7 @@
     "repository-provider": "^32.6.2"
   },
   "devDependencies": {
-    "ava": "^5.1.0",
+    "ava": "^5.1.1",
     "c8": "^7.12.0",
     "documentation": "^14.0.1",
     "etag-cache-leveldb": "^1.4.1",
