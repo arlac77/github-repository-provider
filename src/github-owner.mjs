@@ -16,10 +16,10 @@ export class GithubOwner extends RepositoryGroup {
     };
   }
 
-  get reposApi() {
+  get api() {
     return this.type === "Organization"
-      ? `orgs/${this.name}/repos`
-      : "user/repos";
+      ? `orgs/${this.name}`
+      : "user";
   }
 
   /**
@@ -29,7 +29,7 @@ export class GithubOwner extends RepositoryGroup {
    * @return {Repository} newly created repository
    */
   async createRepository(name, options = {}) {
-    const response = await this.provider.fetch(this.reposApi, {
+    const response = await this.provider.fetch(`${this.api}/repos`, {
       method: "POST",
       headers: {
         accept: "application/vnd.github.nebula-preview+json"
