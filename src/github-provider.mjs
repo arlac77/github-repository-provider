@@ -60,7 +60,7 @@ export class GithubProvider extends MultiGroupProvider {
       },
       url: {
         ...url_attribute,
-        env: ["{{instanceIdentifier}}SERVER_URL"],
+        env: "{{instanceIdentifier}}SERVER_URL",
         set: value => (value.endsWith("/") ? value : value + "/"),
         default: `https://${host}/`,
         depends: "host"
@@ -69,7 +69,7 @@ export class GithubProvider extends MultiGroupProvider {
       },
       api: {
         ...url_attribute,
-        env: ["{{instanceIdentifier}}API_URL"],
+        env: "{{instanceIdentifier}}API_URL",
         set: value => value.replace(/\/$/, ""),
         depends: "host",
         default: `https://api.${host}`
