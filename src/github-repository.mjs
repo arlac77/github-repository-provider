@@ -87,7 +87,7 @@ export class GithubRepository extends Repository {
   }
 
   async addCommit(tree, parents, message) {
-    let r = await this.provider.fetchJSON(`${this.api}/git/commits`, {
+    const result = await this.provider.fetchJSON(`${this.api}/git/commits`, {
       method: "POST",
       body: JSON.stringify({
         tree,
@@ -96,8 +96,8 @@ export class GithubRepository extends Repository {
       })
     });
 
-    this.#commits.set(r.json.sha, r.json);
-    return r.json;
+    this.#commits.set(result.json.sha, result.json);
+    return result.json;
   }
 
   /**
@@ -291,7 +291,7 @@ export class GithubRepository extends Repository {
   async setRefId(ref, sha, options) {
     ref = ref.replace(/^refs\//, "");
 
-    const r = await this.provider.fetchJSON(`${this.api}/git/refs/${ref}`, {
+    const result = await this.provider.fetchJSON(`${this.api}/git/refs/${ref}`, {
       method: "PATCH",
       body: JSON.stringify({
         ...options,
@@ -299,9 +299,9 @@ export class GithubRepository extends Repository {
       })
     });
 
-    if (r.response.ok) {
+    if (result.response.ok) {
       this.#refs.set(ref, sha);
-      return r.json;
+      return result.json;
     }
   }
 
