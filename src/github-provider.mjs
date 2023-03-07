@@ -95,8 +95,8 @@ export class GithubProvider extends MultiGroupProvider {
     options.reporter = (url, ...args) => this.trace(url.toString(), ...args);
     options.cache = this.cache;
     options.agent = this.agent;
-    
-    return stateActionHandler(fetch, new URL(url, this.api), {
+
+    return stateActionHandler(new URL(url, this.api), {
       ...options,
       headers: {
         accept: "application/vnd.github+json",
