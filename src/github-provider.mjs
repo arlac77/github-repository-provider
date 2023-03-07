@@ -1,4 +1,3 @@
-import fetch from "node-fetch";
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import { stateActionHandler } from "fetch-rate-limit-util";
 import { BufferContentEntry } from "content-entry";
@@ -43,7 +42,7 @@ export class GithubProvider extends MultiGroupProvider {
    * @return {string} default environment name prefix for the provider instance
    */
   static get instanceIdentifier() {
-    return "GITHUB_"; // "GH_" "GH_ENTERPRISE_"
+    return "GITHUB_";
   }
 
   static get attributes() {
