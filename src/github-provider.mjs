@@ -109,6 +109,10 @@ export class GithubProvider extends MultiGroupProvider {
 
   fetchJSON(url, options={}) {
     options.postprocess = async response => {
+      if(!response.ok) {
+        console.log("failed",url, response.status);
+      }
+
       return { response, json: await response.json() };
     };
 
