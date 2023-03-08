@@ -31,7 +31,7 @@
   "dependencies": {
     "content-entry": "^6.0.0",
     "fetch-link-util": "^1.0.14",
-    "fetch-rate-limit-util": "^3.1.9",
+    "fetch-rate-limit-util": "^4.0.1",
     "matching-iterator": "^2.0.11",
     "one-time-execution-method": "^3.0.6",
     "repository-provider": "^32.6.9"
@@ -40,7 +40,7 @@
     "ava": "^5.2.0",
     "c8": "^7.13.0",
     "documentation": "^14.0.1",
-    "etag-cache-leveldb": "^1.4.2",
+    "etag-cache-leveldb": "^2.0.0",
     "leveldown": "^6.1.1",
     "levelup": "^5.1.1",
     "repository-provider-test-support": "^2.3.0",
