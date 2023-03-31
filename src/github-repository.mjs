@@ -41,8 +41,8 @@ export class GithubRepository extends Repository {
   static get attributes() {
     return {
       ...super.attributes,
-      isLocked: { type: "boolean", writable: false },
-      auto_init: { type: "boolean", writable: true },
+      isLocked: boolean_attribute,
+      auto_init: boolean_attribute,
       size: size_attribute,
       language: language_attribute,
       allow_squash_merge: boolean_attribute,

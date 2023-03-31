@@ -2,7 +2,7 @@ import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import { stateActionHandler } from "fetch-rate-limit-util";
 import { BufferContentEntry } from "content-entry";
 
-import { MultiGroupProvider, url_attribute } from "repository-provider";
+import { MultiGroupProvider, url_attribute, default_attribute } from "repository-provider";
 import { GithubRepository } from "./github-repository.mjs";
 import { GithubBranch } from "./github-branch.mjs";
 import { GithubOwner } from "./github-owner.mjs";
@@ -49,7 +49,7 @@ export class GithubProvider extends MultiGroupProvider {
     return {
       ...super.attributes,
       host: {
-        type: "string",
+        ...default_attribute,
         env: ["{{instanceIdentifier}}HOST", "GH_HOST"],
         default: host
       },
@@ -76,7 +76,7 @@ export class GithubProvider extends MultiGroupProvider {
           `https://api.${object.host || properties.host.value}`*/
       },
       "authentication.token": {
-        type: "string",
+        ...default_attribute,
         // @see https://cli.github.com/manual/gh_help_environment
         env: [
           "{{instanceIdentifier}}TOKEN",
@@ -86,7 +86,7 @@ export class GithubProvider extends MultiGroupProvider {
         private: true,
         mandatory: true
       },
-      priority: { default: 1000.0 },
+      priority: { ...default_attribute, type: "number", default: 1000.0 },
       reateLimitRemaining: { writable: true, default: 5000 }
     };
   }
