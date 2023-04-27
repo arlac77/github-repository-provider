@@ -9,9 +9,7 @@ export class GithubPullRequest extends PullRequest {
    * All valid merge methods.
    * @return {Set<string>} valid merge methods
    */
-  static get validMergeMethods() {
-    return new Set(["MERGE", "SQUASH", "REBASE"]);
-  }
+  static validMergeMethods = new Set(["MERGE", "SQUASH", "REBASE"]);
 
   static get attributeMapping() {
     return {
