@@ -1,6 +1,6 @@
 [![npm](https://img.shields.io/npm/v/github-repository-provider.svg)](https://www.npmjs.com/package/github-repository-provider)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-[![Open Bundle](https://bundlejs.com/badge-light.svg)](https://bundlejs.com/?q=github-repository-provider)
+[![bundlejs](https://deno.bundlejs.com/?q=github-repository-provider\&badge=detailed)](https://bundlejs.com/?q=github-repository-provider)
 [![downloads](http://img.shields.io/npm/dm/github-repository-provider.svg?style=flat-square)](https://npmjs.org/package/github-repository-provider)
 [![GitHub Issues](https://img.shields.io/github/issues/arlac77/github-repository-provider.svg?style=flat-square)](https://github.com/arlac77/github-repository-provider/issues)
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Farlac77%2Fgithub-repository-provider%2Fbadge\&style=flat)](https://actions-badge.atrox.dev/arlac77/github-repository-provider/goto)
