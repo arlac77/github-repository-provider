@@ -68,7 +68,7 @@ export class GithubPullRequest extends PullRequest {
    * {@link https://developer.github.com/v3/pulls/#create-a-pull-request}
    * @param {Branch} source
    * @param {Branch} destination
-   * @param {Object} options
+   * @param {Object} [options]
    */
   static async open(source, destination, options) {
     for await (const p of this.list(source.repository, {

@@ -23,7 +23,7 @@ export class GithubBranch extends Branch {
   /**
    * Writes content into the branch
    * {@link https://developer.github.com/v3/git/blobs/#get-a-blob}
-   * @param {ConentEntry} entry
+   * @param {ContentEntry} entry
    * @return {Promise<ContentEntry>} written content with sha values set
    */
   async writeEntry(entry) {
@@ -48,7 +48,7 @@ export class GithubBranch extends Branch {
    * {@link https://developer.github.com/v3/git/refs/#update-a-reference}
    * @param {string} message
    * @param {ContentEntry[]} entries
-   * @param {Object} options
+   * @param {Object} [options]
    */
   async commit(message, entries, options) {
     /*
@@ -139,7 +139,7 @@ export class GithubBranch extends Branch {
 
   /**
    * https://developer.github.com/v3/repos/contents/
-   * @param {Iterator<ContentEntry>} entries
+   * @param {AsyncIterator<ContentEntry>} entries
    */
   async removeEntries(entries) {
     for await (const entry of entries) {

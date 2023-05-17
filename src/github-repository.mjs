@@ -103,7 +103,7 @@ export class GithubRepository extends Repository {
   /**
    * {@link https://developer.github.com/v3/git/commits/#get-a-commit}
    * @param {string} sha
-   * @return {Object} response
+   * @return {Promise<Object>} response
    */
   async commitForSha(sha) {
     const commit = this.#commits.get(sha);
@@ -123,7 +123,7 @@ export class GithubRepository extends Repository {
   /**
    * @see https://developer.github.com/v3/git/trees/
    * @param {string} sha
-   * @return {Object[]}
+   * @return {Promise<Object[]>}
    */
   async tree(sha) {
     let tree = this.#trees.get(sha);
@@ -146,7 +146,7 @@ export class GithubRepository extends Repository {
    * @see https://developer.github.com/v3/git/trees/
    * @param {Object[]} updates
    * @param {string} base base tree sha
-   * @returns {Object} newly created tree
+   * @returns {Promise<Object>} newly created tree
    */
   async addTree(updates, base) {
     let { json } = await this.provider.fetchJSON(`${this.api}/git/trees`, {
