@@ -44,7 +44,7 @@
     "leveldown": "^6.1.1",
     "levelup": "^5.1.1",
     "repository-provider-test-support": "^2.3.6",
-    "semantic-release": "^21.0.2"
+    "semantic-release": "^21.0.3s"
   },
   "engines": {
     "node": ">=18.16.0"
