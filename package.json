@@ -34,7 +34,7 @@
     "fetch-rate-limit-util": "^4.0.3",
     "matching-iterator": "^2.0.12",
     "one-time-execution-method": "^3.0.6",
-    "repository-provider": "^32.7.21"
+    "repository-provider": "^32.7.23"
   },
   "devDependencies": {
     "ava": "^5.3.0",
