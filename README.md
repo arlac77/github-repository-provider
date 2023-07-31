@@ -352,7 +352,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 ### update
 
-<https://developer.github.com/v3/repos/#update-a-repository>
+<https://docs.github.com/de/rest/repos/repos?apiVersion=2022-11-28#update-a-repository>
 
 ### refId
 
