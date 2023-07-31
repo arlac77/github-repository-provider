@@ -18,15 +18,16 @@ test("repository writableAttributes", async t => {
     ),
     {
       description: "test template-tools",
-   //   archived: false,
-   //   allow_auto_merge: false,
-   //   allow_merge_commit: false,
-   //   allow_rebase_merge: false,
-   //   allow_squash_merge: false,
-   //   delete_branch_on_merge: false,
-   //   is_template: false,
-   //   auto_init: false,
-   //   disabled: false,
+      archived: false,
+      allow_auto_merge: false,
+      allow_merge_commit: false,
+      allow_rebase_merge: false,
+      allow_squash_merge: false,
+      delete_branch_on_merge: false,
+      is_template: false,
+      auto_init: false,
+      disabled: false,
+      isLocked: false
     }
   );
 });

@@ -29,7 +29,6 @@ export class GithubRepository extends Repository {
       ...super.attributeMapping,
       disabled: "isDisabled",
       archived: "isArchived",
-
       is_template: "isTemplate",
       private: "isPrivate",
       fork: "isFork",
@@ -41,7 +40,6 @@ export class GithubRepository extends Repository {
   static get attributes() {
     return {
       ...super.attributes,
-      isLocked: boolean_attribute,
       auto_init: boolean_attribute,
       size: size_attribute,
       language: language_attribute,
@@ -225,7 +223,7 @@ export class GithubRepository extends Repository {
   }
 
   /**
-   * {@link https://developer.github.com/v3/repos/#update-a-repository}
+   * {@link https://docs.github.com/de/rest/repos/repos?apiVersion=2022-11-28#update-a-repository}
    */
   async update() {
     return this.provider.fetch(this.api, {
