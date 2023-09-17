@@ -31,7 +31,7 @@
   "dependencies": {
     "content-entry": "^8.0.1",
     "fetch-link-util": "^1.0.14",
-    "fetch-rate-limit-util": "^4.1.0",
+    "fetch-rate-limit-util": "^4.1.1",
     "matching-iterator": "^2.0.12",
     "one-time-execution-method": "^3.0.6",
     "repository-provider": "^33.0.0"
