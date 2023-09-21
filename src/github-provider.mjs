@@ -2,7 +2,7 @@ import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import { stateActionHandler } from "fetch-rate-limit-util";
 import { BufferContentEntry } from "content-entry";
 
-import { MultiGroupProvider, url_attribute, default_attribute } from "repository-provider";
+import { MultiGroupProvider, url_attribute, default_attribute, priority_attribute } from "repository-provider";
 import { GithubRepository } from "./github-repository.mjs";
 import { GithubBranch } from "./github-branch.mjs";
 import { GithubOwner } from "./github-owner.mjs";
@@ -86,7 +86,7 @@ export class GithubProvider extends MultiGroupProvider {
         private: true,
         mandatory: true
       },
-      priority: { ...default_attribute, type: "number", default: 1000.0 },
+      priority: { ...priority_attribute, default: 1000.0 },
       reateLimitRemaining: { writable: true, default: 5000 }
     };
   }
