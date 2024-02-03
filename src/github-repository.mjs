@@ -211,7 +211,7 @@ export class GithubRepository extends Repository {
    * @return {string}
    */
   get issuesURL() {
-    return `${this.provider.url}${this.fullName}/issues`;
+    return `${this.url}/issues`;
   }
 
   /**
@@ -219,7 +219,7 @@ export class GithubRepository extends Repository {
    * @return {string}
    */
   get homePageURL() {
-    return `${this.provider.url}${this.fullName}#readme`;
+    return `${this.url}#readme`;
   }
 
   /**
