@@ -12,12 +12,15 @@ jobs:
       matrix:
         node-version:
           - 20.11.0
+        browser:
+          - chrome
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: actions/setup-node@v4.0.1
         with:
           node-version: ${{ matrix.node-version }}
       - run: rm package-lock.json
+      - run: npx playwright install
       - run: npm install-test
         env:
           BROWSER: ${{ matrix.browser }}
