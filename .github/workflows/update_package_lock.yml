@@ -12,8 +12,6 @@ jobs:
       matrix:
         node-version:
           - 20.11.0
-        browser:
-          - chrome
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: actions/setup-node@v4.0.1
