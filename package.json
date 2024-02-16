@@ -26,8 +26,9 @@
     "test:ava": "ava --timeout 4m tests/*-ava.mjs tests/*-ava-node.mjs",
     "cover": "c8 -x 'tests/**/*' --temp-directory build/tmp ava --timeout 4m tests/*-ava.mjs tests/*-ava-node.mjs && c8 report -r lcov -o build/coverage --temp-directory build/tmp",
     "docs": "documentation readme --section=API ./src/**/*.mjs",
-    "lint": "npm run lint:docs",
-    "lint:docs": "documentation lint ./src/**/*.mjs"
+    "lint": "npm run lint:docs && npm run lint:tsc",
+    "lint:docs": "documentation lint ./src/**/*.mjs",
+    "lint:tsc": "tsc --allowJs --checkJs --noEmit -t esnext -m esnext --module nodenext --moduleResolution nodenext ./src**/*.mjs"
   },
   "dependencies": {
     "content-entry": "^8.0.1",
@@ -45,7 +46,8 @@
     "leveldown": "^6.1.1",
     "levelup": "^5.1.1",
     "repository-provider-test-support": "^3.0.5",
-    "semantic-release": "^23.0.2"
+    "semantic-release": "^23.0.2",
+    "typescript": "^5.3.3"
   },
   "engines": {
     "node": ">=18.18.2"
@@ -61,7 +63,8 @@
   "template": {
     "inheritFrom": [
       "arlac77/template-arlac77-github",
-      "arlac77/template-javascript-component"
+      "arlac77/template-javascript-component",
+      "arlac77/template-typescript"
     ]
   }
 }
