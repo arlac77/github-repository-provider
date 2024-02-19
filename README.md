@@ -161,7 +161,7 @@ Represents github repo owner either
 *   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**&#x20;
 *   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{}`)
 
-Returns **Repository** newly created repository
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<Repository>** newly created repository
 
 ### deleteRepository
 
@@ -288,7 +288,7 @@ Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/G
 
 *   `options` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)**&#x20;
 
-Returns **AsyncIterator\<Commit>**&#x20;
+Returns **AsyncIterable\<Commit>**&#x20;
 
 ### commitForSha
 
