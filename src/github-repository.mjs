@@ -7,7 +7,8 @@ import {
   language_attribute,
   default_attribute,
   mapAttributesInverse,
-  optionJSON
+  optionJSON,
+  Commit
 } from "repository-provider";
 import { getHeaderLink } from "fetch-link-util";
 import { defaultStateActions, errorHandler } from "fetch-rate-limit-util";
@@ -70,7 +71,7 @@ export class GithubRepository extends Repository {
   /**
    * {@link https://docs.github.com/en/rest/reference/commits#list-commits}
    * @param {Object} options
-   * @returns {AsyncIterator<Commit>}
+   * @returns {AsyncIterable<Commit>}
    */
   async *commits(options) {
     let next = `${this.api}/commits`;

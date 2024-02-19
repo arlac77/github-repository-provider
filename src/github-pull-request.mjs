@@ -1,4 +1,9 @@
-import { PullRequest, boolean_attribute } from "repository-provider";
+import {
+  PullRequest,
+  Repository,
+  Branch,
+  boolean_attribute
+} from "repository-provider";
 import { getHeaderLink } from "fetch-link-util";
 
 /**

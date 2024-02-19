@@ -1,4 +1,4 @@
-import { RepositoryGroup } from "repository-provider";
+import { RepositoryGroup, Repository } from "repository-provider";
 
 /**
  * Represents github repo owner either
@@ -26,7 +26,7 @@ export class GithubOwner extends RepositoryGroup {
    * {@link https://developer.github.com/v3/repos/#create-a-repository-for-the-authenticated-user}
    * @param {string} name
    * @param {Object} options
-   * @return {Repository} newly created repository
+   * @return {Promise<Repository>} newly created repository
    */
   async createRepository(name, options = {}) {
     const response = await this.provider.fetch(`${this.api}/repos`, {
