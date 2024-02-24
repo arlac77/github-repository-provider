@@ -283,7 +283,6 @@ export class GithubRepository extends Repository {
   }
 
   /**
-   * @TODO generalize for all repos ?
    * @param {string} ref
    * @param {string} sha
    */
@@ -297,9 +296,8 @@ export class GithubRepository extends Repository {
    * @param {string} ref
    * @param {string} sha
    * @param {Object} options
-   * @returns
+   * @returns {Promise<Object>}
    *
-   * @TODO belongs into Ref ?
    */
   async setRefId(ref, sha, options) {
     ref = ref.replace(/^refs\//, "");
