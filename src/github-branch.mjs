@@ -1,7 +1,7 @@
 import { matcher } from "matching-iterator";
 import { Branch } from "repository-provider";
 import {
-  BaseCollectionEntry,
+  CollectionEntry,
   BufferContentEntryMixin,
   ContentEntry
 } from "content-entry";
@@ -115,7 +115,7 @@ export class GithubBranch extends Branch {
       switch (entry.type) {
         case "tree":
           {
-            const e = new BaseCollectionEntry(entry.path);
+            const e = new CollectionEntry(entry.path);
             this.#entries.set(e.path, e);
             yield e;
           }
