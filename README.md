@@ -42,13 +42,15 @@ console.log(entry.name);
         *   [Parameters](#parameters-2)
     *   [entry](#entry)
         *   [Parameters](#parameters-3)
-    *   [removeEntries](#removeentries)
+    *   [entries](#entries)
         *   [Parameters](#parameters-4)
+    *   [removeEntries](#removeentries)
+        *   [Parameters](#parameters-5)
 *   [GithubOwner](#githubowner)
     *   [createRepository](#createrepository)
-        *   [Parameters](#parameters-5)
-    *   [deleteRepository](#deleterepository)
         *   [Parameters](#parameters-6)
+    *   [deleteRepository](#deleterepository)
+        *   [Parameters](#parameters-7)
     *   [attributeMapping](#attributemapping)
 *   [GithubProvider](#githubprovider)
     *   [Examples](#examples)
@@ -58,23 +60,23 @@ console.log(entry.name);
     *   [instanceIdentifier](#instanceidentifier)
 *   [GithubPullRequest](#githubpullrequest)
     *   [\_merge](#_merge)
-        *   [Parameters](#parameters-7)
+        *   [Parameters](#parameters-8)
     *   [update](#update)
     *   [validMergeMethods](#validmergemethods)
     *   [list](#list)
-        *   [Parameters](#parameters-8)
-    *   [open](#open)
         *   [Parameters](#parameters-9)
+    *   [open](#open)
+        *   [Parameters](#parameters-10)
 *   [GithubRepository](#githubrepository)
     *   [defaultBranchName](#defaultbranchname)
     *   [commits](#commits)
-        *   [Parameters](#parameters-10)
-    *   [commitForSha](#commitforsha)
         *   [Parameters](#parameters-11)
-    *   [tree](#tree)
+    *   [commitForSha](#commitforsha)
         *   [Parameters](#parameters-12)
-    *   [addTree](#addtree)
+    *   [tree](#tree)
         *   [Parameters](#parameters-13)
+    *   [addTree](#addtree)
+        *   [Parameters](#parameters-14)
     *   [initializeBranches](#initializebranches)
     *   [initializeTags](#initializetags)
     *   [url](#url)
@@ -83,13 +85,13 @@ console.log(entry.name);
     *   [api](#api)
     *   [update](#update-1)
     *   [refId](#refid)
-        *   [Parameters](#parameters-14)
-    *   [\_setRefId](#_setrefid)
         *   [Parameters](#parameters-15)
-    *   [setRefId](#setrefid)
+    *   [\_setRefId](#_setrefid)
         *   [Parameters](#parameters-16)
-    *   [deletePullRequest](#deletepullrequest)
+    *   [setRefId](#setrefid)
         *   [Parameters](#parameters-17)
+    *   [deletePullRequest](#deletepullrequest)
+        *   [Parameters](#parameters-18)
     *   [initializeHooks](#initializehooks)
 
 ## GithubBranch
@@ -135,13 +137,21 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 *   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**&#x20;
 
+### entries
+
+#### Parameters
+
+*   `patterns` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))**&#x20;
+
+Returns **AsyncGenerator\<ContentEntry>** all matching entries in the branch
+
 ### removeEntries
 
 <https://developer.github.com/v3/repos/contents/>
 
 #### Parameters
 
-*   `entries` **AsyncIterator\<ContentEntry>**&#x20;
+*   `entries` **AsyncIterable\<ContentEntry>**&#x20;
 
 ## GithubOwner
 
