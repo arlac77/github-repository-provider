@@ -102,6 +102,11 @@ export class GithubBranch extends Branch {
     return p;
   }
 
+  /**
+   * 
+   * @param {string[]|string} patterns
+   * @return {AsyncGenerator<ContentEntry>} all matching entries in the branch
+   */
   async *entries(patterns) {
     const commit = await this.owner.commitForSha(await this.refId);
 
@@ -139,7 +144,7 @@ export class GithubBranch extends Branch {
 
   /**
    * https://developer.github.com/v3/repos/contents/
-   * @param {AsyncIterator<ContentEntry>} entries
+   * @param {AsyncIterable<ContentEntry>} entries
    */
   async removeEntries(entries) {
     for await (const entry of entries) {
