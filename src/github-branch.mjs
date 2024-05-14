@@ -121,7 +121,7 @@ export class GithubBranch extends Branch {
         case "tree":
           {
             const e = new CollectionEntry(entry.path);
-            this.#entries.set(e.path, e);
+            this.#entries.set(e.name, e);
             yield e;
           }
           break;
@@ -132,7 +132,7 @@ export class GithubBranch extends Branch {
               parseInt(entry.mode, 8),
               this
             );
-            this.#entries.set(e.path, e);
+            this.#entries.set(e.name, e);
             yield e;
           }
           break;
