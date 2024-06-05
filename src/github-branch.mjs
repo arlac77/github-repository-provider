@@ -153,7 +153,7 @@ export class GithubBranch extends Branch {
         body: JSON.stringify({ branch: this.name, message: "", sha: "" })
       });
 
-      this.#entries.delete(entry.path);
+      this.#entries.delete(entry.name);
     }
   }
 }
