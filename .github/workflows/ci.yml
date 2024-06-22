@@ -17,7 +17,7 @@ jobs:
       max-parallel: 1
       matrix:
         node-version:
-          - 20.14.0
+          - 20.15.0
           - 22.3.0
     steps:
       - uses: actions/checkout@v4.1.7
@@ -55,7 +55,7 @@ jobs:
       - uses: actions/checkout@v4.1.7
       - uses: actions/setup-node@v4.0.2
         with:
-          node-version: 20.14.0
+          node-version: 20.15.0
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci
