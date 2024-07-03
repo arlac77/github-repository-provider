@@ -29,3 +29,7 @@ test(repositoryListTest, provider, "*", {
 test(repositoryListTest, provider, undefined, {
   "arlac77/repository-provider": { name: "repository-provider" }
 });
+
+test.skip(repositoryListTest, provider, undefined, {
+  "git+https://github.com/template-tools/template-sync-cli.git": { name: "template-sync-cli" }
+});
