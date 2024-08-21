@@ -49,7 +49,7 @@ jobs:
   release:
     needs:
       - test-node
-    runs-on: ubuntu-latest
+    runs-on: linux
     permissions:
       contents: write
       issues: write
