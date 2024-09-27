@@ -51,7 +51,7 @@
     "leveldown": "^6.1.1",
     "levelup": "^5.1.1",
     "repository-provider-test-support": "^3.1.7",
-    "semantic-release": "^24.1.1",
+    "semantic-release": "^24.1.2",
     "typescript": "^5.6.2"
   },
   "engines": {
