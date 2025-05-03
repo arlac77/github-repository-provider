@@ -2,7 +2,7 @@ import { matcher } from "matching-iterator";
 import { Branch } from "repository-provider";
 import {
   CollectionEntry,
-  BufferContentEntryMixin,
+  BufferContentEntry,
   ContentEntry
 } from "content-entry";
 
@@ -103,7 +103,7 @@ export class GithubBranch extends Branch {
   }
 
   /**
-   * 
+   *
    * @param {string[]|string} patterns
    * @return {AsyncGenerator<ContentEntry>} all matching entries in the branch
    */
@@ -158,7 +158,7 @@ export class GithubBranch extends Branch {
   }
 }
 
-class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
+class LazyBufferContentEntry extends BufferContentEntry {
   constructor(name, mode, branch) {
     super(name);
     Object.defineProperty(this, "mode", { value: mode });
@@ -169,11 +169,13 @@ class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
     return this.getBuffer();
   }
 
-  #buffer;
+  set buffer(value) {
+    this._buffer = value;
+  }
 
   async getBuffer() {
-    if (this.#buffer) {
-      return this.#buffer;
+    if (this._buffer) {
+      return this._buffer;
     }
 
     const branch = this.branch;
@@ -183,11 +185,11 @@ class LazyBufferContentEntry extends BufferContentEntryMixin(ContentEntry) {
         `${branch.api}/contents/${this.name}?ref=${branch.ref}`
       );
 
-      this.#buffer = Buffer.from(json.content, "base64");
-      return this.#buffer;
+      this._buffer = Buffer.from(json.content, "base64");
+      return this._buffer;
     };
 
-    this.#buffer = f();
-    return this.#buffer;
+    this._buffer = f();
+    return this._buffer;
   }
 }
