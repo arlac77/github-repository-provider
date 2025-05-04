@@ -80,14 +80,11 @@ export class GithubRepository extends Repository {
       const { response, json } = await this.provider.fetchJSON(next);
 
       for (const c of json) {
-        this.#commits.set(c.sha, json);
+        const commit = new Commit(this, c);
 
-        yield {
-          sha: c.sha,
-          message: c.message,
-          author: c.author,
-          committer: c.committer
-        };
+        this.#commits.set(commit.sha, commit);
+
+        yield commit;
       }
       next = getHeaderLink(response.headers);
     } while (next);
@@ -113,7 +110,7 @@ export class GithubRepository extends Repository {
    * @return {Promise<Object>} response
    */
   async commitForSha(sha) {
-    const commit = this.#commits.get(sha);
+    let commit = this.#commits.get(sha);
     if (commit) {
       return commit;
     }
@@ -122,9 +119,11 @@ export class GithubRepository extends Repository {
       `${this.api}/git/commits/${sha}`
     );
 
-    this.#commits.set(sha, json);
+    commit = new Commit(this, json);
 
-    return json;
+    this.#commits.set(commit.sha, commit);
+
+    return commit;
   }
 
   /**
