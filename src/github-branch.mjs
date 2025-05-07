@@ -161,7 +161,7 @@ export class GithubBranch extends Branch {
 class LazyBufferContentEntry extends BufferContentEntry {
   constructor(name, mode, branch) {
     super(name);
-    Object.defineProperty(this, "mode", { value: mode });
+    this.mode = mode;
     this.branch = branch;
   }
 
