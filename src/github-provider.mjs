@@ -1,7 +1,5 @@
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import { stateActionHandler } from "fetch-rate-limit-util";
-import { BufferContentEntry } from "content-entry";
-
 import { MultiGroupProvider, url_attribute, default_attribute, priority_attribute } from "repository-provider";
 import { GithubRepository } from "./github-repository.mjs";
 import { GithubBranch } from "./github-branch.mjs";
@@ -179,10 +177,6 @@ export class GithubProvider extends MultiGroupProvider {
 
   get repositoryGroupClass() {
     return GithubOwner;
-  }
-
-  get entryClass() {
-    return BufferContentEntry;
   }
 }
 
