@@ -69,7 +69,7 @@ test("create commit", async t => {
   const branch = await repository.createBranch(newName);
   try {
     const commit = await branch.commit("message text", [
-      new StringContentEntry("README.md", `file content #${n}`)
+      new StringContentEntry("README.md", undefined, `file content #${n}`)
     ]);
 
     t.is(commit.ref, `refs/heads/${newName}`);
@@ -91,6 +91,7 @@ test("create commit into new directory", async t => {
     const commit = await branch.commit("message text", [
       new StringContentEntry(
         `directory-${n}/a/b/c/README.md`,
+        undefined,
         `file content #${n}`
       )
     ]);

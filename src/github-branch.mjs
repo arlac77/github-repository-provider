@@ -86,8 +86,9 @@ export class GithubBranch extends Branch {
         `${this.api}/contents/${name}?ref=${this.ref}`
       );
 
-      const entry = new this.entryClass(
+      const entry = new BufferContentEntry(
         name,
+        undefined,
         Buffer.from(json.content, "base64")
       );
 
@@ -129,7 +130,7 @@ export class GithubBranch extends Branch {
           {
             const e = new LazyBufferContentEntry(
               entry.path,
-              parseInt(entry.mode, 8),
+              { mode: parseInt(entry.mode, 8) },
               this
             );
             this.#entries.set(e.name, e);
@@ -159,9 +160,8 @@ export class GithubBranch extends Branch {
 }
 
 class LazyBufferContentEntry extends BufferContentEntry {
-  constructor(name, mode, branch) {
-    super(name);
-    this.mode = mode;
+  constructor(name, options, branch) {
+    super(name, options);
     this.branch = branch;
   }
 
