@@ -89,7 +89,7 @@ export class GithubBranch extends Branch {
 
       const entry = new BufferContentEntry(
         name,
-        undefined,
+        { mode: json.mode },
         Buffer.from(json.content, "base64")
       );
 
@@ -131,8 +131,8 @@ export class GithubBranch extends Branch {
           {
             const e = new BufferContentEntry(
               entry.path,
-              { mode: parseInt(entry.mode, 8) },
-              async (entry) => {
+              { mode: entry.mode },
+              async entry => {
                 const { json } = await this.provider.fetchJSON(
                   `${this.api}/contents/${entry.name}?ref=${this.ref}`
                 );
