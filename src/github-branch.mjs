@@ -64,11 +64,12 @@ export class GithubBranch extends Branch {
     );
 
     const sha = await this.refId;
-    const latestCommit = await this.owner.commitForSha(sha);
-    const tree = await this.owner.addTree(updates, latestCommit.tree.sha);
-    const commit = await this.owner.addCommit(tree.sha, [sha], message);
+    const repo = this.owner;
+    const latestCommit = await repo.commitForSha(sha);
+    const tree = await repo.addTree(updates, latestCommit.tree.sha);
+    const commit = await repo.addCommit(tree.sha, [sha], message);
 
-    return this.owner.setRefId(this.ref, commit.sha, options);
+    return repo.setRefId(this.ref, commit.sha, options);
   }
 
   /**
@@ -128,10 +129,16 @@ export class GithubBranch extends Branch {
           break;
         case "blob":
           {
-            const e = new LazyBufferContentEntry(
+            const e = new BufferContentEntry(
               entry.path,
               { mode: parseInt(entry.mode, 8) },
-              this
+              async (entry) => {
+                const { json } = await this.provider.fetchJSON(
+                  `${this.api}/contents/${entry.name}?ref=${this.ref}`
+                );
+
+                return Buffer.from(json.content, "base64");
+              }
             );
             this.#entries.set(e.name, e);
             yield e;
@@ -156,40 +163,5 @@ export class GithubBranch extends Branch {
 
       this.#entries.delete(entry.name);
     }
-  }
-}
-
-class LazyBufferContentEntry extends BufferContentEntry {
-  constructor(name, options, branch) {
-    super(name, options);
-    this.branch = branch;
-  }
-
-  get buffer() {
-    return this.getBuffer();
-  }
-
-  set buffer(value) {
-    this._buffer = value;
-  }
-
-  async getBuffer() {
-    if (this._buffer) {
-      return this._buffer;
-    }
-
-    const branch = this.branch;
-
-    const f = async () => {
-      const { json } = await branch.provider.fetchJSON(
-        `${branch.api}/contents/${this.name}?ref=${branch.ref}`
-      );
-
-      this._buffer = Buffer.from(json.content, "base64");
-      return this._buffer;
-    };
-
-    this._buffer = f();
-    return this._buffer;
   }
 }
