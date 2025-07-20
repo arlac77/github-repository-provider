@@ -1,11 +1,13 @@
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import {
-  Repository,
   boolean_attribute,
   url_attribute,
   size_attribute,
   language_attribute,
-  default_attribute,
+  default_attribute
+} from "pacc";
+import {
+  Repository,
   mapAttributesInverse,
   optionJSON,
   Commit
@@ -56,7 +58,7 @@ export class GithubRepository extends Repository {
       squash_merge_commit_title: default_attribute,
       squash_merge_commit_message: default_attribute,
       merge_commit_title: default_attribute,
-      merge_commit_message: default_attribute,
+      merge_commit_message: default_attribute
       //custom_properties: default_attribute
     };
   }
@@ -266,9 +268,9 @@ export class GithubRepository extends Repository {
     // TODO why does this happen ?
     if (!response.ok || !json.object.sha) {
       let message = `No refId for '${this.fullName}' '${ref}'`;
-      
-      if(!response.ok) {
-         message += ',' + response.statusText + " (" + response.status + ")";
+
+      if (!response.ok) {
+        message += "," + response.statusText + " (" + response.status + ")";
       }
 
       throw new Error(message);
@@ -301,13 +303,16 @@ export class GithubRepository extends Repository {
   async setRefId(ref, sha, options) {
     ref = ref.replace(/^refs\//, "");
 
-    const result = await this.provider.fetchJSON(`${this.api}/git/refs/${ref}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        ...options,
-        sha
-      })
-    });
+    const result = await this.provider.fetchJSON(
+      `${this.api}/git/refs/${ref}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          ...options,
+          sha
+        })
+      }
+    );
 
     if (result.response.ok) {
       this.#refs.set(ref, sha);

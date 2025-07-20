@@ -1,6 +1,7 @@
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import { stateActionHandler } from "fetch-rate-limit-util";
-import { MultiGroupProvider, url_attribute, default_attribute, priority_attribute } from "repository-provider";
+import { url_attribute, default_attribute, priority_attribute } from "pacc";
+import { MultiGroupProvider } from "repository-provider";
 import { GithubRepository } from "./github-repository.mjs";
 import { GithubBranch } from "./github-branch.mjs";
 import { GithubOwner } from "./github-owner.mjs";

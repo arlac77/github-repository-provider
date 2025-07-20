@@ -1,9 +1,5 @@
-import {
-  PullRequest,
-  Repository,
-  Branch,
-  boolean_attribute
-} from "repository-provider";
+import { boolean_attribute } from "pacc";
+import { PullRequest, Repository, Branch } from "repository-provider";
 import { getHeaderLink } from "fetch-link-util";
 
 /**
