@@ -2,10 +2,9 @@ import test from "ava";
 import { createMessageDestination, REPOSITORY_NAME } from "repository-provider-test-support";
 import levelup from "levelup";
 import leveldown from "leveldown";
-import { mkdir } from "fs/promises";
-import { join } from "path";
+import { mkdir } from "node:fs/promises";
+import { join } from "node:path";
 import { ETagCacheLevelDB } from "etag-cache-leveldb";
-
 import GithubProvider from "github-repository-provider";
 
 async function createCache() {
