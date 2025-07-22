@@ -1,6 +1,11 @@
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import { stateActionHandler } from "fetch-rate-limit-util";
-import { url_attribute, default_attribute, priority_attribute } from "pacc";
+import {
+  url_attribute,
+  priority_attribute,
+  hostname_attribute,
+  token_attribute
+} from "pacc";
 import { MultiGroupProvider } from "repository-provider";
 import { GithubRepository } from "./github-repository.mjs";
 import { GithubBranch } from "./github-branch.mjs";
@@ -48,7 +53,7 @@ export class GithubProvider extends MultiGroupProvider {
     return {
       ...super.attributes,
       host: {
-        ...default_attribute,
+        ...hostname_attribute,
         env: ["{{instanceIdentifier}}HOST", "GH_HOST"],
         default: host
       },
@@ -75,14 +80,13 @@ export class GithubProvider extends MultiGroupProvider {
           `https://api.${object.host || properties.host.value}`*/
       },
       "authentication.token": {
-        ...default_attribute,
+        ...token_attribute,
         // @see https://cli.github.com/manual/gh_help_environment
         env: [
           "{{instanceIdentifier}}TOKEN",
           "GH_TOKEN" // declare GH_ as identifier
         ],
         additionalAttributes: { "authentication.type": "token" },
-        private: true,
         mandatory: true
       },
       priority: { ...priority_attribute, default: 1000.0 }
