@@ -49,49 +49,47 @@ export class GithubProvider extends MultiGroupProvider {
     return "GITHUB_";
   }
 
-  static get attributes() {
-    return {
-      ...super.attributes,
-      host: {
-        ...hostname_attribute,
-        env: ["{{instanceIdentifier}}HOST", "GH_HOST"],
-        default: host
-      },
-      ssh: {
-        ...url_attribute,
-        default: `git@${host}:`
-      },
-      url: {
-        ...url_attribute,
-        env: "{{instanceIdentifier}}SERVER_URL",
-        set: value => (value.endsWith("/") ? value : value + "/"),
-        default: `https://${host}/`,
-        depends: "host"
-        /*get: (attribute, object, properties) =>
+  static attributes = {
+    ...super.attributes,
+    host: {
+      ...hostname_attribute,
+      env: ["{{instanceIdentifier}}HOST", "GH_HOST"],
+      default: host
+    },
+    ssh: {
+      ...url_attribute,
+      default: `git@${host}:`
+    },
+    url: {
+      ...url_attribute,
+      env: "{{instanceIdentifier}}SERVER_URL",
+      set: value => (value.endsWith("/") ? value : value + "/"),
+      default: `https://${host}/`,
+      depends: "host"
+      /*get: (attribute, object, properties) =>
           `https://${object.host || properties?.host.value}`*/
-      },
-      api: {
-        ...url_attribute,
-        env: "{{instanceIdentifier}}API_URL",
-        set: value => value.replace(/\/$/, ""),
-        depends: "host",
-        default: `https://api.${host}`
-        /*        get: (attribute, object, properties) =>
+    },
+    api: {
+      ...url_attribute,
+      env: "{{instanceIdentifier}}API_URL",
+      set: value => value.replace(/\/$/, ""),
+      depends: "host",
+      default: `https://api.${host}`
+      /*        get: (attribute, object, properties) =>
           `https://api.${object.host || properties.host.value}`*/
-      },
-      "authentication.token": {
-        ...token_attribute,
-        // @see https://cli.github.com/manual/gh_help_environment
-        env: [
-          "{{instanceIdentifier}}TOKEN",
-          "GH_TOKEN" // declare GH_ as identifier
-        ],
-        additionalAttributes: { "authentication.type": "token" },
-        mandatory: true
-      },
-      priority: { ...priority_attribute, default: 1000.0 }
-    };
-  }
+    },
+    "authentication.token": {
+      ...token_attribute,
+      // @see https://cli.github.com/manual/gh_help_environment
+      env: [
+        "{{instanceIdentifier}}TOKEN",
+        "GH_TOKEN" // declare GH_ as identifier
+      ],
+      additionalAttributes: { "authentication.type": "token" },
+      mandatory: true
+    },
+    priority: { ...priority_attribute, default: 1000.0 }
+  };
 
   fetch(url, options = {}) {
     options.reporter = (url, ...args) => this.trace(url.toString(), ...args);

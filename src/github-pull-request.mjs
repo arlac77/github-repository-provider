@@ -19,12 +19,10 @@ export class GithubPullRequest extends PullRequest {
     };
   }
 
-  static get attributes() {
-    return {
-      ...super.attributes,
-      maintainer_can_modify: boolean_attribute
-    };
-  }
+  static attributes = {
+    ...super.attributes,
+    maintainer_can_modify: boolean_attribute
+  };
 
   /**
    * {@link https://developer.github.com/v3/pulls/#list-pull-requests}
