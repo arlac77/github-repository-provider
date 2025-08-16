@@ -4,7 +4,7 @@ import {
   url_attribute,
   size_attribute,
   language_attribute,
-  default_attribute
+  string_attribute_writable
 } from "pacc";
 import {
   Repository,
@@ -46,18 +46,18 @@ export class GithubRepository extends Repository {
     auto_init: boolean_attribute,
     size: size_attribute,
     language: language_attribute,
-    gitignore_template: default_attribute,
-    license_template: default_attribute,
+    gitignore_template: string_attribute_writable,
+    license_template: string_attribute_writable,
     allow_squash_merge: boolean_attribute,
     allow_merge_commit: boolean_attribute,
     allow_rebase_merge: boolean_attribute,
     allow_auto_merge: boolean_attribute,
     delete_branch_on_merge: boolean_attribute,
     issuesURL: url_attribute,
-    squash_merge_commit_title: default_attribute,
-    squash_merge_commit_message: default_attribute,
-    merge_commit_title: default_attribute,
-    merge_commit_message: default_attribute
+    squash_merge_commit_title: string_attribute_writable,
+    squash_merge_commit_message: string_attribute_writable,
+    merge_commit_title: string_attribute_writable,
+    merge_commit_message: string_attribute_writable
     //custom_properties: default_attribute
   };
 
