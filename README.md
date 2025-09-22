@@ -51,7 +51,6 @@ for async (const entry of repository.entries('\*_/_.md')) {
         *   [Parameters](#parameters-6)
     *   [deleteRepository](#deleterepository)
         *   [Parameters](#parameters-7)
-    *   [attributeMapping](#attributemapping)
 *   [GithubProvider](#githubprovider)
     *   [Examples](#examples)
     *   [initializeRepositories](#initializerepositories)
@@ -68,7 +67,6 @@ for async (const entry of repository.entries('\*_/_.md')) {
     *   [open](#open)
         *   [Parameters](#parameters-10)
 *   [GithubRepository](#githubrepository)
-    *   [defaultBranchName](#defaultbranchname)
     *   [commits](#commits)
         *   [Parameters](#parameters-11)
     *   [commitForSha](#commitforsha)
@@ -181,10 +179,6 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 *   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**&#x20;
 
-### attributeMapping
-
-Map attributes between external and internal representation.
-
 ## GithubProvider
 
 **Extends MultiGroupProvider**
@@ -285,10 +279,6 @@ Returns **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Glob
 **Extends Repository**
 
 Repository on GitHub.
-
-### defaultBranchName
-
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** "main"
 
 ### commits
 
