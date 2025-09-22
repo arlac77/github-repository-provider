@@ -90,10 +90,7 @@ export class GithubPullRequest extends PullRequest {
       throw new Error(response.statusText + " (" + response.status + ")");
     }
 
-    const pr = new this(source, destination, json.number, json);
-
-    console.log(pr);
-    return pr;
+    return new this(source, destination, json.number, json);
   }
 
   get api() {
@@ -114,7 +111,7 @@ export class GithubPullRequest extends PullRequest {
    *
    */
   async update() {
-    const res = await this.provider.fetch(this.api, {
+    return await this.provider.fetch(this.api, {
       method: "PATCH",
       body: JSON.stringify({
         title: this.title,
@@ -122,6 +119,5 @@ export class GithubPullRequest extends PullRequest {
         state: this.state
       })
     });
-    console.log(res);
   }
 }
