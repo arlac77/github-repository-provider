@@ -1,4 +1,5 @@
 import test from "ava";
+import { filterWritable } from "pacc";
 import { createMessageDestination } from "repository-provider-test-support";
 import GithubProvider from "github-repository-provider";
 
@@ -6,7 +7,9 @@ const messageDestination = createMessageDestination().messageDestination;
 const provider = GithubProvider.initialize({ messageDestination }, process.env);
 
 test("hooks list", async t => {
-  const repository = await provider.repository("arlac77/github-repository-provider");
+  const repository = await provider.repository(
+    "arlac77/github-repository-provider"
+  );
 
   const hooks = [];
 
@@ -32,7 +35,7 @@ test("hooks list", async t => {
   t.true(hook.active);
   t.is(hook.name, "web");
 
-  t.deepEqual(hook.toJSON(), {
+  t.deepEqual(hook.toJSON(filterWritable), {
     name: "web",
     active: true,
     events: [
@@ -43,8 +46,8 @@ test("hooks list", async t => {
       "repository",
       "status"
     ],
-    id: 18049825,
-    insecure_ssl: false,
+    // id: 18049825,
+    //  insecure_ssl: false,
     secret: "********",
     content_type: "json",
     url: "https://codecov.io/webhooks/github"

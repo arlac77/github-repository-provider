@@ -6,20 +6,16 @@ import { RepositoryGroup, Repository } from "repository-provider";
  * - organization
  */
 export class GithubOwner extends RepositoryGroup {
-  /**
-   * Map attributes between external and internal representation.
-   */
-  static get attributeMapping() {
-    return {
-      ...super.attributeMapping,
-      site_admin: "isAdmin"
-    };
-  }
+  static attributes = {
+    ...RepositoryGroup.attributes,
+    isAdmin: {
+      ...RepositoryGroup.attributes.isAdmin,
+      externalName: "site_admin"
+    }
+  };
 
   get api() {
-    return this.type === "Organization"
-      ? `orgs/${this.name}`
-      : "user";
+    return this.type === "Organization" ? `orgs/${this.name}` : "user";
   }
 
   /**
@@ -40,7 +36,7 @@ export class GithubOwner extends RepositoryGroup {
 
     if (response.ok) {
       this.info(`Repository ${name} created`);
-      options.defaultBranchName = "main";
+      options.default_branch = "main";
       return this.addRepository(name, options);
     }
 

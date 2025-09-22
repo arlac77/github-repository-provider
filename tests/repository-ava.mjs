@@ -1,6 +1,9 @@
 import test from "ava";
-import { optionJSON, mapAttributesInverse } from "repository-provider";
-import { REPOSITORY_NAME, createMessageDestination } from "repository-provider-test-support";
+import { filterWritable } from "pacc";
+import {
+  REPOSITORY_NAME,
+  createMessageDestination
+} from "repository-provider-test-support";
 import { StringContentEntry } from "content-entry";
 import GithubProvider from "github-repository-provider";
 
@@ -10,25 +13,32 @@ const provider = GithubProvider.initialize({ messageDestination }, process.env);
 test("repository writableAttributes", async t => {
   const repository = await provider.repository(REPOSITORY_NAME);
 
-  t.deepEqual(
-    mapAttributesInverse(
-      optionJSON(repository, {}, repository.constructor.writableAttributes),
-      repository.constructor.attributeMapping
-    ),
-    {
-      description: "test template-tools",
-      archived: false,
-      allow_auto_merge: false,
-      allow_merge_commit: false,
-      allow_rebase_merge: false,
-      allow_squash_merge: false,
-      delete_branch_on_merge: false,
-      is_template: false,
-      auto_init: false,
-      disabled: false,
-      isLocked: false
-    }
-  );
+  t.is(repository.api,"https://api.github.com/repos/arlac77/sync-test-repository");
+
+  t.deepEqual(repository.toJSON(filterWritable), {
+    description: "test template-tools",
+    archived: false,
+    allow_auto_merge: false,
+    allow_merge_commit: false,
+    allow_rebase_merge: false,
+    allow_squash_merge: false,
+    delete_branch_on_merge: false,
+    is_template: false,
+    auto_init: false,
+    disabled: false,
+    locked: false,
+    default_branch: "master",
+    name: "sync-test-repository",
+    private: false,
+
+   // issuesURL: "https://github.com/arlac77/sync-test-repository/issues",
+   // cloneURL: "git+https://github.com/arlac77/sync-test-repository.git",
+   // api: "https://api.github.com/repos/arlac77/sync-test-repository",
+   // id: 253911783,
+   // language: "JavaScript",
+   // fork: false,
+   // size: 477
+  });
 });
 
 test("repository refId", async t => {

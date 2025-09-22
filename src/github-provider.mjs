@@ -4,7 +4,8 @@ import {
   url_attribute,
   priority_attribute,
   hostname_attribute,
-  token_attribute
+  token_attribute,
+  object_attribute
 } from "pacc";
 import { MultiGroupProvider } from "repository-provider";
 import { GithubRepository } from "./github-repository.mjs";
@@ -56,51 +57,72 @@ export class GithubProvider extends MultiGroupProvider {
       env: ["{{instanceIdentifier}}HOST", "GH_HOST"],
       default: host
     },
-    ssh: {
-      ...url_attribute,
-      default: `git@${host}:`
-    },
+    ssh: url_attribute,
     url: {
       ...url_attribute,
-      env: "{{instanceIdentifier}}SERVER_URL",
-      set: value => (value.endsWith("/") ? value : value + "/"),
-      default: `https://${host}/`,
-      depends: "host"
-      /*get: (attribute, object, properties) =>
-          `https://${object.host || properties?.host.value}`*/
+      env: "{{instanceIdentifier}}SERVER_URL"
     },
     api: {
       ...url_attribute,
-      env: "{{instanceIdentifier}}API_URL",
-      set: value => value.replace(/\/$/, ""),
-      depends: "host",
-      default: `https://api.${host}`
-      /*        get: (attribute, object, properties) =>
-          `https://api.${object.host || properties.host.value}`*/
+      env: "{{instanceIdentifier}}API_URL"
     },
-    "authentication.token": {
-      ...token_attribute,
-      // @see https://cli.github.com/manual/gh_help_environment
-      env: [
-        "{{instanceIdentifier}}TOKEN",
-        "GH_TOKEN" // declare GH_ as identifier
-      ],
-      additionalAttributes: { "authentication.type": "token" },
-      mandatory: true
+    authentication: {
+      ...object_attribute,
+      attributes: {
+        token: {
+          ...token_attribute,
+          // @see https://cli.github.com/manual/gh_help_environment
+          env: [
+            "{{instanceIdentifier}}TOKEN",
+            "GH_TOKEN" // declare GH_ as identifier
+          ],
+          additionalValues: { "authentication.type": "token" },
+          mandatory: true
+        }
+      }
     },
     priority: { ...priority_attribute, default: 1000.0 }
   };
+
+  set ssh(value) {
+    this._ssh = value;
+  }
+
+  get ssh() {
+    return this._ssh ?? `git@${this.host}:`;
+  }
+
+  set url(value) {
+    this._url = value.endsWith("/") ? value : value + "/";
+  }
+
+  get url() {
+    return this._url ?? `https://${this.host}/`;
+  }
+
+  set api(value) {
+    this._api = value.replace(/\/$/, "");
+  }
+
+  get api() {
+    return this._api ?? `https://api.${this.host}`;
+  }
 
   fetch(url, options = {}) {
     options.reporter = (url, ...args) => this.trace(url.toString(), ...args);
     options.cache = this.cache;
     options.agent = this.agent;
 
+    const authorization = {};
+    if(this.authentication?.token) {
+      authorization.authorization = `token ${this.authentication.token}`
+    }
+
     return stateActionHandler(new URL(url, this.api), {
       ...options,
       headers: {
         accept: "application/vnd.github+json",
-        authorization: `token ${this.authentication.token}`,
+        ...authorization,
         ...options.headers
       }
     });
@@ -123,7 +145,7 @@ export class GithubProvider extends MultiGroupProvider {
         const url = `user/repos?page=${page}&per_page=100`;
         const { json } = await this.fetchJSON(url);
 
-        if (json.length === 0 || !Array.isArray(json)) {
+        if (json?.length === 0 || !Array.isArray(json)) {
           break;
         }
 
@@ -135,7 +157,9 @@ export class GithubProvider extends MultiGroupProvider {
           );
         });
       }
-    } catch {}
+    } catch (e) {
+      throw e;
+    }
   }
 
   /**
@@ -149,9 +173,10 @@ export class GithubProvider extends MultiGroupProvider {
    * @return {string[]} common base urls of all repositories
    */
   get repositoryBases() {
+    const url = this.url;
     return super.repositoryBases.concat([
-      this.url,
-      "git+" + this.url,
+      url,
+      "git+" + url,
       `git+ssh://${this.host}`,
       `git://${this.host}/`,
       `git@${this.host}:`

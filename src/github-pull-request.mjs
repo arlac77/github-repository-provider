@@ -12,16 +12,13 @@ export class GithubPullRequest extends PullRequest {
    */
   static validMergeMethods = new Set(["MERGE", "SQUASH", "REBASE"]);
 
-  static get attributeMapping() {
-    return {
-      ...super.attributeMapping,
-      url: "api" // TODO undefined ?
-    };
-  }
-
   static attributes = {
     ...super.attributes,
-    maintainer_can_modify: boolean_attribute
+    maintainer_can_modify: boolean_attribute,
+    url: {
+      ...PullRequest.attributes.url,
+      externalName: "api"
+    }
   };
 
   /**
@@ -93,7 +90,10 @@ export class GithubPullRequest extends PullRequest {
       throw new Error(response.statusText + " (" + response.status + ")");
     }
 
-    return new this(source, destination, json.number, json);
+    const pr = new this(source, destination, json.number, json);
+
+    console.log(pr);
+    return pr;
   }
 
   get api() {

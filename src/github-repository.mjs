@@ -1,17 +1,14 @@
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import {
-  boolean_attribute,
+  filterWritable,
+  boolean_attribute_writable,
+  boolean_attribute_writable_false,
   url_attribute,
   size_attribute,
   language_attribute,
   string_attribute_writable
 } from "pacc";
-import {
-  Repository,
-  mapAttributesInverse,
-  optionJSON,
-  Commit
-} from "repository-provider";
+import { Repository, Commit } from "repository-provider";
 import { getHeaderLink } from "fetch-link-util";
 import { defaultStateActions, errorHandler } from "fetch-rate-limit-util";
 
@@ -28,45 +25,31 @@ export class GithubRepository extends Repository {
   #trees = new Map();
   #commits = new Map();
 
-  static get attributeMapping() {
-    return {
-      ...super.attributeMapping,
-      disabled: "isDisabled",
-      archived: "isArchived",
-      is_template: "isTemplate",
-      private: "isPrivate",
-      fork: "isFork",
-      default_branch: "defaultBranchName",
-      url: "api"
-    };
-  }
-
   static attributes = {
     ...super.attributes,
-    auto_init: boolean_attribute,
-    size: size_attribute,
-    language: language_attribute,
     gitignore_template: string_attribute_writable,
     license_template: string_attribute_writable,
-    allow_squash_merge: boolean_attribute,
-    allow_merge_commit: boolean_attribute,
-    allow_rebase_merge: boolean_attribute,
-    allow_auto_merge: boolean_attribute,
-    delete_branch_on_merge: boolean_attribute,
-    issuesURL: url_attribute,
+    allow_squash_merge: boolean_attribute_writable_false,
+    allow_merge_commit: boolean_attribute_writable_false,
+    allow_rebase_merge: boolean_attribute_writable_false,
+    allow_auto_merge: boolean_attribute_writable_false,
+    delete_branch_on_merge: boolean_attribute_writable_false,
     squash_merge_commit_title: string_attribute_writable,
     squash_merge_commit_message: string_attribute_writable,
     merge_commit_title: string_attribute_writable,
-    merge_commit_message: string_attribute_writable
-    //custom_properties: default_attribute
+    merge_commit_message: string_attribute_writable,
+    size: size_attribute,
+    language: language_attribute,
+    issuesURL: url_attribute,
+    auto_init: boolean_attribute_writable_false,
+    url: {
+      ...super.attributes.url,
+      externalName: "api"
+    },
+    isTemplate: { ...super.attributes.isTemplate, externalName: "is_template" }
   };
 
-  /**
-   * @return {string} "main"
-   */
-  get defaultBranchName() {
-    return "main";
-  }
+  static defaultBranchName = "main";
 
   /**
    * {@link https://docs.github.com/en/rest/reference/commits#list-commits}
@@ -236,12 +219,7 @@ export class GithubRepository extends Repository {
   async update() {
     return this.provider.fetch(this.api, {
       method: "PATCH",
-      body: JSON.stringify(
-        mapAttributesInverse(
-          optionJSON(this, undefined, this.constructor.writableAttributes),
-          this.constructor.attributeMapping
-        )
-      )
+      body: JSON.stringify(this.toJSON(filterWritable))
     });
   }
 
