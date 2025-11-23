@@ -1,7 +1,6 @@
 import { replaceWithOneTimeExecutionMethod } from "one-time-execution-method";
 import {
   filterWritable,
-  boolean_attribute_writable,
   boolean_attribute_writable_false,
   url_attribute,
   size_attribute,
