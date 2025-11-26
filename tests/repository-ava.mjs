@@ -30,7 +30,7 @@ test("repository writableAttributes", async t => {
     default_branch: "master",
     name: "sync-test-repository",
     private: false,
-
+    homepage: 'https://github.com/arlac77/sync-test-repository#readme',
    // issuesURL: "https://github.com/arlac77/sync-test-repository/issues",
    // cloneURL: "git+https://github.com/arlac77/sync-test-repository.git",
    // api: "https://api.github.com/repos/arlac77/sync-test-repository",
