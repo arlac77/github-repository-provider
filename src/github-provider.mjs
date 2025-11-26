@@ -114,8 +114,8 @@ export class GithubProvider extends MultiGroupProvider {
     options.agent = this.agent;
 
     const authorization = {};
-    if(this.authentication?.token) {
-      authorization.authorization = `token ${this.authentication.token}`
+    if (this.authentication?.token) {
+      authorization.authorization = `token ${this.authentication.token}`;
     }
 
     return stateActionHandler(new URL(url, this.api), {
@@ -203,7 +203,7 @@ export class GithubProvider extends MultiGroupProvider {
     return GithubBranch;
   }
 
-  get repositoryGroupClass() {
+  repositoryGroupClassFor(name, options) {
     return GithubOwner;
   }
 }
