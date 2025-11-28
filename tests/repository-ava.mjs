@@ -13,16 +13,26 @@ const provider = GithubProvider.initialize({ messageDestination }, process.env);
 test("repository writableAttributes", async t => {
   const repository = await provider.repository(REPOSITORY_NAME);
 
-  t.is(repository.api,"https://api.github.com/repos/arlac77/sync-test-repository");
+  t.is(
+    repository.api,
+    "https://api.github.com/repos/arlac77/sync-test-repository"
+  );
 
   t.deepEqual(repository.toJSON(filterWritable), {
     description: "test template-tools",
     archived: false,
+    allow_forking: true,
     allow_auto_merge: false,
     allow_merge_commit: false,
     allow_rebase_merge: false,
     allow_squash_merge: false,
+    allow_update_branch: false,
     delete_branch_on_merge: false,
+    has_issues: true,
+    has_projects: true,
+    has_wiki: true,
+    use_squash_pr_title_as_default: false,
+    web_commit_signoff_required: false,
     is_template: false,
     auto_init: false,
     disabled: false,
@@ -30,14 +40,14 @@ test("repository writableAttributes", async t => {
     default_branch: "master",
     name: "sync-test-repository",
     private: false,
-    homepage: 'https://github.com/arlac77/sync-test-repository#readme',
-   // issuesURL: "https://github.com/arlac77/sync-test-repository/issues",
-   // cloneURL: "git+https://github.com/arlac77/sync-test-repository.git",
-   // api: "https://api.github.com/repos/arlac77/sync-test-repository",
-   // id: 253911783,
-   // language: "JavaScript",
-   // fork: false,
-   // size: 477
+    homepage: "https://github.com/arlac77/sync-test-repository#readme"
+    // issuesURL: "https://github.com/arlac77/sync-test-repository/issues",
+    // cloneURL: "git+https://github.com/arlac77/sync-test-repository.git",
+    // api: "https://api.github.com/repos/arlac77/sync-test-repository",
+    // id: 253911783,
+    // language: "JavaScript",
+    // fork: false,
+    // size: 477
   });
 });
 
