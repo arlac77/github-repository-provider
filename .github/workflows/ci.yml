@@ -28,6 +28,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: install
         run: npm ci
+      - name: install
+        run: npm ci
       - name: test and coverage
         run: npm run cover --if-present
         env:
@@ -40,8 +42,6 @@ jobs:
           path-to-lcov: build/coverage/lcov.info
           parallel: true
         continue-on-error: true
-      - name: install
-        run: npm ci
   release:
     needs:
       - test-node
