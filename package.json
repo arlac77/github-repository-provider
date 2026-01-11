@@ -38,7 +38,7 @@
     "fetch-rate-limit-util": "^4.6.2",
     "matching-iterator": "^2.1.5",
     "one-time-execution-method": "^3.1.4",
-    "repository-provider": "^36.0.21"
+    "repository-provider": "^36.0.23"
   },
   "devDependencies": {
     "@types/node": "^25.0.6",
@@ -48,7 +48,7 @@
     "etag-cache-leveldb": "^2.1.17",
     "leveldown": "^6.1.1",
     "levelup": "^5.1.1",
-    "repository-provider-test-support": "^5.0.8",
+    "repository-provider-test-support": "^5.0.9",
     "semantic-release": "^25.0.2"
   },
   "engines": {
