@@ -38,7 +38,7 @@
     "fetch-rate-limit-util": "^4.6.2",
     "matching-iterator": "^2.1.6",
     "one-time-execution-method": "^3.1.4",
-    "repository-provider": "^36.0.27"
+    "repository-provider": "^36.0.31"
   },
   "devDependencies": {
     "@types/node": "^25.1.0",
