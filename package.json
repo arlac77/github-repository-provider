@@ -38,17 +38,17 @@
     "fetch-rate-limit-util": "^4.6.2",
     "matching-iterator": "^2.1.7",
     "one-time-execution-method": "^3.1.4",
-    "repository-provider": "^37.0.0"
+    "repository-provider": "^37.0.1"
   },
   "devDependencies": {
-    "@types/node": "^25.9.0",
+    "@types/node": "^25.9.1",
     "ava": "^8.0.1",
     "c8": "^11.0.0",
     "documentation": "^14.0.3",
     "etag-cache-leveldb": "^2.1.17",
     "leveldown": "^6.1.1",
     "levelup": "^5.1.1",
-    "repository-provider-test-support": "^5.0.15",
+    "repository-provider-test-support": "^5.0.16",
     "semantic-release": "^25.0.3"
   },
   "overrides": {
