@@ -26,33 +26,82 @@ export class GithubRepository extends Repository {
 
   static attributes = {
     ...super.attributes,
-    gitignore_template: string_attribute_writable,
-    license_template: string_attribute_writable,
-    has_issues: boolean_attribute_writable_false,
-    has_projects: boolean_attribute_writable_false,
-    has_wiki: boolean_attribute_writable_false,
-    allow_squash_merge: boolean_attribute_writable_false,
-    allow_merge_commit: boolean_attribute_writable_false,
-    allow_rebase_merge: boolean_attribute_writable_false,
-    allow_auto_merge: boolean_attribute_writable_false,
-    delete_branch_on_merge: boolean_attribute_writable_false,
-    allow_update_branch: boolean_attribute_writable_false,
-    use_squash_pr_title_as_default: boolean_attribute_writable_false,
-    squash_merge_commit_title: string_attribute_writable,
-    squash_merge_commit_message: string_attribute_writable,
-    merge_commit_title: string_attribute_writable,
-    merge_commit_message: string_attribute_writable,
-    allow_forking: boolean_attribute_writable_false,
-    web_commit_signoff_required: boolean_attribute_writable_false,
+    gitignore_template: {
+      ...string_attribute_writable,
+      name: "gitignore_template"
+    },
+    license_template: {
+      ...string_attribute_writable,
+      name: "license_template"
+    },
+    has_issues: { ...boolean_attribute_writable_false, name: "has_issues" },
+    has_projects: { ...boolean_attribute_writable_false, name: "has_projects" },
+    has_wiki: { ...boolean_attribute_writable_false, name: "has_wiki" },
+    allow_squash_merge: {
+      ...boolean_attribute_writable_false,
+      name: "allow_squash_merge"
+    },
+    allow_merge_commit: {
+      ...boolean_attribute_writable_false,
+      name: "allow_merge_commit"
+    },
+    allow_rebase_merge: {
+      ...boolean_attribute_writable_false,
+      name: "allow_rebase_merge"
+    },
+    allow_auto_merge: {
+      ...boolean_attribute_writable_false,
+      name: "allow_auto_merge"
+    },
+    delete_branch_on_merge: {
+      ...boolean_attribute_writable_false,
+      name: "delete_branch_on_merge"
+    },
+    allow_update_branch: {
+      ...boolean_attribute_writable_false,
+      name: "allow_update_branch"
+    },
+    use_squash_pr_title_as_default: {
+      ...boolean_attribute_writable_false,
+      name: "use_squash_pr_title_as_default"
+    },
+    squash_merge_commit_title: {
+      ...string_attribute_writable,
+      name: "squash_merge_commit_title"
+    },
+    squash_merge_commit_message: {
+      ...string_attribute_writable,
+      name: "squash_merge_commit_message"
+    },
+    merge_commit_title: {
+      ...string_attribute_writable,
+      name: "merge_commit_title"
+    },
+    merge_commit_message: {
+      ...string_attribute_writable,
+      name: "merge_commit_message"
+    },
+    allow_forking: {
+      ...boolean_attribute_writable_false,
+      name: "allow_forking"
+    },
+    web_commit_signoff_required: {
+      ...boolean_attribute_writable_false,
+      name: "web_commit_signoff_required"
+    },
     size: size_attribute,
     language: language_attribute,
-    issuesURL: url_attribute,
-    auto_init: boolean_attribute_writable_false,
+    issuesURL: { ...url_attribute, name: "issuesURL" },
+    auto_init: { ...boolean_attribute_writable_false, name: "auto_init" },
     url: {
       ...super.attributes.url,
       externalName: "api"
     },
-    isTemplate: { ...super.attributes.isTemplate, externalName: "is_template" }
+    isTemplate: {
+      ...super.attributes.isTemplate,
+      name: "isTemplate",
+      externalName: "is_template"
+    }
   };
 
   static defaultBranchName = "main";

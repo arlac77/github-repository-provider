@@ -10,6 +10,7 @@ export class GithubOwner extends RepositoryGroup {
     ...RepositoryGroup.attributes,
     isAdmin: {
       ...RepositoryGroup.attributes.isAdmin,
+      name: "isAdmin",
       externalName: "site_admin"
     }
   };

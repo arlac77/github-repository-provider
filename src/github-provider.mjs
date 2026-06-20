@@ -54,20 +54,23 @@ export class GithubProvider extends MultiGroupProvider {
     ...super.attributes,
     host: {
       ...hostname_attribute,
+      name: "host",
       env: ["{{instanceIdentifier}}HOST", "GH_HOST"],
       default: host
     },
-    ssh: url_attribute,
+    ssh: { ...url_attribute, name: "ssh" },
     url: {
       ...url_attribute,
       env: "{{instanceIdentifier}}SERVER_URL"
     },
     api: {
       ...url_attribute,
+      name: "api",
       env: "{{instanceIdentifier}}API_URL"
     },
     authentication: {
       ...object_attribute,
+      name: "authentication",
       attributes: {
         token: {
           ...token_attribute,
