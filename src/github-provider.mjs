@@ -131,12 +131,13 @@ export class GithubProvider extends MultiGroupProvider {
     });
   }
 
-  fetchJSON(url, options = {}) {
-    options.postprocess = async response => {
-      return { response, json: await response.json() };
-    };
-
-    return this.fetch(url, options);
+  fetchJSON(url, options) {
+    return this.fetch(url, {
+      ...options,
+      postprocess: async response => {
+        return { response, json: await response.json() };
+      }
+    });
   }
 
   /**
