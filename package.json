@@ -41,7 +41,7 @@
     "repository-provider": "^37.1.9"
   },
   "devDependencies": {
-    "@types/node": "^26.1.1",
+    "@types/node": "^26.1.2",
     "ava": "^8.0.1",
     "c8": "^12.0.0",
     "documentation": "^14.0.3",
