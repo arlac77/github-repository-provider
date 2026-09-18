@@ -14,7 +14,10 @@ export class GithubPullRequest extends PullRequest {
 
   static attributes = {
     ...super.attributes,
-    maintainer_can_modify: { ...boolean_attribute, name: "maintainer_can_modify" },
+    maintainer_can_modify: {
+      ...boolean_attribute,
+      name: "maintainer_can_modify"
+    },
     url: {
       ...PullRequest.attributes.url,
       externalName: "api"
